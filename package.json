@@ -1,20 +1,20 @@
 {
-  "name": "@tiny-codes/antd-helpers",
+  "name": "@tiny-codes/react-helpers",
   "version": "1.0.0-alpha.0",
-  "description": "A series of Ant Design HOC and useful hooks that helps working with antd easier",
+  "description": "A series of ant-design HOC and hooks that helps working with antd easier",
   "keywords": [
     "antd",
     "ant design",
     "hoc",
     "hooks"
   ],
-  "homepage": "https://github.com/shijistar/antd-helpers#readme",
+  "homepage": "https://github.com/shijistar/react-helpers#readme",
   "bugs": {
-    "url": "https://github.com/shijistar/antd-helpers/issues"
+    "url": "https://github.com/shijistar/react-helpers/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shijistar/antd-helpers.git"
+    "url": "git+https://github.com/shijistar/react-helpers.git"
   },
   "license": "MIT",
   "author": "李凤宝(Leo) <shijistar@gmail.com>",
@@ -25,7 +25,7 @@
     "build": "run-p build:lib build:es",
     "build:lib": "tsc -p tsconfig.lib.json",
     "build:test": "tsc -p tsconfig.test.json",
-    "test": "jest",
+    "test": "#jest",
     "prepublishOnly": "npm run test && npm run build"
   },
   "lint-staged": {

@@ -1,4 +1,15 @@
-# antd-helpers
+# @tiny-codes/react-helpers
+
+> A series of components and hooks that helps working with ant-design easier
+
+[![npm version](https://img.shields.io/npm/v/%40tiny-codes%2Freact-helpers.svg)](https://www.npmjs.com/package/@tiny-codes/react-helpers)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40tiny-codes%2Freact-helpers)](https://bundlephobia.com/result?p=@tiny-codes/react-helpers)
+[![npm downloads](https://img.shields.io/npm/dm/%40tiny-codes%2Freact-helpers.svg)](https://www.npmjs.com/package/%40tiny-codes%2Freact-helpers)
+![GitHub License](https://img.shields.io/github/license/shijistar/react-helpers?label=License&color=%23F68F1E)
+
+⬇️ &nbsp;&nbsp; [Introduction](#introduction) | [Installation](#installation) &nbsp;&nbsp;⬇️
+
+## Introduction
 
 A series of Ant Design HOC and useful hooks that helps working with antd easier
 
@@ -7,25 +18,25 @@ A series of Ant Design HOC and useful hooks that helps working with antd easier
 Install using npm:
 
 ```bash
-npm install @tiny-codes/antd-helpers
+npm install @tiny-codes/react-helpers
 ```
 
 Install using pnpm:
 
 ```bash
-pnpm add @tiny-codes/antd-helpers
+pnpm add @tiny-codes/react-helpers
 ```
 
 Install using bun:
 
 ```bash
-bun add @tiny-codes/antd-helpers
+bun add @tiny-codes/react-helpers
 ```
 
 Or using yarn:
 
 ```bash
-yarn add @tiny-codes/antd-helpers
+yarn add @tiny-codes/react-helpers
 ```
 
 ## Usage
