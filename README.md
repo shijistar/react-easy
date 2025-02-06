@@ -2,9 +2,9 @@
 
 > A series of components and hooks that helps working with ant-design easier
 
-[![npm version](https://img.shields.io/npm/v/%40tiny-codes%2Freact-helpers.svg)](https://www.npmjs.com/package/@tiny-codes/react-helpers)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40tiny-codes%2Freact-helpers)](https://bundlephobia.com/result?p=@tiny-codes/react-helpers)
-[![npm downloads](https://img.shields.io/npm/dm/%40tiny-codes%2Freact-helpers.svg)](https://www.npmjs.com/package/%40tiny-codes%2Freact-helpers)
+[![npm version](https://img.shields.io/npm/v/@tiny-codes/react-helpers.svg)](https://www.npmjs.com/package/@tiny-codes/react-helpers)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/@tiny-codes/react-helpers)](https://bundlephobia.com/result?p=@tiny-codes/react-helpers)
+[![npm downloads](https://img.shields.io/npm/dm/@tiny-codes/react-helpers.svg)](https://www.npmjs.com/package/@tiny-codes/react-helpers)
 ![GitHub License](https://img.shields.io/github/license/shijistar/react-helpers?label=License&color=%23F68F1E)
 
 ⬇️ &nbsp;&nbsp; [Introduction](#introduction) | [Installation](#installation) &nbsp;&nbsp;⬇️
