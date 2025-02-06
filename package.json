@@ -1,0 +1,59 @@
+{
+  "name": "@tiny-codes/antd-helpers",
+  "version": "1.0.0-alpha.0",
+  "description": "A series of Ant Design HOC and useful hooks that helps working with antd easier",
+  "keywords": [
+    "antd",
+    "ant design",
+    "hoc",
+    "hooks"
+  ],
+  "homepage": "https://github.com/shijistar/antd-helpers#readme",
+  "bugs": {
+    "url": "https://github.com/shijistar/antd-helpers/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shijistar/antd-helpers.git"
+  },
+  "license": "MIT",
+  "author": "李凤宝(Leo) <shijistar@gmail.com>",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky",
+    "build:es": "tsc -p tsconfig.es.json",
+    "build": "run-p build:lib build:es",
+    "build:lib": "tsc -p tsconfig.lib.json",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "jest",
+    "prepublishOnly": "npm run test && npm run build"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue}": "eslint --fix",
+    "*.{css,less,scss}": "stylelint --fix",
+    "*.{js,jsx,ts,tsx,vue,md,json,css,less,scss}": "prettier --write"
+  },
+  "devDependencies": {
+    "@tiny-codes/code-style-all-in-one": "^1.0.0-alpha.6",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.1",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@types/react-is": "^19.0.0",
+    "antd": "^5.23.4",
+    "father": "^4.5.2",
+    "jest": "^29.7.0",
+    "npm-run-all2": "^7.0.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-is": "^19.0.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "antd": ">=5.1.0",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0",
+    "react-is": ">=17.0.0"
+  }
+}

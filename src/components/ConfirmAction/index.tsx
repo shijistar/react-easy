@@ -1,0 +1,332 @@
+import type { ComponentType, ForwardedRef, PropsWithoutRef, ReactElement, ReactNode, RefAttributes } from 'react';
+import { forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react';
+import type { ButtonProps, ModalFuncProps, SwitchProps } from 'antd';
+import { App, Button, Modal, Switch, Typography } from 'antd';
+import type { ModalFunc } from 'antd/es/modal/confirm';
+import type confirm from 'antd/es/modal/confirm';
+import useToken from 'antd/es/theme/useToken';
+import type { LinkProps } from 'antd/es/typography/Link';
+import type { TextProps } from 'antd/es/typography/Text';
+import useRefFunction from '../../hooks/useRefFunction';
+import useValidateContext from '../../hooks/useValidateContext';
+import AntHelperContext from '../ConfigProvider/context';
+
+export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<ModalFuncProps, 'onOk'> &
+  ConfirmActionTrigger<TP, E> & {
+    /**
+     * **EN:** The color of confirm box title, default is `warning`
+     *
+     * **CN:** 弹框标题颜色，默认`warning`
+     */
+    titleColor?: TextProps['type'] | 'primary';
+    /**
+     * **EN:** The color of confirm box content
+     *
+     * **CN:** 弹框内容文本颜色
+     */
+    contentColor?: TextProps['type'] | 'primary';
+    /**
+     * **EN:** The color of confirm box title icon, default is the same as `titleColor`
+     *
+     * **CN:** 弹框标题图标颜色，默认与`titleColor`相同
+     */
+    iconColor?: TextProps['type'] | 'primary';
+    /**
+     * **EN:** Callback when click confirm button
+     *
+     * **CN:** 点击确认按钮的回调
+     */
+    // @ts-expect-error: because TP[E] should be casted to function type
+    onOk?: (...args: Parameters<TP[E]>) => unknown | Promise<unknown>;
+    /**
+     * **EN:** Callback after confirm event, won't trigger if failed, the argument is the return
+     * value of `onOk`
+     *
+     * **CN:** 确认事件完成后的回调，失败时不会触发，参数为`onOk`的返回值
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    afterOk?: (data?: any) => void;
+  };
+
+export interface ConfirmActionTrigger<TP extends object, E extends keyof TP> {
+  /**
+   * **EN:** Trigger component, trigger to show confirm box
+   *
+   * **CN:** 触发器组件，触发显示确认弹框
+   */
+  triggerComponent?: ComponentType<TP>;
+  /**
+   * **EN:** Props of trigger component
+   *
+   * **CN:** 触发器组件的Props属性
+   */
+  triggerProps?: TP;
+  /**
+   * **EN:** The event name that triggers the dialog
+   *
+   * **CN:** 触发弹窗的事件名称
+   *
+   * - `Button`: 'onClick'
+   * - `Switch`: 'onChange'
+   * - `Link`: 'onClick'
+   */
+  triggerEvent?: E;
+  /**
+   * **EN:** Custom trigger content
+   *
+   * **CN:** 自定义触发器内容
+   */
+  children?: ReactNode;
+}
+export type ConfirmActionRef = ReturnType<typeof confirm> & {
+  /**
+   * **EN:** Show confirm box
+   *
+   * **CN:** 显示确认弹框
+   */
+  show: (props?: Parameters<ModalFunc>[0]) => ReturnType<ModalFunc>;
+};
+
+/**
+ * **EN:** Generate a confirm box component
+ *
+ * **CN:** 生成一个确认弹框组件
+ *
+ * @param defaultProps Default props | 默认属性
+ *
+ * @returns Component render method | 组件render方法
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const genRenderer = (defaultProps: Partial<ConfirmActionProps<any, never>>) => {
+  const Render = <TP extends object, E extends keyof TP>(
+    props: ConfirmActionProps<TP, E>,
+    ref: ForwardedRef<ConfirmActionRef>
+  ) => {
+    const mergedProps: ConfirmActionProps<TP, E> = {
+      ...defaultProps,
+      ...props,
+      okButtonProps: {
+        ...defaultProps.okButtonProps,
+        ...props.okButtonProps,
+      },
+      cancelButtonProps: {
+        ...defaultProps.cancelButtonProps,
+        ...props.cancelButtonProps,
+      },
+      bodyProps: {
+        ...defaultProps.bodyProps,
+        ...props.bodyProps,
+      },
+      maskProps: {
+        ...defaultProps.maskProps,
+        ...props.maskProps,
+      },
+      wrapProps: {
+        ...defaultProps.wrapProps,
+        ...props.wrapProps,
+      },
+      triggerProps: {
+        ...defaultProps.triggerProps,
+        ...props.triggerProps,
+        style: {
+          ...defaultProps.triggerProps?.style,
+          ...(props.triggerProps && 'style' in props.triggerProps && typeof props.triggerProps.style === 'object'
+            ? props.triggerProps.style
+            : {}),
+        },
+      } as TP,
+    };
+    const {
+      triggerComponent: Trigger = Button,
+      triggerEvent = 'onClick' as E,
+      triggerProps,
+      title,
+      content,
+      titleColor = 'warning',
+      contentColor,
+      icon,
+      iconColor,
+      onOk,
+      afterOk,
+      children,
+      ...restProps
+    } = mergedProps;
+    useValidateContext();
+    const { modal: modalFromApp } = App.useApp();
+    const modal = modalFromApp ?? Modal;
+    const { localize } = useContext(AntHelperContext);
+    const [, token] = useToken();
+    const [confirmApi, setConfirmApi] = useState<ReturnType<typeof confirm>>();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const triggerEventArgsRef = useRef<any[]>(undefined);
+
+    // Text with color
+    const coloredText = (text: ReactNode, color?: TextProps['type'] | 'primary') => {
+      const textContent = typeof text === 'string' ? (localize?.(text) ?? text) : text;
+      if (!color) {
+        return textContent;
+      }
+      if (color === 'primary') {
+        return <Typography.Text style={{ color: token.colorPrimary }}>{textContent}</Typography.Text>;
+      }
+      return textContent ? <Typography.Text type={color}>{textContent}</Typography.Text> : undefined;
+    };
+
+    // Show confirm box
+    const showConfirm: ConfirmActionRef['show'] = useRefFunction(() => {
+      const api = modal.confirm({
+        title: coloredText(title, titleColor),
+        content: coloredText(content, contentColor),
+        icon: coloredText(icon, iconColor),
+        autoFocusButton: null,
+        onOk: async () => {
+          const result = await onOk?.(...((triggerEventArgsRef.current ?? []) as Parameters<typeof onOk>));
+          afterOk?.(result);
+        },
+        ...restProps,
+      });
+      setConfirmApi(api);
+      return api;
+    });
+
+    // Output ref
+    useImperativeHandle(ref, () => ({ show: showConfirm, ...confirmApi! }), [showConfirm, confirmApi]);
+
+    // Render trigger component
+    return (
+      <Trigger
+        {...triggerProps}
+        // Trigger event
+        {...((triggerEvent
+          ? {
+              [triggerEvent]: (...args: any[]) => {
+                triggerEventArgsRef.current = args;
+                showConfirm();
+                if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
+                  (triggerProps[triggerEvent] as (...args: any[]) => void)(...args);
+                }
+              },
+            }
+          : {}) as TP)}
+      >
+        {(triggerProps as { children?: ReactNode }).children ?? children}
+      </Trigger>
+    );
+  };
+  Render.displayName = 'ConfirmAction';
+  return Render;
+};
+
+/**
+ * **EN:** Add default properties to the ConfirmAction component
+ *
+ * **CN:** 给ConfirmAction组件添加默认属性
+ *
+ * @param WrappedComponent ConfirmAction component | ConfirmAction组件
+ * @param defaultProps Default properties | 默认属性
+ */
+export const withDefaultConfirmActionProps = <TP extends object, E extends keyof TP>(
+  WrappedComponent: ComponentType<PropsWithoutRef<ConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>>,
+  defaultProps?: Partial<ConfirmActionProps<TP, E>>
+) => {
+  const WithDefaultProps = forwardRef<ConfirmActionRef, ConfirmActionProps<TP, E>>((props, ref) => {
+    const mergedProps: ConfirmActionProps<TP, E> = {
+      ...defaultProps,
+      ...props,
+      triggerProps: {
+        ...defaultProps?.triggerProps,
+        ...props.triggerProps,
+      } as TP,
+    };
+    return <WrappedComponent ref={ref} {...mergedProps} />;
+  });
+  WithDefaultProps.displayName = 'ForwardedRef(WithDefaultProps)';
+  return WithDefaultProps;
+};
+
+const renderConfirmAction = genRenderer({
+  title: 'common.confirm',
+  content: 'common.confirm.content',
+});
+const forwarded = forwardRef(renderConfirmAction);
+forwarded.displayName = 'ForwardedRef(ConfirmAction)';
+
+/**
+ * **EN:** Interface of generic type component
+ *
+ * **CN:** 泛型组件的接口
+ */
+export type GenericConfirmActionInterface = <TP extends object, E extends keyof TP>(
+  props: PropsWithoutRef<TypedConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>
+) => ReactElement;
+
+/**
+ * **EN:** Interface of specific type component
+ *
+ * **CN:** 具体类型组件的接口
+ */
+export type TypedConfirmActionInterface<TP extends object, E extends keyof TP> = ComponentType<
+  PropsWithoutRef<TypedConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>
+>;
+
+/**
+ * **EN:** Props definition of specific type component
+ *
+ * **CN:** 具体类型组件的Props定义
+ */
+type TypedConfirmActionProps<TP extends object, E extends keyof TP> = Omit<
+  ConfirmActionProps<TP, E>,
+  'triggerComponent' | 'triggerEvent'
+>;
+export type ConfirmActionWithStatic = GenericConfirmActionInterface & {
+  /**
+   * **EN:** Confirm box with button trigger
+   *
+   * **CN:** 按钮类型的确认框
+   */
+  Button: TypedConfirmActionInterface<ButtonProps, 'onClick'>;
+  /**
+   * **EN:** Confirm box with switch trigger
+   *
+   * **CN:** 开关类型的确认框
+   */
+  Switch: TypedConfirmActionInterface<SwitchProps, 'onChange'>;
+  /**
+   * **EN:** Confirm box with link trigger
+   *
+   * **CN:** 链接类型的确认框
+   */
+  Link: TypedConfirmActionInterface<LinkProps, 'onClick'>;
+};
+
+/**
+ * **EN:** Confirm box component with trigger
+ *
+ * **CN:** 带触发器的确认框组件
+ */
+const ConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
+// Type of button
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ConfirmAction.Button = withDefaultConfirmActionProps<ButtonProps, 'onClick'>(forwarded as any, {
+  triggerComponent: Button,
+  triggerEvent: 'onClick',
+  triggerProps: {},
+});
+// Type of switch
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ConfirmAction.Switch = withDefaultConfirmActionProps<SwitchProps, 'onChange'>(forwarded as any, {
+  triggerComponent: Switch,
+  triggerEvent: 'onChange',
+  triggerProps: {},
+});
+// Type of link
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ConfirmAction.Link = withDefaultConfirmActionProps<LinkProps, 'onClick'>(forwarded as any, {
+  triggerComponent: Typography.Link,
+  triggerEvent: 'onClick',
+  triggerProps: {
+    style: { whiteSpace: 'nowrap' },
+  },
+});
+
+export default ConfirmAction;
