@@ -15,6 +15,8 @@ export interface AntHelperContextProps {
   localize?: <T extends string>(key: T | undefined, args?: Record<string, unknown>) => ReactNode | undefined;
 }
 
-const AntHelperContext = createContext<AntHelperContextProps>({});
+export const defaultContextValue: AntHelperContextProps = {};
+
+const AntHelperContext = createContext<AntHelperContextProps>(defaultContextValue);
 
 export default AntHelperContext;

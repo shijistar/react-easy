@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import AntHelperContext from '../components/ConfigProvider/context';
+import AntHelperContext, { defaultContextValue } from '../components/ConfigProvider/context';
 
 const useValidateContext = () => {
   const context = useContext(AntHelperContext);
-  if (!context) {
+  if (!context || context === defaultContextValue) {
     console.warn(
       `ConfigProvider should be wrapped outside of any components of @tiny-codes/react-helpers!
 
