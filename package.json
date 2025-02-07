@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-helpers",
-  "version": "1.0.2-beta.0",
+  "version": "1.0.2",
   "description": "A series of ant-design HOC and hooks that helps working with antd easier",
   "keywords": [
     "antd",
@@ -21,6 +21,11 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "es",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "prepare": "husky",
     "build:es": "tsc -p tsconfig.es.json",

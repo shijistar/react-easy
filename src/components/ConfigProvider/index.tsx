@@ -5,7 +5,11 @@ export interface ConfigProviderProps extends AntHelperContextProps {
   children: ReactNode;
 }
 
-/** 提供AntdHelper的全局配置 */
+/**
+ * **EN:** Provide global configuration for AntdHelper
+ *
+ * **CN:** 提供AntdHelper的全局配置
+ */
 const ConfigProvider: FC<ConfigProviderProps> = (props) => {
   const { children, ...restProps } = props;
   return <AntHelperContext.Provider value={restProps}>{children}</AntHelperContext.Provider>;

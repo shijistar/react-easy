@@ -7,6 +7,7 @@ import type confirm from 'antd/es/modal/confirm';
 import useToken from 'antd/es/theme/useToken';
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { TextProps } from 'antd/es/typography/Text';
+import useLocalizedText from '../../hooks/useLocalizedText';
 import useRefFunction from '../../hooks/useRefFunction';
 import useValidateContext from '../../hooks/useValidateContext';
 import AntHelperContext from '../ConfigProvider/context';
@@ -96,52 +97,62 @@ export type ConfirmActionRef = ReturnType<typeof confirm> & {
  *
  * @returns Component render method | 组件render方法
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const genRenderer = (defaultProps: Partial<ConfirmActionProps<any, never>>) => {
+export const genRenderer = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  defaultProps: Partial<ConfirmActionProps<any, never>> & { confirmType: 'normal' | 'delete' }
+) => {
   const Render = <TP extends object, E extends keyof TP>(
     props: ConfirmActionProps<TP, E>,
     ref: ForwardedRef<ConfirmActionRef>
   ) => {
+    const { confirmType, ...restDefaults } = defaultProps;
     const mergedProps: ConfirmActionProps<TP, E> = {
-      ...defaultProps,
+      ...restDefaults,
       ...props,
       okButtonProps: {
-        ...defaultProps.okButtonProps,
+        ...restDefaults.okButtonProps,
         ...props.okButtonProps,
       },
       cancelButtonProps: {
-        ...defaultProps.cancelButtonProps,
+        ...restDefaults.cancelButtonProps,
         ...props.cancelButtonProps,
       },
       bodyProps: {
-        ...defaultProps.bodyProps,
+        ...restDefaults.bodyProps,
         ...props.bodyProps,
       },
       maskProps: {
-        ...defaultProps.maskProps,
+        ...restDefaults.maskProps,
         ...props.maskProps,
       },
       wrapProps: {
-        ...defaultProps.wrapProps,
+        ...restDefaults.wrapProps,
         ...props.wrapProps,
       },
       triggerProps: {
-        ...defaultProps.triggerProps,
+        ...restDefaults.triggerProps,
         ...props.triggerProps,
         style: {
-          ...defaultProps.triggerProps?.style,
+          ...restDefaults.triggerProps?.style,
           ...(props.triggerProps && 'style' in props.triggerProps && typeof props.triggerProps.style === 'object'
             ? props.triggerProps.style
             : {}),
         },
       } as TP,
     };
+    const context = useContext(AntHelperContext);
+    const defaultTitle = useLocalizedText(
+      confirmType === 'delete' ? context.defaultDeletionConfirmTitle : context.defaultConfirmTitle
+    );
+    const defaultContent = useLocalizedText(
+      confirmType === 'delete' ? context.defaultDeletionConfirmContent : context.defaultConfirmContent
+    );
     const {
       triggerComponent: Trigger = Button,
       triggerEvent = 'onClick' as E,
       triggerProps,
-      title,
-      content,
+      title = defaultTitle,
+      content = defaultContent,
       titleColor = 'warning',
       contentColor,
       icon,
@@ -245,8 +256,7 @@ export const withDefaultConfirmActionProps = <TP extends object, E extends keyof
 };
 
 const renderConfirmAction = genRenderer({
-  title: 'common.confirm',
-  content: 'common.confirm.content',
+  confirmType: 'normal',
 });
 const forwarded = forwardRef(renderConfirmAction);
 forwarded.displayName = 'ForwardedRef(ConfirmAction)';
