@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-helpers",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.2-beta.0",
   "description": "A series of ant-design HOC and hooks that helps working with antd easier",
   "keywords": [
     "antd",
@@ -18,7 +18,9 @@
   },
   "license": "MIT",
   "author": "李凤宝(Leo) <shijistar@gmail.com>",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "prepare": "husky",
     "build:es": "tsc -p tsconfig.es.json",
