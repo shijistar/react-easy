@@ -2,13 +2,7 @@
 
 # Changelog
 
-## 1.0.2
-
-2023-2-7
-
-- 🆕 Added default title and content of confirm box in context
-
-- ## 1.0.1
+- ## 1.0.0
 
 2025-2-7
 

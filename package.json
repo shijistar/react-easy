@@ -1,20 +1,21 @@
 {
-  "name": "@tiny-codes/react-helpers",
-  "version": "1.0.2",
-  "description": "A series of ant-design HOC and hooks that helps working with antd easier",
+  "name": "@tiny-codes/react-easy",
+  "version": "1.0.0",
+  "description": "Helps you use React and AntDesign more easily",
   "keywords": [
+    "react",
     "antd",
-    "ant design",
+    "ant-design",
     "hoc",
     "hooks"
   ],
-  "homepage": "https://github.com/shijistar/react-helpers#readme",
+  "homepage": "https://github.com/shijistar/react-easy#readme",
   "bugs": {
-    "url": "https://github.com/shijistar/react-helpers/issues"
+    "url": "https://github.com/shijistar/react-easy/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shijistar/react-helpers.git"
+    "url": "git+https://github.com/shijistar/react-easy.git"
   },
   "license": "MIT",
   "author": "李凤宝(Leo) <shijistar@gmail.com>",
@@ -35,13 +36,8 @@
     "test": "#jest",
     "prepublishOnly": "npm run test && npm run build"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,vue}": "eslint --fix",
-    "*.{css,less,scss}": "stylelint --fix",
-    "*.{js,jsx,ts,tsx,vue,md,json,css,less,scss}": "prettier --write"
-  },
   "devDependencies": {
-    "@tiny-codes/code-style-all-in-one": "^1.0.0-alpha.6",
+    "@tiny-codes/code-style-all-in-one": "^1.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.1",
     "@types/react": "^19.0.8",
@@ -59,8 +55,7 @@
   },
   "peerDependencies": {
     "antd": ">=5.1.0",
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0",
-    "react-is": ">=17.0.0"
+    "react": ">=16.8.0",
+    "react-is": ">=16.8.0"
   }
 }

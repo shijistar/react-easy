@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import type { ButtonProps, SwitchProps } from 'antd';
 import { Button, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { CloseCircleFilled } from '@ant-design/icons';
 import { type ConfirmActionWithStatic, genRenderer, withDefaultConfirmActionProps } from '../ConfirmAction';
 
 const renderDeleteConfirmAction = genRenderer({
@@ -10,7 +10,7 @@ const renderDeleteConfirmAction = genRenderer({
   titleColor: 'danger',
   icon: (
     <Typography.Text type="danger">
-      <CloseCircleOutlined />
+      <CloseCircleFilled />
     </Typography.Text>
   ),
   okButtonProps: { danger: true },

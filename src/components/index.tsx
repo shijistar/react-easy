@@ -8,5 +8,6 @@ export { default as ConfirmAction } from './ConfirmAction';
 // export * from './DeleteConfirmAction';
 export { default as DeleteConfirmAction } from './DeleteConfirmAction';
 
-export * from './ModalAction';
+export type { ModalActionProps, FormCompPropsConstraint, ModalActionTrigger, ModalActionRef } from './ModalAction';
+export { withDefaultModalActionProps, withModalAction } from './ModalAction';
 export { default as ModalAction } from './ModalAction';
