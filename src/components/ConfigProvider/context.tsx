@@ -1,6 +1,13 @@
 import { createContext, type ReactNode } from 'react';
+import type { Langs } from '../../locales';
 
-export interface AntHelperContextProps {
+export interface ReactEasyContextProps {
+  /**
+   * **EN:** Language of the component, used for global configuration, can be 'en-US' or 'zh-CN'
+   *
+   * **CN:** 组件的语言，用于全局配置，可以是'en-US'或'zh-CN'
+   */
+  lang?: Langs;
   /**
    * **EN:** Default title of the confirm dialog, used for global configuration, can be normal text
    * or the key of localized resources, the key of localized resources will be converted into
@@ -50,8 +57,10 @@ export interface AntHelperContextProps {
   localize?: <T>(key: T, args?: Record<string, unknown>) => ReactNode;
 }
 
-export const defaultContextValue: AntHelperContextProps = {};
+export const defaultContextValue: ReactEasyContextProps = {
+  lang: 'en',
+};
 
-const AntHelperContext = createContext<AntHelperContextProps>(defaultContextValue);
+const ReactEasyContext = createContext<ReactEasyContextProps>(defaultContextValue);
 
-export default AntHelperContext;
+export default ReactEasyContext;

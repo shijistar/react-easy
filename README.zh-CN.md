@@ -116,7 +116,7 @@ import { ModalAction } from '@tiny-codes/react-easy';
 
 这是一个高阶组件，用于将一个表单组件包装成一个模态框，当点击按钮显示模态框时，模态框内容就是这个表单组件，用于编辑数据。
 
-_form.tsx_
+_**form.tsx**_
 
 ```jsx
 import { withModalAction, FormCompPropsConstraint } from '@tiny-codes/react-easy';
@@ -149,7 +149,7 @@ const EditForm: React.FC<FormProps & FormCompPropsConstraint<FormData>> = (props
 export default withModalAction(EditForm);
 ```
 
-_app.tsx_
+_**app.tsx**_
 
 ```jsx
 <EditModalAction>编辑</EditModalAction>

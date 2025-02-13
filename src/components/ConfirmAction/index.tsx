@@ -7,10 +7,10 @@ import type confirm from 'antd/es/modal/confirm';
 import useToken from 'antd/es/theme/useToken';
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { TextProps } from 'antd/es/typography/Text';
+import useContextValidator from '../../hooks/useContextValidator';
 import useLocalizedText from '../../hooks/useLocalizedText';
 import useRefFunction from '../../hooks/useRefFunction';
-import useValidateContext from '../../hooks/useValidateContext';
-import AntHelperContext from '../ConfigProvider/context';
+import ReactEasyContext from '../ConfigProvider/context';
 
 export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<ModalFuncProps, 'onOk'> &
   ConfirmActionTrigger<TP, E> & {
@@ -140,7 +140,7 @@ export const genRenderer = (
         },
       } as TP,
     };
-    const context = useContext(AntHelperContext);
+    const context = useContext(ReactEasyContext);
     const defaultTitle = useLocalizedText(
       confirmType === 'delete' ? context.defaultDeletionConfirmTitle : context.defaultConfirmTitle
     );
@@ -162,10 +162,10 @@ export const genRenderer = (
       children,
       ...restProps
     } = mergedProps;
-    useValidateContext();
+    useContextValidator();
     const { modal: modalFromApp } = App.useApp();
     const modal = modalFromApp ?? Modal;
-    const { localize } = useContext(AntHelperContext);
+    const { localize } = useContext(ReactEasyContext);
     const [, token] = useToken();
     const [confirmApi, setConfirmApi] = useState<ReturnType<typeof confirm>>();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

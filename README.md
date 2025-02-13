@@ -116,7 +116,7 @@ import { ModalAction } from '@tiny-codes/react-easy';
 
 This is a higher-order component that wraps a form component into a modal, and when you click the button to display the modal, the content of the modal is the form component, which is used to edit data.
 
-_form.tsx_
+_**form.tsx**_
 
 ```jsx
 import { withModalAction, FormCompPropsConstraint } from '@tiny-codes/react-easy';
@@ -149,7 +149,7 @@ const EditForm: React.FC<FormProps & FormCompPropsConstraint<FormData>> = (props
 export default withModalAction(EditForm);
 ```
 
-_app.tsx_
+_**app.tsx**_
 
 ```jsx
 <EditModalAction>Edit</EditModalAction>
@@ -179,6 +179,65 @@ const Foo: React.FC<{ value: string; }> = (props) => {
 };
 ```
 
+### useValidators
+
+`useValidators` is used to get some built-in validator rules or build a custom rule.
+
+```jsx
+import { useValidators } from '@tiny-codes/react-easy';
+import { Form } from 'antd';
+
+const { number, email, code } = useValidators();
+
+<Form>
+  <Form.Item name="number" rules={[{ validator: number }]}>
+    <Input />
+  </Form.Item>
+  <Form.Item name="email" rules={[{ validator: email }]}>
+    <Input />
+  </Form.Item>
+  <Form.Item name="code" rules={[{ validator: code }]}>
+    <Input />
+  </Form.Item>
+</Form>;
+```
+
+### useValidator
+
+`useValidator` is used to build a custom validator rule.
+
+```jsx
+import { useValidator } from '@tiny-codes/react-easy';
+
+const validator = useValidator({
+  allowed: {
+    number: true,
+    letter: true,
+  },
+});
+
+<Form.Item name="letterAndNumberOnly" rules={[{ validator }]}>
+  <Input />
+</Form.Item>;
+```
+
+### useValidatorBuilder
+
+`useValidatorBuilder` is used to get a function that builds a custom validator rule.
+
+```jsx
+import { useValidatorBuilder } from '@tiny-codes/react-easy';
+
+const build = useValidatorBuilder();
+
+const validator = build({
+  allowed: {
+    number: true,
+    letter: true,
+  },
+});
+```
+
 ## Compatibility
 
 - `react` >= 16.8.0
@@ -188,6 +247,10 @@ const Foo: React.FC<{ value: string; }> = (props) => {
 > To support different versions of npm dependencies, we use `peerDependencies` in the package.json declaration instead of `dependencies`, which requires you to explicitly install these dependencies in your project and ensure that they meet the version requirements. If these dependencies are not installed in the project, it may cause the installation of `@tiny-codes/react-easy` to fail.
 >
 > The ECMAScript version of shipped codes is `ES2016`, please ensure that your bundler tool supports this version
+
+```
+
+```
 
 ```
 

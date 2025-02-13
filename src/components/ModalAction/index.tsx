@@ -4,7 +4,7 @@ import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import { isForwardRef } from 'react-is';
-import useValidateContext from '../../hooks/useValidateContext';
+import useContextValidator from '../../hooks/useContextValidator';
 
 /**
  * **EN:** Symbol for not closing the dialog when submitting the form, which takes effect when
@@ -58,17 +58,70 @@ export type ModalActionProps<
   };
 
 export interface FormCompPropsConstraint<FD> {
-  /** 自动生成的表单实例，编辑表单要使用这个表单实例，不要新创建实例 */
+  /**
+   * **EN:** Automatically generated form instance, use this form instance in FormComp, do not
+   * create a new instance
+   *
+   * **CN:** 自动生成的表单实例，编辑表单要使用这个表单实例，不要新创建实例
+   */
   form: FormInstance<FD>;
-  /** 设置表单保存方法，支持异步保存 */
-  onSave: (handler: (formData: FD, ...triggerEventData: any[]) => unknown | Promise<unknown>) => void;
-  /** 监听弹框打开关闭状态。当`destroyOnClose`设置为false时，表单组件实例被缓存，只能通过这种方式监听弹框 */
-  onOpenChange: (listener: ModalProps['afterOpenChange']) => void;
-  /** 设置弹框打开状态 */
+  /**
+   * **EN:** Register the form save event, the callback function passed in will be called when the
+   * confirm button is clicked, support asynchronous saving
+   *
+   * **CN:** 注册表单保存事件，传入的回调函数会在点击确认按钮时被调用，支持异步保存
+   *
+   * @param handler Event handler | 事件处理函数
+   */
+  onSave: (
+    handler: (
+      /**
+       * **EN:** Form data
+       *
+       * **CN:** 表单数据
+       */
+      formData: FD,
+      /**
+       * **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get
+       * the value of the switch; for the `Button` type trigger, you can get the click event object
+       * of the button
+       *
+       * **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值；对于`Button`类型的触发器，可以获取按钮的点击事件对象
+       */
+      ...triggerEventData: any[]
+    ) => unknown | Promise<unknown>
+  ) => void;
+  /**
+   * **EN:** Listen to the open and close status of the dialog. When `destroyOnClose` is set to
+   * false, the form component instance is cached, and the dialog can only be listened to in this
+   * way
+   *
+   * **CN:** 监听弹框打开关闭状态。当`destroyOnClose`设置为false时，表单组件实例被缓存，只能通过这种方式监听弹框
+   *
+   * @param handler Event handler | 事件处理函数
+   */
+  onOpenChange: (handler: ModalProps['afterOpenChange']) => void;
+  /**
+   * **EN:** Set the dialog open status
+   *
+   * **CN:** 设置弹框打开状态
+   *
+   * @param open Whether is open or not | 弹窗是否打开
+   */
   setOpen: (open: boolean) => void;
-  /** 修改弹窗的属性，例如标题、宽度，按钮属性等 */
+  /**
+   * **EN:** Modify the properties of the dialog, such as title, width, button properties, etc.
+   *
+   * **CN:** 修改弹窗的属性，例如标题、宽度，按钮属性等
+   */
   updateModalProps: (props: Partial<ModalProps>) => void;
-  /** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值 */
+  /**
+   * **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get the
+   * value of the switch; for the `Button` type trigger, you can get the click event object of the
+   * button
+   *
+   * **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值，对于`Button`类型的触发器，可以获取按钮的点击事件对象
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   triggerEventData?: any[];
 }
@@ -143,7 +196,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       children,
       ...restProps
     } = mergedProps;
-    useValidateContext();
+    useContextValidator();
     const FormComp = formComp as ComponentType<FormCompPropsConstraint<FD> & RefAttributes<CRef>>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const triggerEventArgsRef = useRef<any[]>(undefined);
