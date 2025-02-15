@@ -6,8 +6,9 @@ const zhCN = {
   'validation.rule.chineseMobile.message': '请输入正确的手机号',
   'validation.rule.password.message': '8-16位密码，数字、字母、符号至少包含两种',
   'validation.rule.buildRule.includeMandatory': 'include选项中至少有一个字段为true',
+  'validation.rule.buildRule.messageFormat': '支持{{content}}',
   'validation.rule.buildRule.startsWithFormat': `，以{{prefix}}开头`,
-  'validation.rule.buildRule.minLength': `，{{min}}字符以上`,
+  'validation.rule.buildRule.minLength': `，至少{{min}}字符`,
   'validation.rule.buildRule.maxLength': `，{{max}}字符以内`,
   'validation.rule.buildRule.rangeLength': `，{{min}}~{{max}}个字符`,
   'validation.rule.buildRule.token.separator': '、',
@@ -17,5 +18,5 @@ const zhCN = {
   'validation.rule.buildRule.token.lowerLetter': '小写字母',
   'validation.rule.buildRule.token.upperLetter': '大写字母',
   'validation.rule.buildRule.token.number': '数字',
-};
+} as const;
 export default zhCN;

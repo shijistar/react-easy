@@ -15,9 +15,9 @@ const useValidatorBuilder = () => {
 };
 
 /**
- * **EN:** Build regular expression rules dynamically, compatible with Form.Item rules
+ * **EN:** Build regular expression rules dynamically, compatible with ant-design rules
  *
- * **CN:** 动态构建正则表达式规则，与 Form.Item 的规则兼容
+ * **CN:** 动态构建正则表达式规则，与 ant-design 的规则兼容
  */
 function buildRule(
   options: BuilderOptions & {
@@ -95,7 +95,7 @@ function buildRule(
   }
   return {
     pattern: new RegExp(symbols.join(''), flags),
-    message,
+    message: t('validation.rule.buildRule.messageFormat', { content: message }),
     allowedOptions: allowed,
     startsWithOptions: startsWith,
     flags,
@@ -106,7 +106,7 @@ function buildRuleMeta(options: { flags: RuleRegExpFlags; t: ReturnType<typeof u
   const { flags, t } = options;
   const symbols: string[] = [];
   const messages: string[] = [];
-  if (flags.chinese) {
+  if (flags.chineseCharacter) {
     // Chinese characters
     symbols.push(`\u4e00-\u9fa5`);
     messages.push(t('validation.rule.buildRule.token.chinese'));
@@ -133,7 +133,7 @@ function buildRuleMeta(options: { flags: RuleRegExpFlags; t: ReturnType<typeof u
     messages.push(t('validation.rule.buildRule.token.number'));
   }
   const excludeSpecials: string[] = [];
-  if (flags.dash) {
+  if (flags.hyphen) {
     symbols.push(`\\-`);
     messages.push(`-`);
     excludeSpecials.push('-');
@@ -177,11 +177,12 @@ export interface BuilderOptions {
 
 export interface RuleRegExpFlags {
   /**
-   * **EN:** Include lowercase and uppercase English letters. If set to true, lowerLetter and
-   * upperLetter are not effective
+   * **EN:** Include lowercase and uppercase Latin characters. If set to true, `lowerLetter` and
+   * `upperLetter` option are not effective
    *
-   * **CN:**: 包含大小写英文字。如果设置为true，则lowerLetter和upperLetter不生效
+   * **CN:**: 包含大小写拉丁字符。如果设置为true，则`lowerLetter`和`upperLetter`属性不生效
    */
+
   letter?: boolean;
   /**
    * **EN:** Include lowercase English letters
@@ -200,7 +201,7 @@ export interface RuleRegExpFlags {
    *
    * **CN:** 包含中文字符
    */
-  chinese?: boolean;
+  chineseCharacter?: boolean;
   /**
    * **EN:** Include Chinese (full-width) punctuation
    *
@@ -218,18 +219,17 @@ export interface RuleRegExpFlags {
    *
    * **CN:** 包含连字符(-)
    */
-  dash?: boolean;
+  hyphen?: boolean;
   /**
    * **EN:** Include underscores (_)
    *
    * **CN:** 包含下划线(_)
    */
   underscore?: boolean;
-  // /** 包含特殊字符 */
   /**
-   * **EN:** Include special characters
+   * **EN:** Include specified special characters
    *
-   * **CN:** 包含特殊字符
+   * **CN:** 包含指定的特殊字符
    */
   special?: string[];
   /**
@@ -241,9 +241,9 @@ export interface RuleRegExpFlags {
    */
   min?: number;
   /**
-   * **EN:** Maximum number of characters, default length is unlimited
+   * **EN:** Maximum number of characters
    *
-   * **CN:** 最大字符数量，默认长度不限
+   * **CN:** 最大字符数量
    */
   max?: number;
 }

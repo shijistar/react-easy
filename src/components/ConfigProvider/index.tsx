@@ -5,10 +5,10 @@ import ReactEasyContext, { type ReactEasyContextProps } from './context';
 
 export interface ConfigProviderProps extends ReactEasyContextProps {
   /**
-   * **EN:** Custom localized resources, if `lang` exists, it will override the localized resources
-   * of the corresponding language,
+   * **EN:** Custom localization resources, if `lang` exists, it will override the localization
+   * resources of that language, otherwise, it will add a new language
    *
-   * **CN:** 自定义本地化资源，如果`lang`存在，则会覆盖对应语言的本地化资源，如果`lang`不存在，则会添加一种新的语言
+   * **CN:** 自定义本地化资源，如果`lang`存在，则会覆盖该语言的本地化资源，否则，会添加一种新的语言
    */
   locales?: Partial<typeof localesEn>;
   children: ReactNode;

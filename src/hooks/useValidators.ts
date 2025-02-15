@@ -21,18 +21,18 @@ const useValidators = (): ValidatorRuleMap => {
   );
   const nameWithMax = useRefFunction((max?: number) =>
     build({
-      allowed: { letter: true, number: true, dash: true, underscore: true, chinese: true, max },
-      startsWith: { chinese: true, letter: true },
+      allowed: { letter: true, number: true, hyphen: true, underscore: true, chineseCharacter: true, max },
+      startsWith: { chineseCharacter: true, letter: true },
     })
   );
   const strongNameWithMax = useRefFunction((max?: number) =>
     build({
-      allowed: { letter: true, number: true, dash: true, underscore: true, chinese: true, max },
-      startsWith: { chinese: true, letter: true },
+      allowed: { letter: true, number: true, hyphen: true, underscore: true, chineseCharacter: true, max },
+      startsWith: { chineseCharacter: true, letter: true },
     })
   );
 
-  return useMemo(
+  return useMemo<ValidatorRuleMap>(
     () => ({
       number: {
         pattern: /^\d+$/,
@@ -51,7 +51,7 @@ const useValidators = (): ValidatorRuleMap => {
         message: t('validation.rule.ip.message'),
       },
       cnMobile: {
-        pattern: /^1[3456789]\d{9}$/,
+        pattern: /^(?:\+86\s*)?1[23456789]\d{9}$/,
         message: t('validation.rule.mobile.message'),
       },
       password: {
@@ -108,17 +108,17 @@ export interface ValidatorRuleMap {
   ip: Validator;
   /**
    * **EN:** Chine mobile phone number regular expression. If this rule does not meet the
-   * requirements, please use the `buildRule` method to customize the rule.
+   * requirements, please use the `useValidator` method to customize the rule.
    *
-   * **CN:** 中国手机号正则表达式。如果这个规则不满足需求，请使用 `buildRule` 方法自定义规则。
+   * **CN:** 中国手机号正则表达式。如果这个规则不满足需求，请使用 `useValidator` 方法自定义规则。
    */
   cnMobile: Validator;
   /**
    * **EN:** Default password verification rule: 8-16 digit password, at least two of numbers,
-   * letters, and symbols. If this rule does not meet the requirements, please use the `buildRule`
-   * method to customize the rule.
+   * letters, and symbols. If this rule does not meet the requirements, please use the
+   * `useValidator` method to customize the rule.
    *
-   * **CN:** 默认密码验证规则：8-16位密码，数字、字母、符号至少包含两种。如果这个规则不满足需求，请使用 `buildRule` 方法自定义规则。
+   * **CN:** 默认密码验证规则：8-16位密码，数字、字母、符号至少包含两种。如果这个规则不满足需求，请使用 `useValidator` 方法自定义规则。
    */
   password: Validator;
 
