@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.0.2
+
+2025-2-15
+
+### Features
+
+- 🔥 Adds `BreakLines` 组件
+
 ## 1.0.1
 
 2025-2-13
