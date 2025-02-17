@@ -2,13 +2,22 @@
 
 # Changelog
 
+## 1.0.3
+
+2025-2-17
+
+### Features
+
+- 🔥 Adds `BreakLines` component
+
 ## 1.0.2
 
 2025-2-17
 
 ### Features
 
-- 🔥 Adds `BreakLines` 组件
+- 🔥 adds `useValidator` to build a custom validator
+- 🔥 adds `useValidatorBuilder` to get a function that builds a custom validator
 
 ## 1.0.1
 

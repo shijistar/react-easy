@@ -1,5 +1,10 @@
-export * from './ConfigProvider';
+export type { BreakLinesProps } from './BreakLines';
+export { default as BreakLines } from './BreakLines';
+
+export type { ConfigProviderProps } from './ConfigProvider';
 export { default as ConfigProvider } from './ConfigProvider';
+export type { ReactEasyContextProps } from './ConfigProvider/context';
+export { default as ReactEasyContext } from './ConfigProvider/context';
 
 export type { ConfirmActionProps, ConfirmActionTrigger, ConfirmActionRef } from './ConfirmAction';
 export { withDefaultConfirmActionProps } from './ConfirmAction';
