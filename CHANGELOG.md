@@ -2,6 +2,19 @@
 
 # Changelog
 
+## 1.0.4
+
+2025-3-28
+
+### Features
+
+- 🔥 Add `triggerProps.show` prop to `ModalAction` component
+- 🔥 Add `danger` prop to `ConfirmAction` and `DeleteConfirmAction` components
+
+### Bug Fixes
+
+- 🐞 Fix key warning in `BreakLines`
+
 ## 1.0.3
 
 2025-2-17

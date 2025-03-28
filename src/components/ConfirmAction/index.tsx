@@ -15,6 +15,18 @@ import ReactEasyContext from '../ConfigProvider/context';
 export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<ModalFuncProps, 'onOk'> &
   ConfirmActionTrigger<TP, E> & {
     /**
+     * **EN:** Whether to display in red danger mode, which will automatically affect the color of
+     * the title, icon, and confirm button. Default is `false`, for DeleteConfirmAction, the
+     * defaults is `true`.
+     *
+     * - You can explicitly set `titleColor`, `iconColor`, and `okButtonProps.type` to override
+     *
+     * **CN:** 是否显示为红色危险模式，会自动影响标题、图标和确认按钮的颜色。默认`false`，DeleteConfirmAction组件的默认值为`true`。
+     *
+     * - 可以显式设置`titleColor`、`iconColor`和`okButtonProps.type`来覆盖
+     */
+    danger?: boolean;
+    /**
      * **EN:** The color of confirm box title, default is `warning`
      *
      * **CN:** 弹框标题颜色，默认`warning`
@@ -151,18 +163,22 @@ export const genRenderer = (
       triggerComponent: Trigger = Button,
       triggerEvent = 'onClick' as E,
       triggerProps,
+      danger,
       title = defaultTitle,
       content = defaultContent,
-      titleColor = 'warning',
+      titleColor,
       contentColor,
       icon,
       iconColor,
+      okButtonProps,
       onOk,
       afterOk,
       children,
       ...restProps
     } = mergedProps;
+
     useContextValidator();
+
     const { modal: modalFromApp } = App.useApp();
     const modal = modalFromApp ?? Modal;
     const { localize } = useContext(ReactEasyContext);
@@ -171,6 +187,7 @@ export const genRenderer = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const triggerEventArgsRef = useRef<any[]>(undefined);
 
+    const fallbackColor = danger ? 'danger' : undefined;
     // Text with color
     const coloredText = (text: ReactNode, color?: TextProps['type'] | 'primary') => {
       const textContent = typeof text === 'string' ? (localize?.(text) ?? text) : text;
@@ -186,13 +203,17 @@ export const genRenderer = (
     // Show confirm box
     const showConfirm: ConfirmActionRef['show'] = useRefFunction(() => {
       const api = modal.confirm({
-        title: coloredText(title, titleColor),
+        title: coloredText(title, titleColor ?? fallbackColor ?? 'warning'),
         content: coloredText(content, contentColor),
-        icon: coloredText(icon, iconColor),
+        icon: coloredText(icon, iconColor ?? fallbackColor ?? 'warning'),
         autoFocusButton: null,
         onOk: async () => {
           const result = await onOk?.(...((triggerEventArgsRef.current ?? []) as Parameters<typeof onOk>));
           afterOk?.(result);
+        },
+        okButtonProps: {
+          ...(danger ? { type: 'primary', danger: true } : {}),
+          ...(okButtonProps ?? {}),
         },
         ...restProps,
       });

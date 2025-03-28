@@ -1,5 +1,5 @@
 import type { ComponentType, FC, ForwardedRef, ReactElement, ReactNode, RefAttributes } from 'react';
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
@@ -21,7 +21,7 @@ export type ModalActionProps<
   E extends keyof TP,
   CRef extends object,
 > = Omit<ModalProps, 'onOk'> &
-  ModalActionTrigger<TP, E> & {
+  ModalActionTrigger<FD, CP, TP, E> & {
     /**
      * **EN:** Form editing component, do not use the Form component inside the component, the form
      * component and form instance are automatically created by the parent component
@@ -126,7 +126,12 @@ export interface FormCompPropsConstraint<FD> {
   triggerEventData?: any[];
 }
 
-export interface ModalActionTrigger<TP extends object, E extends keyof TP> {
+export interface ModalActionTrigger<
+  FD extends object,
+  CP extends FormCompPropsConstraint<FD>,
+  TP extends object,
+  E extends keyof TP,
+> {
   /**
    * **EN:** Trigger component, click to show the dialog
    *
@@ -138,7 +143,18 @@ export interface ModalActionTrigger<TP extends object, E extends keyof TP> {
    *
    * **CN:** 触发器组件的Props属性
    */
-  triggerProps?: TP;
+  triggerProps?: TP & {
+    /**
+     * **EN:** Set a custom function to determine whether to show the trigger button
+     *
+     * **CN:** 设置一个自定义函数，用于判断是否显示触发器按钮
+     *
+     * @default true
+     *
+     * @param formProps Form component props | 表单组件的props
+     */
+    show?: boolean | ((formProps?: Omit<CP, keyof FormCompPropsConstraint<FD>>) => boolean);
+  };
   /**
    * **EN:** The event name that triggers the dialog
    *
@@ -225,6 +241,17 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       }
     }, [open]);
 
+    // show trigger
+    const showInProps = triggerProps?.show;
+    const showTrigger = useMemo(() => {
+      if (typeof showInProps === 'boolean') {
+        return showInProps;
+      } else if (typeof showInProps === 'function') {
+        return showInProps(formProps);
+      }
+      return true;
+    }, [showInProps, formProps]);
+
     // Show the dialog
     const showModal = useCallback(() => {
       setOpen(true);
@@ -259,26 +286,29 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       formCompRef,
       showModal,
     ]);
+
     // Render the trigger component
     return (
       <>
-        <Trigger
-          {...triggerProps}
-          // Trigger event
-          {...((triggerEvent
-            ? {
-                [triggerEvent]: (...args: any[]) => {
-                  triggerEventArgsRef.current = args;
-                  showModal();
-                  if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
-                    (triggerProps[triggerEvent] as (...args: any[]) => void)(...args);
-                  }
-                },
-              }
-            : {}) as TP)}
-        >
-          {(triggerProps as { children?: ReactNode }).children ?? children}
-        </Trigger>
+        {showTrigger && (
+          <Trigger
+            {...triggerProps}
+            // Trigger event
+            {...((triggerEvent
+              ? {
+                  [triggerEvent]: (...args: any[]) => {
+                    triggerEventArgsRef.current = args;
+                    showModal();
+                    if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
+                      (triggerProps[triggerEvent] as (...args: any[]) => void)(...args);
+                    }
+                  },
+                }
+              : {}) as TP)}
+          >
+            {(triggerProps as { children?: ReactNode }).children ?? children}
+          </Trigger>
+        )}
         <Modal
           open={open}
           confirmLoading={isSaving}
@@ -393,7 +423,7 @@ function mergeProps<
           : {}),
       },
     },
-  } as ModalActionProps<FD, CP, TP, E, CRef>;
+  } as unknown as ModalActionProps<FD, CP, TP, E, CRef>;
 }
 
 function FormCreator<FD extends object>(props: { onCreate: (form: FormInstance<FD> | undefined) => void }) {

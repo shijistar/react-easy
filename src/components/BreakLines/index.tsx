@@ -1,4 +1,4 @@
-import { createElement, type FC, type ReactNode } from 'react';
+import { createElement, type FC, Fragment, type ReactNode } from 'react';
 
 export interface BreakLinesProps {
   /**
@@ -59,10 +59,11 @@ const BreakLines: FC<BreakLinesProps> = (props) => {
       if (value.includes(EOL)) {
         const segments = value?.split(EOL);
         content = segments.map((str, i) => (
-          <>
+          // eslint-disable-next-line react/no-array-index-key
+          <Fragment key={`${str}::::${i}`}>
             {str}
             {i !== segments.length - 1 && <br />}
-          </>
+          </Fragment>
         ));
       } else {
         content = value;

@@ -7,13 +7,8 @@ import { type ConfirmActionWithStatic, genRenderer, withDefaultConfirmActionProp
 
 const renderDeleteConfirmAction = genRenderer({
   confirmType: 'delete',
-  titleColor: 'danger',
-  icon: (
-    <Typography.Text type="danger">
-      <CloseCircleFilled />
-    </Typography.Text>
-  ),
-  okButtonProps: { danger: true },
+  danger: true,
+  icon: <CloseCircleFilled />,
 });
 const forwarded = forwardRef(renderDeleteConfirmAction);
 
