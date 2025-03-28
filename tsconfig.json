@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "ES2016",
+    "target": "ES2020",
     "module": "ESNext",
-    "moduleResolution": "node",
-    "lib": ["ESNext"],
+    "moduleResolution": "bundler",
+    "lib": ["ESNext", "DOM", "WebWorker"],
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
@@ -12,10 +12,13 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noImplicitAny": true,
     "skipLibCheck": true,
+    "declaration": true,
+    "allowJs": false,
     "experimentalDecorators": true,
     "strict": true
   },
-  "include": ["./src"],
-  "exclude": []
+  "include": ["./src"]
 }

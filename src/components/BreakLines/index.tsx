@@ -60,7 +60,7 @@ const BreakLines: FC<BreakLinesProps> = (props) => {
         const segments = value?.split(EOL);
         content = segments.map((str, i) => (
           // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={`${str}::::${i}`}>
+          <Fragment key={`${str}:${i}`}>
             {str}
             {i !== segments.length - 1 && <br />}
           </Fragment>

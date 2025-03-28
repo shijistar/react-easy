@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "es",
-    "lib": ["ESNext", "DOM", "WebWorker"],
-    "sourceMap": true,
-    "declaration": true
-  }
-}

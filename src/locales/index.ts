@@ -12,7 +12,7 @@ export const resources = {
   'zh-CN': { translation: zhCN },
 } as const;
 
-const reactEasyI18n = createInstance({});
+const reactEasyI18n: i18n = createInstance({});
 
 reactEasyI18n.init({
   lng: 'en',
