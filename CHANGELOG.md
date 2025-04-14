@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.0.5
+
+2025-4-14
+
+### Features
+
+- 🔥 Add `useRefValue` hook
+
 ## 1.0.4
 
 2025-3-28
