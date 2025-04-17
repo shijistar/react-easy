@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.0.6
+
+2025-4-17
+
+### Bug Fixes
+
+- 🐞 fix null pointer issue when antd `App` is not provided
+
 ## 1.0.5
 
 2025-4-14

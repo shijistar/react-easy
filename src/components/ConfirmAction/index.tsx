@@ -179,8 +179,9 @@ export const genRenderer = (
 
     useContextValidator();
 
-    const { modal: modalFromApp } = App.useApp();
-    const modal = modalFromApp ?? Modal;
+    const app = App.useApp();
+    // @ts-expect-error: because app may return a stub object when App is not used
+    const modal = app.modal?.confirm ? app.modal : Modal;
     const { localize } = useContext(ReactEasyContext);
     const [, token] = useToken();
     const [confirmApi, setConfirmApi] = useState<ReturnType<typeof confirm>>();
