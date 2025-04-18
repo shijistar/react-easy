@@ -2,6 +2,16 @@
 
 # Changelog
 
+## Unreleased
+
+### Features
+
+-
+
+### Bug Fixes
+
+-
+
 ## 1.0.6
 
 2025-4-17
