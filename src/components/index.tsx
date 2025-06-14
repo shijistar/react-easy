@@ -13,6 +13,9 @@ export { default as ConfirmAction } from './ConfirmAction';
 // export * from './DeleteConfirmAction';
 export { default as DeleteConfirmAction } from './DeleteConfirmAction';
 
+export type { FloatDrawerProps } from './FloatDrawer';
+export { default as FloatDrawer } from './FloatDrawer';
+
 export type { ModalActionProps, FormCompPropsConstraint, ModalActionTrigger, ModalActionRef } from './ModalAction';
 export { withDefaultModalActionProps, withModalAction } from './ModalAction';
 export { default as ModalAction } from './ModalAction';

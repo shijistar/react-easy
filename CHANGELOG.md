@@ -2,15 +2,13 @@
 
 # Changelog
 
-## Unreleased
+## 1.0.7
+
+2025-6-15
 
 ### Features
 
--
-
-### Bug Fixes
-
--
+- 🔥 add `FloatDrawer` component
 
 ## 1.0.6
 

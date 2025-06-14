@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Helps you use React and AntDesign more easily",
   "keywords": [
     "react",
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@tiny-codes/code-style-all-in-one": "^1.1.5",
+    "@tiny-codes/eslint-plugin-react-hooks": "^4.6.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.14",
     "@types/react": "^19.0.12",
