@@ -13,7 +13,6 @@ const genStyle: GenerateStyle<REFloatDrawerToken> = (token): CSSObject => {
       position: 'absolute',
       display: 'flex',
       overflow: 'visible',
-      zIndex: token.zIndexPopupBase,
       ['&-left']: {
         left: 0,
         top: 0,

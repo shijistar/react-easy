@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.0.9
+
+2025-6-18
+
+### Features
+
+- Add export entries for utils
+- Remove zIndex from `FloatDrawer` container
+
 ## 1.0.8
 
 2025-6-18
