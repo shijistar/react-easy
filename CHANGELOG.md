@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.0.8
+
+2025-6-18
+
+### Features
+
+- 🔥 add `getColorLuminance` util method
+
 ## 1.0.7
 
 2025-6-15

@@ -92,11 +92,11 @@ export interface FormCompPropsConstraint<FD> {
     ) => unknown | Promise<unknown>
   ) => void;
   /**
-   * **EN:** Listen to the open and close status of the dialog. When `destroyOnClose` is set to
+   * **EN:** Listen to the open and close status of the dialog. When `destroyOnHidden` is set to
    * false, the form component instance is cached, and the dialog can only be listened to in this
    * way
    *
-   * **CN:** 监听弹框打开关闭状态。当`destroyOnClose`设置为false时，表单组件实例被缓存，只能通过这种方式监听弹框
+   * **CN:** 监听弹框打开关闭状态。当`destroyOnHidden`设置为false时，表单组件实例被缓存，只能通过这种方式监听弹框
    *
    * @param handler Event handler | 事件处理函数
    */
@@ -204,11 +204,12 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       triggerProps,
       open: openInProps,
       destroyOnClose = true,
+      destroyOnHidden = true,
       maskClosable = false,
       onOk,
       afterOk,
       onCancel,
-      onClose,
+      afterClose,
       children,
       ...restProps
     } = mergedProps;
@@ -224,7 +225,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     const formRef = useRef<FormInstance<FD>>(form);
     formRef.current = form;
     const destroyOnCloseRef = useRef(destroyOnClose);
-    destroyOnCloseRef.current = destroyOnClose;
+    destroyOnCloseRef.current = destroyOnClose || destroyOnHidden;
     const openListenerRef = useRef<ModalProps['afterOpenChange']>(undefined);
 
     // Listen to the open props changes
@@ -313,6 +314,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
           open={open}
           confirmLoading={isSaving}
           destroyOnClose={destroyOnClose}
+          destroyOnHidden={destroyOnHidden}
           maskClosable={maskClosable}
           onOk={async (e) => {
             let formData: FD;
@@ -355,9 +357,9 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
             hideModal();
             onCancel?.(e);
           }}
-          onClose={(e) => {
+          afterClose={() => {
             hideModal();
-            onClose?.(e);
+            afterClose?.();
           }}
           {...restProps}
         >
