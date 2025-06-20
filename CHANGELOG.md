@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.0.10
+
+2025-6-20
+
+### Features
+
+- Add `onResize` event prop to `FloatDrawer` component
+
 ## 1.0.9
 
 2025-6-18

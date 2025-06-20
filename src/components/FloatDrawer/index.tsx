@@ -169,6 +169,12 @@ export interface FloatDrawerProps {
    * **CN:** 打开状态变化时的回调函数
    */
   onOpenChange?: (open: boolean) => void;
+  /**
+   * **EN:** Callback function when the drawer is resized
+   *
+   * **CN:** 抽屉调整大小时的回调函数
+   */
+  onResize?: (size: number) => void;
 }
 
 /**
@@ -191,6 +197,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
     minSize = 0,
     maxSize = +Infinity,
     onOpenChange,
+    onResize,
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('re-float-drawer');
@@ -276,6 +283,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
         if (cacheKey) {
           localStorage.setItem(cacheKey, String(newSize));
         }
+        onResize?.(newSize);
       }
     }
   });
