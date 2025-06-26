@@ -206,6 +206,8 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       destroyOnClose = true,
       destroyOnHidden = true,
       maskClosable = false,
+      okButtonProps,
+      cancelButtonProps,
       onOk,
       afterOk,
       onCancel,
@@ -316,7 +318,15 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
           destroyOnClose={destroyOnClose}
           destroyOnHidden={destroyOnHidden}
           maskClosable={maskClosable}
-          onOk={async (e) => {
+          okButtonProps={{
+            loading: isSaving,
+            ...okButtonProps,
+          }}
+          cancelButtonProps={{
+            disabled: isSaving,
+            ...cancelButtonProps,
+          }}
+          onOk={async () => {
             let formData: FD;
             try {
               formData = (await form?.validateFields()) as FD;

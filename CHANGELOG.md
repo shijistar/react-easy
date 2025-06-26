@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.0.11
+
+2025-6-26
+
+### Features
+
+- ✨ Enhance `ConfirmAction` and `ModalAction` components that disable the cancel button while submitting
+
 ## 1.0.10
 
 2025-6-20

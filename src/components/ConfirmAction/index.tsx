@@ -208,13 +208,35 @@ export const genRenderer = (
         content: coloredText(content, contentColor),
         icon: coloredText(icon, iconColor ?? fallbackColor ?? 'warning'),
         autoFocusButton: null,
-        onOk: async () => {
-          const result = await onOk?.(...((triggerEventArgsRef.current ?? []) as Parameters<typeof onOk>));
-          afterOk?.(result);
-        },
         okButtonProps: {
           ...(danger ? { type: 'primary', danger: true } : {}),
           ...(okButtonProps ?? {}),
+        },
+        onOk: async () => {
+          try {
+            api.update({
+              closable: true,
+              okButtonProps: {
+                loading: true,
+                ...okButtonProps,
+              },
+              cancelButtonProps: {
+                disabled: true,
+              },
+            });
+            const result = await onOk?.(...((triggerEventArgsRef.current ?? []) as Parameters<typeof onOk>));
+            afterOk?.(result);
+          } finally {
+            api.update({
+              closable: false,
+              okButtonProps: {
+                loading: false,
+              },
+              cancelButtonProps: {
+                disabled: false,
+              },
+            });
+          }
         },
         ...restProps,
       });
@@ -234,9 +256,9 @@ export const genRenderer = (
           ? {
               [triggerEvent]: (...args: any[]) => {
                 triggerEventArgsRef.current = args;
-                showConfirm();
+                const api = showConfirm();
                 if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
-                  (triggerProps[triggerEvent] as (...args: any[]) => void)(...args);
+                  (triggerProps[triggerEvent] as (...args: any[]) => void)(...args, { api });
                 }
               },
             }
