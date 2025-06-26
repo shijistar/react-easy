@@ -171,6 +171,7 @@ export const genRenderer = (
       icon,
       iconColor,
       okButtonProps,
+      cancelButtonProps,
       onOk,
       afterOk,
       children,
@@ -203,25 +204,31 @@ export const genRenderer = (
 
     // Show confirm box
     const showConfirm: ConfirmActionRef['show'] = useRefFunction(() => {
+      const okProps: ButtonProps = {
+        ...(danger ? { type: 'primary', danger: true } : {}),
+        ...(okButtonProps ?? {}),
+      };
+      const cancelProps: ButtonProps = {
+        ...(cancelButtonProps ?? {}),
+      };
       const api = modal.confirm({
         title: coloredText(title, titleColor ?? fallbackColor ?? 'warning'),
         content: coloredText(content, contentColor),
         icon: coloredText(icon, iconColor ?? fallbackColor ?? 'warning'),
         autoFocusButton: null,
-        okButtonProps: {
-          ...(danger ? { type: 'primary', danger: true } : {}),
-          ...(okButtonProps ?? {}),
-        },
+        okButtonProps: okProps,
+        cancelButtonProps: cancelProps,
         onOk: async () => {
           try {
             api.update({
               closable: true,
               okButtonProps: {
                 loading: true,
-                ...okButtonProps,
+                ...okProps,
               },
               cancelButtonProps: {
                 disabled: true,
+                ...cancelProps,
               },
             });
             const result = await onOk?.(...((triggerEventArgsRef.current ?? []) as Parameters<typeof onOk>));
@@ -231,9 +238,11 @@ export const genRenderer = (
               closable: false,
               okButtonProps: {
                 loading: false,
+                ...okProps,
               },
               cancelButtonProps: {
                 disabled: false,
+                ...cancelProps,
               },
             });
           }

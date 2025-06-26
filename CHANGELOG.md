@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.0.12
+
+2025-6-26
+
+### Features
+
+- 🐞 Preserve the `okButtonProps` while submitting
+
 ## 1.0.11
 
 2025-6-26
