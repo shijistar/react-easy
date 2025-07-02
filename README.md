@@ -1,8 +1,8 @@
 # @tiny-codes/react-easy
 
-[English](./README.md) | [中文](./README.zh-CN.md)
+[English](./README.md) | [中文](./README.zh-CN.md) | [Changelog](./CHANGELOG.md)
 
-> Helps you use React and AntDesign more easily
+> A toolkit that simplifies React and AntDesign development with powerful components and hooks
 
 [![npm version](https://img.shields.io/npm/v/@tiny-codes/react-easy.svg)](https://www.npmjs.com/package/@tiny-codes/react-easy)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@tiny-codes/react-easy)](https://bundlephobia.com/result?p=@tiny-codes/react-easy)

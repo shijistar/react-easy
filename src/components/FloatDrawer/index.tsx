@@ -1,6 +1,7 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Card, type CardProps, ConfigProvider } from 'antd';
+import type { CardProps } from 'antd';
+import { Card, ConfigProvider } from 'antd';
 import classNames from 'classnames';
 import { DownOutlined, LeftOutlined, RightOutlined, UpOutlined } from '@ant-design/icons';
 import useRefFunction from '../../hooks/useRefFunction';

@@ -20,4 +20,5 @@ export type { ModalActionProps, FormCompPropsConstraint, ModalActionTrigger, Mod
 export { withDefaultModalActionProps, withModalAction } from './ModalAction';
 export { default as ModalAction } from './ModalAction';
 
-// export * from '../utils';
+export type { OverflowTagsProps } from './OverflowTags';
+export { default as OverflowTags } from './OverflowTags';
