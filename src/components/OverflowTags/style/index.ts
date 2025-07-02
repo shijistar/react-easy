@@ -11,6 +11,7 @@ const genStyle: GenerateStyle<OverflowTagsToken> = (token): CSSObject => {
     [componentCls]: {
       display: 'flex',
       flexWrap: 'wrap',
+      width: '100%',
       maxWidth: '100%',
       position: 'relative',
     },

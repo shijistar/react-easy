@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.1.1
+
+2025-7-2
+
+### Bug Fixes
+
+- 🐞 Fix wrong classPrefix of `OverflowTags` component
+
 ## 1.1.0
 
 2025-7-1
