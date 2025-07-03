@@ -201,7 +201,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
     onResize,
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
-  const prefixCls = getPrefixCls('re-float-drawer');
+  const prefixCls = getPrefixCls('easy-float-drawer');
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
   const [isOpen, setIsOpen] = useState<boolean>();
   const [size, setSize] = useState(

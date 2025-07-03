@@ -73,7 +73,7 @@ const OverflowTags = <T extends Record<string, any>>(props: OverflowTagsProps<T>
   } = props;
   const { token } = theme.useToken();
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
-  const prefixCls = getPrefixCls('re-overflow-tags');
+  const prefixCls = getPrefixCls('easy-float-drawer');
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
 
   const colors = useMemo(

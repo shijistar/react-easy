@@ -9,13 +9,24 @@ const genStyle: GenerateStyle<OverflowTagsToken> = (token): CSSObject => {
   const { componentCls } = token;
   return {
     [componentCls]: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      width: '100%',
-      maxWidth: '100%',
-      position: 'relative',
+      '&-flex': {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
+      },
+      '&-absolute': {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      },
+      [`:global(.${token.antCls}-spin)`]: {
+        lineHeight: 0,
+      },
     },
   };
 };
 
-export default genStyleHooks('easy-overflow-tags' as never, genStyle);
+export default genStyleHooks('easy-loading' as never, genStyle);

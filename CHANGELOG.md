@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.1.2
+
+2025-7-3
+
+### Features
+
+- 🔥 Add `Loading` component
+- 👀 The className prefix is changed to `ant-easy-***`
+
 ## 1.1.1
 
 2025-7-2

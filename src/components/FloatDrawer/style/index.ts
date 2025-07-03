@@ -191,5 +191,4 @@ const genStyle: GenerateStyle<REFloatDrawerToken> = (token): CSSObject => {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default genStyleHooks('re-float-drawer' as any, genStyle);
+export default genStyleHooks('easy-float-drawer' as never, genStyle);
