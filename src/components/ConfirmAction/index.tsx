@@ -15,47 +15,39 @@ import ReactEasyContext from '../ConfigProvider/context';
 export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<ModalFuncProps, 'onOk'> &
   ConfirmActionTrigger<TP, E> & {
     /**
-     * **EN:** Whether to display in red danger mode, which will automatically affect the color of
-     * the title, icon, and confirm button. Default is `false`, for DeleteConfirmAction, the
-     * defaults is `true`.
-     *
+     * - **EN:** Whether to display in red danger mode, which will automatically affect the color of
+     *   the title, icon, and confirm button. Default is `false`, for DeleteConfirmAction, the
+     *   defaults is `true`.
      * - You can explicitly set `titleColor`, `iconColor`, and `okButtonProps.type` to override
-     *
-     * **CN:** 是否显示为红色危险模式，会自动影响标题、图标和确认按钮的颜色。默认`false`，DeleteConfirmAction组件的默认值为`true`。
-     *
+     * - **CN:** 是否显示为红色危险模式，会自动影响标题、图标和确认按钮的颜色。默认`false`，DeleteConfirmAction组件的默认值为`true`。
      * - 可以显式设置`titleColor`、`iconColor`和`okButtonProps.type`来覆盖
      */
     danger?: boolean;
     /**
-     * **EN:** The color of confirm box title, default is `warning`
-     *
-     * **CN:** 弹框标题颜色，默认`warning`
+     * - **EN:** The color of confirm box title, default is `warning`
+     * - **CN:** 弹框标题颜色，默认`warning`
      */
     titleColor?: TextProps['type'] | 'primary';
     /**
-     * **EN:** The color of confirm box content
-     *
-     * **CN:** 弹框内容文本颜色
+     * - **EN:** The color of confirm box content
+     * - **CN:** 弹框内容文本颜色
      */
     contentColor?: TextProps['type'] | 'primary';
     /**
-     * **EN:** The color of confirm box title icon, default is the same as `titleColor`
-     *
-     * **CN:** 弹框标题图标颜色，默认与`titleColor`相同
+     * - **EN:** The color of confirm box title icon, default is the same as `titleColor`
+     * - **CN:** 弹框标题图标颜色，默认与`titleColor`相同
      */
     iconColor?: TextProps['type'] | 'primary';
     /**
-     * **EN:** Callback when click confirm button
-     *
-     * **CN:** 点击确认按钮的回调
+     * - **EN:** Callback when click confirm button
+     * - **CN:** 点击确认按钮的回调
      */
     // @ts-expect-error: because TP[E] should be casted to function type
     onOk?: (...args: Parameters<TP[E]>) => unknown | Promise<unknown>;
     /**
-     * **EN:** Callback after confirm event, won't trigger if failed, the argument is the return
-     * value of `onOk`
-     *
-     * **CN:** 确认事件完成后的回调，失败时不会触发，参数为`onOk`的返回值
+     * - **EN:** Callback after confirm event, won't trigger if failed, the argument is the return
+     *   value of `onOk`
+     * - **CN:** 确认事件完成后的回调，失败时不会触发，参数为`onOk`的返回值
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     afterOk?: (data?: any) => void;
@@ -63,47 +55,40 @@ export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<Mod
 
 export interface ConfirmActionTrigger<TP extends object, E extends keyof TP> {
   /**
-   * **EN:** Trigger component, trigger to show confirm box
-   *
-   * **CN:** 触发器组件，触发显示确认弹框
+   * - **EN:** Trigger component, trigger to show confirm box
+   * - **CN:** 触发器组件，触发显示确认弹框
    */
   triggerComponent?: ComponentType<TP>;
   /**
-   * **EN:** Props of trigger component
-   *
-   * **CN:** 触发器组件的Props属性
+   * - **EN:** Props of trigger component
+   * - **CN:** 触发器组件的Props属性
    */
   triggerProps?: TP;
   /**
-   * **EN:** The event name that triggers the dialog
-   *
-   * **CN:** 触发弹窗的事件名称
-   *
+   * - **EN:** The event name that triggers the dialog
+   * - **CN:** 触发弹窗的事件名称
    * - `Button`: 'onClick'
    * - `Switch`: 'onChange'
    * - `Link`: 'onClick'
    */
   triggerEvent?: E;
   /**
-   * **EN:** Custom trigger content
-   *
-   * **CN:** 自定义触发器内容
+   * - **EN:** Custom trigger content
+   * - **CN:** 自定义触发器内容
    */
   children?: ReactNode;
 }
 export type ConfirmActionRef = ReturnType<typeof confirm> & {
   /**
-   * **EN:** Show confirm box
-   *
-   * **CN:** 显示确认弹框
+   * - **EN:** Show confirm box
+   * - **CN:** 显示确认弹框
    */
   show: (props?: Parameters<ModalFunc>[0]) => ReturnType<ModalFunc>;
 };
 
 /**
- * **EN:** Generate a confirm box component
- *
- * **CN:** 生成一个确认弹框组件
+ * - **EN:** Generate a confirm box component
+ * - **CN:** 生成一个确认弹框组件
  *
  * @param defaultProps Default props | 默认属性
  *
@@ -282,9 +267,8 @@ export const genRenderer = (
 };
 
 /**
- * **EN:** Add default properties to the ConfirmAction component
- *
- * **CN:** 给ConfirmAction组件添加默认属性
+ * - **EN:** Add default properties to the ConfirmAction component
+ * - **CN:** 给ConfirmAction组件添加默认属性
  *
  * @param WrappedComponent ConfirmAction component | ConfirmAction组件
  * @param defaultProps Default properties | 默认属性
@@ -315,27 +299,24 @@ const forwarded = forwardRef(renderConfirmAction);
 forwarded.displayName = 'ForwardedRef(ConfirmAction)';
 
 /**
- * **EN:** Interface of generic type component
- *
- * **CN:** 泛型组件的接口
+ * - **EN:** Interface of generic type component
+ * - **CN:** 泛型组件的接口
  */
 export type GenericConfirmActionInterface = <TP extends object, E extends keyof TP>(
   props: PropsWithoutRef<TypedConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>
 ) => ReactElement;
 
 /**
- * **EN:** Interface of specific type component
- *
- * **CN:** 具体类型组件的接口
+ * - **EN:** Interface of specific type component
+ * - **CN:** 具体类型组件的接口
  */
 export type TypedConfirmActionInterface<TP extends object, E extends keyof TP> = ComponentType<
   PropsWithoutRef<TypedConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>
 >;
 
 /**
- * **EN:** Props definition of specific type component
- *
- * **CN:** 具体类型组件的Props定义
+ * - **EN:** Props definition of specific type component
+ * - **CN:** 具体类型组件的Props定义
  */
 type TypedConfirmActionProps<TP extends object, E extends keyof TP> = Omit<
   ConfirmActionProps<TP, E>,
@@ -343,29 +324,25 @@ type TypedConfirmActionProps<TP extends object, E extends keyof TP> = Omit<
 >;
 export type ConfirmActionWithStatic = GenericConfirmActionInterface & {
   /**
-   * **EN:** Confirm box with button trigger
-   *
-   * **CN:** 按钮类型的确认框
+   * - **EN:** Confirm box with button trigger
+   * - **CN:** 按钮类型的确认框
    */
   Button: TypedConfirmActionInterface<ButtonProps, 'onClick'>;
   /**
-   * **EN:** Confirm box with switch trigger
-   *
-   * **CN:** 开关类型的确认框
+   * - **EN:** Confirm box with switch trigger
+   * - **CN:** 开关类型的确认框
    */
   Switch: TypedConfirmActionInterface<SwitchProps, 'onChange'>;
   /**
-   * **EN:** Confirm box with link trigger
-   *
-   * **CN:** 链接类型的确认框
+   * - **EN:** Confirm box with link trigger
+   * - **CN:** 链接类型的确认框
    */
   Link: TypedConfirmActionInterface<LinkProps, 'onClick'>;
 };
 
 /**
- * **EN:** Confirm box component with trigger
- *
- * **CN:** 带触发器的确认框组件
+ * - **EN:** Confirm box component with trigger
+ * - **CN:** 带触发器的确认框组件
  */
 const ConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
 // Type of button

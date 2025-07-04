@@ -5,9 +5,8 @@ import useT from './useT';
 const nameSeparator = 'validation.rule.buildRule.token.separator';
 
 /**
- * **EN:** Get a validation rule builder to build validation rules
- *
- * **CN:** 获取一个校验规则生成器，用来构建校验规则
+ * - **EN:** Get a validation rule builder to build validation rules
+ * - **CN:** 获取一个校验规则生成器，用来构建校验规则
  */
 const useValidatorBuilder = () => {
   const t = useT();
@@ -15,16 +14,14 @@ const useValidatorBuilder = () => {
 };
 
 /**
- * **EN:** Build regular expression rules dynamically, compatible with ant-design rules
- *
- * **CN:** 动态构建正则表达式规则，与 ant-design 的规则兼容
+ * - **EN:** Build regular expression rules dynamically, compatible with ant-design rules
+ * - **CN:** 动态构建正则表达式规则，与 ant-design 的规则兼容
  */
 function buildRule(
   options: BuilderOptions & {
     /**
-     * **EN:** Internationalization function
-     *
-     * **CN:** 国际化函数
+     * - **EN:** Internationalization function
+     * - **CN:** 国际化函数
      */
     t: ReturnType<typeof useT>;
   }
@@ -156,94 +153,80 @@ function buildRuleMeta(options: { flags: RuleRegExpFlags; t: ReturnType<typeof u
 
 export interface BuilderOptions {
   /**
-   * **EN:** The rule of allowed characters
-   *
-   * **CN:** 允许字符的规则
+   * - **EN:** The rule of allowed characters
+   * - **CN:** 允许字符的规则
    */
   allowed: RuleRegExpFlags;
   /**
-   * **EN:** The rule of the starting character
-   *
-   * **CN:** 开头字符的规则
+   * - **EN:** The rule of the starting character
+   * - **CN:** 开头字符的规则
    */
   startsWith?: Omit<RuleRegExpFlags, 'min' | 'max'>;
   /**
-   * **EN:** Regular expression flags
-   *
-   * **CN:** 正则表达式的标志
+   * - **EN:** Regular expression flags
+   * - **CN:** 正则表达式的标志
    */
   flags?: string;
 }
 
 export interface RuleRegExpFlags {
   /**
-   * **EN:** Include lowercase and uppercase Latin characters. If set to true, `lowerLetter` and
-   * `upperLetter` option are not effective
-   *
-   * **CN:**: 包含大小写拉丁字符。如果设置为true，则`lowerLetter`和`upperLetter`属性不生效
+   * - **EN:** Include lowercase and uppercase Latin characters. If set to true, `lowerLetter` and
+   *   `upperLetter` option are not effective
+   * - **CN:**: 包含大小写拉丁字符。如果设置为true，则`lowerLetter`和`upperLetter`属性不生效
    */
 
   letter?: boolean;
   /**
-   * **EN:** Include lowercase English letters
-   *
-   * **CN:**: 包含小写英文字符
+   * - **EN:** Include lowercase English letters
+   * - **CN:**: 包含小写英文字符
    */
   lowerLetter?: boolean;
   /**
-   * **EN:** Include uppercase English letters
-   *
-   * **CN:**: 包含大写英文字符
+   * - **EN:** Include uppercase English letters
+   * - **CN:**: 包含大写英文字符
    */
   upperLetter?: boolean;
   /**
-   * **EN:** Include Chinese characters
-   *
-   * **CN:** 包含中文字符
+   * - **EN:** Include Chinese characters
+   * - **CN:** 包含中文字符
    */
   chineseCharacter?: boolean;
   /**
-   * **EN:** Include Chinese (full-width) punctuation
-   *
-   * **CN:** 包含中文（全角）标点符号
+   * - **EN:** Include Chinese (full-width) punctuation
+   * - **CN:** 包含中文（全角）标点符号
    */
   chinesePunctuation?: boolean;
   /**
-   * **EN:** Include numbers
-   *
-   * **CN:** 包含数字
+   * - **EN:** Include numbers
+   * - **CN:** 包含数字
    */
   number?: boolean;
   /**
-   * **EN:** Include hyphens (-)
-   *
-   * **CN:** 包含连字符(-)
+   * - **EN:** Include hyphens (-)
+   * - **CN:** 包含连字符(-)
    */
   hyphen?: boolean;
   /**
-   * **EN:** Include underscores (_)
-   *
-   * **CN:** 包含下划线(_)
+   * - **EN:** Include underscores (_)
+   * - **CN:** 包含下划线(_)
    */
   underscore?: boolean;
   /**
-   * **EN:** Include specified special characters
-   *
-   * **CN:** 包含指定的特殊字符
+   * - **EN:** Include specified special characters
+   * - **CN:** 包含指定的特殊字符
    */
   special?: string[];
   /**
-   * **EN:** Minimum number of characters
-   *
-   * **CN:** 最小字符数量
+   * - **EN:** Minimum number of characters
+   * - **CN:** 最小字符数量
    *
    * @default 1
    */
   min?: number;
   /**
-   * **EN:** Maximum number of characters
-   *
-   * **CN:** 最大字符数量
+   * - **EN:** Maximum number of characters
+   * - **CN:** 最大字符数量
    */
   max?: number;
 }
@@ -252,21 +235,18 @@ export type StartsWithRegExpFlags = RuleRegExpFlags;
 
 export interface ValidatorRule extends Validator {
   /**
-   * **EN:** The options of allowed characters
-   *
-   * **CN:** 允许字符的规则设置
+   * - **EN:** The options of allowed characters
+   * - **CN:** 允许字符的规则设置
    */
   allowedOptions: RuleRegExpFlags;
   /**
-   * **EN:** The options of the starting character
-   *
-   * **CN:** 开头字符的规则设置
+   * - **EN:** The options of the starting character
+   * - **CN:** 开头字符的规则设置
    */
   startsWithOptions?: StartsWithRegExpFlags;
   /**
-   * **EN:** Regular expression flags
-   *
-   * **CN:** 正则表达式的标志
+   * - **EN:** Regular expression flags
+   * - **CN:** 正则表达式的标志
    */
   flags?: string;
 }
@@ -278,15 +258,13 @@ interface RuleMeta {
 
 export interface Validator {
   /**
-   * **EN:** Regular expression for verification
-   *
-   * **CN:** 校验正则表达式
+   * - **EN:** Regular expression for verification
+   * - **CN:** 校验正则表达式
    */
   pattern: RegExp;
   /**
-   * **EN:** Prompt message when verification fails
-   *
-   * **CN:** 校验失败时的提示信息
+   * - **EN:** Prompt message when verification fails
+   * - **CN:** 校验失败时的提示信息
    */
   message: string;
 }

@@ -7,10 +7,9 @@ import { isForwardRef } from 'react-is';
 import useContextValidator from '../../hooks/useContextValidator';
 
 /**
- * **EN:** Symbol for not closing the dialog when submitting the form, which takes effect when
- * returning in the `onSave` event of the editing form component
- *
- * **CN:** 提交表单时不关闭弹框的Symbol，在编辑表单组件的`onSave`事件中返回时生效
+ * - **EN:** Symbol for not closing the dialog when submitting the form, which takes effect when
+ *   returning in the `onSave` event of the editing form component
+ * - **CN:** 提交表单时不关闭弹框的Symbol，在编辑表单组件的`onSave`事件中返回时生效
  */
 export const SubmitWithoutClosingSymbol = Symbol('[SubmitWithoutClose]');
 
@@ -23,24 +22,21 @@ export type ModalActionProps<
 > = Omit<ModalProps, 'onOk'> &
   ModalActionTrigger<FD, CP, TP, E> & {
     /**
-     * **EN:** Form editing component, do not use the Form component inside the component, the form
-     * component and form instance are automatically created by the parent component
-     *
-     * **CN:** 表单编辑组件，组件内部不要使用Form组件，表单组件及表单实例由父组件自动创建
+     * - **EN:** Form editing component, do not use the Form component inside the component, the form
+     *   component and form instance are automatically created by the parent component
+     * - **CN:** 表单编辑组件，组件内部不要使用Form组件，表单组件及表单实例由父组件自动创建
      */
     formComp: ComponentType<CP & RefAttributes<CRef>>;
     /**
-     * **EN:** Props of the form editing component
-     *
-     * **CN:** 表单编辑组件的Props属性
+     * - **EN:** Props of the form editing component
+     * - **CN:** 表单编辑组件的Props属性
      */
     formProps?: Omit<CP, keyof FormCompPropsConstraint<FD>>;
     /**
-     * **EN:** The callback when clicks the confirmation button, support asynchronous saving, return
-     * `SubmitWithoutClosingSymbol` can prevent the dialog from closing, return other values will be
-     * passed to the `afterOk` event, if any
-     *
-     * **CN:** 点击确认按钮的回调，支持异步保存，返回`SubmitWithoutClosingSymbol`可以阻止弹框关闭，返回其他值会传递给`afterOk`事件，如果有的话
+     * - **EN:** The callback when clicks the confirmation button, support asynchronous saving, return
+     *   `SubmitWithoutClosingSymbol` can prevent the dialog from closing, return other values will
+     *   be passed to the `afterOk` event, if any
+     * - **CN:** 点击确认按钮的回调，支持异步保存，返回`SubmitWithoutClosingSymbol`可以阻止弹框关闭，返回其他值会传递给`afterOk`事件，如果有的话
      */
     onOk?: (
       formData: FD,
@@ -48,10 +44,9 @@ export type ModalActionProps<
       ...args: Parameters<TP[E]>
     ) => unknown | Promise<unknown>;
     /**
-     * **EN:** The callback after the confirmation event is completed, it will not be triggered when
-     * it fails, the parameter is the return value of `onOk`
-     *
-     * **CN:** 确认事件完成后的回调，失败时不会触发，参数为`onOk`的返回值
+     * - **EN:** The callback after the confirmation event is completed, it will not be triggered when
+     *   it fails, the parameter is the return value of `onOk`
+     * - **CN:** 确认事件完成后的回调，失败时不会触发，参数为`onOk`的返回值
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     afterOk?: (data?: any) => void;
@@ -59,68 +54,60 @@ export type ModalActionProps<
 
 export interface FormCompPropsConstraint<FD> {
   /**
-   * **EN:** Automatically generated form instance, use this form instance in FormComp, do not
-   * create a new instance
-   *
-   * **CN:** 自动生成的表单实例，编辑表单要使用这个表单实例，不要新创建实例
+   * - **EN:** Automatically generated form instance, use this form instance in FormComp, do not
+   *   create a new instance
+   * - **CN:** 自动生成的表单实例，编辑表单要使用这个表单实例，不要新创建实例
    */
   form: FormInstance<FD>;
   /**
-   * **EN:** Register the form save event, the callback function passed in will be called when the
-   * confirm button is clicked, support asynchronous saving
-   *
-   * **CN:** 注册表单保存事件，传入的回调函数会在点击确认按钮时被调用，支持异步保存
+   * - **EN:** Register the form save event, the callback function passed in will be called when the
+   *   confirm button is clicked, support asynchronous saving
+   * - **CN:** 注册表单保存事件，传入的回调函数会在点击确认按钮时被调用，支持异步保存
    *
    * @param handler Event handler | 事件处理函数
    */
   onSave: (
     handler: (
       /**
-       * **EN:** Form data
-       *
-       * **CN:** 表单数据
+       * - **EN:** Form data
+       * - **CN:** 表单数据
        */
       formData: FD,
       /**
-       * **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get
-       * the value of the switch; for the `Button` type trigger, you can get the click event object
-       * of the button
-       *
-       * **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值；对于`Button`类型的触发器，可以获取按钮的点击事件对象
+       * - **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get
+       *   the value of the switch; for the `Button` type trigger, you can get the click event
+       *   object of the button
+       * - **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值；对于`Button`类型的触发器，可以获取按钮的点击事件对象
        */
       ...triggerEventData: any[]
     ) => unknown | Promise<unknown>
   ) => void;
   /**
-   * **EN:** Listen to the open and close status of the dialog. When `destroyOnHidden` is set to
-   * false, the form component instance is cached, and the dialog can only be listened to in this
-   * way
-   *
-   * **CN:** 监听弹框打开关闭状态。当`destroyOnHidden`设置为false时，表单组件实例被缓存，只能通过这种方式监听弹框
+   * - **EN:** Listen to the open and close status of the dialog. When `destroyOnHidden` is set to
+   *   false, the form component instance is cached, and the dialog can only be listened to in this
+   *   way
+   * - **CN:** 监听弹框打开关闭状态。当`destroyOnHidden`设置为false时，表单组件实例被缓存，只能通过这种方式监听弹框
    *
    * @param handler Event handler | 事件处理函数
    */
   onOpenChange: (handler: ModalProps['afterOpenChange']) => void;
   /**
-   * **EN:** Set the dialog open status
-   *
-   * **CN:** 设置弹框打开状态
+   * - **EN:** Set the dialog open status
+   * - **CN:** 设置弹框打开状态
    *
    * @param open Whether is open or not | 弹窗是否打开
    */
   setOpen: (open: boolean) => void;
   /**
-   * **EN:** Modify the properties of the dialog, such as title, width, button properties, etc.
-   *
-   * **CN:** 修改弹窗的属性，例如标题、宽度，按钮属性等
+   * - **EN:** Modify the properties of the dialog, such as title, width, button properties, etc.
+   * - **CN:** 修改弹窗的属性，例如标题、宽度，按钮属性等
    */
   updateModalProps: (props: Partial<ModalProps>) => void;
   /**
-   * **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get the
-   * value of the switch; for the `Button` type trigger, you can get the click event object of the
-   * button
-   *
-   * **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值，对于`Button`类型的触发器，可以获取按钮的点击事件对象
+   * - **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get the
+   *   value of the switch; for the `Button` type trigger, you can get the click event object of the
+   *   button
+   * - **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值，对于`Button`类型的触发器，可以获取按钮的点击事件对象
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   triggerEventData?: any[];
@@ -133,21 +120,18 @@ export interface ModalActionTrigger<
   E extends keyof TP,
 > {
   /**
-   * **EN:** Trigger component, click to show the dialog
-   *
-   * **CN:** 弹窗触发器组件，点击触发显示弹框
+   * - **EN:** Trigger component, click to show the dialog
+   * - **CN:** 弹窗触发器组件，点击触发显示弹框
    */
   triggerComponent?: ComponentType<TP> | FC<TP>;
   /**
-   * **EN:** Props of the trigger component
-   *
-   * **CN:** 触发器组件的Props属性
+   * - **EN:** Props of the trigger component
+   * - **CN:** 触发器组件的Props属性
    */
   triggerProps?: TP & {
     /**
-     * **EN:** Set a custom function to determine whether to show the trigger button
-     *
-     * **CN:** 设置一个自定义函数，用于判断是否显示触发器按钮
+     * - **EN:** Set a custom function to determine whether to show the trigger button
+     * - **CN:** 设置一个自定义函数，用于判断是否显示触发器按钮
      *
      * @default true
      *
@@ -156,27 +140,23 @@ export interface ModalActionTrigger<
     show?: boolean | ((formProps?: Omit<CP, keyof FormCompPropsConstraint<FD>>) => boolean);
   };
   /**
-   * **EN:** The event name that triggers the dialog
-   *
-   * **CN:** 触发弹窗的事件名称
-   *
+   * - **EN:** The event name that triggers the dialog
+   * - **CN:** 触发弹窗的事件名称
    * - `Button`: 'onClick'
    * - `Switch`: 'onChange'
    * - `Link`: 'onClick'
    */
   triggerEvent?: E;
   /**
-   * **EN:** Custom trigger content
-   *
-   * **CN:** 自定义触发器内容
+   * - **EN:** Custom trigger content
+   * - **CN:** 自定义触发器内容
    */
   children?: ReactNode;
 }
 export type ModalActionRef<R> = R & {
   /**
-   * **EN:** Show the dialog
-   *
-   * **CN:** 显示弹框
+   * - **EN:** Show the dialog
+   * - **CN:** 显示弹框
    */
   show: () => void;
 };
@@ -456,9 +436,8 @@ function FormCreator<FD extends object>(props: { onCreate: (form: FormInstance<F
 }
 
 /**
- * **EN:** Add default properties to the ModalAction component
- *
- * **CN:** 给ModalAction组件添加默认属性
+ * - **EN:** Add default properties to the ModalAction component
+ * - **CN:** 给ModalAction组件添加默认属性
  *
  * @param WrappedComponent ModalAction component | ModalAction组件
  * @param defaultProps Default properties | 默认属性
@@ -487,9 +466,8 @@ const renderModalAction = genModalActionRenderer({});
 const forwardedModalAction = forwardRef(renderModalAction);
 forwardedModalAction.displayName = 'ForwardedRef(ModalAction)';
 /**
- * **EN:** ModalAction component type
- *
- * **CN:** ModalAction组件的类型
+ * - **EN:** ModalAction component type
+ * - **CN:** ModalAction组件的类型
  */
 export type ModalActionInterface<
   FD extends object,
@@ -499,9 +477,8 @@ export type ModalActionInterface<
   CRef extends object,
 > = ComponentType<ModalActionProps<FD, CP, TP, E, CRef> & RefAttributes<ModalActionRef<CRef>>>;
 /**
- * **EN:** ModalAction component with generic type
- *
- * **CN:** ModalAction泛型组件的类型
+ * - **EN:** ModalAction component with generic type
+ * - **CN:** ModalAction泛型组件的类型
  */
 export type GenericModalActionInterface = <
   FD extends object,
@@ -513,9 +490,8 @@ export type GenericModalActionInterface = <
   props: ModalActionProps<FD, CP, TP, E, CRef> & RefAttributes<ModalActionRef<CRef>>
 ) => ReactElement;
 /**
- * **EN:** ModalAction with specified trigger type (specified form component)
- *
- * **CN:** 已指定Trigger类型的ModalAction（并且已指定表单组件）
+ * - **EN:** ModalAction with specified trigger type (specified form component)
+ * - **CN:** 已指定Trigger类型的ModalAction（并且已指定表单组件）
  */
 type ModalActionWithTrigger<
   FD extends object,
@@ -530,9 +506,8 @@ type ModalActionWithTrigger<
 >;
 
 /**
- * **EN:** ModalAction with specified trigger type (unspecified form component, keep generic)
- *
- * **CN:** 已指定Trigger类型的ModalAction（未指定表单组件，保持泛型）
+ * - **EN:** ModalAction with specified trigger type (unspecified form component, keep generic)
+ * - **CN:** 已指定Trigger类型的ModalAction（未指定表单组件，保持泛型）
  */
 type GenericModalActionWithTrigger<TP extends object, E extends keyof TP, OMIT extends string = never> = <
   FD extends object,
@@ -544,9 +519,8 @@ type GenericModalActionWithTrigger<TP extends object, E extends keyof TP, OMIT e
 ) => ReactElement;
 
 /**
- * **EN:** Built-in trigger types (specified form components)
- *
- * **CN:** 内置的几种触发器类型（已指定表单组件）
+ * - **EN:** Built-in trigger types (specified form components)
+ * - **CN:** 内置的几种触发器类型（已指定表单组件）
  */
 interface TypedTriggers<
   FD extends object,
@@ -555,46 +529,39 @@ interface TypedTriggers<
   OMIT extends string = never,
 > {
   /**
-   * **EN:** Dialog with button type trigger
-   *
-   * **CN:** 按钮类型的弹窗
+   * - **EN:** Dialog with button type trigger
+   * - **CN:** 按钮类型的弹窗
    */
   Button: ModalActionWithTrigger<FD, CP, ButtonProps, 'onClick', CRef, 'triggerComponent' | 'triggerEvent' | OMIT>;
   /**
-   * **EN:** Dialog with switch type trigger
-   *
-   * **CN:** 开关类型的弹窗
+   * - **EN:** Dialog with switch type trigger
+   * - **CN:** 开关类型的弹窗
    */
   Switch: ModalActionWithTrigger<FD, CP, SwitchProps, 'onChange', CRef, 'triggerComponent' | 'triggerEvent' | OMIT>;
   /**
-   * **EN:** Dialog with link type trigger
-   *
-   * **CN:** 链接类型的弹窗
+   * - **EN:** Dialog with link type trigger
+   * - **CN:** 链接类型的弹窗
    */
   Link: ModalActionWithTrigger<FD, CP, LinkProps, 'onClick', CRef, 'triggerComponent' | 'triggerEvent' | OMIT>;
 }
 /**
- * **EN:** Built-in trigger types (generic types, unspecified form components)
- *
- * **CN:** 内置的几种触发器类型（泛型类型，未指定表单组件）
+ * - **EN:** Built-in trigger types (generic types, unspecified form components)
+ * - **CN:** 内置的几种触发器类型（泛型类型，未指定表单组件）
  */
 interface GenericTypedTriggers<OMIT extends string = never> {
   /**
-   * **EN:** Dialog with button type trigger
-   *
-   * **CN:** 按钮类型的弹窗
+   * - **EN:** Dialog with button type trigger
+   * - **CN:** 按钮类型的弹窗
    */
   Button: GenericModalActionWithTrigger<ButtonProps, 'onClick', 'triggerComponent' | 'triggerEvent' | OMIT>;
   /**
-   * **EN:** Dialog with switch type trigger
-   *
-   * **CN:** 开关类型的弹窗
+   * - **EN:** Dialog with switch type trigger
+   * - **CN:** 开关类型的弹窗
    */
   Switch: GenericModalActionWithTrigger<SwitchProps, 'onChange', 'triggerComponent' | 'triggerEvent' | OMIT>;
   /**
-   * **EN:** Dialog with link type trigger
-   *
-   * **CN:** 链接类型的弹窗
+   * - **EN:** Dialog with link type trigger
+   * - **CN:** 链接类型的弹窗
    */
   Link: GenericModalActionWithTrigger<LinkProps, 'onClick', 'triggerComponent' | 'triggerEvent' | OMIT>;
 }
@@ -609,9 +576,8 @@ type WithGenericTriggers<
   (CP extends never ? GenericTypedTriggers<OMIT> : TypedTriggers<FD, CP, CRef, OMIT>);
 
 /**
- * **EN:** Add trigger types to the ModalAction component
- *
- * **CN:** 给ModalAction组件添加子触发器类型
+ * - **EN:** Add trigger types to the ModalAction component
+ * - **CN:** 给ModalAction组件添加子触发器类型
  */
 const addTriggers = <
   FD extends object,
@@ -654,32 +620,28 @@ const addTriggers = <
 };
 
 /**
- * **EN:** Dialog component with trigger
- *
- * **CN:** 带触发器的弹窗组件
+ * - **EN:** Dialog component with trigger
+ * - **CN:** 带触发器的弹窗组件
  */
 const ModalAction = addTriggers(forwardedModalAction);
 
 /**
- * **EN:** Dialog component with trigger
- *
- * **CN:** 带触发器的弹窗组件
+ * - **EN:** Dialog component with trigger
+ * - **CN:** 带触发器的弹窗组件
  */
 export type ModalActionWithStatic = typeof ModalAction & {
   /**
-   * **EN:** Symbol for not closing the dialog when submitting the form, which takes effect when
-   * returning in the `onSave` event of the editing form component
-   *
-   * **CN:** 提交表单时不关闭弹框的Symbol，在编辑表单组件的`onSave`事件中返回时生效
+   * - **EN:** Symbol for not closing the dialog when submitting the form, which takes effect when
+   *   returning in the `onSave` event of the editing form component
+   * - **CN:** 提交表单时不关闭弹框的Symbol，在编辑表单组件的`onSave`事件中返回时生效
    */
   SubmitWithoutClosing: symbol;
 };
 (ModalAction as ModalActionWithStatic).SubmitWithoutClosing = SubmitWithoutClosingSymbol;
 
 /**
- * **EN:** Generate a dialog component based on the editing form component
- *
- * **CN:** 基于编辑表单组件生成一个弹框组件
+ * - **EN:** Generate a dialog component based on the editing form component
+ * - **CN:** 基于编辑表单组件生成一个弹框组件
  *
  * @param formComp Component of dialog content | 弹窗内容组件
  * @param defaultProps Default properties of the dialog | 弹窗的默认属性

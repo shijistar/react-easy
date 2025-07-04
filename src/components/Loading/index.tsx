@@ -6,15 +6,12 @@ import useStyle from './style';
 
 export type LoadingProps = SpinProps & {
   /**
-   * **EN:** When used independently, the positioning method of the animation:
-   *
+   * - **EN:** When used independently, the positioning method of the animation:
    * - **absolute** - Uses absolute positioning, and the animation will automatically center itself
    *   within the parent container.
    * - **flex** - Uses flexbox layout, and the animation will automatically fill the parent container
    *   and center itself.
-   *
-   * **CN:** 独立使用时，动画的定位方式：
-   *
+   * - **CN:** 独立使用时，动画的定位方式：
    * - **absolute** - 使用绝对定位，动画会自动居中显示在父容器中。
    * - **flex** - 使用弹性布局，动画会自动填充父容器并居中显示。
    *
@@ -22,16 +19,14 @@ export type LoadingProps = SpinProps & {
    */
   mode?: 'absolute' | 'flex';
   /**
-   * **EN:** When used independently, set the class name for the mask parent container of the
-   * animation
-   *
-   * **CN:** 在独立使用时，设置动画遮罩父容器的样式类名
+   * - **EN:** When used independently, set the class name for the mask parent container of the
+   *   animation
+   * - **CN:** 在独立使用时，设置动画遮罩父容器的样式类名
    */
   maskClassName?: string;
   /**
-   * **EN:** When used independently, set the style for the mask parent container of the animation
-   *
-   * **CN:** 在独立使用时，设置动画遮罩父容器的样式
+   * - **EN:** When used independently, set the style for the mask parent container of the animation
+   * - **CN:** 在独立使用时，设置动画遮罩父容器的样式
    */
   maskStyle?: CSSProperties;
 };
@@ -73,10 +68,19 @@ export type LoadingProps = SpinProps & {
  *   ```
  */
 const Loading: FC<LoadingProps> = (props) => {
-  const { maskClassName, maskStyle, mode = 'flex', children, spinning = true, className, ...spinProps } = props;
+  const {
+    prefixCls: prefixClsInProps,
+    maskClassName,
+    maskStyle,
+    mode = 'flex',
+    children,
+    spinning = true,
+    className,
+    ...spinProps
+  } = props;
 
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
-  const prefixCls = getPrefixCls('easy-loading');
+  const prefixCls = getPrefixCls('easy-loading', prefixClsInProps);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
 
   return children

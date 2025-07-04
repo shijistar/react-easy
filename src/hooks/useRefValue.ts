@@ -1,9 +1,8 @@
 import { useRef } from 'react';
 
 /**
- * **EN:** Get a mutable ref object and automatically update the value change
- *
- * **CN:** 获取一个可变的ref对象，并自动更新值变化
+ * - **EN:** Get a mutable ref object and automatically update the value change
+ * - **CN:** 获取一个可变的ref对象，并自动更新值变化
  *
  * @param value the wrapped value | 被包装的值
  *

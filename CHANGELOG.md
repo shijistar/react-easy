@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.1.3
+
+2025-7-4
+
+### Features
+
+- 🔥 Add `EditableText` component
+- ✨ `OverflowTags` component now supports `tag.icon`, and tries to use `tag.label`/`tag.name` as the label, tries to use `tag.value`/`tag.id` as the value
+
 ## 1.1.2
 
 2025-7-3

@@ -1,4 +1,9 @@
 const enUS = {
+  'components.EditableText.requiredMsg': 'Please enter text content',
+  'components.EditableText.placeholder': 'Please input text content, press Enter or click the OK button',
+  'components.EditableText.edit': 'Edit',
+  'components.EditableText.save': 'Save',
+  'components.EditableText.cancel': 'Cancel',
   'validation.rule.number.message': 'Please enter a number',
   'validation.rule.floatNumber.message': 'Please enter a number',
   'validation.rule.email.message': 'Please enter the correct email address',

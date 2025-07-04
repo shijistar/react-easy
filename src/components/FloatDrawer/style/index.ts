@@ -1,7 +1,8 @@
-import { genStyleHooks } from 'antd/es/theme/internal';
-import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
+import type { AliasToken, GenerateStyle } from 'antd/es/theme/interface';
+import { genStyleHooks } from 'antd/es/theme/util/genStyleUtils';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
+import { FastColor } from '@ant-design/fast-color';
 import { getColorLuminance } from '../../../utils';
 
 type REFloatDrawerToken = FullToken<{ ''?: object }, AliasToken, ''>;
@@ -59,30 +60,34 @@ const genStyle: GenerateStyle<REFloatDrawerToken> = (token): CSSObject => {
         transform: 'translate(0, 0)',
       },
       [`&${componentCls}-open${componentCls}-left ${componentCls}-drawer`]: {
-        boxShadow: `2px 0 10px ${token.colorFill}`,
+        // On the left side: the shadow casts to the right
+        boxShadow: `2px 0 12px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 1.5px 0 6px ${new FastColor(token.colorTextBase).setA(0.02).toRgbString()}`,
       },
       [`&${componentCls}-open${componentCls}-right ${componentCls}-drawer`]: {
-        boxShadow: `-2px 0 10px ${token.colorFill}`,
+        // On the right side: the shadow casts to the left
+        boxShadow: `-2px 0 12px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, -1.5px 0 6px ${new FastColor(token.colorTextBase).setA(0.02).toRgbString()}`,
       },
       [`&${componentCls}-open${componentCls}-top ${componentCls}-drawer`]: {
-        boxShadow: `0 2px 10px ${token.colorFill}`,
+        // On the top side: the shadow casts downward
+        boxShadow: `0 2px 12px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 0 1.5px 6px ${new FastColor(token.colorTextBase).setA(0.02).toRgbString()}`,
       },
       [`&${componentCls}-open${componentCls}-bottom ${componentCls}-drawer`]: {
-        boxShadow: `0 -2px 10px ${token.colorFill}`,
+        // On the bottom side: the shadow casts upward
+        boxShadow: `0 -2px 12px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 0 -1.5px 6px ${new FastColor(token.colorTextBase).setA(0.02).toRgbString()}`,
       },
       [`&${componentCls}-closed${componentCls}-left ${componentCls}-drawer`]: {
-        transform: 'translateX(-100%)',
+        transform: 'translateX(calc(-100% - var(--edge-offset, 0px)))',
       },
       [`&${componentCls}-closed${componentCls}-right ${componentCls}-drawer`]: {
-        transform: 'translateX(100%)',
+        transform: 'translateX(calc(100% + var(--edge-offset, 0px)))',
       },
       [`&${componentCls}-closed${componentCls}-top ${componentCls}-drawer`]: {
-        transform: 'translateY(-100%)',
+        transform: 'translateY(calc(-100% - var(--edge-offset, 0px)))',
       },
       [`&${componentCls}-closed${componentCls}-bottom ${componentCls}-drawer`]: {
-        transform: 'translateY(100%)',
+        transform: 'translateY(calc(100% + var(--edge-offset, 0px)))',
       },
-      [`${componentCls}-expand-handle`]: {
+      [`${componentCls}-toggle`]: {
         position: 'absolute',
         zIndex: 2,
         cursor: 'pointer',
@@ -97,41 +102,73 @@ const genStyle: GenerateStyle<REFloatDrawerToken> = (token): CSSObject => {
           backgroundColor: getColorLuminance(token.colorBgBase) > 0.5 ? '#f0f0f0' : '#1a1a1a',
         },
       },
-      [`&${componentCls}-left ${componentCls}-expand-handle,
-        &${componentCls}-right ${componentCls}-expand-handle`]: {
+      [`&${componentCls}-left ${componentCls}-toggle,
+        &${componentCls}-right ${componentCls}-toggle`]: {
         top: '50%',
         width: 24,
         height: 60,
       },
-      [`&${componentCls}-top ${componentCls}-expand-handle,
-        &${componentCls}-bottom ${componentCls}-expand-handle`]: {
+      [`&${componentCls}-top ${componentCls}-toggle,
+        &${componentCls}-bottom ${componentCls}-toggle`]: {
         left: '50%',
         width: 60,
         height: 24,
       },
-      [`&${componentCls}-left ${componentCls}-expand-handle`]: {
+      [`&${componentCls}-left ${componentCls}-toggle`]: {
         right: 0,
         transform: 'translate(100%, -50%)',
         borderRadius: '0 8px 8px 0',
-        boxShadow: `2px 0 5px ${token.colorFill}`,
+        // On the left side: the shadow casts to the right and upward/downward in half size
+        boxShadow: `0px 2px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+        0px -2px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+        4px 0px 8px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}`,
+        '&:hover': {
+          boxShadow: `0px 2px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+          0px -2px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+          4px 0px 8px ${new FastColor(token.colorTextBase).setA(0.12).toRgbString()}`,
+        },
       },
-      [`&${componentCls}-right ${componentCls}-expand-handle`]: {
+      [`&${componentCls}-right ${componentCls}-toggle`]: {
         left: 0,
         transform: 'translate(-100%, -50%)',
         borderRadius: '8px 0 0 8px',
-        boxShadow: `-2px 0 5px ${token.colorFill}`,
+        // On the right side: the shadow casts to the left and upward/downward in half size
+        boxShadow: `0px 2px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+        0px -2px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+        -4px 0px 8px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}`,
+        '&:hover': {
+          boxShadow: `0px 2px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+          0px -2px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+          -4px 0px 8px ${new FastColor(token.colorTextBase).setA(0.12).toRgbString()}`,
+        },
       },
-      [`&${componentCls}-top ${componentCls}-expand-handle`]: {
+      [`&${componentCls}-top ${componentCls}-toggle`]: {
         bottom: 0,
         transform: 'translate(-50%, 100%)',
         borderRadius: '0 0 8px 8px',
-        boxShadow: `0 2px 5px ${token.colorFill}`,
+        // On the top side: the shadow casts downward and left/right in half size
+        boxShadow: `2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+                   -2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+                   0px 4px 8px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}`,
+        '&:hover': {
+          boxShadow: `2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+                   -2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+                   0px 4px 8px ${new FastColor(token.colorTextBase).setA(0.12).toRgbString()}`,
+        },
       },
-      [`&${componentCls}-bottom ${componentCls}-expand-handle`]: {
+      [`&${componentCls}-bottom ${componentCls}-toggle`]: {
         top: 0,
         transform: 'translate(-50%, -100%)',
         borderRadius: '8px 8px 0 0',
-        boxShadow: `0 -2px 5px ${token.colorFill}`,
+        // On the bottom side: the shadow casts upward and left/right in half size
+        boxShadow: `2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+                   -2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.08).toRgbString()}, 
+                   0px -4px 8px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}`,
+        '&:hover': {
+          boxShadow: `2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+                   -2px 0px 4px ${new FastColor(token.colorTextBase).setA(0.1).toRgbString()}, 
+                   0px -4px 8px ${new FastColor(token.colorTextBase).setA(0.12).toRgbString()}`,
+        },
       },
       [`${componentCls}-handle-icon`]: {
         userSelect: 'none',
@@ -191,4 +228,4 @@ const genStyle: GenerateStyle<REFloatDrawerToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('easy-float-drawer' as never, genStyle);
+export default genStyleHooks('EasyFloatDrawer' as never, genStyle);

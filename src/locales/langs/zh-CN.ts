@@ -1,4 +1,9 @@
 const zhCN = {
+  'components.EditableText.requiredMsg': '请输入文本内容',
+  'components.EditableText.placeholder': '输入文本内容，按回车或点击确定按钮',
+  'components.EditableText.edit': '编辑',
+  'components.EditableText.save': '保存',
+  'components.EditableText.cancel': '取消',
   'validation.rule.number.message': '请输入数字',
   'validation.rule.floatNumber.message': '请输入数字',
   'validation.rule.email.message': '请输入正确的邮箱地址',

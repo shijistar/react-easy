@@ -5,19 +5,17 @@ import ReactEasyContext, { type ReactEasyContextProps } from './context';
 
 export interface ConfigProviderProps extends ReactEasyContextProps {
   /**
-   * **EN:** Custom localization resources, if `lang` exists, it will override the localization
-   * resources of that language, otherwise, it will add a new language
-   *
-   * **CN:** 自定义本地化资源，如果`lang`存在，则会覆盖该语言的本地化资源，否则，会添加一种新的语言
+   * - **EN:** Custom localization resources, if `lang` exists, it will override the localization
+   *   resources of that language, otherwise, it will add a new language
+   * - **CN:** 自定义本地化资源，如果`lang`存在，则会覆盖该语言的本地化资源，否则，会添加一种新的语言
    */
   locales?: Partial<typeof localesEn>;
   children: ReactNode;
 }
 
 /**
- * **EN:** Provide global configuration for AntdHelper
- *
- * **CN:** 提供AntdHelper的全局配置
+ * - **EN:** Provide global configuration for AntdHelper
+ * - **CN:** 提供AntdHelper的全局配置
  */
 const ConfigProvider: FC<ConfigProviderProps> = (props) => {
   const { children, locales: userLocales, ...restProps } = props;

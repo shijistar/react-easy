@@ -13,6 +13,9 @@ export { default as ConfirmAction } from './ConfirmAction';
 // export * from './DeleteConfirmAction';
 export { default as DeleteConfirmAction } from './DeleteConfirmAction';
 
+export type { EditableTextProps } from './EditableText';
+export { default as EditableText } from './EditableText';
+
 export type { FloatDrawerProps } from './FloatDrawer';
 export { default as FloatDrawer } from './FloatDrawer';
 

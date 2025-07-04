@@ -2,49 +2,43 @@ import { createElement, type FC, Fragment, type ReactNode } from 'react';
 
 export interface BreakLinesProps {
   /**
-   * **EN:** Text content
-   *
-   * **CN:** 文本内容
+   * - **EN:** Text content
+   * - **CN:** 文本内容
    */
   value: string | undefined;
   /**
-   * **EN:** Whether to enable line breaking
-   *
-   * **CN:** 是否启用换行功能
+   * - **EN:** Whether to enable line breaking
+   * - **CN:** 是否启用换行功能
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * **EN:** Line break character
-   *
-   * **CN:** 换行符
+   * - **EN:** Line break character
+   * - **CN:** 换行符
    *
    * @default '\n'
    */
   EOL?: string;
   /**
-   * **CN:** 渲染dom节点的标签名
-   *
-   * **EN:** Render the tag name of the DOM node
+   * - **CN:** 渲染dom节点的标签名
+   * - **EN:** Render the tag name of the DOM node
    *
    * @default false
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
   tagName?: 'span' | 'div' | 'i' | 'pre' | (string & {}) | false;
   /**
-   * **EN:** The CSS class name of the dom node, if `tagName` is set to false, this property is
-   * invalid
-   *
-   * **CN:** dom节点的css类名，如果`tagName`设置为false，则此属性无效
+   * - **EN:** The CSS class name of the dom node, if `tagName` is set to false, this property is
+   *   invalid
+   * - **CN:** dom节点的css类名，如果`tagName`设置为false，则此属性无效
    */
   className?: string;
 }
 
 /**
- * **EN:** Output a piece of text, keeping line breaks
- *
- * **CN:** 输出一段文本，保留换行符
+ * - **EN:** Output a piece of text, keeping line breaks
+ * - **CN:** 输出一段文本，保留换行符
  *
  * @example
  *   <BreakLines value="hello \n world" />;

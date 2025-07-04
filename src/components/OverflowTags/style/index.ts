@@ -18,4 +18,4 @@ const genStyle: GenerateStyle<OverflowTagsToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('easy-overflow-tags' as never, genStyle);
+export default genStyleHooks('EasyOverflowTags' as never, genStyle);

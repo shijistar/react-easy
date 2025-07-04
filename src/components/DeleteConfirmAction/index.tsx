@@ -13,15 +13,13 @@ const renderDeleteConfirmAction = genRenderer({
 const forwarded = forwardRef(renderDeleteConfirmAction);
 
 /**
- * **EN:** Delete operation confirmation box
- *
- * **CN:** 删除操作确认框
+ * - **EN:** Delete operation confirmation box
+ * - **CN:** 删除操作确认框
  */
 const DeleteConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
 /**
- * **EN:** Deletion confirmation box with button type
- *
- * **CN:** 按钮类型的删除确认框
+ * - **EN:** Deletion confirmation box with button type
+ * - **CN:** 按钮类型的删除确认框
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 DeleteConfirmAction.Button = withDefaultConfirmActionProps<ButtonProps, 'onClick'>(forwarded as any, {
@@ -30,9 +28,8 @@ DeleteConfirmAction.Button = withDefaultConfirmActionProps<ButtonProps, 'onClick
   triggerProps: {},
 });
 /**
- * **EN:** Deletion confirmation box with switch type
- *
- * **CN:** 开关类型的删除确认框
+ * - **EN:** Deletion confirmation box with switch type
+ * - **CN:** 开关类型的删除确认框
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 DeleteConfirmAction.Switch = withDefaultConfirmActionProps<SwitchProps, 'onChange'>(forwarded as any, {
@@ -41,9 +38,8 @@ DeleteConfirmAction.Switch = withDefaultConfirmActionProps<SwitchProps, 'onChang
   triggerProps: {},
 });
 /**
- * **EN:** Deletion confirmation box with link type
- *
- * **CN:** 链接类型的删除确认框
+ * - **EN:** Deletion confirmation box with link type
+ * - **CN:** 链接类型的删除确认框
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 DeleteConfirmAction.Link = withDefaultConfirmActionProps<LinkProps, 'onClick'>(forwarded as any, {

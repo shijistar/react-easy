@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "lib": ["ESNext", "DOM", "WebWorker"],
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["ES2020", "dom", "webworker"],
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
