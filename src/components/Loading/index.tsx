@@ -23,12 +23,12 @@ export type LoadingProps = SpinProps & {
    *   animation
    * - **CN:** 在独立使用时，设置动画遮罩父容器的样式类名
    */
-  maskClassName?: string;
+  rootClassName?: string;
   /**
    * - **EN:** When used independently, set the style for the mask parent container of the animation
    * - **CN:** 在独立使用时，设置动画遮罩父容器的样式
    */
-  maskStyle?: CSSProperties;
+  rootStyle?: CSSProperties;
 };
 
 /**
@@ -70,9 +70,9 @@ export type LoadingProps = SpinProps & {
 const Loading: FC<LoadingProps> = (props) => {
   const {
     prefixCls: prefixClsInProps,
-    maskClassName,
-    maskStyle,
     mode = 'flex',
+    rootClassName,
+    rootStyle,
     children,
     spinning = true,
     className,
@@ -100,10 +100,10 @@ const Loading: FC<LoadingProps> = (props) => {
               hashId,
               cssVarCls,
               prefixCls,
-              maskClassName,
+              rootClassName,
               mode === 'absolute' ? `${prefixCls}-absolute` : `${prefixCls}-flex`
             )}
-            style={maskStyle}
+            style={rootStyle}
           >
             <Spin className={className} spinning={spinning} {...spinProps} />
           </div>

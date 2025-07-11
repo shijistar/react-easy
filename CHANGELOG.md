@@ -2,6 +2,15 @@
 
 # Changelog
 
+## Unreleased
+
+2025-7-11
+
+### Features
+
+- ✨ Add a new `backgroundColor` prop to `Loading` component
+- 💥 Changed two prop names of `Loading` component: `maskStyle` to `rootStyle`, `maskClassName` to `rootClassName`
+
 ## 1.1.3
 
 2025-7-4
