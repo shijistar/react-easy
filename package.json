@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -36,7 +36,8 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "i18next": "^24.2.3"
+    "i18next": "^24.2.3",
+    "react-contexify": "^6.0.0"
   },
   "devDependencies": {
     "@tiny-codes/code-style-all-in-one": "^1.1.5",

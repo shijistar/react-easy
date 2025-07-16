@@ -10,6 +10,15 @@ export type { ConfirmActionProps, ConfirmActionTrigger, ConfirmActionRef } from 
 export { withDefaultConfirmActionProps } from './ConfirmAction';
 export { default as ConfirmAction } from './ConfirmAction';
 
+export type {
+  ContextMenuProps,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuSubmenu,
+  ContextMenuRef,
+} from './ContextMenu';
+export { default as ContextMenu } from './ContextMenu';
+
 // export * from './DeleteConfirmAction';
 export { default as DeleteConfirmAction } from './DeleteConfirmAction';
 

@@ -2,14 +2,20 @@
 
 # Changelog
 
-## Unreleased
+## 1.2.0
 
-2025-7-11
+2025-7-16
 
 ### Features
 
-- ✨ Add a new `backgroundColor` prop to `Loading` component
-- 💥 Changed two prop names of `Loading` component: `maskStyle` to `rootStyle`, `maskClassName` to `rootClassName`
+- 🔥 Add `ContextMenu` component
+- `EditableText` component
+  - ✨ now supports `block` prop to control both view and editing mode
+  - ✨ `inputComp` prop allows for custom input components
+- `Loading` component
+  - 💥 Renamed two properties:
+    - `maskStyle` to `rootStyle`
+    - `maskClassName` to `rootClassName`
 
 ## 1.1.3
 

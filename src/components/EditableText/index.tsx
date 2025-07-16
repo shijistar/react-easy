@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { ConfigProvider, Flex, Typography } from 'antd';
 import type { EllipsisConfig } from 'antd/es/typography/Base';
 import type { LinkProps } from 'antd/es/typography/Link';
@@ -9,10 +9,10 @@ import type { TitleProps } from 'antd/es/typography/Title';
 import names from 'classnames';
 import { EditOutlined } from '@ant-design/icons';
 import useT from '../../hooks/useT';
-import EditableTextForm, { type EditableFormProps } from './form';
+import EditableTextForm, { type EditableFormProps, type RenderInputInterface } from './form';
 import useStyle from './style';
 
-const getEllipsisConfig = (content: string | undefined): EllipsisConfig => ({
+const getEllipsisConfig = (content: ReactNode | undefined): EllipsisConfig => ({
   tooltip: {
     title: content,
     overlayStyle: { maxWidth: 500 },
@@ -20,9 +20,10 @@ const getEllipsisConfig = (content: string | undefined): EllipsisConfig => ({
 });
 
 export interface EditableTextProps<
+  V = string,
   TT extends 'Text' | 'Paragraph' | 'Title' | 'Link' = 'Text',
-  IT extends 'Input' | 'TextArea' = 'Input',
-> extends EditableFormProps<IT> {
+  IT extends 'Input' | 'TextArea' | RenderInputInterface = 'Input',
+> extends Omit<EditableFormProps<V, IT>, 'block'> {
   prefixCls?: string;
   /**
    * - **EN:** Custom read-only display text, replacing `value` display
@@ -30,7 +31,7 @@ export interface EditableTextProps<
    *
    * @default true
    */
-  displayText?: string;
+  displayText?: ReactNode | ((value: V | undefined) => ReactNode);
   /**
    * - **EN:** Another way to customize read-only display text, with higher priority than
    *   `displayText`. This method does not support text truncation.
@@ -51,6 +52,30 @@ export interface EditableTextProps<
    * @default false
    */
   editing?: boolean;
+  /**
+   * - **EN:** Whether to display as a block-level element, with width 100%
+   * - **CN:** 是否显示为块级元素，宽度100%
+   *
+   * @default false
+   */
+  block?:
+    | boolean
+    | {
+        /**
+         * - **EN:** Whether to display as a block-level element in view mode, with width 100%
+         * - **CN:** 只读模式是否显示为块级元素，宽度100%
+         *
+         * @default false
+         */
+        view?: boolean;
+        /**
+         * - **EN:** Whether to display as a block-level element in edit mode, with width 100%
+         * - **CN:** 编辑模式是否显示为块级元素，宽度100%
+         *
+         * @default false
+         */
+        editing?: boolean;
+      };
   /**
    * - **EN:** Component container class name.
    * - **CN:** 组件容器类名
@@ -76,12 +101,12 @@ export interface EditableTextProps<
      * - **CN:** 编辑按钮类名
      */
     editIcon?: string;
-  } & EditableFormProps<IT>['classNames'];
+  } & EditableFormProps<V, IT>['classNames'];
   /**
    * - **EN:** After saving with `onOk`, the modified value is passed out through `onChange`
    * - **CN:** 在`onOk`保存后，通过`onChange`把修改后的值传递出去
    */
-  onChange?: (value: string) => void;
+  onChange?: (value: V | undefined) => void;
   /**
    * - **EN:** Event triggered when the editing state changes
    * - **CN:** 编辑状态改变事件
@@ -102,7 +127,7 @@ export interface EditableTextProps<
      * - **CN:** 编辑按钮样式
      */
     editIcon?: CSSProperties;
-  } & EditableFormProps<IT>['styles'];
+  } & EditableFormProps<V, IT>['styles'];
 
   /**
    * - **EN:** Custom component type for rendering the text
@@ -152,12 +177,16 @@ export interface EditableTextProps<
  * @example
  *   <EditableText value="Editable Text" onOk={(value) => console.log('Saved value:', value)} />;
  */
-const EditableText = <TT extends 'Text' | 'Paragraph' | 'Title' | 'Link', IT extends 'Input' | 'TextArea'>(
-  props: EditableTextProps<TT, IT>
+const EditableText = <
+  V,
+  TT extends 'Text' | 'Paragraph' | 'Title' | 'Link',
+  IT extends 'Input' | 'TextArea' | RenderInputInterface,
+>(
+  props: EditableTextProps<V, TT, IT>
 ) => {
   const {
     prefixCls: prefixClsInProps,
-    value: valueInProps = '',
+    value: valueInProps,
     displayText: displayTextInProps,
     editable = true,
     editing = false,
@@ -165,7 +194,7 @@ const EditableText = <TT extends 'Text' | 'Paragraph' | 'Title' | 'Link', IT ext
     style = {},
     classNames,
     styles: styleNames,
-    block,
+    block: blockInProps,
     textComp = 'Text',
     textProps,
     editIcon,
@@ -192,10 +221,17 @@ const EditableText = <TT extends 'Text' | 'Paragraph' | 'Title' | 'Link', IT ext
   const [isEditing, setIsEditing] = useState<boolean>(editing);
   const TypographyComponent = Typography[textComp];
   const [value, setValue] = useState(valueInProps);
-  const displayText = displayTextInProps ?? value;
   const inputComp = inputCompInProps ?? (textComp === 'Paragraph' ? 'TextArea' : 'Input');
+  const viewBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.view;
+  const editingBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.editing;
   const editableRef = React.useRef(editable);
   editableRef.current = editable;
+  const displayText = useMemo(() => {
+    if (typeof displayTextInProps === 'function') {
+      return displayTextInProps(value);
+    }
+    return displayTextInProps ?? value?.toString();
+  }, [displayTextInProps, value]);
 
   // value受控
   useEffect(() => {
@@ -214,7 +250,7 @@ const EditableText = <TT extends 'Text' | 'Paragraph' | 'Title' | 'Link', IT ext
     onEditingChange?.(editing);
   };
   // 提交编辑
-  const handleOk = async (val: string) => {
+  const handleOk = async (val: V | undefined) => {
     try {
       await onOk?.(val);
       onChange?.(val);
@@ -242,7 +278,7 @@ const EditableText = <TT extends 'Text' | 'Paragraph' | 'Title' | 'Link', IT ext
             formItemProps={formItemProps}
             inputComp={inputComp}
             inputProps={inputProps}
-            block={block}
+            block={editingBlock}
             classNames={classNames}
             styles={styleNames}
             actionAlign={actionAlign}
@@ -257,7 +293,7 @@ const EditableText = <TT extends 'Text' | 'Paragraph' | 'Title' | 'Link', IT ext
           className={names(`${prefixCls}-view-mode`, {
             [`${prefixCls}-single-line`]: textComp !== 'Paragraph',
             [`${prefixCls}-has-children`]: !!children,
-            [`${prefixCls}-view-mode-block`]: block,
+            [`${prefixCls}-view-mode-block`]: viewBlock,
           })}
           align={editIconAlign}
         >

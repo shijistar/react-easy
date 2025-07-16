@@ -1,5 +1,4 @@
-import type { CSSProperties } from 'react';
-import type React from 'react';
+import type { CSSProperties, ReactElement } from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import type { ButtonProps, FormItemProps, FormProps, InputProps, SpaceProps } from 'antd';
 import { Button, ConfigProvider, Form, Input, Space } from 'antd';
@@ -9,13 +8,14 @@ import { CheckSquareFilled, CloseSquareFilled } from '@ant-design/icons';
 import useT from '../../hooks/useT';
 
 const defaultInputActionGap = 8;
-export interface EditableFormProps<IT extends 'Input' | 'TextArea'> {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export interface EditableFormProps<V, IT extends 'Input' | 'TextArea' | RenderInputInterface> {
   prefixCls?: string;
   /**
    * - **EN:** The value to edit
    * - **CN:** 编辑的值
    */
-  value: string | undefined;
+  value: V | undefined;
   /**
    * - **EN:** Whether the text is required when editing, default is `true`, if `formItemProps.rules`
    *   is set, it will override this value
@@ -45,7 +45,7 @@ export interface EditableFormProps<IT extends 'Input' | 'TextArea'> {
    * - **EN:** Input component properties
    * - **CN:** 输入框组件属性
    */
-  inputProps?: IT extends 'TextArea' ? TextAreaProps : InputProps;
+  inputProps?: IT extends 'TextArea' ? TextAreaProps : IT extends 'Input' ? InputProps : never;
   /**
    * - **EN:** Whether to display as a block-level element, with width 100%
    * - **CN:** 是否显示为块级元素，宽度100%
@@ -141,7 +141,7 @@ export interface EditableFormProps<IT extends 'Input' | 'TextArea'> {
    * - **EN:** Confirm button click event, supports asynchronous operations
    * - **CN:** 确认按钮点击事件，支持异步操作
    */
-  onOk: (value: string) => void | Promise<void>;
+  onOk: (value: V | undefined) => void | Promise<void>;
   /**
    * - **EN:** Cancel button click event, supports asynchronous operations
    * - **CN:** 取消按钮点击事件，支持异步操作
@@ -149,28 +149,33 @@ export interface EditableFormProps<IT extends 'Input' | 'TextArea'> {
   onCancel?: () => void | Promise<void>;
 }
 
-const EditableTextForm = <IT extends 'Input' | 'TextArea'>({
-  prefixCls,
-  value,
-  required = true,
-  classNames,
-  styles: styleNames,
-  inputComp = 'Input' as IT,
-  block: blockInProps = false,
-  formProps,
-  formItemProps,
-  inputProps,
-  actionAlign = 'center',
-  submitProps,
-  cancelProps,
-  onOk,
-  onCancel,
-}: EditableFormProps<IT>) => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterface>(
+  props: EditableFormProps<V, IT>
+) => {
+  const {
+    prefixCls,
+    value,
+    required = true,
+    classNames,
+    styles: styleNames,
+    inputComp = 'Input' as IT,
+    block: blockInProps = false,
+    formProps,
+    formItemProps,
+    inputProps,
+    actionAlign = 'center',
+    submitProps,
+    cancelProps,
+    onOk,
+    onCancel,
+  } = props;
   const t = useT();
   const { getPrefixCls: getAntPrefixCls } = useContext(ConfigProvider.ConfigContext);
-  const [form] = Form.useForm<{ value?: string }>();
+  const [form] = Form.useForm<{ value: V | undefined }>();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<InputRef>(null);
+  const supportAutoScale = inputComp === 'Input' || inputComp === 'TextArea';
   const detectorRef = useRef<HTMLSpanElement>(null);
   const actionRef = useRef<HTMLDivElement>(null);
   const [inputWidth, setInputWidth] = useState<number>();
@@ -181,18 +186,20 @@ const EditableTextForm = <IT extends 'Input' | 'TextArea'>({
   inputActionGapRef.current =
     pxToNumber(formItemProps?.style?.marginRight ?? formItemProps?.style?.marginInlineEnd) || defaultInputActionGap;
   const block = blockInProps || forceBlock;
-  const InputComp = inputComp === 'TextArea' ? Input.TextArea : Input;
 
   // Update form value when `value` prop changes
   useEffect(() => {
-    form.setFieldsValue({ value });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    form.setFieldsValue({ value: value as any });
   }, [form, value]);
 
-  // Detect the width of the text and dynamically adjust the input width
+  // Detect the width of the text and dynamically scale the input width until it reaches the max width of the container.
+  // Only built-in Input and TextArea components are supported.
   useEffect(() => {
     let contentWidth = 0;
-    if (detectorRef.current && inputRef.current?.input) {
-      const inputStyle = getComputedStyle(inputRef.current.input);
+    const inputElement = inputRef.current?.input;
+    if (detectorRef.current && inputElement && supportAutoScale) {
+      const inputStyle = getComputedStyle(inputElement);
       contentWidth =
         detectorRef.current.offsetWidth +
         pxToNumber(inputStyle.paddingLeft) +
@@ -218,7 +225,7 @@ const EditableTextForm = <IT extends 'Input' | 'TextArea'>({
       observer.observe(wrapperRef.current);
     }
     return () => observer.disconnect();
-  }, []);
+  }, [supportAutoScale]);
 
   // Cancel editing
   const handleCancel = async () => {
@@ -231,13 +238,13 @@ const EditableTextForm = <IT extends 'Input' | 'TextArea'>({
   };
   // Pressing the Escape key to cancel editing
   const handleEscape: InputProps['onKeyUp'] = async (e) => {
-    if (e.key === 'Escape') {
+    if ((inputComp === 'Input' || inputComp === 'TextArea') && e.key === 'Escape') {
       await handleCancel();
       cancelProps?.onClick?.(e as unknown as React.MouseEvent<HTMLElement>);
     }
   };
   // Submit editing
-  const handleSubmit = async (values: { value: string }) => {
+  const handleSubmit = async (values: { value: V | undefined }) => {
     const { value } = values;
     try {
       setSaving(true);
@@ -246,6 +253,42 @@ const EditableTextForm = <IT extends 'Input' | 'TextArea'>({
       console.error(error);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const renderInput = () => {
+    if (inputComp === 'Input' || inputComp === 'TextArea') {
+      const COMP = inputComp === 'Input' ? Input : Input.TextArea;
+      return (
+        <COMP
+          ref={inputRef}
+          placeholder={t('components.EditableText.placeholder')}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {...(inputProps as any)}
+          style={{
+            width: block ? undefined : inputWidth, // Width is 100% in block mode, no need to set width
+            ...(inputProps && 'style' in inputProps ? inputProps?.style : {}),
+          }}
+          onPressEnter={() => {
+            if (inputComp === 'Input') {
+              form.submit();
+            }
+          }}
+          onKeyUp={handleEscape}
+        />
+      );
+    } else {
+      return (
+        <CustomInput<V>
+          {...props}
+          render={inputComp}
+          submit={async () => {
+            const values = await form.validateFields();
+            await handleSubmit(values);
+          }}
+          cancel={handleCancel}
+        />
+      );
     }
   };
 
@@ -275,31 +318,22 @@ const EditableTextForm = <IT extends 'Input' | 'TextArea'>({
           }}
           name="value"
         >
-          <InputComp
-            ref={inputRef}
-            placeholder={t('components.EditableText.placeholder')}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            {...(inputProps as any)}
-            style={{
-              width: block ? undefined : inputWidth, // Width is 100% in block mode, no need to set width
-              ...inputProps?.style,
-            }}
-            onPressEnter={() => form.submit()}
-            onKeyUp={handleEscape}
-          />
+          {renderInput()}
         </Form.Item>
         {/* Used to calculate the width of the text content */}
-        <span
-          ref={detectorRef}
-          style={{
-            position: 'absolute',
-            visibility: 'hidden',
-            height: 0,
-            whiteSpace: 'pre',
-          }}
-        >
-          {value}
-        </span>
+        {supportAutoScale && (
+          <span
+            ref={detectorRef}
+            style={{
+              position: 'absolute',
+              visibility: 'hidden',
+              height: 0,
+              whiteSpace: 'pre',
+            }}
+          >
+            {value?.toString()}
+          </span>
+        )}
 
         {/* Action buttons */}
         <Space ref={actionRef} className={`${prefixCls}-form-btns`} align={actionAlign} size={4}>
@@ -337,8 +371,26 @@ const EditableTextForm = <IT extends 'Input' | 'TextArea'>({
   );
 };
 
+function CustomInput<V>(
+  props: RenderInputProps<V> & {
+    render: RenderInputInterface;
+  }
+): ReactElement | null {
+  const { render, value, onChange, ...restProps } = props;
+  const useInput = render;
+  return useInput({ ...restProps, value, onChange });
+}
+
 function pxToNumber(px: string | number | null | undefined) {
   return px ? parseFloat(px.toString().replace('px', '')) : 0;
+}
+
+export type RenderInputInterface = <V>(props: RenderInputProps<V>) => ReactElement | null;
+export interface RenderInputProps<V>
+  extends Omit<EditableFormProps<V, 'Input'>, 'inputComp' | 'inputProps' | 'onOk' | 'onCancel'> {
+  onChange?: (value: V | undefined) => void;
+  submit(): Promise<void>;
+  cancel(): Promise<void>;
 }
 
 export default EditableTextForm;

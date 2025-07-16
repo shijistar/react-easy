@@ -369,4 +369,23 @@ ConfirmAction.Link = withDefaultConfirmActionProps<LinkProps, 'onClick'>(forward
   },
 });
 
+// todo: 实现hoc
+/**
+ * - **EN:** Generate a confirm box component with custom trigger and default props
+ * - **CN:** 基于自定义触发器和默认属性生成一个确认弹框组件
+ *
+ * @param actionComponent Custom trigger component | 自定义触发器组件
+ * @param defaultProps Default properties of the confirm box | 确认弹框的默认属性
+ */
+export function withConfirmAction<TP extends object, E extends keyof TP>(
+  actionComponent: ComponentType<TP>,
+  defaultProps?: Partial<ConfirmActionProps<TP, E>> | (() => Partial<ConfirmActionProps<TP, E>>)
+) {
+  const withTrigger = withDefaultConfirmActionProps(forwarded as unknown as TypedConfirmActionInterface<TP, E>, {
+    triggerComponent: actionComponent,
+    ...(typeof defaultProps === 'function' ? defaultProps() : defaultProps),
+  }) as unknown as ComponentType<Omit<ConfirmActionProps<TP, E>, 'triggerComponent'> & RefAttributes<ConfirmActionRef>>;
+  return withTrigger;
+}
+
 export default ConfirmAction;
