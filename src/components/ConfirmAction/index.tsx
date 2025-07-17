@@ -12,15 +12,21 @@ import useLocalizedText from '../../hooks/useLocalizedText';
 import useRefFunction from '../../hooks/useRefFunction';
 import ReactEasyContext from '../ConfigProvider/context';
 
-export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<ModalFuncProps, 'onOk'> &
-  ConfirmActionTrigger<TP, E> & {
+export type ConfirmActionProps<TriggerProp extends object, Event extends keyof TriggerProp> = Omit<
+  ModalFuncProps,
+  'onOk'
+> &
+  ConfirmActionTrigger<TriggerProp, Event> & {
     /**
      * - **EN:** Whether to display in red danger mode, which will automatically affect the color of
      *   the title, icon, and confirm button. Default is `false`, for DeleteConfirmAction, the
      *   defaults is `true`.
-     * - You can explicitly set `titleColor`, `iconColor`, and `okButtonProps.type` to override
+     *
+     * > You can explicitly set `titleColor`, `iconColor`, and `okButtonProps.type` to override
+     *
      * - **CN:** 是否显示为红色危险模式，会自动影响标题、图标和确认按钮的颜色。默认`false`，DeleteConfirmAction组件的默认值为`true`。
-     * - 可以显式设置`titleColor`、`iconColor`和`okButtonProps.type`来覆盖
+     *
+     * > 可以显式设置`titleColor`、`iconColor`和`okButtonProps.type`来覆盖
      */
     danger?: boolean;
     /**
@@ -42,8 +48,8 @@ export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<Mod
      * - **EN:** Callback when click confirm button
      * - **CN:** 点击确认按钮的回调
      */
-    // @ts-expect-error: because TP[E] should be casted to function type
-    onOk?: (...args: Parameters<TP[E]>) => unknown | Promise<unknown>;
+    // @ts-expect-error: because TriggerProp[Event] should be casted to function type
+    onOk?: (...args: Parameters<TriggerProp[Event]>) => unknown | Promise<unknown>;
     /**
      * - **EN:** Callback after confirm event, won't trigger if failed, the argument is the return
      *   value of `onOk`
@@ -53,38 +59,42 @@ export type ConfirmActionProps<TP extends object, E extends keyof TP> = Omit<Mod
     afterOk?: (data?: any) => void;
   };
 
-export interface ConfirmActionTrigger<TP extends object, E extends keyof TP> {
+export interface ConfirmActionTrigger<TriggerProp extends object, Event extends keyof TriggerProp> {
   /**
    * - **EN:** Trigger component, trigger to show confirm box
    * - **CN:** 触发器组件，触发显示确认弹框
    */
-  triggerComponent?: ComponentType<TP>;
+  triggerComponent?: ComponentType<TriggerProp>;
   /**
    * - **EN:** Props of trigger component
    * - **CN:** 触发器组件的Props属性
    */
-  triggerProps?: TP;
+  triggerProps?: TriggerProp;
   /**
-   * - **EN:** The event name that triggers the dialog
-   * - **CN:** 触发弹窗的事件名称
+   * **EN:** The event name that triggers the dialog
+   *
+   * **CN:** 触发弹窗的事件名称
+   *
    * - `Button`: 'onClick'
    * - `Switch`: 'onChange'
    * - `Link`: 'onClick'
    */
-  triggerEvent?: E;
+  triggerEvent?: Event;
   /**
    * - **EN:** Custom trigger content
    * - **CN:** 自定义触发器内容
    */
   children?: ReactNode;
 }
-export type ConfirmActionRef = ReturnType<typeof confirm> & {
-  /**
-   * - **EN:** Show confirm box
-   * - **CN:** 显示确认弹框
-   */
-  show: (props?: Parameters<ModalFunc>[0]) => ReturnType<ModalFunc>;
-};
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type ConfirmActionRef<R = {}> = R &
+  ReturnType<ModalFunc> & {
+    /**
+     * - **EN:** Show confirm box
+     * - **CN:** 显示确认弹框
+     */
+    show: (props?: Parameters<ModalFunc>[0]) => ReturnType<ModalFunc>;
+  };
 
 /**
  * - **EN:** Generate a confirm box component
@@ -98,12 +108,12 @@ export const genRenderer = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   defaultProps: Partial<ConfirmActionProps<any, never>> & { confirmType: 'normal' | 'delete' }
 ) => {
-  const Render = <TP extends object, E extends keyof TP>(
-    props: ConfirmActionProps<TP, E>,
+  const Render = <TriggerProp extends object, Event extends keyof TriggerProp>(
+    props: ConfirmActionProps<TriggerProp, Event>,
     ref: ForwardedRef<ConfirmActionRef>
   ) => {
     const { confirmType, ...restDefaults } = defaultProps;
-    const mergedProps: ConfirmActionProps<TP, E> = {
+    const mergedProps: ConfirmActionProps<TriggerProp, Event> = {
       ...restDefaults,
       ...props,
       okButtonProps: {
@@ -135,7 +145,7 @@ export const genRenderer = (
             ? props.triggerProps.style
             : {}),
         },
-      } as TP,
+      } as TriggerProp,
     };
     const context = useContext(ReactEasyContext);
     const defaultTitle = useLocalizedText(
@@ -146,7 +156,7 @@ export const genRenderer = (
     );
     const {
       triggerComponent: Trigger = Button,
-      triggerEvent = 'onClick' as E,
+      triggerEvent = 'onClick' as Event,
       triggerProps,
       danger,
       title = defaultTitle,
@@ -201,12 +211,13 @@ export const genRenderer = (
         content: coloredText(content, contentColor),
         icon: coloredText(icon, iconColor ?? fallbackColor ?? 'warning'),
         autoFocusButton: null,
+        closable: true,
         okButtonProps: okProps,
         cancelButtonProps: cancelProps,
         onOk: async () => {
           try {
             api.update({
-              closable: true,
+              closable: false,
               okButtonProps: {
                 loading: true,
                 ...okProps,
@@ -220,7 +231,7 @@ export const genRenderer = (
             afterOk?.(result);
           } finally {
             api.update({
-              closable: false,
+              closable: true,
               okButtonProps: {
                 loading: false,
                 ...okProps,
@@ -256,7 +267,7 @@ export const genRenderer = (
                 }
               },
             }
-          : {}) as TP)}
+          : {}) as TriggerProp)}
       >
         {(triggerProps as { children?: ReactNode }).children ?? children}
       </Trigger>
@@ -270,25 +281,56 @@ export const genRenderer = (
  * - **EN:** Add default properties to the ConfirmAction component
  * - **CN:** 给ConfirmAction组件添加默认属性
  *
- * @param WrappedComponent ConfirmAction component | ConfirmAction组件
- * @param defaultProps Default properties | 默认属性
+ * @param RenderComponent The component that renders the ConfirmAction | 实际渲染组件
+ * @param defaultProps Add some default values based on the props passed to the component |
+ *   在组件传入的props基础上，添加一些默认值
  */
-export const withDefaultConfirmActionProps = <TP extends object, E extends keyof TP>(
-  WrappedComponent: ComponentType<PropsWithoutRef<ConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>>,
-  defaultProps?: Partial<ConfirmActionProps<TP, E>>
+export const withDefaultConfirmActionProps = <
+  P extends ActionCompConstraint,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
+  Ref extends object,
+>(
+  RenderComponent: ComponentType<
+    PropsWithoutRef<P & ConfirmActionProps<TriggerProp, Event>> & RefAttributes<ConfirmActionRef<Ref>>
+  >,
+  defaultProps?:
+    | Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>>
+    | ((
+        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>
+      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>>)
 ) => {
-  const WithDefaultProps = forwardRef<ConfirmActionRef, ConfirmActionProps<TP, E>>((props, ref) => {
-    const mergedProps: ConfirmActionProps<TP, E> = {
-      ...defaultProps,
-      ...props,
-      triggerProps: {
-        ...defaultProps?.triggerProps,
-        ...props.triggerProps,
-      } as TP,
-    };
-    return <WrappedComponent ref={ref} {...mergedProps} />;
-  });
-  WithDefaultProps.displayName = 'ForwardedRef(WithDefaultProps)';
+  const WithDefaultProps = forwardRef(
+    (
+      props: PropsWithoutRef<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>>,
+      ref: ForwardedRef<ConfirmActionRef<Ref>>
+    ) => {
+      const actualProps = props as Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>;
+      const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
+      const defaults = useDefaultProps(actualProps);
+      const mergedProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event> =
+        typeof defaultProps === 'function'
+          ? {
+              ...actualProps,
+              ...defaults,
+              triggerProps: {
+                ...actualProps.triggerProps,
+                ...defaults?.triggerProps,
+              },
+            }
+          : {
+              ...defaults,
+              ...actualProps,
+              triggerProps: {
+                ...defaults?.triggerProps,
+                ...actualProps.triggerProps,
+              },
+            };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return <RenderComponent ref={ref} {...(mergedProps as any)} />;
+    }
+  );
+  WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
   return WithDefaultProps;
 };
 
@@ -296,30 +338,98 @@ const renderConfirmAction = genRenderer({
   confirmType: 'normal',
 });
 const forwarded = forwardRef(renderConfirmAction);
-forwarded.displayName = 'ForwardedRef(ConfirmAction)';
+forwarded.displayName = 'ForwardRef(ConfirmAction)';
+
+/**
+ * - **EN:** Confirm box component with trigger
+ * - **CN:** 带触发器的确认框组件
+ */
+const ConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
+// Type of button
+// eslint-disable-next-line @typescript-eslint/ban-types
+ConfirmAction.Button = withDefaultConfirmActionProps<ActionCompConstraint, ButtonProps, 'onClick', {}>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  forwarded as any,
+  {
+    triggerComponent: Button,
+    triggerEvent: 'onClick',
+    triggerProps: {},
+  }
+);
+// Type of switch
+// eslint-disable-next-line @typescript-eslint/ban-types
+ConfirmAction.Switch = withDefaultConfirmActionProps<ActionCompConstraint, SwitchProps, 'onChange', {}>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  forwarded as any,
+  {
+    triggerComponent: Switch,
+    triggerEvent: 'onChange',
+    triggerProps: {},
+  }
+);
+// Type of link
+// eslint-disable-next-line @typescript-eslint/ban-types
+ConfirmAction.Link = withDefaultConfirmActionProps<ActionCompConstraint, LinkProps, 'onClick', {}>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  forwarded as any,
+  {
+    triggerComponent: Typography.Link,
+    triggerEvent: 'onClick',
+    triggerProps: {
+      style: { whiteSpace: 'nowrap' },
+    },
+  }
+);
+
+export interface ActionCompConstraint extends ReturnType<ModalFunc> {
+  /**
+   * - **EN:** Register the confirm action save event, the passed callback function will be called
+   *   when the confirm button is clicked, supports asynchronous saving
+   * - **CN:** 注册确认框保存事件，传入的回调函数会在点击确认按钮时调用，支持异步保存
+   *
+   * @param handler Event handler | 事件处理函数
+   */
+  setOK: (
+    handler: (
+      /**
+       * - **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get
+       *   the value of the switch; for the `Button` type trigger, you can get the click event
+       *   object of the button
+       * - **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值；对于`Button`类型的触发器，可以获取按钮的点击事件对象
+       */
+      ...triggerEventArgs: any[]
+    ) => unknown | Promise<unknown>
+  ) => void;
+
+  /**
+   * - **EN:** Default trigger DOM element used to render the trigger
+   * - **CN:** 默认的触发器组件的 DOM 元素，用于渲染触发器
+   */
+  triggerDom: ReactNode;
+}
 
 /**
  * - **EN:** Interface of generic type component
  * - **CN:** 泛型组件的接口
  */
-export type GenericConfirmActionInterface = <TP extends object, E extends keyof TP>(
-  props: PropsWithoutRef<TypedConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>
+export type GenericConfirmActionInterface = <TriggerProp extends object, Event extends keyof TriggerProp>(
+  props: PropsWithoutRef<TypedConfirmActionProps<TriggerProp, Event>> & RefAttributes<ConfirmActionRef>
 ) => ReactElement;
 
 /**
  * - **EN:** Interface of specific type component
  * - **CN:** 具体类型组件的接口
  */
-export type TypedConfirmActionInterface<TP extends object, E extends keyof TP> = ComponentType<
-  PropsWithoutRef<TypedConfirmActionProps<TP, E>> & RefAttributes<ConfirmActionRef>
+export type TypedConfirmActionInterface<TriggerProp extends object, Event extends keyof TriggerProp> = ComponentType<
+  PropsWithoutRef<TypedConfirmActionProps<TriggerProp, Event>> & RefAttributes<ConfirmActionRef>
 >;
 
 /**
  * - **EN:** Props definition of specific type component
  * - **CN:** 具体类型组件的Props定义
  */
-type TypedConfirmActionProps<TP extends object, E extends keyof TP> = Omit<
-  ConfirmActionProps<TP, E>,
+type TypedConfirmActionProps<TriggerProp extends object, Event extends keyof TriggerProp> = Omit<
+  ConfirmActionProps<TriggerProp, Event>,
   'triggerComponent' | 'triggerEvent'
 >;
 export type ConfirmActionWithStatic = GenericConfirmActionInterface & {
@@ -339,53 +449,5 @@ export type ConfirmActionWithStatic = GenericConfirmActionInterface & {
    */
   Link: TypedConfirmActionInterface<LinkProps, 'onClick'>;
 };
-
-/**
- * - **EN:** Confirm box component with trigger
- * - **CN:** 带触发器的确认框组件
- */
-const ConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
-// Type of button
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-ConfirmAction.Button = withDefaultConfirmActionProps<ButtonProps, 'onClick'>(forwarded as any, {
-  triggerComponent: Button,
-  triggerEvent: 'onClick',
-  triggerProps: {},
-});
-// Type of switch
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-ConfirmAction.Switch = withDefaultConfirmActionProps<SwitchProps, 'onChange'>(forwarded as any, {
-  triggerComponent: Switch,
-  triggerEvent: 'onChange',
-  triggerProps: {},
-});
-// Type of link
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-ConfirmAction.Link = withDefaultConfirmActionProps<LinkProps, 'onClick'>(forwarded as any, {
-  triggerComponent: Typography.Link,
-  triggerEvent: 'onClick',
-  triggerProps: {
-    style: { whiteSpace: 'nowrap' },
-  },
-});
-
-// todo: 实现hoc
-/**
- * - **EN:** Generate a confirm box component with custom trigger and default props
- * - **CN:** 基于自定义触发器和默认属性生成一个确认弹框组件
- *
- * @param actionComponent Custom trigger component | 自定义触发器组件
- * @param defaultProps Default properties of the confirm box | 确认弹框的默认属性
- */
-export function withConfirmAction<TP extends object, E extends keyof TP>(
-  actionComponent: ComponentType<TP>,
-  defaultProps?: Partial<ConfirmActionProps<TP, E>> | (() => Partial<ConfirmActionProps<TP, E>>)
-) {
-  const withTrigger = withDefaultConfirmActionProps(forwarded as unknown as TypedConfirmActionInterface<TP, E>, {
-    triggerComponent: actionComponent,
-    ...(typeof defaultProps === 'function' ? defaultProps() : defaultProps),
-  }) as unknown as ComponentType<Omit<ConfirmActionProps<TP, E>, 'triggerComponent'> & RefAttributes<ConfirmActionRef>>;
-  return withTrigger;
-}
 
 export default ConfirmAction;

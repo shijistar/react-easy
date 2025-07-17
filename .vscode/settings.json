@@ -16,5 +16,13 @@
   "i18n-ally.includeSubfolders": false,
   "i18n-ally.readonly": true,
   "i18n-ally.keystyle": "nested",
-  "cSpell.words": ["contexify"]
+  "cSpell.words": ["contexify"],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true
+  }
 }

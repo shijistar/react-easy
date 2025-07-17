@@ -2,6 +2,24 @@
 
 # Changelog
 
+## 1.2.1
+
+2025-7-17
+
+### Features
+
+#### ConfirmAction
+
+- 🔥 Add `withConfirmAction` hoc
+
+#### DeleteConfirmAction
+
+- 🔥 Add `withDeleteConfirmAction` hoc
+
+#### ModalAction
+
+- ✨ `withModalAction` allows to access the incoming props in the defaultProps function, and the result will override the incoming props. `withConfirmAction` and `withDeleteConfirmAction` have the same behavior.
+
 ## 1.2.0
 
 2025-7-16

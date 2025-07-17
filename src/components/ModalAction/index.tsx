@@ -1,4 +1,4 @@
-import type { ComponentType, FC, ForwardedRef, ReactElement, ReactNode, RefAttributes } from 'react';
+import type { ComponentType, FC, ForwardedRef, ReactNode, RefAttributes } from 'react';
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
@@ -14,24 +14,24 @@ import useContextValidator from '../../hooks/useContextValidator';
 export const SubmitWithoutClosingSymbol = Symbol('[SubmitWithoutClose]');
 
 export type ModalActionProps<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  TP extends object,
-  E extends keyof TP,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
+  Ref extends object,
 > = Omit<ModalProps, 'onOk'> &
-  ModalActionTrigger<FD, CP, TP, E> & {
+  ModalActionTrigger<FormData, P, TriggerProp, Event> & {
     /**
      * - **EN:** Form editing component, do not use the Form component inside the component, the form
      *   component and form instance are automatically created by the parent component
      * - **CN:** 表单编辑组件，组件内部不要使用Form组件，表单组件及表单实例由父组件自动创建
      */
-    formComp: ComponentType<CP & RefAttributes<CRef>>;
+    formComp: ComponentType<P & RefAttributes<Ref>>;
     /**
      * - **EN:** Props of the form editing component
      * - **CN:** 表单编辑组件的Props属性
      */
-    formProps?: Omit<CP, keyof FormCompPropsConstraint<FD>>;
+    formProps?: Omit<P, keyof FormCompPropsConstraint<FormData>>;
     /**
      * - **EN:** The callback when clicks the confirmation button, support asynchronous saving, return
      *   `SubmitWithoutClosingSymbol` can prevent the dialog from closing, return other values will
@@ -39,9 +39,9 @@ export type ModalActionProps<
      * - **CN:** 点击确认按钮的回调，支持异步保存，返回`SubmitWithoutClosingSymbol`可以阻止弹框关闭，返回其他值会传递给`afterOk`事件，如果有的话
      */
     onOk?: (
-      formData: FD,
+      formData: FormData,
       // @ts-expect-error: because TP[E] should be a function type
-      ...args: Parameters<TP[E]>
+      ...args: Parameters<TriggerProp[Event]>
     ) => unknown | Promise<unknown>;
     /**
      * - **EN:** The callback after the confirmation event is completed, it will not be triggered when
@@ -52,13 +52,13 @@ export type ModalActionProps<
     afterOk?: (data?: any) => void;
   };
 
-export interface FormCompPropsConstraint<FD> {
+export interface FormCompPropsConstraint<FormData> {
   /**
    * - **EN:** Automatically generated form instance, use this form instance in FormComp, do not
    *   create a new instance
    * - **CN:** 自动生成的表单实例，编辑表单要使用这个表单实例，不要新创建实例
    */
-  form: FormInstance<FD>;
+  form: FormInstance<FormData>;
   /**
    * - **EN:** Register the form save event, the callback function passed in will be called when the
    *   confirm button is clicked, support asynchronous saving
@@ -72,7 +72,7 @@ export interface FormCompPropsConstraint<FD> {
        * - **EN:** Form data
        * - **CN:** 表单数据
        */
-      formData: FD,
+      formData: FormData,
       /**
        * - **EN:** Trigger click event data, for example, for the `Switch` type trigger, you can get
        *   the value of the switch; for the `Button` type trigger, you can get the click event
@@ -114,21 +114,21 @@ export interface FormCompPropsConstraint<FD> {
 }
 
 export interface ModalActionTrigger<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  TP extends object,
-  E extends keyof TP,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
 > {
   /**
    * - **EN:** Trigger component, click to show the dialog
    * - **CN:** 弹窗触发器组件，点击触发显示弹框
    */
-  triggerComponent?: ComponentType<TP> | FC<TP>;
+  triggerComponent?: ComponentType<TriggerProp> | FC<TriggerProp>;
   /**
    * - **EN:** Props of the trigger component
    * - **CN:** 触发器组件的Props属性
    */
-  triggerProps?: TP & {
+  triggerProps?: TriggerProp & {
     /**
      * - **EN:** Set a custom function to determine whether to show the trigger button
      * - **CN:** 设置一个自定义函数，用于判断是否显示触发器按钮
@@ -137,7 +137,7 @@ export interface ModalActionTrigger<
      *
      * @param formProps Form component props | 表单组件的props
      */
-    show?: boolean | ((formProps?: Omit<CP, keyof FormCompPropsConstraint<FD>>) => boolean);
+    show?: boolean | ((formProps?: Omit<P, keyof FormCompPropsConstraint<FormData>>) => boolean);
   };
   /**
    * - **EN:** The event name that triggers the dialog
@@ -146,7 +146,7 @@ export interface ModalActionTrigger<
    * - `Switch`: 'onChange'
    * - `Link`: 'onClick'
    */
-  triggerEvent?: E;
+  triggerEvent?: Event;
   /**
    * - **EN:** Custom trigger content
    * - **CN:** 自定义触发器内容
@@ -164,23 +164,23 @@ export type ModalActionRef<R> = R & {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<any, any, any, never, never>>) => {
   const ModalActionRenderer = <
-    FD extends object,
-    CP extends FormCompPropsConstraint<FD>,
-    TP extends object,
-    E extends keyof TP,
-    CRef extends object,
+    FormData extends object,
+    P extends FormCompPropsConstraint<FormData>,
+    TriggerProp extends object,
+    Event extends keyof TriggerProp,
+    Ref extends object,
   >(
-    props: ModalActionProps<FD, CP, TP, E, CRef>,
-    ref: ForwardedRef<ModalActionRef<CRef>>
+    props: ModalActionProps<FormData, P, TriggerProp, Event, Ref>,
+    ref: ForwardedRef<ModalActionRef<Ref>>
   ) => {
     const [userModalProps, setUserModalProps] = useState<Partial<ModalProps>>({});
-    let mergedProps = mergeProps<FD, CP, TP, E, CRef>(defaultProps, props);
+    let mergedProps = mergeProps<FormData, P, TriggerProp, Event, Ref>(defaultProps, props);
     mergedProps = mergeProps(mergedProps, userModalProps as typeof props);
     const {
       formComp,
       formProps,
       triggerComponent: Trigger = Button,
-      triggerEvent = 'onClick' as E,
+      triggerEvent = 'onClick' as Event,
       triggerProps,
       open: openInProps,
       destroyOnClose = true,
@@ -196,15 +196,15 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       ...restProps
     } = mergedProps;
     useContextValidator();
-    const FormComp = formComp as ComponentType<FormCompPropsConstraint<FD> & RefAttributes<CRef>>;
+    const FormComp = formComp as ComponentType<FormCompPropsConstraint<FormData> & RefAttributes<Ref>>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const triggerEventArgsRef = useRef<any[]>(undefined);
     const [open, setOpen] = useState(false);
-    const saveFuncRef = useRef<(formData: FD, ...args: any[]) => unknown>(undefined);
+    const saveFuncRef = useRef<(formData: FormData, ...args: any[]) => unknown>(undefined);
     const [isSaving, setIsSaving] = useState(false);
-    const [formCompRef, setFormCompRef] = useState<CRef | null>(null);
-    const [form, setForm] = useState<FormInstance<FD>>();
-    const formRef = useRef<FormInstance<FD>>(form);
+    const [formCompRef, setFormCompRef] = useState<Ref | null>(null);
+    const [form, setForm] = useState<FormInstance<FormData>>();
+    const formRef = useRef<FormInstance<FormData>>(form);
     formRef.current = form;
     const destroyOnCloseRef = useRef(destroyOnClose);
     destroyOnCloseRef.current = destroyOnClose || destroyOnHidden;
@@ -255,7 +255,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       [open]
     );
     // Receive the onSave callback method passed by the form component
-    const setOnSaveHandler: FormCompPropsConstraint<FD>['onSave'] = useCallback((handler) => {
+    const setOnSaveHandler: FormCompPropsConstraint<FormData>['onSave'] = useCallback((handler) => {
       saveFuncRef.current = handler;
     }, []);
     // Set the dialog status and trigger the onOpenChange event of the form component
@@ -265,7 +265,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     }, []);
 
     // Output ref
-    useImperativeHandle(ref, () => ({ ...formCompRef, show: showModal }) as ModalActionRef<CRef>, [
+    useImperativeHandle(ref, () => ({ ...formCompRef, show: showModal }) as ModalActionRef<Ref>, [
       formCompRef,
       showModal,
     ]);
@@ -287,7 +287,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
                     }
                   },
                 }
-              : {}) as TP)}
+              : {}) as TriggerProp)}
           >
             {(triggerProps as { children?: ReactNode }).children ?? children}
           </Trigger>
@@ -307,9 +307,9 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
             ...cancelButtonProps,
           }}
           onOk={async () => {
-            let formData: FD;
+            let formData: FormData;
             try {
-              formData = (await form?.validateFields()) as FD;
+              formData = (await form?.validateFields()) as FormData;
             } catch (e) {
               // Validation error, should not throw error
               return;
@@ -329,7 +329,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
               }
               // Then call onOk of the dialog, support asynchronous, and will pass the return value of onSave, if any
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              result = await onOk?.((result as FD) ?? formData, ...((triggerEventArgsRef.current ?? []) as any));
+              result = await onOk?.((result as FormData) ?? formData, ...((triggerEventArgsRef.current ?? []) as any));
               // onOk also has the ability to prevent the dialog from closing
               if (result === SubmitWithoutClosingSymbol) {
                 throw new Error('SubmitWithoutClosing');
@@ -353,7 +353,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
           }}
           {...restProps}
         >
-          <FormCreator<FD> onCreate={setForm} />
+          <FormCreator<FormData> onCreate={setForm} />
           {form && (
             <FormComp
               ref={isForwardRef(FormComp) ? setFormCompRef : undefined}
@@ -374,12 +374,15 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
 };
 
 function mergeProps<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  TP extends object,
-  E extends keyof TP,
-  CRef extends object,
->(first?: Partial<ModalActionProps<FD, CP, TP, E, CRef>>, second?: Partial<ModalActionProps<FD, CP, TP, E, CRef>>) {
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
+  Ref extends object,
+>(
+  first?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>,
+  second?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>
+) {
   return {
     ...first,
     ...second,
@@ -415,7 +418,7 @@ function mergeProps<
           : {}),
       },
     },
-  } as unknown as ModalActionProps<FD, CP, TP, E, CRef>;
+  } as unknown as ModalActionProps<FormData, P, TriggerProp, Event, Ref>;
 }
 
 function FormCreator<FD extends object>(props: { onCreate: (form: FormInstance<FD> | undefined) => void }) {
@@ -443,66 +446,75 @@ function FormCreator<FD extends object>(props: { onCreate: (form: FormInstance<F
  * @param defaultProps Default properties | 默认属性
  */
 export const withDefaultModalActionProps = <
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  TP extends object,
-  E extends keyof TP,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
+  Ref extends object,
 >(
-  WrappedComponent: ComponentType<ModalActionProps<FD, CP, TP, E, CRef> & RefAttributes<ModalActionRef<CRef>>>,
-  defaultProps?: Partial<ModalActionProps<FD, CP, TP, E, CRef>> | (() => Partial<ModalActionProps<FD, CP, TP, E, CRef>>)
+  WrappedComponent: ComponentType<
+    ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref>>
+  >,
+  defaultProps?:
+    | Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>
+    | ((
+        actualProps: ModalActionProps<FormData, P, TriggerProp, Event, Ref>
+      ) => Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>)
 ) => {
-  const WithDefaultProps = forwardRef<ModalActionRef<CRef>, ModalActionProps<FD, CP, TP, E, CRef>>((props, ref) => {
-    const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
-    const defaults = useDefaultProps();
-    const mergedProps = mergeProps(defaults, props);
-    WithDefaultProps.displayName = 'ForwardedRef(WithDefaultProps)';
-    return <WrappedComponent ref={ref} {...mergedProps} />;
-  });
+  const WithDefaultProps = forwardRef<ModalActionRef<Ref>, ModalActionProps<FormData, P, TriggerProp, Event, Ref>>(
+    (props, ref) => {
+      const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
+      const defaults = useDefaultProps(props);
+      const mergedProps =
+        typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
+      WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
+      return <WrappedComponent ref={ref} {...mergedProps} />;
+    }
+  );
   return WithDefaultProps;
 };
 
 const renderModalAction = genModalActionRenderer({});
 const forwardedModalAction = forwardRef(renderModalAction);
-forwardedModalAction.displayName = 'ForwardedRef(ModalAction)';
+forwardedModalAction.displayName = 'ForwardRef(ModalAction)';
 /**
  * - **EN:** ModalAction component type
  * - **CN:** ModalAction组件的类型
  */
 export type ModalActionInterface<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  TP extends object,
-  E extends keyof TP,
-  CRef extends object,
-> = ComponentType<ModalActionProps<FD, CP, TP, E, CRef> & RefAttributes<ModalActionRef<CRef>>>;
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
+  Ref extends object,
+> = ComponentType<ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref>>>;
 /**
  * - **EN:** ModalAction component with generic type
  * - **CN:** ModalAction泛型组件的类型
  */
 export type GenericModalActionInterface = <
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  TP extends object,
-  E extends keyof TP,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
+  Ref extends object,
 >(
-  props: ModalActionProps<FD, CP, TP, E, CRef> & RefAttributes<ModalActionRef<CRef>>
-) => ReactElement;
+  props: ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref>>
+) => ReactNode;
 /**
  * - **EN:** ModalAction with specified trigger type (specified form component)
  * - **CN:** 已指定Trigger类型的ModalAction（并且已指定表单组件）
  */
 type ModalActionWithTrigger<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  TP extends object,
-  E extends keyof TP,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  TriggerProp extends object,
+  Event extends keyof TriggerProp,
+  Ref extends object,
   OMIT extends string = never,
 > = ComponentType<
-  Omit<ModalActionProps<FD, CP, TP, E, CRef>, 'triggerComponent' | 'triggerEvent' | OMIT> &
-    RefAttributes<ModalActionRef<CRef>>
+  Omit<ModalActionProps<FormData, P, TriggerProp, Event, Ref>, 'triggerComponent' | 'triggerEvent' | OMIT> &
+    RefAttributes<ModalActionRef<Ref>>
 >;
 
 /**
@@ -510,39 +522,39 @@ type ModalActionWithTrigger<
  * - **CN:** 已指定Trigger类型的ModalAction（未指定表单组件，保持泛型）
  */
 type GenericModalActionWithTrigger<TP extends object, E extends keyof TP, OMIT extends string = never> = <
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  Ref extends object,
 >(
-  props: Omit<ModalActionProps<FD, CP, TP, E, CRef>, 'triggerComponent' | 'triggerEvent' | OMIT> &
-    RefAttributes<ModalActionRef<CRef>>
-) => ReactElement;
+  props: Omit<ModalActionProps<FormData, P, TP, E, Ref>, 'triggerComponent' | 'triggerEvent' | OMIT> &
+    RefAttributes<ModalActionRef<Ref>>
+) => ReactNode;
 
 /**
  * - **EN:** Built-in trigger types (specified form components)
  * - **CN:** 内置的几种触发器类型（已指定表单组件）
  */
 interface TypedTriggers<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  Ref extends object,
   OMIT extends string = never,
 > {
   /**
    * - **EN:** Dialog with button type trigger
    * - **CN:** 按钮类型的弹窗
    */
-  Button: ModalActionWithTrigger<FD, CP, ButtonProps, 'onClick', CRef, 'triggerComponent' | 'triggerEvent' | OMIT>;
+  Button: ModalActionWithTrigger<FormData, P, ButtonProps, 'onClick', Ref, 'triggerComponent' | 'triggerEvent' | OMIT>;
   /**
    * - **EN:** Dialog with switch type trigger
    * - **CN:** 开关类型的弹窗
    */
-  Switch: ModalActionWithTrigger<FD, CP, SwitchProps, 'onChange', CRef, 'triggerComponent' | 'triggerEvent' | OMIT>;
+  Switch: ModalActionWithTrigger<FormData, P, SwitchProps, 'onChange', Ref, 'triggerComponent' | 'triggerEvent' | OMIT>;
   /**
    * - **EN:** Dialog with link type trigger
    * - **CN:** 链接类型的弹窗
    */
-  Link: ModalActionWithTrigger<FD, CP, LinkProps, 'onClick', CRef, 'triggerComponent' | 'triggerEvent' | OMIT>;
+  Link: ModalActionWithTrigger<FormData, P, LinkProps, 'onClick', Ref, 'triggerComponent' | 'triggerEvent' | OMIT>;
 }
 /**
  * - **EN:** Built-in trigger types (generic types, unspecified form components)
@@ -566,40 +578,45 @@ interface GenericTypedTriggers<OMIT extends string = never> {
   Link: GenericModalActionWithTrigger<LinkProps, 'onClick', 'triggerComponent' | 'triggerEvent' | OMIT>;
 }
 type WithGenericTriggers<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  Ref extends object,
   OMIT extends string = never,
-> = (<TP extends object, E extends keyof TP>(
-  props: Omit<ModalActionProps<FD, CP, TP, E, CRef>, OMIT> & RefAttributes<ModalActionRef<CRef>>
-) => ReactElement) &
-  (CP extends never ? GenericTypedTriggers<OMIT> : TypedTriggers<FD, CP, CRef, OMIT>);
+> = (<TriggerProp extends object, Event extends keyof TriggerProp>(
+  props: Omit<ModalActionProps<FormData, P, TriggerProp, Event, Ref>, OMIT> & RefAttributes<ModalActionRef<Ref>>
+) => ReactNode) &
+  (P extends never ? GenericTypedTriggers<OMIT> : TypedTriggers<FormData, P, Ref, OMIT>);
 
 /**
  * - **EN:** Add trigger types to the ModalAction component
  * - **CN:** 给ModalAction组件添加子触发器类型
  */
 const addTriggers = <
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  OuterTP extends object,
-  OuterE extends keyof OuterTP,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  OuterTriggerProp extends object,
+  OuterEvent extends keyof OuterTriggerProp,
+  Ref extends object,
   OMIT extends string = never,
 >(
-  comp: ComponentType<ModalActionProps<FD, CP, OuterTP, OuterE, CRef> & RefAttributes<ModalActionRef<CRef>>>
+  comp: ComponentType<
+    ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref> & RefAttributes<ModalActionRef<Ref>>
+  >
 ) => {
-  const patchedComp = comp as WithGenericTriggers<FD, CP, CRef, OMIT>;
+  const patchedComp = comp as WithGenericTriggers<FormData, P, Ref, OMIT>;
   // Type of button trigger
-  patchedComp.Button = withDefaultModalActionProps(comp as ModalActionInterface<FD, CP, ButtonProps, 'onClick', CRef>, {
-    triggerComponent: Button,
-    triggerEvent: 'onClick',
-    triggerProps: {},
+  patchedComp.Button = withDefaultModalActionProps(
+    comp as ModalActionInterface<FormData, P, ButtonProps, 'onClick', Ref>,
+    {
+      triggerComponent: Button,
+      triggerEvent: 'onClick',
+      triggerProps: {},
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }) as any;
+  ) as any;
   // Type of switch trigger
   patchedComp.Switch = withDefaultModalActionProps(
-    comp as ModalActionInterface<FD, CP, SwitchProps, 'onChange', CRef>,
+    comp as ModalActionInterface<FormData, P, SwitchProps, 'onChange', Ref>,
     {
       triggerComponent: Switch,
       triggerEvent: 'onChange',
@@ -608,7 +625,7 @@ const addTriggers = <
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as any;
   // Type of link trigger
-  patchedComp.Link = withDefaultModalActionProps(comp as ModalActionInterface<FD, CP, LinkProps, 'onClick', CRef>, {
+  patchedComp.Link = withDefaultModalActionProps(comp as ModalActionInterface<FormData, P, LinkProps, 'onClick', Ref>, {
     triggerComponent: Typography.Link,
     triggerEvent: 'onClick',
     triggerProps: {
@@ -643,35 +660,43 @@ export type ModalActionWithStatic = typeof ModalAction & {
  * - **EN:** Generate a dialog component based on the editing form component
  * - **CN:** 基于编辑表单组件生成一个弹框组件
  *
+ * @template FormData Form data type | 表单数据类型
+ * @template P Form component props type | 表单组件的props类型
+ * @template OuterTriggerProp Outer trigger props type | 外部触发器的props类型
+ * @template OuterEvent Outer trigger event type | 外部触发器的事件类型
+ * @template Ref Form component ref type | 表单组件的ref类型
+ *
  * @param formComp Component of dialog content | 弹窗内容组件
  * @param defaultProps Default properties of the dialog | 弹窗的默认属性
  */
 export function withModalAction<
-  FD extends object,
-  CP extends FormCompPropsConstraint<FD>,
-  OuterTP extends object,
-  OuterE extends keyof OuterTP,
-  CRef extends object,
+  FormData extends object,
+  P extends FormCompPropsConstraint<FormData>,
+  OuterTriggerProp extends object,
+  OuterEvent extends keyof OuterTriggerProp,
+  Ref extends object,
 >(
-  formComp: ComponentType<CP & FormCompPropsConstraint<FD> & RefAttributes<CRef>>,
+  formComp: ComponentType<P & FormCompPropsConstraint<FormData> & RefAttributes<Ref>>,
   defaultProps?:
-    | Partial<ModalActionProps<FD, CP, OuterTP, OuterE, CRef>>
-    | (() => Partial<ModalActionProps<FD, CP, OuterTP, OuterE, CRef>>)
+    | Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>
+    | ((
+        actualProps: ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>
+      ) => Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>)
 ) {
-  const withForm = withDefaultModalActionProps(
-    forwardedModalAction as unknown as ModalActionInterface<FD, CP, OuterTP, OuterE, CRef>,
-    () => {
+  const withDefaults = withDefaultModalActionProps(
+    forwardedModalAction as unknown as ModalActionInterface<FormData, P, OuterTriggerProp, OuterEvent, Ref>,
+    (props) => {
       const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
-      const defaults = useDefaultProps();
+      const defaults = useDefaultProps(props);
       return {
         formComp,
         ...defaults,
       };
     }
   ) as unknown as <TP extends object, E extends keyof TP>(
-    props: Omit<ModalActionProps<FD, CP, TP, E, CRef>, 'formComp'> & RefAttributes<ModalActionRef<CRef>>
-  ) => ReactElement;
-  return addTriggers<FD, CP, OuterTP, OuterE, CRef, 'formComp'>(withForm);
+    props: Omit<ModalActionProps<FormData, P, TP, E, Ref>, 'formComp'> & RefAttributes<ModalActionRef<Ref>>
+  ) => ReactNode;
+  return addTriggers<FormData, P, OuterTriggerProp, OuterEvent, Ref, 'formComp'>(withDefaults);
 }
 
 export default ModalAction as ModalActionWithStatic;
