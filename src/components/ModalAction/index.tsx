@@ -406,6 +406,10 @@ function mergeProps<
       ...first?.wrapProps,
       ...second?.wrapProps,
     },
+    formProps: {
+      ...first?.formProps,
+      ...second?.formProps,
+    },
     triggerProps: {
       ...first?.triggerProps,
       ...second?.triggerProps,
@@ -683,22 +687,30 @@ export function withModalAction<
         actualProps: ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>
       ) => Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>)
 ) {
-  const withDefaults = withDefaultModalActionProps(
-    forwardedModalAction as unknown as ModalActionInterface<FormData, P, OuterTriggerProp, OuterEvent, Ref>,
-    (props) => {
-      const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
-      const defaults = useDefaultProps(props);
-      const mergedProps =
-        typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
-      return {
-        formComp,
-        ...(mergedProps as Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>),
-      };
-    }
-  ) as unknown as <TP extends object, E extends keyof TP>(
-    props: Omit<ModalActionProps<FormData, P, TP, E, Ref>, 'formComp'> & RefAttributes<ModalActionRef<Ref>>
-  ) => ReactNode;
-  return addTriggers<FormData, P, OuterTriggerProp, OuterEvent, Ref, 'formComp'>(withDefaults);
+  const ForwardedModalAction = forwardedModalAction as unknown as ModalActionInterface<
+    FormData,
+    P,
+    OuterTriggerProp,
+    OuterEvent,
+    Ref
+  >;
+  const WithDefaultProps = forwardRef<
+    ModalActionRef<Ref>,
+    ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>
+  >((props, ref) => {
+    const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
+    const defaults = useDefaultProps(props);
+    const mergedProps = typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
+    WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
+    return (
+      <ForwardedModalAction
+        ref={ref}
+        formComp={formComp}
+        {...(mergedProps as Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>)}
+      />
+    );
+  });
+  return addTriggers<FormData, P, OuterTriggerProp, OuterEvent, Ref, 'formComp'>(WithDefaultProps);
 }
 
 export default ModalAction as ModalActionWithStatic;

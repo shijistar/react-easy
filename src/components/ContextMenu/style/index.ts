@@ -12,7 +12,7 @@ const genStyle: GenerateStyle<OverflowTagsToken> = (token): CSSObject => {
       '&-trigger': {
         width: 'fit-content',
       },
-      '&-menu': {
+      '.contexify&-menu': {
         padding: 0,
         '&-has-items': {
           padding: 'var(--contexify-menu-padding)',

@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.2.3
+
+2025-7-22
+
+### Bug Fixes
+
+#### ModalAction
+
+- 🐞 the issue of `defaultProps.formProps` missing is fixed
+
 ## 1.2.2
 
 2025-7-22
