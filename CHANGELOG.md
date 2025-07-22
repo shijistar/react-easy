@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.2.2
+
+2025-7-22
+
+### Bug Fixes
+
+#### ModalAction
+
+- 🐞 `defaultProps` priority issue fixed
+
 ## 1.2.1
 
 2025-7-17

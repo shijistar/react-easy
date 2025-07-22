@@ -688,9 +688,11 @@ export function withModalAction<
     (props) => {
       const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
       const defaults = useDefaultProps(props);
+      const mergedProps =
+        typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
       return {
         formComp,
-        ...defaults,
+        ...(mergedProps as Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>),
       };
     }
   ) as unknown as <TP extends object, E extends keyof TP>(
