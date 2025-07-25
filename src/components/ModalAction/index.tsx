@@ -328,8 +328,10 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
                 throw new Error('SubmitWithoutClosing');
               }
               // Then call onOk of the dialog, support asynchronous, and will pass the return value of onSave, if any
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              result = await onOk?.((result as FormData) ?? formData, ...((triggerEventArgsRef.current ?? []) as any));
+              if (onOk) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                result = await onOk((result as FormData) ?? formData, ...((triggerEventArgsRef.current ?? []) as any));
+              }
               // onOk also has the ability to prevent the dialog from closing
               if (result === SubmitWithoutClosingSymbol) {
                 throw new Error('SubmitWithoutClosing');
