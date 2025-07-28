@@ -30,6 +30,9 @@ export { default as EditableText } from './EditableText';
 export type { FloatDrawerProps } from './FloatDrawer';
 export { default as FloatDrawer } from './FloatDrawer';
 
+export type { FormItemControlProps } from './FormItemControl';
+export { default as FormItemControl } from './FormItemControl';
+
 export type { LoadingProps } from './Loading';
 export { default as Loading } from './Loading';
 

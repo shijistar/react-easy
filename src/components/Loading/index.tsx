@@ -7,13 +7,15 @@ import useStyle from './style';
 export type LoadingProps = SpinProps & {
   /**
    * - **EN:** When used independently, the positioning method of the animation:
-   * - **absolute** - Uses absolute positioning, and the animation will automatically center itself
-   *   within the parent container.
-   * - **flex** - Uses flexbox layout, and the animation will automatically fill the parent container
-   *   and center itself.
+   *
+   *   - **absolute** - Uses absolute positioning, and the animation will automatically center itself
+   *       within the parent container.
+   *   - **flex** - Uses flexbox layout, and the animation will automatically fill the parent container
+   *       and center itself.
    * - **CN:** 独立使用时，动画的定位方式：
-   * - **absolute** - 使用绝对定位，动画会自动居中显示在父容器中。
-   * - **flex** - 使用弹性布局，动画会自动填充父容器并居中显示。
+   *
+   *   - **absolute** - 使用绝对定位，动画会自动居中显示在父容器中。
+   *   - **flex** - 使用弹性布局，动画会自动填充父容器并居中显示。
    *
    * @default `flex`
    */

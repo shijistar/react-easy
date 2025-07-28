@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.3.0
+
+2025-7-28
+
+### Features
+
+- 🔥 Add `FormItemControl` component used to wrap custom content into a valid `Form.Item` control.
+
 ## 1.2.3
 
 2025-7-22
