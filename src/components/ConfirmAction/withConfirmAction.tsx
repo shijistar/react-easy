@@ -63,6 +63,9 @@ export function withConfirmActionInternal<
       const setOnOk: ActionCompConstraint['setOK'] = useCallback((handler) => {
         saveFuncRef.current = handler;
       }, []);
+      const triggerOnOK = useCallback(async (...args: any[]) => {
+        return saveFuncRef.current?.(...args);
+      }, []);
 
       // Merge the default ref and custom ref and output to the parent component
       useImperativeHandle(ref, () => {
@@ -76,7 +79,7 @@ export function withConfirmActionInternal<
       const triggerDom = (
         <ConfirmActionWithRef
           {...(propsWithDefaults as ConfirmActionProps<object, never>)}
-          onOk={saveFuncRef.current}
+          onOk={triggerOnOK}
           ref={actionRef}
         />
       );

@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.3.1
+
+2025-8-1
+
+### Bug Fixes
+
+- 🐞 Fix `onOK` handler is not fired in `withConfirmAction` HOC.
+
 ## 1.3.0
 
 2025-7-28
