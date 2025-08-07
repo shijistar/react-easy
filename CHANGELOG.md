@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.4.0
+
+2025-8-7
+
+### Features
+
+- 🔥 Add some custom nodes and helpers for `Lexical`.
+
 ## 1.3.1
 
 2025-8-1

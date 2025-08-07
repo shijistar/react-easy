@@ -1,3 +1,4 @@
+import type { RefObject } from 'react';
 import { useRef } from 'react';
 
 /**
@@ -8,7 +9,7 @@ import { useRef } from 'react';
  *
  * @returns A mutable ref object, but the reference is immutable | 可变的ref对象，但引用不可变
  */
-const useRefValue = <T>(value: T) => {
+const useRefValue = <T>(value: T): RefObject<T> => {
   const ref = useRef<T>(value);
   ref.current = value;
   return ref;
