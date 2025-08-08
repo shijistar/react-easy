@@ -3,10 +3,18 @@ import { TextNode } from 'lexical';
 import type { BaseNodeProps } from './base';
 import { BaseNodeHelper } from './base';
 
+/**
+ * - EN: Extra props for ExtendTextNode.
+ * - CN: ExtendTextNode 的附加属性。
+ */
 export interface ExtendTextNodeProps extends BaseNodeProps {
   text?: string;
 }
 
+/**
+ * - EN: A TextNode with extra behavior flags and controlled replacement.
+ * - CN: 带有额外行为标记并可控制替换行为的 TextNode。
+ */
 export class ExtendTextNode extends TextNode {
   __props: ExtendTextNodeProps | undefined;
   __base: BaseNodeHelper<ExtendTextNodeProps>;
@@ -69,10 +77,22 @@ export type SerializedExtendTextNode = Spread<
   SerializedTextNode
 >;
 
+/**
+ * - EN: Factory to create an ExtendTextNode.
+ * - CN: 创建 ExtendTextNode 的工厂函数。
+ *
+ * @param props Props for the node | 节点的属性
+ */
 export function $createExtendTextNode(props?: ExtendTextNodeProps): ExtendTextNode {
   return new ExtendTextNode(props);
 }
 
+/**
+ * - EN: Type guard to check whether a node is ExtendTextNode.
+ * - CN: 判断节点是否为 ExtendTextNode 的类型守卫。
+ *
+ * @param node Node to test | 要检测的节点
+ */
 export function $isExtendTextNode(node: LexicalNode | null | undefined): node is ExtendTextNode {
   return node instanceof ExtendTextNode;
 }

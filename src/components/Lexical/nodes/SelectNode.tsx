@@ -8,6 +8,10 @@ import { insertNodeAtCursor, updateDomStyle } from '../helpers';
 import type { BaseDecoratorNodeProps } from './base';
 import { BaseDecoratorNode } from './base';
 
+/**
+ * - EN: Props for SelectNode, extending antd Select props plus behavior flags.
+ * - CN: SelectNode 的属性，基于 antd Select 属性并附加行为标记。
+ */
 export interface SelectNodeProps<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ValueType = any,
@@ -15,15 +19,21 @@ export interface SelectNodeProps<
 > extends SelectProps<ValueType, OptionType>,
     BaseDecoratorNodeProps {
   /**
-   * 在获取editor的textContent时，是否将选项的label作为文本内容插入到编辑器中，默认 `value`
-   *
-   * - `label` - 将选项的label作为文本内容
-   * - `value` - 将选项的value作为文本内容
+   * - EN: When reading editor textContent, whether to use option label or value. Default `value`.
+   * - CN: 在获取 editor 的 textContent 时，使用选项的 label 还是 value。默认 `value`。
+   * - label: use option label as text
+   * - value: use option value as text
    */
   textContentMode?: 'label' | 'value';
-  /** 是否在`textContext`两边添加一个空格，默认`true` */
+  /**
+   * - EN: Add a space around textContent. Default `true`.
+   * - CN: 是否在 textContent 两边添加一个空格，默认 `true`。
+   */
   spaceAround?: boolean;
-  /** 容器样式 */
+  /**
+   * - EN: Container DOM style.
+   * - CN: 容器样式。
+   */
   containerStyle?: CSSProperties;
 }
 
@@ -121,6 +131,12 @@ export class SelectNode<
   }
 }
 
+/**
+ * - EN: React decorator component rendered for SelectNode.
+ * - CN: SelectNode 对应的 React 装饰组件。
+ *
+ * @param node The bound SelectNode instance | 关联的 SelectNode 实例
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function SelectComponent<ValueType = any, OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>({
   node,
@@ -150,6 +166,12 @@ function SelectComponent<ValueType = any, OptionType extends BaseOptionType | De
   return <Select {...selectProps} value={node.getValue()} onChange={handleChange} onClear={handleClear} />;
 }
 
+/**
+ * - EN: Factory to create a SelectNode.
+ * - CN: 创建 SelectNode 的工厂函数。
+ *
+ * @param props Props for the Select node | Select 节点的属性
+ */
 export function $createSelectNode<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ValueType = any,
@@ -158,11 +180,24 @@ export function $createSelectNode<
   return new SelectNode<ValueType, OptionType>(props);
 }
 
+/**
+ * - EN: Type guard to check whether a node is SelectNode.
+ * - CN: 判断节点是否为 SelectNode 的类型守卫。
+ *
+ * @param node Node to test | 要检测的节点
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function $isSelectNode(node: LexicalNode | null | undefined): node is SelectNode<any, any> {
   return node instanceof SelectNode;
 }
 
+/**
+ * - EN: Insert a SelectNode at the current cursor position.
+ * - CN: 在当前光标位置插入一个 SelectNode。
+ *
+ * @param editor LexicalEditor instance | LexicalEditor 实例
+ * @param props Props for the Select node | Select 节点的属性
+ */
 export function $insertSelectNode<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ValueType = any,
@@ -181,6 +216,10 @@ export function $insertSelectNode<
   });
 }
 
+/**
+ * - EN: Props passed to the Select decorator component.
+ * - CN: 传递给 Select 装饰组件的属性。
+ */
 interface SelectComponentProps<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ValueType = any,

@@ -13,10 +13,11 @@ import {
 import { $createDivNode, $isDivNode } from '../nodes/DivNode';
 
 /**
- * 将节点插入到当前光标位置
+ * - EN: Insert a node at the current cursor position.
+ * - CN: 将节点插入到当前光标位置。
  *
- * @param editor LexicalEditor 实例
- * @param node 要插入的节点
+ * @param editor LexicalEditor instance | LexicalEditor 实例
+ * @param node Node to insert | 要插入的节点
  */
 export function insertNodeAtCursor(editor: LexicalEditor, node: LexicalNode): void {
   editor.update(() => {
@@ -61,10 +62,11 @@ export function insertNodeAtCursor(editor: LexicalEditor, node: LexicalNode): vo
 }
 
 /**
- * 将文本插入到当前光标位置
+ * - EN: Insert text at the current cursor position.
+ * - CN: 将文本插入到当前光标位置。
  *
- * @param editor LexicalEditor 实例
- * @param text 要插入的文本
+ * @param editor LexicalEditor instance | LexicalEditor 实例
+ * @param text Text to insert | 要插入的文本
  */
 export function insertTextAtCursor(editor: LexicalEditor, text: string): void {
   editor?.update(() => {
@@ -91,9 +93,10 @@ export function insertTextAtCursor(editor: LexicalEditor, text: string): void {
 }
 
 /**
- * 清空编辑器内容
+ * - EN: Clear the editor content.
+ * - CN: 清空编辑器内容。
  *
- * @param editor LexicalEditor 实例
+ * @param editor LexicalEditor instance | LexicalEditor 实例
  */
 export function clearEditorContent(editor: LexicalEditor) {
   const state = editor.getEditorState();
@@ -126,13 +129,13 @@ export function clearEditorContent(editor: LexicalEditor) {
 }
 
 /**
- * 查找符合条件的节点
+ * - EN: Find the first node that matches the predicate.
+ * - CN: 查找第一个符合条件的节点。
  *
- * @param editor LexicalEditor 实例
- * @param predicate 用于匹配节点的函数
- * @param options 选项
+ * @param editor LexicalEditor instance | LexicalEditor 实例
+ * @param predicate Function to test whether a node matches | 用于匹配节点的函数
  *
- * @returns 符合条件的节点数组
+ * @returns The matched node, or undefined | 符合条件的第一个节点，或 undefined
  */
 export function findNode<T extends LexicalNode>(
   editor: LexicalEditor,
@@ -142,13 +145,14 @@ export function findNode<T extends LexicalNode>(
   return matched[0];
 }
 /**
- * 查找所有符合条件的节点数组
+ * - EN: Find all nodes that match the predicate.
+ * - CN: 查找所有符合条件的节点数组。
  *
- * @param editor LexicalEditor 实例
- * @param predicate 用于匹配节点的函数
- * @param options 选项
+ * @param editor LexicalEditor instance | LexicalEditor 实例
+ * @param predicate Function to test whether a node matches | 用于匹配节点的函数
+ * @param options Options | 选项
  *
- * @returns 符合条件的节点数组
+ * @returns An array of matched nodes | 符合条件的节点数组
  */
 export function findNodes<T extends LexicalNode>(
   editor: LexicalEditor,
@@ -183,10 +187,11 @@ export function findNodes<T extends LexicalNode>(
 }
 
 /**
- * 更新 DOM 元素的属性
+ * - EN: Update properties on a DOM element.
+ * - CN: 更新 DOM 元素的属性。
  *
- * @param dom 要更新的 DOM 元素
- * @param props 要设置的属性
+ * @param dom Target DOM element to update | 要更新的 DOM 元素
+ * @param props Props to set on the element | 要设置的属性
  */
 export function updateDomProps(dom: HTMLElement | undefined, props: HtmlHTMLAttributes<HTMLElement>): void {
   if (!dom) return;
@@ -218,10 +223,11 @@ export function updateDomProps(dom: HTMLElement | undefined, props: HtmlHTMLAttr
 }
 
 /**
- * 更新 DOM 元素的样式
+ * - EN: Update style on a DOM element.
+ * - CN: 更新 DOM 元素的样式。
  *
- * @param dom 要更新的 DOM 元素
- * @param style 要设置的样式
+ * @param dom Target DOM element to update | 要更新的 DOM 元素
+ * @param style Style to set | 要设置的样式
  */
 export function updateDomStyle(dom: HTMLElement | undefined, style: CSSProperties | undefined): void {
   if (!dom) return;
