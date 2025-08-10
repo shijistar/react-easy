@@ -215,6 +215,8 @@ export function updateDomProps(dom: HTMLElement | undefined, props: HtmlHTMLAttr
         });
       } else if (key === 'className' && value) {
         dom.className = value as string;
+      } else if (key.startsWith('on') && typeof value === 'function') {
+        dom[key.toLowerCase() as 'onclick'] = value as (event: MouseEvent) => void;
       } else if (value !== undefined && value !== null) {
         dom.setAttribute(key, value.toString());
       }

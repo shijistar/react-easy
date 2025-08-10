@@ -142,8 +142,9 @@ export class SelectNode<
 function SelectComponent<ValueType = any, OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>({
   node,
 }: SelectComponentProps<ValueType, OptionType>): ReactNode {
+  const underlyingProps = node.getUnderlyingProps(node.__props);
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  const { textContentMode, spaceAround, containerStyle, ...selectProps } = node.__props || {};
+  const { textContentMode, spaceAround, containerStyle, ...selectProps } = underlyingProps;
   /* eslint-enable @typescript-eslint/no-unused-vars */
   const [editor] = useLexicalComposerContext();
 

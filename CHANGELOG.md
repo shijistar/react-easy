@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.4.2
+
+2025-8-10
+
+### Features
+
+- ✨ `SelectNode` component now supports `onXXX` event props like `onClick`, `onMouseEnter`, etc.
+
 ## 1.4.1
 
 2025-8-10
