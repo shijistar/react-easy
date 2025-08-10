@@ -117,12 +117,13 @@ export class SelectNode<
     writable.__value = value;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getPropValue(propName: keyof SelectNodeProps<ValueType, OptionType>): any {
+  getPropValue(
+    propName: keyof SelectNodeProps<ValueType, OptionType>
+  ): SelectNodeProps<ValueType, OptionType>[typeof propName] {
     return this.__props?.[propName];
   }
 
-  setProps(props: SelectNodeProps<ValueType, OptionType>): void {
+  setProps(props: Partial<SelectNodeProps<ValueType, OptionType>>): void {
     const writable = this.getWritable();
     writable.__props = {
       ...writable.__props,
@@ -227,7 +228,7 @@ interface SelectComponentProps<
 > {
   node: SelectNode<ValueType, OptionType>;
 }
-export type SerializedSelectNode<
+type SerializedSelectNode<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ValueType = any,
   OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,

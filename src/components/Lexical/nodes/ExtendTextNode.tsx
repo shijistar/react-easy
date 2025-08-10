@@ -9,6 +9,7 @@ import { BaseNodeHelper } from './base';
  */
 export interface ExtendTextNodeProps extends BaseNodeProps {
   text?: string;
+  prefixText?: string;
 }
 
 /**
@@ -34,9 +35,16 @@ export class ExtendTextNode extends TextNode {
         this[key as keyof this] = method.bind(this.__base) as any;
       }
     });
+    this.remove = (preserveEmptyParent?: boolean): void => {
+      if (this.__props?.canBeRemoved === false) {
+        this.setTextContent(this.__props.prefixText ?? ' ');
+        return;
+      }
+      super.remove(preserveEmptyParent);
+    };
     this.replace = <N extends LexicalNode>(replaceWith: N, includeChildren?: boolean): N => {
       if (this.__props?.canBeReplaced === false) {
-        this.setTextContent(this.__props?.text || '');
+        this.setTextContent(this.__props?.text || ' ');
         this.selectNext();
         return this as unknown as N;
       }
@@ -69,7 +77,7 @@ export class ExtendTextNode extends TextNode {
   }
 }
 
-export type SerializedExtendTextNode = Spread<
+type SerializedExtendTextNode = Spread<
   {
     props?: ExtendTextNodeProps;
     text: string;

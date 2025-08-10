@@ -86,7 +86,7 @@ export class DivNode extends BaseElementNode<DivNodeProps> {
   }
 
   isInline(): boolean {
-    const display = this.__props?.style?.display;
+    const display = this.__props?.style?.display ?? 'block';
     return (
       display === 'inline' ||
       display === 'inline-flex' ||

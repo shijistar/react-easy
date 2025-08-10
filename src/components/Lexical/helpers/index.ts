@@ -241,3 +241,38 @@ export function updateDomStyle(dom: HTMLElement | undefined, style: CSSPropertie
     });
   }
 }
+
+/**
+ * - EN: Get attributes from a DOM element.
+ * - CN: 从 DOM 元素获取属性。
+ *
+ * @param dom Target DOM element | 目标 DOM 元素
+ *
+ * @returns Element attributes | 元素属性
+ */
+export function getDomAttributes(dom: HTMLElement | undefined): HtmlHTMLAttributes<HTMLElement> | undefined {
+  if (!dom) return undefined;
+
+  const attributes: HtmlHTMLAttributes<HTMLElement> = {};
+  Array.from(dom.attributes).forEach((attr) => {
+    if (attr.name === 'class' || attr.name === 'style') {
+      return;
+    }
+    attributes[attr.name as keyof HtmlHTMLAttributes<HTMLElement>] = attr.value;
+  });
+
+  if (dom.className) {
+    attributes.className = dom.className;
+  }
+
+  if (dom.style) {
+    const styles: CSSProperties = {};
+    Array.from(dom.style).forEach((styleName) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (styles as any)[styleName] = (dom.style as any)[styleName];
+    });
+    attributes.style = styles;
+  }
+
+  return attributes;
+}

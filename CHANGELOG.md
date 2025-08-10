@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.4.1
+
+2025-8-10
+
+### Features
+
+- 🔥 Add `CloseIcon` component for `Lexical`.
+
 ## 1.4.0
 
 2025-8-7
