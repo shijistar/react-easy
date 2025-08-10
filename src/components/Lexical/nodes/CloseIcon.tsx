@@ -128,18 +128,6 @@ export class CloseIconNode extends BaseDecoratorNode<ReactNode, CloseIconNodePro
     return false;
   }
 
-  getPropValue(propName: keyof CloseIconNodeProps): CloseIconNodeProps[typeof propName] {
-    return this.__props?.[propName];
-  }
-
-  setProps(props: Partial<CloseIconNodeProps>): void {
-    const writable = this.getWritable();
-    writable.__props = {
-      ...writable.__props!,
-      ...props,
-    };
-  }
-
   getUnderlyingProps(props: CloseIconNodeProps | undefined): Omit<CloseIconNodeProps, keyof BaseNodeProps> {
     const excludeProps = super.getUnderlyingProps(props);
     /* eslint-disable @typescript-eslint/no-unused-vars */

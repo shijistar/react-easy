@@ -123,6 +123,18 @@ export class BaseElementNode<P extends BaseElementProps> extends ElementNode {
     return this.__props?.canInsertTextAfter ?? true;
   }
 
+  getProp(propName: keyof P): P[typeof propName] {
+    return this.__props?.[propName] as P[typeof propName];
+  }
+
+  updateProps(props: Partial<P>): void {
+    const writable = this.getWritable();
+    writable.__props = {
+      ...writable.__props!,
+      ...props,
+    };
+  }
+
   /**
    * - EN: Strip element-specific flags and return DOM props.
    * - CN: 去除元素特有的标记并返回 DOM 属性。
@@ -162,6 +174,17 @@ export class BaseDecoratorNode<T, P extends BaseDecoratorNodeProps> extends Deco
         this[key as keyof this] = method.bind(this.__base) as any;
       }
     });
+  }
+  getProp(propName: keyof P): P[typeof propName] {
+    return this.__props?.[propName] as P[typeof propName];
+  }
+
+  updateProps(props: Partial<P>): void {
+    const writable = this.getWritable();
+    writable.__props = {
+      ...writable.__props!,
+      ...props,
+    };
   }
 
   /**

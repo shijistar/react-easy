@@ -7,7 +7,7 @@ import type {
   SerializedElementNode,
   Spread,
 } from 'lexical';
-import { updateDomProps } from '../helpers';
+import { shallowEqual, updateDomProps } from '../helpers';
 import { BaseElementNode, type BaseElementProps } from './base';
 
 /**
@@ -52,7 +52,7 @@ export class DivNode extends BaseElementNode<DivNodeProps> {
   updateDOM(prevNode: DivNode, dom: HTMLElement): boolean {
     const prevProps = prevNode.__props;
     const currentProps = this.__props;
-    const propsChanged = !this.shallowEqual(prevProps, currentProps);
+    const propsChanged = !shallowEqual(prevProps, currentProps);
     if (propsChanged) {
       updateDomProps(dom, this.getUnderlyingProps(currentProps));
     }
@@ -97,10 +97,7 @@ export class DivNode extends BaseElementNode<DivNodeProps> {
     );
   }
 
-  getPropValue<K extends keyof DivNodeProps>(key: K): DivNodeProps[K] | undefined {
-    return this.__props?.[key];
-  }
-  setProps(props: DivNodeProps): void {
+  updateProps(props: DivNodeProps): void {
     const writable = this.getWritable();
     writable.__props = {
       ...writable.__props,
@@ -110,29 +107,6 @@ export class DivNode extends BaseElementNode<DivNodeProps> {
         ...props.style,
       },
     };
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private shallowEqual(obj1: any, obj2: any): boolean {
-    if (obj1 === obj2) return true;
-    if (!obj1 || !obj2) return false;
-
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-
-    if (keys1.length !== keys2.length) return false;
-
-    for (const key of keys1) {
-      if (key === 'style') {
-        // - EN: Special handling for style objects.
-        // - CN: 特殊处理 style 对象。
-        if (!this.shallowEqual(obj1[key], obj2[key])) return false;
-      } else if (obj1[key] !== obj2[key]) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }
 /**

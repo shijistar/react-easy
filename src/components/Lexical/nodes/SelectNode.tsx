@@ -4,7 +4,7 @@ import { Select } from 'antd';
 import type { SelectProps } from 'antd';
 import type { BaseOptionType, DefaultOptionType } from 'antd/es/select';
 import type { LexicalEditor, LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
-import { insertNodeAtCursor, updateDomStyle } from '../helpers';
+import { insertNodeAtCursor, shallowEqual, updateDomStyle } from '../helpers';
 import type { BaseDecoratorNodeProps } from './base';
 import { BaseDecoratorNode } from './base';
 
@@ -81,8 +81,9 @@ export class SelectNode<
     return span;
   }
 
-  updateDOM(): false {
-    return false;
+  updateDOM(prevNode: this, dom: HTMLElement): boolean {
+    const propsChanged = !shallowEqual(prevNode.__props, this.__props);
+    return propsChanged;
   }
 
   decorate(): ReactNode {
@@ -117,13 +118,13 @@ export class SelectNode<
     writable.__value = value;
   }
 
-  getPropValue(
+  getProp(
     propName: keyof SelectNodeProps<ValueType, OptionType>
   ): SelectNodeProps<ValueType, OptionType>[typeof propName] {
     return this.__props?.[propName];
   }
 
-  setProps(props: Partial<SelectNodeProps<ValueType, OptionType>>): void {
+  updateProps(props: Partial<SelectNodeProps<ValueType, OptionType>>): void {
     const writable = this.getWritable();
     writable.__props = {
       ...writable.__props,
