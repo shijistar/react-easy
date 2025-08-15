@@ -2,7 +2,19 @@
 
 # Changelog
 
-## 1.4.2
+## 1.4.4
+
+2025-8-15
+
+### Features
+
+#### Crypto
+
+- ✨ Add `advancedEncrypt` and `advancedDecrypt` methods for enhanced security encryption and decryption.
+- ✨ Add `encryptAES` and `decryptAES` methods for general AES encryption and decryption.
+- ✨ Add `toBase64` and `fromBase64` utility functions for base64 encoding and decoding.
+
+## 1.4.3
 
 2025-8-10
 
