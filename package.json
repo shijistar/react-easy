@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -20,23 +20,6 @@
   },
   "license": "MIT",
   "author": "李凤宝(Leo) <shijistar@gmail.com>",
-  "exports": {
-    ".": {
-      "import": "./es/index.js",
-      "require": "./lib/index.js",
-      "default": "./lib/index.js",
-      "node": "./lib/index.js",
-      "types": "./lib/index.d.ts"
-    },
-    "./lexical": {
-      "import": "./es/components/Lexical/index.js",
-      "require": "./lib/components/Lexical/index.js",
-      "default": "./lib/components/Lexical/index.js",
-      "node": "./lib/components/Lexical/index.js",
-      "types": "./lib/components/Lexical/index.d.ts"
-    },
-    "./package.json": "./package.json"
-  },
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "lib/index.d.ts",

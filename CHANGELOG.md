@@ -2,6 +2,20 @@
 
 # Changelog
 
+## 1.4.5
+
+2025-8-16
+
+### Features
+
+#### Crypto
+
+- ✨ Improve `toBase64` and `fromBase64` to make node.js and browser compatible each other.
+
+### Breaking Changes
+
+- Remove `exports` from the package.json.
+
 ## 1.4.4
 
 2025-8-15
