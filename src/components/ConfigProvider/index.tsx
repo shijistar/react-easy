@@ -41,5 +41,6 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
 
   return <ReactEasyContext.Provider value={restProps}>{children}</ReactEasyContext.Provider>;
 };
+ConfigProvider.displayName = 'ReactEasyConfigProvider';
 
 export default ConfigProvider;

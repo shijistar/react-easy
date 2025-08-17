@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "target": "es2020",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "node10",
     "lib": ["ES2020", "dom", "webworker"],
     "resolveJsonModule": true,
     "jsx": "react-jsx",

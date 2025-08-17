@@ -23,5 +23,28 @@ const enUS = {
   'validation.rule.buildRule.token.lowerLetter': 'lowercase letter',
   'validation.rule.buildRule.token.upperLetter': 'uppercase letter',
   'validation.rule.buildRule.token.number': 'number',
+  'hooks.useUserMedia.microphone': 'Microphone',
+  'hooks.useUserMedia.camera': 'Camera',
+  'hooks.featureName.microphone': 'Speech',
+  'hooks.featureName.camera': 'Video',
+  'hooks.useUserMedia.disabledWarning': 'User media is disabled',
+  'hooks.useUserMedia.isRecordingNow': 'User media is currently recording and cannot be operated on',
+  'hooks.useUserMedia.devicePermission': '{{deviceType}} Permission',
+  'hooks.useUserMedia.requestTip1':
+    'The browser is requesting {{deviceType}} permission. Please click the "Allow" button in the pop-up window that appears later.',
+  'hooks.useUserMedia.requestTip2':
+    'Please do not click the "Deny" button, otherwise you will not be able to use the {{featureName}} related feature.',
+  'hooks.useUserMedia.deniedPermission':
+    'You have denied the {{deviceType}} permission, which will prevent you from using the {{featureName}} related feature!',
+  'hooks.useUserMedia.reopenPermissionGuide':
+    'Please click the site settings icon in the address bar, and then follow these steps to reopen {{deviceType}} permission.',
+  'hooks.useUserMedia.notSupport': 'Current browser does not support audio recording',
+  'hooks.useUserMedia.soundDetectTitle': 'Sound Issue Detected',
+  'hooks.useUserMedia.soundDetectDescription':
+    'No sound seems to be detected. Please check if the microphone is working properly or if the correct audio input device is selected.',
+  'hooks.useUserMedia.chooseMicrophoneDevice': 'Please reselect the audio device',
+  'hooks.useUserMedia.rememberDefaultAudioDevice': 'Remember default device?',
+  'hooks.useUserMedia.rememberDefaultAudioDeviceTip':
+    'Please follow these steps to save the default audio device for automatic selection next time.',
 } as const;
 export default enUS;

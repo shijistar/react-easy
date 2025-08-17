@@ -23,5 +23,25 @@ const zhCN = {
   'validation.rule.buildRule.token.lowerLetter': '小写字母',
   'validation.rule.buildRule.token.upperLetter': '大写字母',
   'validation.rule.buildRule.token.number': '数字',
+  'hooks.useUserMedia.microphone': '麦克风',
+  'hooks.useUserMedia.camera': '摄像头',
+  'hooks.featureName.microphone': '语音',
+  'hooks.featureName.camera': '视频',
+  'hooks.useUserMedia.disabledWarning': '用户媒体已禁用',
+  'hooks.useUserMedia.isRecordingNow': '用户媒体正在录制，不可操作',
+  'hooks.useUserMedia.devicePermission': '{{deviceType}}权限',
+  'hooks.useUserMedia.requestTip1':
+    '浏览器正在申请{{deviceType}}权限，请在稍后弹出的弹窗中点击“访问该网站时允许”按钮。',
+  'hooks.useUserMedia.requestTip2': '请不要点击“不允许”按钮，否则将无法使用{{featureName}}相关功能。',
+  'hooks.useUserMedia.deniedPermission': '您已经拒绝了{{deviceType}}权限，将无法使用{{featureName}}相关功能！',
+  'hooks.useUserMedia.reopenPermissionGuide':
+    '请点击地址栏的站点设置图标，然后按照以下步骤重新打开{{deviceType}}权限。',
+  'hooks.useUserMedia.notSupport': '当前浏览器不支持录制语音',
+  'hooks.useUserMedia.soundDetectTitle': '声音检测到问题',
+  'hooks.useUserMedia.soundDetectDescription':
+    '似乎没有检测到声音，请检查麦克风是否正常工作，或者可能没有选择正确的音频输入设备。',
+  'hooks.useUserMedia.chooseMicrophoneDevice': '请重新选择音频设备',
+  'hooks.useUserMedia.rememberDefaultAudioDevice': '记住默认设备？',
+  'hooks.useUserMedia.rememberDefaultAudioDeviceTip': '请按照以下步骤保存默认音频设备，以便下次使用时自动选择。',
 } as const;
 export default zhCN;

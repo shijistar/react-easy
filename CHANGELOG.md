@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.7
+
+2025-8-20
+
+### Features
+
+#### hooks
+
+- ✨ add a new hook `useUserMedia` which provides a simple way to access user media devices (e.g. camera, microphone).
+
 ## 1.4.6
 
 2025-8-18
