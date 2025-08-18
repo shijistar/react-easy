@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.6
+
+2025-8-18
+
+### Features
+
+#### utils
+
+- ✨ Improve the compatibility of `utils.random`.
+
 ## 1.4.5
 
 2025-8-16
