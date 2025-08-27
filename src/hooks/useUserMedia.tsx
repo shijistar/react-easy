@@ -7,19 +7,6 @@ import useRefFunction from './useRefFunction';
 import useRefValue from './useRefValue';
 import useT from './useT';
 
-const requestMicrophoneEnUrlPromise = import('../assets/request-microphone-en.js');
-const requestMicrophoneZhUrlPromise = import('../assets/request-microphone-zh.js');
-const resetMicrophoneEnUrlPromise = import('../assets/reset-microphone-en.js');
-const resetMicrophoneZhUrlPromise = import('../assets/reset-microphone-zh.js');
-const saveAudioDeviceEnUrlPromise1 = import('../assets/save-default-audio1-en.js');
-const saveAudioDeviceZhUrlPromise1 = import('../assets/save-default-audio1-zh.js');
-const saveAudioDeviceEnUrlPromise2 = import('../assets/save-default-audio2-en.js');
-const saveAudioDeviceZhUrlPromise2 = import('../assets/save-default-audio2-zh.js');
-const requestCameraEnUrlPromise = import('../assets/request-camera-en.js');
-const requestCameraZhUrlPromise = import('../assets/request-camera-zh.js');
-const resetCameraEnUrlPromise = import('../assets/reset-camera-en.js');
-const resetCameraZhUrlPromise = import('../assets/reset-camera-zh.js');
-
 export interface UseUserMediaProps {
   /**
    * - **EN:** The media constraints for the audio and video stream.
@@ -470,28 +457,28 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
   }, [includeAudio, mediaStream, t]);
 
   useEffect(() => {
-    requestMicrophoneEnUrlPromise.then((module) => {
+    import('../assets/request-microphone-en.js').then((module) => {
       setRequestMicrophoneEnUrl(module.default);
     });
-    requestMicrophoneZhUrlPromise.then((module) => {
+    import('../assets/request-microphone-zh.js').then((module) => {
       setRequestMicrophoneZhUrl(module.default);
     });
-    resetMicrophoneEnUrlPromise.then((module) => {
+    import('../assets/reset-microphone-en.js').then((module) => {
       setResetMicrophoneEnUrl(module.default);
     });
-    resetMicrophoneZhUrlPromise.then((module) => {
+    import('../assets/reset-microphone-zh.js').then((module) => {
       setResetMicrophoneZhUrl(module.default);
     });
-    requestCameraEnUrlPromise.then((module) => {
+    import('../assets/request-camera-en.js').then((module) => {
       setRequestCameraEnUrl(module.default);
     });
-    requestCameraZhUrlPromise.then((module) => {
+    import('../assets/request-camera-zh.js').then((module) => {
       setRequestCameraZhUrl(module.default);
     });
-    resetCameraEnUrlPromise.then((module) => {
+    import('../assets/reset-camera-en.js').then((module) => {
       setResetCameraEnUrl(module.default);
     });
-    resetCameraZhUrlPromise.then((module) => {
+    import('../assets/reset-camera-zh.js').then((module) => {
       setResetCameraZhUrl(module.default);
     });
   }, []);
@@ -560,16 +547,16 @@ function SaveAudioDeviceForm(props: {
   });
 
   useEffect(() => {
-    saveAudioDeviceEnUrlPromise1.then((module) => {
+    import('../assets/save-default-audio1-en.js').then((module) => {
       setSaveAudioDeviceEnUrl1(module.default);
     });
-    saveAudioDeviceEnUrlPromise2.then((module) => {
+    import('../assets/save-default-audio2-en.js').then((module) => {
       setSaveAudioDeviceEnUrl2(module.default);
     });
-    saveAudioDeviceZhUrlPromise1.then((module) => {
+    import('../assets/save-default-audio1-zh.js').then((module) => {
       setSaveAudioDeviceZhUrl1(module.default);
     });
-    saveAudioDeviceZhUrlPromise2.then((module) => {
+    import('../assets/save-default-audio2-zh.js').then((module) => {
       setSaveAudioDeviceZhUrl2(module.default);
     });
   }, []);
