@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.8
+
+2025-8-27
+
+### Features
+
+#### hooks
+
+- ✨ add a new hook `useStompSocket` which provides a simple way to connect and communicate with a STOMP WebSocket server.
+
 ## 1.4.7
 
 2025-8-20

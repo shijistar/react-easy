@@ -46,5 +46,7 @@ const enUS = {
   'hooks.useUserMedia.rememberDefaultAudioDevice': 'Remember default device?',
   'hooks.useUserMedia.rememberDefaultAudioDeviceTip':
     'Please follow these steps to save the default audio device for automatic selection next time.',
+  'hooks.useStompSocket.connectError': 'Connection failed, please try again later',
+  'hooks.useStompSocket.serverDisconnected': 'Server disconnected',
 } as const;
 export default enUS;

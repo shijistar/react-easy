@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@lexical/react": "^0.33.1",
+    "@stomp/stompjs": "^7.1.1",
     "i18next": "^24.2.3",
     "lexical": "^0.33.1",
     "react-contexify": "^6.0.0"

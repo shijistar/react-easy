@@ -1,9 +1,11 @@
 export { default as useRefValue } from './useRefValue';
 export { default as useRefFunction } from './useRefFunction';
-
+export * from './useStompSocket';
+export { default as useStompSocket } from './useStompSocket';
 export type { ValidatorRuleMap } from './useValidators';
 export { default as useValidators } from './useValidators';
 export { default as useValidator } from './useValidator';
 export type { Validator, RuleRegExpFlags, ValidatorRule, BuilderOptions } from './useValidatorBuilder';
 export { default as useValidatorBuilder } from './useValidatorBuilder';
+export * from './useUserMedia';
 export { default as useUserMedia } from './useUserMedia';

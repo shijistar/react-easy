@@ -43,5 +43,7 @@ const zhCN = {
   'hooks.useUserMedia.chooseMicrophoneDevice': '请重新选择音频设备',
   'hooks.useUserMedia.rememberDefaultAudioDevice': '记住默认设备？',
   'hooks.useUserMedia.rememberDefaultAudioDeviceTip': '请按照以下步骤保存默认音频设备，以便下次使用时自动选择。',
+  'hooks.useStompSocket.connectError': '连接失败，请稍后重试',
+  'hooks.useStompSocket.serverDisconnected': '服务端已断开连接',
 } as const;
 export default zhCN;
