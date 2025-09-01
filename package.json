@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -31,7 +31,9 @@
     "README.zh-CN.md"
   ],
   "scripts": {
-    "build": "father build",
+    "build": "run-s build-core correct-sourcemap",
+    "build-core": "father build",
+    "correct-sourcemap": "tsx scripts/correct-sourcemap.ts",
     "prepare": "husky",
     "prepublishOnly": "npm run build"
   },
@@ -40,7 +42,8 @@
     "@stomp/stompjs": "^7.1.1",
     "i18next": "^24.2.3",
     "lexical": "^0.33.1",
-    "react-contexify": "^6.0.0"
+    "react-contexify": "^6.0.0",
+    "sockjs-client": "^1.6.1"
   },
   "devDependencies": {
     "@tiny-codes/code-style-all-in-one": "^1.1.5",
@@ -50,6 +53,7 @@
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "@types/react-is": "^19.0.0",
+    "@types/sockjs-client": "^1.5.4",
     "antd": "^5.24.5",
     "father": "^4.5.2",
     "jest": "^29.7.0",
@@ -58,6 +62,7 @@
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
     "ts-jest": "^29.3.0",
+    "tsx": "^4.20.5",
     "typescript": "^5.8.2"
   },
   "peerDependencies": {

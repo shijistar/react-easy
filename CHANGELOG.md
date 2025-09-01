@@ -4,13 +4,17 @@
 
 ## 1.4.8
 
-2025-8-27
+2025-9-1
 
 ### Features
 
 #### hooks
 
 - ✨ add a new hook `useStompSocket` which provides a simple way to connect and communicate with a STOMP WebSocket server.
+
+### Bug Fixes
+
+- 🐞 Fix sourcemap are not referenced correctly in `assets`
 
 ## 1.4.7
 

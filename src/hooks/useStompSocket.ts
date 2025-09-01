@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { StompConfig } from '@stomp/stompjs';
 import { Client } from '@stomp/stompjs';
 import { notification } from 'antd';
+import SockJS from 'sockjs-client';
 import useRefFunction from './useRefFunction';
 import useT from './useT';
 
@@ -64,6 +65,7 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
   const t = useT();
   const socketRef = useRef<WebSocket | undefined>(undefined);
   const stompClientRef = useRef<Client | undefined>(undefined);
+  const [connecting, setConnecting] = useState(false);
   const isConnectedRef = useRef(false);
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   const [, refresh] = useState<void>();
@@ -71,21 +73,23 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
   const connect = useRefFunction(async () => {
     const promise = new Promise<void>((resolve, reject) => {
       try {
-        // 创建WebSocket连接
-        socketRef.current = new WebSocket(url);
+        setConnecting(true);
+        // Create SockJS instance
+        socketRef.current = new SockJS(url);
 
-        // 创建STOMP客户端
+        // Create STOMP client
         stompClientRef.current = new Client({
           heartbeatIncoming: 5000,
           heartbeatOutgoing: 5000,
           ...connectConfig,
           webSocketFactory: () => socketRef.current,
         });
-        // 连接Stomp服务器
+        // Connect to STOMP server
         stompClientRef.current.activate();
 
-        // 连接STOMP服务器
+        // STOMP server connection established
         stompClientRef.current.onConnect = () => {
+          setConnecting(false);
           isConnectedRef.current = true;
           onConnected?.();
           if (subscribeEndpoint) {
@@ -105,30 +109,37 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
         stompClientRef.current.onWebSocketError = (error) => {
           console.error('WebSocket Error:', error);
         };
-        socketRef.current.onerror = (error: unknown) => {
-          console.error(error);
-        };
+        if (socketRef.current) {
+          socketRef.current.onerror = (error: unknown) => {
+            console.error(error);
+          };
+        }
 
         stompClientRef.current.onWebSocketClose = (event) => {
+          setConnecting(false);
+          // Normal close
           if (event.type === 'close' && event.code === 1000) {
             return;
           }
           stompClientRef.current?.debug('StompClient closed');
           if (isConnectedRef.current) {
             isConnectedRef.current = false;
-            // 服务端断开
             onClose?.();
-            notification.error({ message: t('hooks.useStompSocket.connectError') });
-          } else {
-            // 客户端连接失败
             notification.error({ message: undefined, description: t('hooks.useStompSocket.serverDisconnected') });
+          } else {
+            // Client connection failed
+            notification.error({ message: t('hooks.useStompSocket.connectError') });
           }
         };
-        socketRef.current.onclose = (event) => {
-          stompClientRef.current?.debug('Socket closed');
-          console.log('event', event);
-          onClose?.();
-        };
+        if (socketRef.current) {
+          socketRef.current.onclose = (event) => {
+            setConnecting(false);
+            isConnectedRef.current = false;
+            stompClientRef.current?.debug('Socket closed');
+            console.log('event', event);
+            onClose?.();
+          };
+        }
       } catch (error: unknown) {
         console.error(error);
         // notification.error({ message: error?.message ?? JSON.stringify(error) });
@@ -144,6 +155,7 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
       stompClientRef.current?.deactivate();
       socketRef.current?.close();
       isConnectedRef.current = false;
+      setConnecting(false);
     } catch (error) {
       console.error(error);
     }
@@ -162,6 +174,7 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
     connect,
     close,
     send,
+    connecting,
     socket: socketRef.current,
     stompClient: stompClientRef.current,
   };
