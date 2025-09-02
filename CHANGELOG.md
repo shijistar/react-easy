@@ -2,6 +2,28 @@
 
 # Changelog
 
+## 1.4.9
+
+2025-9-2
+
+### Features
+
+#### hooks
+
+- ✨ add a new hook `useSSE` which provides a simple way to connect and communicate with a Server-Sent Events (SSE) server.
+- ✨ add a new hook `useAudioPlayer` used to play audio from a given source URL or streaming data.
+- ✨ add a new util `utils.arrayBufferToBase64` used to convert an ArrayBuffer to a Base64 encoded string.
+- ✨ add a new util `utils.base64ToArrayBuffer` used to convert a Base64 encoded string to an ArrayBuffer.
+
+### Notable Changes
+
+- 🔥 `utils.toBase64` method is renamed to `utils.stringToBase64`.
+- 🔥 `utils.fromBase64` method is renamed to `utils.base64ToString`.
+
+### Bug Fixes
+
+- 🐞 Fix sourcemap are not referenced correctly in `assets`
+
 ## 1.4.8
 
 2025-9-1

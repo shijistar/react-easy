@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@lexical/react": "^0.33.1",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@stomp/stompjs": "^7.1.1",
     "i18next": "^24.2.3",
     "lexical": "^0.33.1",

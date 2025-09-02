@@ -1,3 +1,4 @@
+import { base64ToString, stringToBase64 } from './base64';
 import { random } from './math';
 import { randomChars } from './string';
 
@@ -5,11 +6,11 @@ import { randomChars } from './string';
 export async function advancedEncrypt(plainText: string, key: string) {
   const k1 = randomChars(36);
   let e = await encryptAES(plainText, k1);
-  const b = toBase64(k1);
+  const b = stringToBase64(k1);
   const l = b.length;
   const s = random(0, e.length);
   e = e.substring(0, s) + b + e.substring(s);
-  const r = toBase64(`${s}-${l}`);
+  const r = stringToBase64(`${s}-${l}`);
   const t = `${e}.${r}`;
   return encryptAES(t, key);
 }
@@ -18,8 +19,8 @@ export async function advancedEncrypt(plainText: string, key: string) {
 export async function advancedDecrypt(encryptedText: string, key: string) {
   const decrypted = await decryptAES(encryptedText, key);
   const [e, r] = decrypted.split('.');
-  const [s, l] = fromBase64(r).split('-').map(Number);
-  const k1 = fromBase64(e.substring(s, s + l));
+  const [s, l] = base64ToString(r).split('-').map(Number);
+  const k1 = base64ToString(e.substring(s, s + l));
   return decryptAES(e.substring(0, s) + e.substring(s + l), k1);
 }
 
@@ -109,101 +110,5 @@ export async function decryptAES(encryptedText: string, key: string): Promise<st
   } catch (error) {
     console.error('Decryption error:', error);
     return '';
-  }
-}
-
-/**
- * - **EN:** Encode a UTF-8 string into Base64 (standard or URL-safe).
- * - **CN:** 将 UTF-8 字符串编码为 Base64（标准或 URL 安全格式）。
- *
- * @param content Input text to encode | 要编码的输入文本
- *
- * @returns Base64 encoded string | Base64 编码后的字符串
- */
-export function toBase64(
-  content: string,
-  opts: {
-    /**
-     * - **EN:** Use URL-safe Base64 if true (replace +/ with -_ and strip =)
-     * - **CN:** 为 true 时使用 URL 安全 Base64（将 +/ 替换为 -_ 并去掉 =）
-     */
-    urlSafe?: boolean;
-  } = {}
-): string {
-  const { urlSafe = false } = opts;
-  if (content == null || content === '') return '';
-
-  let base64: string;
-  const hasBuffer = typeof Buffer !== 'undefined' && typeof Buffer.from === 'function';
-  if (hasBuffer) {
-    // Node.js
-    base64 = Buffer.from(content, 'utf8').toString('base64');
-  } else {
-    // Browser
-    const encoder = new TextEncoder();
-    const bytes = encoder.encode(content);
-    let binary = '';
-    for (const i of bytes) {
-      binary += String.fromCharCode(i);
-    }
-    base64 = btoa(binary);
-  }
-
-  if (urlSafe) {
-    // Replace chars and strip padding for URL-safe variant
-    base64 = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/u, '');
-  }
-  return base64;
-}
-
-/**
- * - EN: Decode a Base64 (standard or URL-safe) string into UTF-8 text.
- * - CN: 将（标准或 URL 安全）Base64 字符串解码为 UTF-8 文本。
- *
- * @param content Base64 encoded string | Base64 编码字符串
- *
- * @returns Decoded UTF-8 string | 解码后的 UTF-8 字符串
- */
-export function fromBase64(
-  content: string,
-  opts: {
-    /**
-     * - **EN:** Use URL-safe Base64 if true (replace +/ with -_ and strip =)
-     * - **CN:** 为 true 时使用 URL 安全 Base64（将 +/ 替换为 -_ 并去掉 =）
-     */
-    urlSafe?: boolean;
-  } = {}
-): string {
-  const { urlSafe = false } = opts;
-  if (content == null || content === '') return '';
-
-  let normalized = content;
-  if (urlSafe) {
-    normalized = normalized.replace(/-/g, '+').replace(/_/g, '/');
-  }
-  // Restore padding if stripped
-  const padNeeded = normalized.length % 4;
-  if (padNeeded === 2) normalized += '==';
-  else if (padNeeded === 3) normalized += '=';
-  else if (padNeeded === 1) {
-    throw new Error('Invalid Base64 string length');
-  }
-
-  const hasBuffer = typeof Buffer !== 'undefined' && typeof Buffer.from === 'function';
-  try {
-    if (hasBuffer) {
-      return Buffer.from(normalized, 'base64').toString('utf8');
-    } else {
-      const binary = atob(normalized);
-      const len = binary.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binary.charCodeAt(i);
-      }
-      const decoder = new TextDecoder();
-      return decoder.decode(bytes);
-    }
-  } catch (e) {
-    throw new Error('Failed to decode Base64: ' + (e instanceof Error ? e.message : String(e)));
   }
 }

@@ -1,5 +1,8 @@
+export { default as useAudioPlayer } from './useAudioPlayer';
 export { default as useRefValue } from './useRefValue';
 export { default as useRefFunction } from './useRefFunction';
+export * from './useSSE';
+export { default as useSSE } from './useSSE';
 export * from './useStompSocket';
 export { default as useStompSocket } from './useStompSocket';
 export type { ValidatorRuleMap } from './useValidators';
