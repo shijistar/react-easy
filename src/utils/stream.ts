@@ -3,13 +3,15 @@
  * - **CN:** 一个数据流时间切片器，用于将音频流分成固定时间段
  */
 export class StreamTimeSlicerClass implements StreamTimeSlicer {
-  timeSlice: number;
+  public sliceMode: StreamTimeSlicerOptions['sliceMode'];
+  public value: StreamTimeSlicerOptions['value'];
   private readonly onSlice: (channels: Float32Array[], sliceDurationMs: number) => void;
   private channelChunks: Float32Array[][] = [];
   private startTs: number | null = null;
 
   constructor(options: StreamTimeSlicerOptions) {
-    this.timeSlice = options.timeSlice;
+    this.sliceMode = options.sliceMode;
+    this.value = options.value;
     this.onSlice = options.onSlice;
   }
 
@@ -19,8 +21,12 @@ export class StreamTimeSlicerClass implements StreamTimeSlicer {
 
   private shouldEmit(currentTs: number) {
     if (this.startTs == null) return false;
-    if (this.timeSlice <= 0) return true;
-    return currentTs - this.startTs >= this.timeSlice;
+    if (this.value <= 0) return true;
+    if (this.sliceMode === 'time') {
+      return currentTs - this.startTs >= this.value;
+    } else {
+      return this.channelChunks.reduce((acc, arr) => acc + arr.length, 0) >= this.value;
+    }
   }
 
   private emit(force = false) {
@@ -67,7 +73,7 @@ export class StreamTimeSlicerClass implements StreamTimeSlicer {
     });
 
     this.emit(false);
-    if (this.timeSlice <= 0) this.emit(true); // immediate output mode
+    if (this.value <= 0) this.emit(true); // immediate output mode
   }
 
   flush() {
@@ -85,10 +91,21 @@ export class StreamTimeSlicerClass implements StreamTimeSlicer {
 }
 export interface StreamTimeSlicerOptions {
   /**
-   * - **EN:** Duration of each slice (ms)
-   * - **CN:** 分片时长(ms)
+   * - **EN:** Mode of slicing
+   *
+   *   - 'time': slice by time (ms)
+   *   - 'size': slice by size (bytes)
+   * - **CN:** 切片模式
+   *
+   *   - 'time': 按时间切片（毫秒）
+   *   - 'size': 按大小切片（字节）
    */
-  timeSlice: number;
+  sliceMode: 'time' | 'size';
+  /**
+   * - **EN:** Value for slicing (ms or bytes)
+   * - **CN:** 切片值（毫秒或字节）
+   */
+  value: number;
   /**
    * - **EN:** Callback when a slice is reached
    * - **CN:** 达到分片时回调
@@ -104,12 +121,9 @@ export interface StreamTimeSlicerOptions {
  * - **EN:** stream time slicer
  * - **CN:** 数据流时间切片器
  */
-export interface StreamTimeSlicer {
-  /**
-   * - **EN:** Duration of each slice (ms)
-   * - **CN:** 每个分片的时长（毫秒）
-   */
-  timeSlice: number;
+export interface StreamTimeSlicer
+  extends Readonly<Pick<StreamTimeSlicerOptions, 'sliceMode'>>,
+    Pick<StreamTimeSlicerOptions, 'value'> {
   /**
    * - **EN:** Push a frame (multi-channel data obtained from the same callback)
    * - **CN:** 推入一帧（同一次回调得到的多通道）

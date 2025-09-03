@@ -2,6 +2,36 @@
 
 # Changelog
 
+## 1.4.10
+
+2025-9-3
+
+### Features
+
+#### `AudioPlayer`
+
+- ✨ audio source is extended to support `ArrayBuffer`, `Uint8Array`, and `Blob` types
+- ✨ add `seekForward` and `seekBackward` methods for seeking audio playback
+- ✨ add `seek` method for setting the current playback time
+
+#### `useUserMedia`
+
+- ✨ add `streamSliceMode` and `streamSliceValue` options for controlling the slicing behavior of the media stream.
+
+### Notable Changes
+
+#### `AudioPlayer`
+
+- 👀 `getVolume` method is renamed to `volume` getter
+- 👀 `getCurrentTime` method is renamed to `currentTime` getter
+- 👀 `getDuration` method is renamed to `duration` getter
+- 👀 `gotoTime` method is removed
+- 👀 `gotoPercent` method is removed
+
+#### `useUserMedia`
+
+- 👀 `streamSliceMs` is removed, please use `streamSliceMode` and `streamSliceValue` instead.
+
 ## 1.4.9
 
 2025-9-2

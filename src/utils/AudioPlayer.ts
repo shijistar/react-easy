@@ -1,4 +1,4 @@
-export type AudioSource = string | ReadableStreamDefaultReader<Uint8Array>;
+export type AudioSource = string | ReadableStreamDefaultReader<Uint8Array> | ArrayBuffer | Uint8Array | Blob;
 
 export interface AudioPlayerInit {
   /**
@@ -46,7 +46,7 @@ export interface AudioPlayerInit {
  */
 class AudioPlayer {
   private audio: HTMLAudioElement;
-  private volume: number;
+  private _volume: number;
   private audioContext: AudioContext | null = null;
   private gainNode: GainNode | null = null;
   private sourceNode: MediaElementAudioSourceNode | null = null;
@@ -64,8 +64,8 @@ class AudioPlayer {
     const { source, volume } = options || {};
     this.options = options;
     this.audio = new Audio();
-    this.volume = volume != null ? Math.min(1.0, Math.max(0, volume)) : 0.5; // Default volume 50%
-    this.audio.volume = this.volume;
+    this._volume = volume != null ? Math.min(1.0, Math.max(0, volume)) : 0.5; // Default volume 50%
+    this.audio.volume = this._volume;
     if (typeof source === 'function') {
       const result = source();
       if (typeof result === 'object' && 'then' in result && typeof result.then === 'function') {
@@ -88,6 +88,27 @@ class AudioPlayer {
    */
   public get isPlaying() {
     return this.audioContext?.state === 'running';
+  }
+  /**
+   * - **EN:** Get current playback time (seconds)
+   * - **CN:** 获取当前播放时间(秒)
+   */
+  get currentTime(): number {
+    return this.audio.currentTime;
+  }
+  /**
+   * - **EN:** Get total audio duration (seconds)
+   * - **CN:** 获取音频总时长(秒)
+   */
+  get duration(): number {
+    return this.audio.duration;
+  }
+  /**
+   * - **EN:** Get current volume value (0-1)
+   * - **CN:** 获取当前音量值(0-1)
+   */
+  get volume(): number {
+    return this._volume;
   }
 
   /**
@@ -113,40 +134,48 @@ class AudioPlayer {
   }
 
   /**
+   * - **EN:** Seek forward by a certain number of seconds
+   * - **CN:** 向前跳转一定秒数
+   *
+   * @param seconds - number of seconds to seek forward | 要向前跳转的秒数
+   */
+  seekForward(seconds: number) {
+    if (seconds < 0) {
+      return;
+    }
+    if (!isNaN(this.audio.duration)) {
+      this.audio.currentTime = Math.min(this.audio.currentTime + seconds, this.audio.duration);
+    } else {
+      this.audio.currentTime += seconds;
+    }
+  }
+  /**
+   * - **EN:** Seek backward by a certain number of seconds
+   * - **CN:** 向后跳转一定秒数
+   *
+   * @param seconds - number of seconds to seek backward | 要向后跳转的秒数
+   */
+  seekBackward(seconds: number) {
+    if (seconds < 0) {
+      return;
+    }
+    this.audio.currentTime = Math.max(this.audio.currentTime - seconds, 0);
+  }
+  /**
    * - **EN:** Set current playback time (in seconds)
    * - **CN:** 设置当前播放时间（以秒为单位）
    *
    * @param time - time in seconds | 时间（秒）
    */
-  gotoTime(time: number): void {
+  seek(time: number) {
     // Ensure time is not less than 0
     const newTime = Math.max(0, time);
-
     // Ensure time is not greater than duration (if known)
     if (!isNaN(this.audio.duration)) {
       this.audio.currentTime = Math.min(newTime, this.audio.duration);
     } else {
       this.audio.currentTime = newTime;
     }
-  }
-
-  /**
-   * - **EN:** Set playback position by percentage
-   * - **CN:** 按百分比设置播放位置
-   *
-   * @param percent - percentage (0-1) | 百分比（0-1）
-   */
-  gotoPercent(percent: number): void {
-    if (isNaN(this.audio.duration)) {
-      return; // Can't set position if duration is unknown
-    }
-
-    // Clamp percent to 0-1 range
-    const clampedPercent = Math.min(1, Math.max(0, percent));
-
-    // Calculate time based on percentage
-    const newTime = this.audio.duration * clampedPercent;
-    this.audio.currentTime = newTime;
   }
 
   /**
@@ -193,7 +222,7 @@ class AudioPlayer {
    * @param percent - increase percentage (default 10%) | 增加百分比（默认10%）
    */
   volumeUp(percent = 0.1): void {
-    this.volume = Math.min(1.0, this.volume + percent);
+    this._volume = Math.min(1.0, this._volume + percent);
     this.updateVolume();
   }
 
@@ -204,7 +233,7 @@ class AudioPlayer {
    * @param percent - decrease percentage (default 10%) | 降低百分比（默认10%）
    */
   volumeDown(percent = 0.1): void {
-    this.volume = Math.max(0, this.volume - percent);
+    this._volume = Math.max(0, this._volume - percent);
     this.updateVolume();
   }
 
@@ -215,32 +244,8 @@ class AudioPlayer {
    * @param value - new volume value (0-1) | 新的音量值（0-1）
    */
   setVolume(value: number): void {
-    this.volume = Math.min(1.0, Math.max(0, value));
+    this._volume = Math.min(1.0, Math.max(0, value));
     this.updateVolume();
-  }
-
-  /**
-   * - **EN:** Get current volume value (0-1)
-   * - **CN:** 获取当前音量值(0-1)
-   */
-  getVolume(): number {
-    return this.volume;
-  }
-
-  /**
-   * - **EN:** Get current playback time (seconds)
-   * - **CN:** 获取当前播放时间(秒)
-   */
-  getCurrentTime(): number {
-    return this.audio.currentTime;
-  }
-
-  /**
-   * - **EN:** Get total audio duration (seconds)
-   * - **CN:** 获取音频总时长(秒)
-   */
-  getDuration(): number {
-    return this.audio.duration;
   }
 
   /**
@@ -288,28 +293,35 @@ class AudioPlayer {
   }
 
   /** Process streaming data source */
-  private async handleStreamSource(reader?: ReadableStreamDefaultReader<Uint8Array>) {
-    if (!reader) return;
+  private async handleStreamSource(source: Exclude<AudioSource, string> | undefined) {
+    if (!source) return;
     try {
-      // Create a new ReadableStream to read data from the reader
-      const stream = new ReadableStream({
-        async pull(controller) {
-          try {
-            const { done, value } = await reader.read();
-            if (done) {
-              controller.close();
-            } else {
-              controller.enqueue(value);
+      let blob: Blob;
+      if (source instanceof Blob) {
+        blob = source;
+      } else if (source instanceof ArrayBuffer || source instanceof Uint8Array) {
+        blob = new Blob([source]);
+      } else {
+        // Create a new ReadableStream to read data from the reader
+        const stream = new ReadableStream({
+          async pull(controller) {
+            try {
+              const { done, value } = await source.read();
+              if (done) {
+                controller.close();
+              } else {
+                controller.enqueue(value);
+              }
+            } catch (err) {
+              controller.error(err);
             }
-          } catch (err) {
-            controller.error(err);
-          }
-        },
-      });
+          },
+        });
+        // Convert stream to Blob and create URL
+        const response = new Response(stream);
+        blob = await response.blob();
+      }
 
-      // Convert stream to Blob and create URL
-      const response = new Response(stream);
-      const blob = await response.blob();
       const url = URL.createObjectURL(blob);
 
       this.audio.src = url;
@@ -334,15 +346,15 @@ class AudioPlayer {
     this.sourceNode.connect(this.gainNode);
     this.gainNode.connect(this.audioContext.destination);
 
-    this.gainNode.gain.value = this.volume;
+    this.gainNode.gain.value = this._volume;
   }
 
   /** Update audio playback volume */
   private updateVolume(): void {
     if (this.gainNode) {
-      this.gainNode.gain.value = this.volume;
+      this.gainNode.gain.value = this._volume;
     } else {
-      this.audio.volume = this.volume;
+      this.audio.volume = this._volume;
     }
   }
 }

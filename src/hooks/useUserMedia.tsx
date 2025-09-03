@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { App, Checkbox, Flex, Form, Modal, notification, Select, Typography } from 'antd';
 import EasyConfigProvider from '../components/ConfigProvider';
 import ReactEasyContext from '../components/ConfigProvider/context';
-import { StreamTimeSlicerClass } from '../utils/stream';
+import { StreamTimeSlicerClass, type StreamTimeSlicerOptions } from '../utils/stream';
 import useRefFunction from './useRefFunction';
 import useRefValue from './useRefValue';
 import useT from './useT';
@@ -67,11 +67,17 @@ export interface UseUserMediaProps {
    */
   disabled?: boolean;
   /**
-   * - **EN:** The slicing time period (milliseconds) for each fragment of the audio and video stream,
-   *   each time slice will trigger the `onStreamChunk` callback. Default is `500`.
-   * - **CN:** 媒体流每个分片的切片时间段（毫秒），每个时间分片会触发一次 `onStreamChunk` 回调，默认值为 `500`。
+   * - **EN:** The slicing mode for the audio and video stream.
+   * - **CN:** 媒体流的切片模式。
    */
-  streamSliceMs?: number;
+  streamSliceMode?: StreamTimeSlicerOptions['sliceMode'];
+  /**
+   * - **EN:** The slicing value (milliseconds or bytes) for the audio and video stream, when
+   *   `streamSliceMode` is `time`, it represents milliseconds, and when it is `size`, it represents
+   *   bytes.
+   * - **CN:** 媒体流切片的切片值（毫秒或字节），当 `streamSliceMode` 为 `time` 时表示毫秒，为 `size` 时表示字节。
+   */
+  streamSliceValue?: StreamTimeSlicerOptions['value'];
   /**
    * - **EN:** The silence detection threshold (0-1) for the audio stream, below which the audio is
    *   considered silent. Default is `0`.
@@ -92,7 +98,8 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
     media,
     pcmAudioOptions,
     disabled,
-    streamSliceMs = 500,
+    streamSliceMode = 'time',
+    streamSliceValue,
     soundDetectionThreshold = 0,
     soundDetectionTimeout = 3000,
     onStartRecording,
@@ -132,7 +139,8 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
   const onPcmStreamChunkRef = useRefValue(onPcmStreamChunk);
   const pcmStreamSlicerRef = useRef(
     new StreamTimeSlicerClass({
-      timeSlice: streamSliceMs,
+      sliceMode: streamSliceMode,
+      value: streamSliceValue || 0,
       onSlice: (channels) => {
         onPcmStreamChunkRef.current?.(channels, pcmSampleRateRef.current);
       },
@@ -194,8 +202,8 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
           onStreamChunk?.(event.data);
         }
       };
-      if (streamSliceMs) {
-        recorder.start(streamSliceMs);
+      if (streamSliceMode === 'time' && streamSliceValue) {
+        recorder.start(streamSliceValue);
       } else {
         recorder.start();
       }
@@ -437,10 +445,10 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
 
   // Update PCM stream slicer time slice when input sample rate changes
   useEffect(() => {
-    if (streamSliceMs && pcmStreamSlicerRef.current.timeSlice !== streamSliceMs) {
-      pcmStreamSlicerRef.current.timeSlice = streamSliceMs;
+    if (streamSliceValue && pcmStreamSlicerRef.current.value !== streamSliceValue) {
+      pcmStreamSlicerRef.current.value = streamSliceValue;
     }
-  }, [streamSliceMs]);
+  }, [streamSliceValue]);
 
   // Detect sound activity (only for audio or media with audio)
   useEffect(() => {
