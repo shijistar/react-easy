@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.11
+
+2025-9-3
+
+### Features
+
+#### `utils.crypto`
+
+- ✨ improve the compatibility of `advancedEncrypt` and `advancedDecrypt` methods to support insecure contexts, such as HTTP.
+
 ## 1.4.10
 
 2025-9-3

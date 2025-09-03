@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -41,6 +41,7 @@
     "@lexical/react": "^0.33.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@stomp/stompjs": "^7.1.1",
+    "crypto-js": "^4.2.0",
     "i18next": "^24.2.3",
     "lexical": "^0.33.1",
     "react-contexify": "^6.0.0",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@tiny-codes/code-style-all-in-one": "^1.1.5",
     "@tiny-codes/eslint-plugin-react-hooks": "^4.6.0",
+    "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.32",
     "@types/react": "^19.0.12",

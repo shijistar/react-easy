@@ -48,21 +48,39 @@ export async function encryptAES(text: string, key: string): Promise<string> {
     encrypted += cipher.final('base64');
     return `${iv.toString('base64')}:${encrypted}`;
   } else {
-    // Browsers
-    try {
-      const iv = crypto.getRandomValues(new Uint8Array(16));
-      const encoder = new TextEncoder();
-      const keyData = encoder.encode(key);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', keyData);
-      const cryptoKey = await crypto.subtle.importKey('raw', hashBuffer, { name: 'AES-CBC' }, false, ['encrypt']);
-      const textBytes = encoder.encode(text);
-      const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-CBC', iv }, cryptoKey, textBytes);
-      const ivBase64 = btoa(String.fromCharCode(...iv));
-      const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedBuffer)));
-      return `${ivBase64}:${encryptedBase64}`;
-    } catch (error) {
-      console.error('Encryption error:', error);
-      throw error;
+    if (crypto.subtle) {
+      // Browsers
+      try {
+        const iv = crypto.getRandomValues(new Uint8Array(16));
+        const encoder = new TextEncoder();
+        const keyData = encoder.encode(key);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', keyData);
+        const cryptoKey = await crypto.subtle.importKey('raw', hashBuffer, { name: 'AES-CBC' }, false, ['encrypt']);
+        const textBytes = encoder.encode(text);
+        const encryptedBuffer = await crypto.subtle.encrypt({ name: 'AES-CBC', iv }, cryptoKey, textBytes);
+        const ivBase64 = btoa(String.fromCharCode(...iv));
+        const encryptedBase64 = btoa(String.fromCharCode(...new Uint8Array(encryptedBuffer)));
+        return `${ivBase64}:${encryptedBase64}`;
+      } catch (error) {
+        console.error('Encryption error:', error);
+        throw error;
+      }
+    } else {
+      // let encrypt: typeof CryptoJS.AES.encrypt;
+      // try {
+      //   const aes = await import('crypto-js/aes');
+      //   encrypt = aes.encrypt;
+      // } catch (error) {
+      //   console.error('Load "crypto-js/aes" error:', error);
+      //   throw error;
+      // }
+      // try {
+      //   return encrypt(text, key).toString();
+      // } catch (error) {
+      //   console.error('Encryption error:', error);
+      //   throw error;
+      // }
+      return encryptWithCryptoJS(text, key);
     }
   }
 }
@@ -96,19 +114,126 @@ export async function decryptAES(encryptedText: string, key: string): Promise<st
       decrypted = Buffer.concat([decrypted, decipher.final()]);
       return decrypted.toString('utf8');
     } else {
-      // Browsers
-      const iv = Uint8Array.from(atob(ivBase64), (c) => c.charCodeAt(0));
-      const encryptedData = Uint8Array.from(atob(encryptedBase64), (c) => c.charCodeAt(0));
-      const encoder = new TextEncoder();
-      const keyData = encoder.encode(key);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', keyData);
-      const cryptoKey = await crypto.subtle.importKey('raw', hashBuffer, { name: 'AES-CBC' }, false, ['decrypt']);
-      const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-CBC', iv }, cryptoKey, encryptedData);
-      const decoder = new TextDecoder();
-      return decoder.decode(decryptedBuffer);
+      if (crypto.subtle) {
+        // Browsers with Web Crypto API, in secure contexts (HTTPS)
+        const iv = Uint8Array.from(atob(ivBase64), (c) => c.charCodeAt(0));
+        const encryptedData = Uint8Array.from(atob(encryptedBase64), (c) => c.charCodeAt(0));
+        const encoder = new TextEncoder();
+        const keyData = encoder.encode(key);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', keyData);
+        const cryptoKey = await crypto.subtle.importKey('raw', hashBuffer, { name: 'AES-CBC' }, false, ['decrypt']);
+        const decryptedBuffer = await crypto.subtle.decrypt({ name: 'AES-CBC', iv }, cryptoKey, encryptedData);
+        const decoder = new TextDecoder();
+        return decoder.decode(decryptedBuffer);
+      } else {
+        // Browsers without Web Crypto API, or insecure contexts (HTTP), fallback to CryptoJS
+        // let decrypt: typeof CryptoJS.AES.decrypt;
+        // let utf8: typeof CryptoJS.enc.Utf8;
+        // try {
+        //   const [aes, encUtf8] = await Promise.all([import('crypto-js/aes'), import('crypto-js/enc-utf8')]);
+        //   decrypt = aes.decrypt;
+        //   utf8 = encUtf8.default;
+        // } catch (error) {
+        //   console.error('Load "crypto-js/aes" error:', error);
+        //   throw error;
+        // }
+        // try {
+        //   const decrypted = decrypt(encryptedText, key);
+        //   return decrypted.toString(utf8);
+        // } catch (error) {
+        //   console.error('Decryption error:', error);
+        //   throw error;
+        // }
+        return decryptWithCryptoJS(encryptedText, key);
+      }
     }
   } catch (error) {
     console.error('Decryption error:', error);
     return '';
+  }
+}
+export async function encryptWithCryptoJS(text: string, key: string) {
+  const [
+    {
+      default: {
+        mode: { CBC },
+        lib: { WordArray },
+      },
+    },
+    { default: Pkcs7 },
+    { default: Base64 },
+    { default: Utf8 },
+    { default: SHA256 },
+    {
+      default: { encrypt },
+    },
+  ] = await Promise.all([
+    import('crypto-js/core.js'),
+    import('crypto-js/pad-pkcs7.js'),
+    import('crypto-js/enc-base64.js'),
+    import('crypto-js/enc-utf8.js'),
+    import('crypto-js/sha256.js'),
+    import('crypto-js/aes.js'),
+  ]);
+
+  try {
+    // Convert text and key to WordArray objects
+    const wordArray = Utf8.parse(text);
+    const keyArray = SHA256(key);
+    const iv = WordArray.random(16);
+
+    const encryptedBase64 = Base64.stringify(
+      encrypt(wordArray, keyArray, {
+        iv,
+        mode: CBC,
+        padding: Pkcs7,
+      }).ciphertext
+    );
+    return `${Base64.stringify(iv)}:${encryptedBase64}`;
+  } catch (error) {
+    console.error('Encryption error:', error);
+    throw error;
+  }
+}
+
+export async function decryptWithCryptoJS(encryptedText: string, key: string) {
+  const [ivBase64, encryptedBase64] = encryptedText.split(':');
+
+  const [
+    {
+      default: {
+        mode: { CBC },
+      },
+    },
+    { default: Pkcs7 },
+    { default: Base64 },
+    { default: Utf8 },
+    { default: SHA256 },
+    {
+      default: { decrypt },
+    },
+  ] = await Promise.all([
+    import('crypto-js/core.js'),
+    import('crypto-js/pad-pkcs7.js'),
+    import('crypto-js/enc-base64.js'),
+    import('crypto-js/enc-utf8.js'),
+    import('crypto-js/sha256.js'),
+    import('crypto-js/aes.js'),
+  ]);
+
+  try {
+    // Convert base64 strings to WordArray objects
+    const iv = Base64.parse(ivBase64);
+    // Derive key using SHA-256 (matching native implementation)
+    const derivedKey = SHA256(key);
+    const decrypted = decrypt(encryptedBase64, derivedKey, {
+      iv,
+      mode: CBC,
+      padding: Pkcs7,
+    });
+    return decrypted.toString(Utf8);
+  } catch (error) {
+    console.error('Decryption error:', error);
+    throw error;
   }
 }
