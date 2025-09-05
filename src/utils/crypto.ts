@@ -200,23 +200,23 @@ export async function decryptWithCryptoJS(encryptedText: string, key: string) {
   const [ivBase64, encryptedBase64] = encryptedText.split(':');
 
   const [
+    { default: Base64 },
+    { default: Utf8 },
     {
       default: {
         mode: { CBC },
       },
     },
     { default: Pkcs7 },
-    { default: Base64 },
-    { default: Utf8 },
     { default: SHA256 },
     {
       default: { decrypt },
     },
   ] = await Promise.all([
-    import('crypto-js/core.js'),
-    import('crypto-js/pad-pkcs7.js'),
     import('crypto-js/enc-base64.js'),
     import('crypto-js/enc-utf8.js'),
+    import('crypto-js/core.js'),
+    import('crypto-js/pad-pkcs7.js'),
     import('crypto-js/sha256.js'),
     import('crypto-js/aes.js'),
   ]);

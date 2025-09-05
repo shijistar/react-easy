@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.12
+
+2025-9-5
+
+### Bug Fixes
+
+#### `utils.crypto`
+
+- 🐞 Optimize the order of `crypto-js` imports
+
 ## 1.4.11
 
 2025-9-3
