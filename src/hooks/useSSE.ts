@@ -51,11 +51,18 @@ const useSSE = <T = any>(props: UseSSEProps<T>) => {
     try {
       setIsRequesting(true);
       setIsConnected(false);
+      let isError = false;
+      let response: Response | undefined = undefined;
       await fetchEventSource(connectUrl, {
         method: 'post',
         signal: abortCtrlRef.current.signal,
         openWhenHidden: true,
-        onopen: async (response: Response) => {
+        onopen: async (resp: Response) => {
+          response = resp;
+          if (!response.ok) {
+            isError = true;
+            return;
+          }
           setIsConnected(true);
           onopen?.(response);
         },
@@ -79,10 +86,10 @@ const useSSE = <T = any>(props: UseSSEProps<T>) => {
           }
         },
         onerror(error) {
-          setIsRequesting(false);
           onError?.(error);
         },
         onclose() {
+          if (isError) return;
           setIsRequesting(false);
           onClose?.();
         },
@@ -92,8 +99,14 @@ const useSSE = <T = any>(props: UseSSEProps<T>) => {
         },
         ...restOptions,
       });
-    } finally {
+      if (isError) {
+        throw response;
+      }
       setIsRequesting(false);
+    } catch (error) {
+      console.error('SSE connection error:', error);
+      setIsRequesting(false);
+      setIsConnected(false);
     }
   });
 
