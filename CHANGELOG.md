@@ -2,6 +2,26 @@
 
 # Changelog
 
+## 1.4.13
+
+2025-9-8
+
+### Features
+
+#### `AudioPlayer`
+
+- ✨ Enhance `AudioPlayer` for streaming support and better error handling.
+
+#### `useSSE`
+
+- ✨ Reject the promise when first connection fails, should not fire `onError` callback in this case.
+
+### Notable Changes
+
+#### `useSSE`
+
+- 👀 `close` method in the return result is changed to `abort`.
+
 ## 1.4.12
 
 2025-9-5

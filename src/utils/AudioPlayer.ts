@@ -7,6 +7,11 @@ export interface AudioPlayerInit {
    */
   source?: AudioSource | (() => AudioSource | Promise<AudioSource>);
   /**
+   * - **EN:** MIME type of the audio (e.g., 'audio/mpeg', 'audio/wav'). Optional.
+   * - **CN:** 音频的MIME类型（例如，'audio/mpeg'，'audio/wav'）。可选。
+   */
+  mimeType?: string;
+  /**
    * - **EN:** Initial volume level (0-1). Default is `0.5`
    * - **CN:** 初始音量级别（0-1）。默认值为`0.5`
    */
@@ -51,6 +56,12 @@ class AudioPlayer {
   private gainNode: GainNode | null = null;
   private sourceNode: MediaElementAudioSourceNode | null = null;
   private options: AudioPlayerInit | undefined;
+  private mediaSource: MediaSource | null = null;
+  private sourceBuffer: SourceBuffer | null = null;
+  private chunkQueue: Uint8Array[] = [];
+  private appending = false;
+  private streamEnded = false;
+  private stopLoadingSource = false;
   private onPlayEnd: () => void;
 
   /**
@@ -87,7 +98,7 @@ class AudioPlayer {
    * - **CN:** 检查音频是否正在播放
    */
   public get isPlaying() {
-    return this.audioContext?.state === 'running';
+    return !this.audio.paused && !this.audio.ended;
   }
   /**
    * - **EN:** Get current playback time (seconds)
@@ -204,14 +215,20 @@ class AudioPlayer {
    * @param source - can be a URL `string` or `ReadableStreamDefaultReader` |
    *   可以是URL字符串或`ReadableStreamDefaultReader`
    */
-  async setAudioSource(source?: AudioSource) {
+  async setAudioSource(source?: AudioSource): Promise<{ stopLoading: () => void }> {
     this.audio.pause();
     this.audio.src = '';
+    this.disposeMediaSourceInternal();
 
     if (typeof source === 'string') {
       this.audio.src = source;
+      return {
+        stopLoading: () => {
+          // empty function
+        },
+      };
     } else {
-      await this.handleStreamSource(source);
+      return await this.handleStreamSource(source);
     }
   }
 
@@ -291,47 +308,48 @@ class AudioPlayer {
     this.sourceNode = null;
     this.gainNode = null;
   }
+  private disposeMediaSourceInternal() {
+    this.mediaSource = null;
+    this.sourceBuffer = null;
+    this.chunkQueue = [];
+    this.appending = false;
+    this.streamEnded = false;
+  }
 
-  /** Process streaming data source */
-  private async handleStreamSource(source: Exclude<AudioSource, string> | undefined) {
-    if (!source) return;
+  /** Process streaming data source /ArrayBuffer/Uint8Array/Blob */
+  private async handleStreamSource(
+    source: Exclude<AudioSource, string> | undefined
+  ): Promise<{ stopLoading: () => void }> {
+    const result = {
+      stopLoading: () => {
+        // empty function
+      },
+    };
+    if (!source) return result;
     try {
-      let blob: Blob;
       if (source instanceof Blob) {
-        blob = source;
+        const url = URL.createObjectURL(source);
+        this.audio.src = url;
+        return result;
       } else if (source instanceof ArrayBuffer || source instanceof Uint8Array) {
-        blob = new Blob([source]);
+        const blob = source instanceof Uint8Array ? new Blob([source]) : new Blob([new Uint8Array(source)]);
+        const url = URL.createObjectURL(blob);
+        this.audio.src = url;
+        this.audio.onloadeddata = () => URL.revokeObjectURL(url);
+        return result;
       } else {
         // Create a new ReadableStream to read data from the reader
-        const stream = new ReadableStream({
-          async pull(controller) {
-            try {
-              const { done, value } = await source.read();
-              if (done) {
-                controller.close();
-              } else {
-                controller.enqueue(value);
-              }
-            } catch (err) {
-              controller.error(err);
-            }
-          },
-        });
-        // Convert stream to Blob and create URL
-        const response = new Response(stream);
-        blob = await response.blob();
+        const mime = this.options?.mimeType || 'audio/mpeg';
+        result.stopLoading = () => {
+          this.stopLoadingSource = true;
+        };
+        await this.initMediaSourceForReader(source, mime);
+        return result;
       }
-
-      const url = URL.createObjectURL(blob);
-
-      this.audio.src = url;
-
-      // Release Blob URL after audio loads
-      this.audio.onload = () => {
-        URL.revokeObjectURL(url);
-      };
     } catch (error) {
       console.error('Error processing audio stream:', error);
+      this.options?.onError?.(error);
+      throw error;
     }
   }
 
@@ -356,6 +374,125 @@ class AudioPlayer {
     } else {
       this.audio.volume = this._volume;
     }
+  }
+
+  /** Initialize MediaSource and push reader chunks into SourceBuffer */
+  private async initMediaSourceForReader(reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) {
+    if (typeof MediaSource === 'undefined') {
+      console.warn('MediaSource is not supported, falling back to one-time buffering.');
+      await this.fallbackReaderToBlob(reader);
+      return;
+    }
+    if (typeof MediaSource !== 'undefined' && !MediaSource.isTypeSupported(mime)) {
+      console.warn('MIME type is not supported, falling back to one-time buffering.');
+      await this.fallbackReaderToBlob(reader);
+      return;
+    }
+
+    this.mediaSource = new MediaSource();
+    const objectURL = URL.createObjectURL(this.mediaSource);
+    this.audio.src = objectURL;
+    this.stopLoadingSource = false;
+
+    this.mediaSource.addEventListener('sourceopen', () => {
+      if (!this.mediaSource) return;
+      this.sourceBuffer = this.mediaSource.addSourceBuffer(mime);
+
+      this.sourceBuffer.addEventListener('updateend', () => {
+        this.appending = false;
+        this.tryAppendNext();
+        this.finalizeMediaSourceIfPossible();
+      });
+
+      // Start reading loop
+      this.readLoop(reader);
+    });
+  }
+
+  /** Loop to read data from the reader */
+  private async readLoop(reader: ReadableStreamDefaultReader<Uint8Array>) {
+    try {
+      // Auto play (optional)
+      if (this.audio.paused) {
+        void this.play();
+      }
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done || this.stopLoadingSource) {
+          this.streamEnded = true;
+          break;
+        }
+        if (value && value.byteLength) {
+          this.chunkQueue.push(value);
+          this.tryAppendNext();
+        }
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      // Try to finalize after the loop exits (including 0 chunk case)
+      this.finalizeMediaSourceIfPossible();
+    } catch (e) {
+      console.error('Error reading stream:', e);
+      this.options?.onError?.(e);
+    }
+  }
+
+  /** Try to append the next chunk from the queue to the SourceBuffer */
+  private tryAppendNext() {
+    if (!this.sourceBuffer || this.appending) return;
+    if (!this.chunkQueue.length) return;
+
+    const chunk = this.chunkQueue.shift()!;
+    this.appending = true;
+    try {
+      this.sourceBuffer.appendBuffer(chunk);
+    } catch (e) {
+      console.error('Error appending buffer:', e);
+      this.appending = false;
+      this.options?.onError?.(e);
+      this.finalizeMediaSourceIfPossible();
+    }
+  }
+
+  /** Finalize MediaSource if possible (stream ended, no pending chunks, and not updating) */
+  private finalizeMediaSourceIfPossible(receivedAnyChunk = true) {
+    if (
+      this.mediaSource &&
+      this.mediaSource.readyState === 'open' &&
+      this.streamEnded &&
+      !this.sourceBuffer?.updating &&
+      this.chunkQueue.length === 0
+    ) {
+      try {
+        this.mediaSource.endOfStream();
+      } catch (e) {
+        console.warn('endOfStream error:', e);
+      }
+    }
+  }
+
+  /** Fallback to one-time Blob synthesis when streaming is not supported */
+  private async fallbackReaderToBlob(reader: ReadableStreamDefaultReader<Uint8Array>) {
+    const stream = new ReadableStream({
+      async pull(controller) {
+        try {
+          const { done, value } = await reader.read();
+          if (done) {
+            controller.close();
+          } else {
+            controller.enqueue(value);
+          }
+        } catch (err) {
+          controller.error(err);
+        }
+      },
+    });
+    // Convert stream to Blob and create URL
+    const response = new Response(stream);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    this.audio.src = url;
+    this.audio.onloadeddata = () => URL.revokeObjectURL(url);
   }
 }
 
