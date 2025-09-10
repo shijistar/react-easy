@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.14
+
+2025-9-10
+
+### Bug Fixes
+
+#### `useSSE`
+
+- 🐞 Correct abort logic in useSSE.
+
 ## 1.4.13
 
 2025-9-8
