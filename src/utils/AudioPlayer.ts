@@ -224,7 +224,7 @@ class AudioPlayer {
       this.audio.src = source;
       return {
         stopLoading: () => {
-          // empty function
+          // a stub function
         },
       };
     } else {
@@ -322,7 +322,7 @@ class AudioPlayer {
   ): Promise<{ stopLoading: () => void }> {
     const result = {
       stopLoading: () => {
-        // empty function
+        // a stub function
       },
     };
     if (!source) return result;
