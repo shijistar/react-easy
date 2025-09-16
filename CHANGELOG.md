@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.15
+
+2025-9-16
+
+### Bug Fixes
+
+#### `useSSE`
+
+- 🐞 revert the changes in `v1.4.14`
+
 ## 1.4.14
 
 2025-9-10

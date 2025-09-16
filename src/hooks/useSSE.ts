@@ -112,7 +112,7 @@ const useSSE = <T = any>(props: UseSSEProps<T>) => {
 
   const abort = useRefFunction(() => {
     setIsConnected(false);
-    if (!isConnected && abortCtrlRef.current) {
+    if (abortCtrlRef.current) {
       abortCtrlRef.current.abort();
     }
   });
