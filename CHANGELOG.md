@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.16
+
+2025-9-18
+
+### Features
+
+#### `useDebounce`
+
+- ✨ add `useDebounce` hook
+
 ## 1.4.15
 
 2025-9-16
