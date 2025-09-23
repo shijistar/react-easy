@@ -68,6 +68,11 @@ export interface FloatDrawerProps {
    */
   resizable?: boolean;
   /**
+   * - **EN:** Whether to destroy the drawer content when closed, default is `false`.
+   * - **CN:** 抽屉关闭时是否销毁内容，默认`false`。
+   */
+  destroyOnClose?: boolean;
+  /**
    * - **EN:** Cache key for storing the drawer size in localStorage. If not set, the size will not be
    *   cached.
    * - **CN:** 指定一个localStorage缓存键，用于记忆抽屉宽度。如果不设置，则不使用缓存。
@@ -204,6 +209,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
     edgeOffset,
     showToggle = true,
     resizable = true,
+    destroyOnClose = false,
     onOpenChange,
     onResize,
     onClick,
@@ -364,7 +370,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
             style={styles?.card}
             {...cardProps}
           >
-            {children}
+            {!destroyOnClose || isOpen ? children : null}
           </Card>
         </div>
         {showToggle && (

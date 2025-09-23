@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.18
+
+2025-9-23
+
+### Features
+
+#### `FloatDrawer`
+
+- ✨ add `destroyOnClose` prop to control whether to destroy the drawer content when closed
+
 ## 1.4.17
 
 2025-9-23
