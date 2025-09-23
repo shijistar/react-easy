@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.17
+
+2025-9-23
+
+### Features
+
+#### `useDebounce`
+
+- ✨ enhance `useDebounce` with `cancel`, `disable`, `enable`, and `isDisabled` methods
+
 ## 1.4.16
 
 2025-9-18
