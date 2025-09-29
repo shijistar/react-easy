@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.4.19
+
+2025-9-29
+
+### Features
+
+- 🛠️ move `i18next` to peerDependencies
+
 ## 1.4.18
 
 2025-9-23
