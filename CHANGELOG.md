@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.4.20
+
+2025-10-17
+
+### Features
+
+- ✨ Add new hooks: `useMovable` and `useProcessingText`.
+- ✨ Add new component `PulseAnimation` for loading indication.
+
 ## 1.4.19
 
 2025-9-29

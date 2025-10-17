@@ -127,16 +127,47 @@ export function arrayBufferToBase64(buf: ArrayBuffer): string {
  *
  * @returns The decoded ArrayBuffer | 解码后的 ArrayBuffer
  */
-export function base64ToArrayBuffer(base64: string): ArrayBuffer {
-  if (typeof Buffer !== 'undefined') {
-    const buffer = Buffer.from(base64, 'base64');
-    return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+export function base64ToArrayBuffer(
+  base64: string,
+  opts: {
+    /**
+     * - EN: Use URL-safe Base64 if true (replace -_ back to +/ and restore padding)
+     * - CN: 为 true 时按 URL 安全 Base64 进行规范化（将 -_ 还原为 +/ 并补齐 =）
+     */
+    urlSafe?: boolean;
+  } = {}
+): ArrayBuffer {
+  const { urlSafe = false } = opts;
+  if (base64 == null || base64 === '') return new ArrayBuffer(0);
+
+  // Normalize to standard Base64 (align with base64ToString)
+  let normalized = base64;
+  if (urlSafe) {
+    normalized = normalized.replace(/-/g, '+').replace(/_/g, '/');
   }
-  const binaryString = atob(base64);
-  const len = binaryString.length;
-  const bytes = new Uint8Array(len);
-  for (let i = 0; i < len; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
+  const padNeeded = normalized.length % 4;
+  if (padNeeded === 2) normalized += '==';
+  else if (padNeeded === 3) normalized += '=';
+  else if (padNeeded === 1) {
+    throw new Error('Invalid Base64 string length');
   }
-  return bytes.buffer;
+
+  try {
+    if (typeof Buffer !== 'undefined' && typeof Buffer.from === 'function') {
+      // Node.js / environments with Buffer
+      const buf = Buffer.from(normalized, 'base64');
+      return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+    } else {
+      // Browser
+      const binary = atob(normalized);
+      const len = binary.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+  } catch (e) {
+    throw new Error('Failed to decode Base64: ' + (e instanceof Error ? e.message : String(e)));
+  }
 }

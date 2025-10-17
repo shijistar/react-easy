@@ -540,7 +540,7 @@ type GenericModalActionWithTrigger<TP extends object, E extends keyof TP, OMIT e
  * - **EN:** Built-in trigger types (specified form components)
  * - **CN:** 内置的几种触发器类型（已指定表单组件）
  */
-interface TypedTriggers<
+export interface TypedTriggers<
   FormData extends object,
   P extends FormCompPropsConstraint<FormData>,
   Ref extends object,

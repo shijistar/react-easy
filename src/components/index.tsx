@@ -42,3 +42,6 @@ export { default as ModalAction } from './ModalAction';
 
 export type { OverflowTagsProps } from './OverflowTags';
 export { default as OverflowTags } from './OverflowTags';
+
+export type { PulseAnimationProps } from './Animation/Pulse';
+export { default as PulseAnimation } from './Animation/Pulse';
