@@ -37,6 +37,7 @@ const useMovable = (props: UseMovableProps) => {
   const [savedPosition, savePosition] = useLocalStorage<MovePosition>(storageKey ?? '');
   const savePositionRef = useRefValue(savePosition);
   const [position, setPosition] = useState<MovePosition | undefined>(savedPosition ?? undefined);
+  const positionRef = useRefValue(position);
   const draggingRef = useRef(false);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
   const sizeRef = useRef({ w: 0, h: 0 });
@@ -63,21 +64,40 @@ const useMovable = (props: UseMovableProps) => {
     e.preventDefault();
   });
 
-  // Adjust position when window size changes
+  // 调整：在窗口 resize 时自动收敛位置，防止超出可视区域
   useEffect(() => {
-    if (!position) return;
-    const maxLeft = Math.max(0, window.innerWidth - sizeRef.current.w);
-    const maxTop = Math.max(0, window.innerHeight - sizeRef.current.h);
-    const clampedLeft = Math.min(Math.max(0, position.left), maxLeft);
-    const clampedTop = Math.min(Math.max(0, position.top), maxTop);
-    if (clampedLeft !== position.left || clampedTop !== position.top) {
-      const pos = { left: clampedLeft, top: clampedTop };
-      setPosition(pos);
-      if (storageKeyRef.current) {
-        savePositionRef.current(pos);
+    const clampToViewport = () => {
+      const pos = positionRef.current;
+      if (!pos) return;
+
+      // Refresh the container size before each convergence to ensure accurate boundaries.
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) {
+        sizeRef.current = { w: rect.width, h: rect.height };
       }
-    }
-  }, [position]);
+
+      const maxLeft = Math.max(0, window.innerWidth - sizeRef.current.w);
+      const maxTop = Math.max(0, window.innerHeight - sizeRef.current.h);
+      const clampedLeft = Math.min(Math.max(0, pos.left), maxLeft);
+      const clampedTop = Math.min(Math.max(0, pos.top), maxTop);
+
+      if (clampedLeft !== pos.left || clampedTop !== pos.top) {
+        const next = { left: clampedLeft, top: clampedTop };
+        setPosition(next);
+        if (storageKeyRef.current) {
+          savePositionRef.current(next);
+        }
+      }
+    };
+
+    window.addEventListener('resize', clampToViewport);
+    // Calibrate immediately after the first mount/position change.
+    clampToViewport();
+
+    return () => {
+      window.removeEventListener('resize', clampToViewport);
+    };
+  }, [containerRef]);
 
   // Update position during dragging; restrict within the visible area.
   useEffect(() => {

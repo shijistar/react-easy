@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.21
+
+2025-10-22
+
+### Features
+
+#### `useMovable`
+
+- ✨ Improve position clamping on window resize, and make sure the movable element always stays within the viewport.
+
 ## 1.4.20
 
 2025-10-17
