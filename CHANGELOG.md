@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.22
+
+2025-11-10
+
+### Features
+
+#### `withModalAction`
+
+- ✨ Add a second argument `ref` to the `defaultProps` function to access the internal ref of the `ModalAction` component.
+
 ## 1.4.21
 
 2025-10-22

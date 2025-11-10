@@ -153,7 +153,9 @@ export interface ModalActionTrigger<
    */
   children?: ReactNode;
 }
-export type ModalActionRef<R> = R & {
+// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
+export type ModalActionRef<R = {}, FormData extends object = any> = R & {
+  form: FormInstance<FormData> | undefined;
   /**
    * - **EN:** Show the dialog
    * - **CN:** 显示弹框
@@ -171,7 +173,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     Ref extends object,
   >(
     props: ModalActionProps<FormData, P, TriggerProp, Event, Ref>,
-    ref: ForwardedRef<ModalActionRef<Ref>>
+    ref: ForwardedRef<ModalActionRef<Ref, FormData>>
   ) => {
     const [userModalProps, setUserModalProps] = useState<Partial<ModalProps>>({});
     let mergedProps = mergeProps<FormData, P, TriggerProp, Event, Ref>(defaultProps, props);
@@ -265,9 +267,10 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     }, []);
 
     // Output ref
-    useImperativeHandle(ref, () => ({ ...formCompRef, show: showModal }) as ModalActionRef<Ref>, [
+    useImperativeHandle(ref, () => ({ ...formCompRef, form, show: showModal }) as ModalActionRef<Ref, FormData>, [
       formCompRef,
       showModal,
+      form,
     ]);
 
     // Render the trigger component
@@ -459,24 +462,38 @@ export const withDefaultModalActionProps = <
   Ref extends object,
 >(
   WrappedComponent: ComponentType<
-    ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref>>
+    ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref, FormData>>
   >,
   defaultProps?:
     | Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>
     | ((
-        actualProps: ModalActionProps<FormData, P, TriggerProp, Event, Ref>
+        /**
+         * - **EN:** Actual properties passed to the ModalAction component
+         * - **CN:** 实际传递给ModalAction组件的属性
+         */
+        actualProps: ModalActionProps<FormData, P, TriggerProp, Event, Ref>,
+        /**
+         * - **EN:** Ref of the ModalAction component. Note that this ref may be null because the
+         *   component has not been rendered yet when executed for the first time.
+         * - **CN:** ModalAction组件的ref对象。注意，该ref可能为null，因为第一次执行时组件还未渲染。
+         */
+        ref: ModalActionRef<Ref, FormData> | null
       ) => Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>)
 ) => {
-  const WithDefaultProps = forwardRef<ModalActionRef<Ref>, ModalActionProps<FormData, P, TriggerProp, Event, Ref>>(
-    (props, ref) => {
-      const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
-      const defaults = useDefaultProps(props);
-      const mergedProps =
-        typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
-      WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
-      return <WrappedComponent ref={ref} {...mergedProps} />;
-    }
-  );
+  const WithDefaultProps = forwardRef<
+    ModalActionRef<Ref, FormData>,
+    ModalActionProps<FormData, P, TriggerProp, Event, Ref>
+  >((props, ref) => {
+    const modalActionRef = useRef<ModalActionRef<Ref, FormData>>(null);
+    const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
+    const defaults = useDefaultProps(props, modalActionRef.current);
+    const mergedProps = typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
+    WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
+
+    useImperativeHandle(ref, () => modalActionRef.current as ModalActionRef<Ref, FormData>, []);
+
+    return <WrappedComponent ref={modalActionRef} {...mergedProps} />;
+  });
   return WithDefaultProps;
 };
 
@@ -493,7 +510,9 @@ export type ModalActionInterface<
   TriggerProp extends object,
   Event extends keyof TriggerProp,
   Ref extends object,
-> = ComponentType<ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref>>>;
+> = ComponentType<
+  ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref, FormData>>
+>;
 /**
  * - **EN:** ModalAction component with generic type
  * - **CN:** ModalAction泛型组件的类型
@@ -505,7 +524,7 @@ export type GenericModalActionInterface = <
   Event extends keyof TriggerProp,
   Ref extends object,
 >(
-  props: ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref>>
+  props: ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref, FormData>>
 ) => ReactNode;
 /**
  * - **EN:** ModalAction with specified trigger type (specified form component)
@@ -520,7 +539,7 @@ type ModalActionWithTrigger<
   OMIT extends string = never,
 > = ComponentType<
   Omit<ModalActionProps<FormData, P, TriggerProp, Event, Ref>, 'triggerComponent' | 'triggerEvent' | OMIT> &
-    RefAttributes<ModalActionRef<Ref>>
+    RefAttributes<ModalActionRef<Ref, FormData>>
 >;
 
 /**
@@ -533,7 +552,7 @@ type GenericModalActionWithTrigger<TP extends object, E extends keyof TP, OMIT e
   Ref extends object,
 >(
   props: Omit<ModalActionProps<FormData, P, TP, E, Ref>, 'triggerComponent' | 'triggerEvent' | OMIT> &
-    RefAttributes<ModalActionRef<Ref>>
+    RefAttributes<ModalActionRef<Ref, FormData>>
 ) => ReactNode;
 
 /**
@@ -589,7 +608,8 @@ type WithGenericTriggers<
   Ref extends object,
   OMIT extends string = never,
 > = (<TriggerProp extends object, Event extends keyof TriggerProp>(
-  props: Omit<ModalActionProps<FormData, P, TriggerProp, Event, Ref>, OMIT> & RefAttributes<ModalActionRef<Ref>>
+  props: Omit<ModalActionProps<FormData, P, TriggerProp, Event, Ref>, OMIT> &
+    RefAttributes<ModalActionRef<Ref, FormData>>
 ) => ReactNode) &
   (P extends never ? GenericTypedTriggers<OMIT> : TypedTriggers<FormData, P, Ref, OMIT>);
 
@@ -606,7 +626,7 @@ const addTriggers = <
   OMIT extends string = never,
 >(
   comp: ComponentType<
-    ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref> & RefAttributes<ModalActionRef<Ref>>
+    ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref> & RefAttributes<ModalActionRef<Ref, FormData>>
   >
 ) => {
   const patchedComp = comp as WithGenericTriggers<FormData, P, Ref, OMIT>;
@@ -686,7 +706,17 @@ export function withModalAction<
   defaultProps?:
     | Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>
     | ((
-        actualProps: ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>
+        /**
+         * - **EN:** Actual properties passed to the ModalAction component
+         * - **CN:** 实际传递给ModalAction组件的属性
+         */
+        actualProps: ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>,
+        /**
+         * - **EN:** Ref of the ModalAction component. Note that this ref may be null because the
+         *   component has not been rendered yet when executed for the first time.
+         * - **CN:** ModalAction组件的ref对象。注意，该ref可能为null，因为第一次执行时组件还未渲染。
+         */
+        ref: ModalActionRef<Ref, FormData> | null
       ) => Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>)
 ) {
   const ForwardedModalAction = forwardedModalAction as unknown as ModalActionInterface<
@@ -697,16 +727,20 @@ export function withModalAction<
     Ref
   >;
   const WithDefaultProps = forwardRef<
-    ModalActionRef<Ref>,
+    ModalActionRef<Ref, FormData>,
     ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>
   >((props, ref) => {
+    const modalActionRef = useRef<ModalActionRef<Ref, FormData>>(null);
     const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
-    const defaults = useDefaultProps(props);
+    const defaults = useDefaultProps(props, modalActionRef.current);
     const mergedProps = typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
     WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
+
+    useImperativeHandle(ref, () => modalActionRef.current as ModalActionRef<Ref, FormData>, []);
+
     return (
       <ForwardedModalAction
-        ref={ref}
+        ref={modalActionRef}
         formComp={formComp}
         {...(mergedProps as Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>)}
       />
