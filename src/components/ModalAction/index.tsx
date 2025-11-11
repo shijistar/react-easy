@@ -484,15 +484,15 @@ export const withDefaultModalActionProps = <
     ModalActionRef<Ref, FormData>,
     ModalActionProps<FormData, P, TriggerProp, Event, Ref>
   >((props, ref) => {
-    const modalActionRef = useRef<ModalActionRef<Ref, FormData>>(null);
+    const [modalActionRef, setModalActionRef] = useState<ModalActionRef<Ref, FormData> | null>(null);
     const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
-    const defaults = useDefaultProps(props, modalActionRef.current);
+    const defaults = useDefaultProps(props, modalActionRef);
     const mergedProps = typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
     WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
 
-    useImperativeHandle(ref, () => modalActionRef.current as ModalActionRef<Ref, FormData>, []);
+    useImperativeHandle(ref, () => modalActionRef as ModalActionRef<Ref, FormData>, [modalActionRef]);
 
-    return <WrappedComponent ref={modalActionRef} {...mergedProps} />;
+    return <WrappedComponent ref={setModalActionRef} {...mergedProps} />;
   });
   return WithDefaultProps;
 };
@@ -730,17 +730,17 @@ export function withModalAction<
     ModalActionRef<Ref, FormData>,
     ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>
   >((props, ref) => {
-    const modalActionRef = useRef<ModalActionRef<Ref, FormData>>(null);
+    const [modalActionRef, setModalActionRef] = useState<ModalActionRef<Ref, FormData> | null>(null);
     const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
-    const defaults = useDefaultProps(props, modalActionRef.current);
+    const defaults = useDefaultProps(props, modalActionRef);
     const mergedProps = typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
     WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
 
-    useImperativeHandle(ref, () => modalActionRef.current as ModalActionRef<Ref, FormData>, []);
+    useImperativeHandle(ref, () => modalActionRef as ModalActionRef<Ref, FormData>, [modalActionRef]);
 
     return (
       <ForwardedModalAction
-        ref={modalActionRef}
+        ref={setModalActionRef}
         formComp={formComp}
         {...(mergedProps as Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>)}
       />

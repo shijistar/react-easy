@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.4.23
+
+2025-11-11
+
+### Features
+
+#### `withModalAction`
+
+- 🐞 Refactor modal action props handling to use `state` instead of `ref`
+
 ## 1.4.22
 
 2025-11-10
