@@ -4,6 +4,10 @@ const zhCN = {
   'components.EditableText.edit': '编辑',
   'components.EditableText.save': '保存',
   'components.EditableText.cancel': '取消',
+  'components.ColumnSetting.title': '列设置',
+  'components.ColumnSetting.selectAll': '全选',
+  'components.ColumnSetting.reset': '重置',
+
   'validation.rule.number.message': '请输入数字',
   'validation.rule.floatNumber.message': '请输入数字',
   'validation.rule.email.message': '请输入正确的邮箱地址',

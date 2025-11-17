@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.5.0
+
+2025-11-17
+
+### Features
+
+- 🔥 Add `ColumnSetting` component for table column visibility management.
+
 ## 1.4.23
 
 2025-11-11

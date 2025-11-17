@@ -4,6 +4,10 @@ const enUS = {
   'components.EditableText.edit': 'Edit',
   'components.EditableText.save': 'Save',
   'components.EditableText.cancel': 'Cancel',
+  'components.ColumnSetting.title': 'Column Setting',
+  'components.ColumnSetting.selectAll': 'Select All',
+  'components.ColumnSetting.reset': 'Reset',
+
   'validation.rule.number.message': 'Please enter a number',
   'validation.rule.floatNumber.message': 'Please enter a number',
   'validation.rule.email.message': 'Please enter the correct email address',

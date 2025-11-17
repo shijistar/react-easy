@@ -1,6 +1,9 @@
 export type { BreakLinesProps } from './BreakLines';
 export { default as BreakLines } from './BreakLines';
 
+export type { ColumnSettingProps } from './ColumnSetting';
+export { default as ColumnSetting } from './ColumnSetting';
+
 export type { ConfigProviderProps } from './ConfigProvider';
 export { default as ConfigProvider } from './ConfigProvider';
 export type { ReactEasyContextProps } from './ConfigProvider/context';
