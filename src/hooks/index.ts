@@ -12,6 +12,9 @@ export { default as useRefValue } from './useRefValue';
 
 export { default as useRefFunction } from './useRefFunction';
 
+export * from './useSplitter';
+export { default as useSplitter } from './useSplitter';
+
 export * from './useSSE';
 export { default as useSSE } from './useSSE';
 

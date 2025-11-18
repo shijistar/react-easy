@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.5.1
+
+2025-11-18
+
+### Features
+
+- 🔥 Add `useSplitter` hook
+
 ## 1.5.0
 
 2025-11-17

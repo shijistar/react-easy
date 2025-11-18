@@ -5,5 +5,6 @@
     // ensure that nobody can accidentally use this config for a build
     "noEmit": true
   },
-  "include": ["src", "test", "scripts"]
+  "include": ["src", "test", "scripts"],
+  "exclude": ["src/components/tmp"]
 }
