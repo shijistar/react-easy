@@ -7,6 +7,7 @@
 [![npm version](https://img.shields.io/npm/v/@tiny-codes/react-easy.svg)](https://www.npmjs.com/package/@tiny-codes/react-easy)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@tiny-codes/react-easy)](https://bundlephobia.com/result?p=@tiny-codes/react-easy)
 [![npm downloads](https://img.shields.io/npm/dm/@tiny-codes/react-easy.svg)](https://www.npmjs.com/package/@tiny-codes/react-easy)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/shijistar/react-easy)
 ![GitHub License](https://img.shields.io/github/license/shijistar/react-easy?label=License)
 
 ⬇️ &nbsp;&nbsp; [Introduction](#introduction) | [Installation](#installation) | [Usage](#usage) | [Compatibility](#compatibility) &nbsp;&nbsp; ⬇️
