@@ -37,6 +37,13 @@ export interface UseSplitterProps {
    * @default 0.85
    */
   maxRatio?: number;
+  /**
+   * - **EN:** Width of the splitter in pixels.
+   * - **ZH:** 分割条的宽度，单位为像素。
+   *
+   * @default 2
+   */
+  splitterWidth?: number;
 }
 
 const useSplitter = (props: UseSplitterProps) => {
@@ -46,6 +53,7 @@ const useSplitter = (props: UseSplitterProps) => {
     minRatio = 0.15,
     maxRatio = 1 - minRatio,
     direction = 'vertical',
+    splitterWidth = 2,
   } = props || {};
   const { token } = theme.useToken();
   const [percent, setPercent] = useState(defaultRatio);
@@ -53,6 +61,7 @@ const useSplitter = (props: UseSplitterProps) => {
   const [dragging, setDragging] = useState(false);
   const minRatioRef = useRefValue(minRatio);
   const maxRatioRef = useRefValue(maxRatio);
+  const [isOver, setIsOver] = useState(false);
 
   useEffect(() => {
     if (!dragging) return;
@@ -89,15 +98,17 @@ const useSplitter = (props: UseSplitterProps) => {
     <div
       style={{
         flex: 'none',
-        width: vertical ? 2 : '100%',
-        height: vertical ? 'auto' : 2,
+        width: vertical ? splitterWidth : '100%',
+        height: vertical ? 'auto' : splitterWidth,
         cursor: vertical ? 'col-resize' : 'row-resize',
-        background: dragging ? token.colorPrimaryHover : token.colorBorder,
+        background: dragging ? token.colorPrimaryActive : isOver ? token.colorPrimaryHover : token.colorBorder,
         margin: vertical ? '0 4px' : '4px 0',
         borderRadius: 4,
         userSelect: 'none',
       }}
       onMouseDown={() => setDragging(true)}
+      onMouseEnter={() => setIsOver(true)}
+      onMouseLeave={() => setIsOver(false)}
       role="separator"
       aria-orientation={vertical ? 'vertical' : 'horizontal'}
       aria-label="Resize"

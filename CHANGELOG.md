@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.5.2
+
+2025-11-28
+
+### Features
+
+- ✨ Enhance `useSplitter` hook to support customizable splitter width and hover state.
+
 ## 1.5.1
 
 2025-11-18
