@@ -1,4 +1,3 @@
-import type { RefObject } from 'react';
 import { useEffect, useState } from 'react';
 import { theme } from 'antd';
 import useRefValue from './useRefValue';
@@ -15,7 +14,7 @@ export interface UseSplitterProps {
    * - **EN:** The container element reference.
    * - **ZH:** 容器元素的引用。
    */
-  containerRef: RefObject<HTMLDivElement>;
+  container: HTMLDivElement | null | undefined;
   /**
    * - **EN:** Default ratio of the left/top pane (0~1).
    * - **ZH:** 左侧/顶部面板的默认比例 (0~1)。
@@ -48,16 +47,20 @@ export interface UseSplitterProps {
 
 const useSplitter = (props: UseSplitterProps) => {
   const {
-    containerRef,
-    defaultRatio = 0.32,
+    container,
+    defaultRatio,
     minRatio = 0.15,
     maxRatio = 1 - minRatio,
     direction = 'vertical',
     splitterWidth = 2,
   } = props || {};
   const { token } = theme.useToken();
+  const directionRef = useRefValue(direction);
   const [percent, setPercent] = useState(defaultRatio);
-  const [width, setWidth] = useState((containerRef.current?.clientWidth || 0) * defaultRatio);
+  const percentRef = useRefValue(percent);
+  const [width, setWidth] = useState(
+    container && defaultRatio ? (container?.clientWidth || 0) * defaultRatio : undefined
+  );
   const [dragging, setDragging] = useState(false);
   const minRatioRef = useRefValue(minRatio);
   const maxRatioRef = useRefValue(maxRatio);
@@ -66,7 +69,7 @@ const useSplitter = (props: UseSplitterProps) => {
   useEffect(() => {
     if (!dragging) return;
     const onMove = (e: MouseEvent) => {
-      const el = containerRef.current;
+      const el = container;
       if (!el) return;
       const rect = el.getBoundingClientRect();
       if (direction === 'vertical') {
@@ -91,7 +94,20 @@ const useSplitter = (props: UseSplitterProps) => {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseup', onUp);
     };
-  }, [containerRef, dragging, direction, minRatioRef, maxRatioRef]);
+  }, [container, dragging, direction, minRatioRef, maxRatioRef]);
+
+  // Initialize percent and width on mount
+  useEffect(() => {
+    if (defaultRatio && container && percentRef.current == null) {
+      const rect = container.getBoundingClientRect();
+      setPercent(defaultRatio);
+      if (directionRef.current === 'vertical') {
+        setWidth(rect.width * defaultRatio);
+      } else {
+        setWidth(rect.height * defaultRatio);
+      }
+    }
+  }, [defaultRatio, container]);
 
   const vertical = direction === 'vertical';
   const dom = (
@@ -101,7 +117,7 @@ const useSplitter = (props: UseSplitterProps) => {
         width: vertical ? splitterWidth : '100%',
         height: vertical ? 'auto' : splitterWidth,
         cursor: vertical ? 'col-resize' : 'row-resize',
-        background: dragging ? token.colorPrimaryActive : isOver ? token.colorPrimaryHover : token.colorBorder,
+        background: dragging ? token.colorPrimaryHover : isOver ? token.colorPrimaryActive : token.colorBorder,
         margin: vertical ? '0 4px' : '4px 0',
         borderRadius: 4,
         userSelect: 'none',

@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.5.3
+
+2025-12-1
+
+### Features
+
+- ✨ Refactor `useSplitter` to use container directly and improve width initialization.
+
 ## 1.5.2
 
 2025-11-28
