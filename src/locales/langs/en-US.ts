@@ -35,9 +35,9 @@ const enUS = {
   'hooks.useUserMedia.isRecordingNow': 'User media is currently recording and cannot be operated on',
   'hooks.useUserMedia.devicePermission': '{{deviceType}} Permission',
   'hooks.useUserMedia.requestTip1':
-    'The browser is requesting {{deviceType}} permission. Please click the "Allow" button in the pop-up window that appears later.',
+    'The browser is requesting {{deviceType}} permission. Please click the "Allow when visiting this site" button in the popup on the left.',
   'hooks.useUserMedia.requestTip2':
-    'Please do not click the "Deny" button, otherwise you will not be able to use the {{featureName}} related feature.',
+    'Please DO NOT click the "Deny" button, otherwise you will not be able to use the {{featureName}} related feature.',
   'hooks.useUserMedia.deniedPermission':
     'You have denied the {{deviceType}} permission, which will prevent you from using the {{featureName}} related feature!',
   'hooks.useUserMedia.reopenPermissionGuide':

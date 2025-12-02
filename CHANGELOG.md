@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.5.4
+
+2025-12-2
+
+### Features
+
+- **useUserMedia**
+
+  ✨ Show permission confirmation and user guide at the same time.
+
 ## 1.5.3
 
 2025-12-1

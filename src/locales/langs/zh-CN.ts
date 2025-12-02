@@ -34,9 +34,8 @@ const zhCN = {
   'hooks.useUserMedia.disabledWarning': '用户媒体已禁用',
   'hooks.useUserMedia.isRecordingNow': '用户媒体正在录制，不可操作',
   'hooks.useUserMedia.devicePermission': '{{deviceType}}权限',
-  'hooks.useUserMedia.requestTip1':
-    '浏览器正在申请{{deviceType}}权限，请在稍后弹出的弹窗中点击“访问该网站时允许”按钮。',
-  'hooks.useUserMedia.requestTip2': '请不要点击“不允许”按钮，否则将无法使用{{featureName}}相关功能。',
+  'hooks.useUserMedia.requestTip1': '浏览器正在申请{{deviceType}}权限，请点击左侧弹窗的“访问该网站时允许”按钮。',
+  'hooks.useUserMedia.requestTip2': '请勿点击“一律不允许”按钮，否则将无法使用{{featureName}}相关功能。',
   'hooks.useUserMedia.deniedPermission': '您已经拒绝了{{deviceType}}权限，将无法使用{{featureName}}相关功能！',
   'hooks.useUserMedia.reopenPermissionGuide':
     '请点击地址栏的站点设置图标，然后按照以下步骤重新打开{{deviceType}}权限。',

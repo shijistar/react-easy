@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { App, Checkbox, Flex, Form, Modal, notification, Select, Typography } from 'antd';
+import { App, Checkbox, Flex, Form, Modal, notification, Select, theme, Typography } from 'antd';
 import EasyConfigProvider from '../components/ConfigProvider';
 import ReactEasyContext from '../components/ConfigProvider/context';
 import { StreamTimeSlicerClass, type StreamTimeSlicerOptions } from '../utils/stream';
@@ -112,6 +112,7 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
   const contextRef = useRefValue(context);
   const t = useT();
   const app = App.useApp();
+  const { token } = theme.useToken();
   // @ts-expect-error: because app may return a stub object when App is not used
   const modal = app.modal?.confirm ? app.modal : Modal;
   const modalRef = useRefValue(modal);
@@ -165,7 +166,7 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
         <div>
           <Typography.Paragraph></Typography.Paragraph>
           <Typography.Paragraph>
-            <Typography.Text strong type="danger">
+            <Typography.Text strong type="danger" style={{ fontSize: token.fontSize + 2 }}>
               {t('hooks.useUserMedia.deniedPermission', { deviceType, featureName })}
             </Typography.Text>
           </Typography.Paragraph>
@@ -296,42 +297,34 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
         if (result.state === 'prompt') {
           const requestMicrophoneUrl = lang === 'zh-CN' ? requestMicrophoneZhUrl : requestMicrophoneEnUrl;
           const requestCameraUrl = lang === 'zh-CN' ? requestCameraZhUrl : requestCameraEnUrl;
-          return new Promise<MediaRecorder>((resolve, reject) => {
-            modal.warning({
-              title: t('hooks.useUserMedia.devicePermission', { deviceType }),
-              content: (
+          const popup = modal.warning({
+            title: t('hooks.useUserMedia.devicePermission', { deviceType }),
+            content: (
+              <div>
+                <Typography.Paragraph></Typography.Paragraph>
+                <Typography.Paragraph>
+                  <Typography.Text strong>{t('hooks.useUserMedia.requestTip1', { deviceType })}</Typography.Text>
+                </Typography.Paragraph>
+                <Typography.Paragraph>{t('hooks.useUserMedia.requestTip2', { featureName })}</Typography.Paragraph>
                 <div>
-                  <Typography.Paragraph></Typography.Paragraph>
-                  <Typography.Paragraph>
-                    <Typography.Text strong>{t('hooks.useUserMedia.requestTip1', { deviceType })}</Typography.Text>
-                  </Typography.Paragraph>
-                  <Typography.Paragraph>{t('hooks.useUserMedia.requestTip2', { featureName })}</Typography.Paragraph>
-                  <div>
-                    <img
-                      src={media.video ? requestCameraUrl : requestMicrophoneUrl}
-                      alt="microphone-permission"
-                      style={{ width: 380 }}
-                    />
-                  </div>
+                  <img
+                    src={media.video ? requestCameraUrl : requestMicrophoneUrl}
+                    alt="microphone-permission"
+                    style={{ width: 380 }}
+                  />
                 </div>
-              ),
-              onOk: () => {
-                try {
-                  recordStream()
-                    .then((recorder) => {
-                      resolve(recorder);
-                    })
-                    .catch((error) => {
-                      reject(error);
-                    });
-                } catch (error) {
-                  console.error(error);
-                  reject(error);
-                }
-              },
-              width: 500,
-            });
+              </div>
+            ),
+            width: 500,
           });
+          try {
+            const recorder = await recordStream();
+            popup.destroy();
+            return recorder;
+          } catch (error) {
+            popup.destroy();
+            throw error;
+          }
         } else {
           return await recordStream();
         }
