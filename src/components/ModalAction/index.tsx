@@ -214,7 +214,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
 
     // Listen to the open props changes
     useEffect(() => {
-      if (openInProps) {
+      if (openInProps !== undefined) {
         setOpen(openInProps);
       }
     }, [openInProps]);

@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.5.5
+
+2025-12-3
+
+### Bug Fixes
+
+- **ModalAction**
+
+  🐞 Respect `open` prop when it's changed to `false`.
+
 ## 1.5.4
 
 2025-12-2
