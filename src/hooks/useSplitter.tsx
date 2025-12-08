@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 import { theme } from 'antd';
 import useRefValue from './useRefValue';
 
@@ -43,6 +43,10 @@ export interface UseSplitterProps {
    * @default 2
    */
   splitterWidth?: number;
+  /** Additional class name for the splitter element */
+  className?: string;
+  /** Additional style for the splitter element */
+  style?: CSSProperties;
 }
 
 const useSplitter = (props: UseSplitterProps) => {
@@ -53,6 +57,8 @@ const useSplitter = (props: UseSplitterProps) => {
     maxRatio = 1 - minRatio,
     direction = 'vertical',
     splitterWidth = 2,
+    className,
+    style,
   } = props || {};
   const { token } = theme.useToken();
   const directionRef = useRefValue(direction);
@@ -112,6 +118,7 @@ const useSplitter = (props: UseSplitterProps) => {
   const vertical = direction === 'vertical';
   const dom = (
     <div
+      className={className}
       style={{
         flex: 'none',
         width: vertical ? splitterWidth : '100%',
@@ -121,6 +128,7 @@ const useSplitter = (props: UseSplitterProps) => {
         margin: vertical ? '0 4px' : '4px 0',
         borderRadius: 4,
         userSelect: 'none',
+        ...style,
       }}
       onMouseDown={() => setDragging(true)}
       onMouseEnter={() => setIsOver(true)}

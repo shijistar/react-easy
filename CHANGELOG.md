@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.5.6
+
+2025-12-8
+
+### Features
+
+- **useSplitter**
+
+  - ✨ Add `className` and `style` props to customize the splitter element.
+
 ## 1.5.5
 
 2025-12-3
@@ -10,7 +20,7 @@
 
 - **ModalAction**
 
-  🐞 Respect `open` prop when it's changed to `false`.
+  - 🐞 Respect `open` prop when it's changed to `false`.
 
 ## 1.5.4
 
@@ -20,7 +30,7 @@
 
 - **useUserMedia**
 
-  ✨ Show permission confirmation and user guide at the same time.
+  - ✨ Show permission confirmation and user guide at the same time.
 
 ## 1.5.3
 
