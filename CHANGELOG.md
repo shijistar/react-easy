@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.6.0
+
+2026-1-1
+
+### Features
+
+- ✨ Add some `EllipsisTypography` components: `EllipsisTitle`, `EllipsisText`, and `EllipsisParagraph` with auto tooltip functionality.
+
 ## 1.5.6
 
 2025-12-8

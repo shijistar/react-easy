@@ -30,6 +30,15 @@ export { default as withDeleteConfirmAction } from './DeleteConfirmAction/withDe
 export type { EditableTextProps } from './EditableText';
 export { default as EditableText } from './EditableText';
 
+export * from './EllipsisTypography/EllipsisParagraph';
+export { default as EllipsisParagraph } from './EllipsisTypography/EllipsisParagraph';
+
+export * from './EllipsisTypography/EllipsisText';
+export { default as EllipsisText } from './EllipsisTypography/EllipsisText';
+
+export * from './EllipsisTypography/EllipsisTitle';
+export { default as EllipsisTitle } from './EllipsisTypography/EllipsisTitle';
+
 export type { FloatDrawerProps } from './FloatDrawer';
 export { default as FloatDrawer } from './FloatDrawer';
 
