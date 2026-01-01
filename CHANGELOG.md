@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.6.1
+
+2026-1-1
+
+### Features
+
+- 🛠️ update EllipsisTypography components for better generic type support.
+
 ## 1.6.0
 
 2026-1-1

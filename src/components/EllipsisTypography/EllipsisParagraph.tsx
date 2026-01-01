@@ -18,6 +18,6 @@ export type EllipsisParagraphProps = MakeEllipsisTypographyProps<ParagraphProps>
  *   2. 设置 `ellipsis.tooltip` 属性为 `true`
  *   3. 设置 `ellipsis.tooltip.title` 属性为 `true`
  */
-const EllipsisParagraph = withEllipsisTypography(Typography.Paragraph);
+const EllipsisParagraph = withEllipsisTypography<ParagraphProps>(Typography.Paragraph);
 
 export default EllipsisParagraph;
