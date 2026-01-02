@@ -40,7 +40,7 @@ function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProp
     }, [text, isAuto, dom]);
 
     return (
-      <Tooltip title={tooltipTitle}>
+      <Tooltip {...((ellipsis as EllipsisConfig)?.tooltip as TooltipProps)} title={tooltipTitle}>
         <Component
           ref={setDom}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

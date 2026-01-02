@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.6.3
+
+2026-1-2
+
+### Bug Fixes
+
+- **withEllipsisTypography**
+
+  - 🐞 Fix Tooltip not accepting custom `ellipsis.tooltip` props issue.
+
 ## 1.6.1
 
 2026-1-1
