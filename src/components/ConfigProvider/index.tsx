@@ -1,9 +1,16 @@
-import { type FC, type ReactNode, useEffect } from 'react';
+import type { CSSProperties, FC, ReactNode } from 'react';
+import { useContext, useEffect } from 'react';
+import { ConfigProvider as ReactConfigProvider } from 'antd';
+import classNames from 'classnames';
 import locales, { langs, resources } from '../../locales';
 import type localesEn from '../../locales/langs/en';
 import ReactEasyContext, { type ReactEasyContextProps } from './context';
+import useStyle from './style';
 
 export interface ConfigProviderProps extends ReactEasyContextProps {
+  prefixCls?: string;
+  className?: string;
+  style?: CSSProperties;
   /**
    * - **EN:** Custom localization resources, if `lang` exists, it will override the localization
    *   resources of that language, otherwise, it will add a new language
@@ -18,8 +25,11 @@ export interface ConfigProviderProps extends ReactEasyContextProps {
  * - **CN:** 提供AntdHelper的全局配置
  */
 const ConfigProvider: FC<ConfigProviderProps> = (props) => {
-  const { children, locales: userLocales, ...restProps } = props;
+  const { children, locales: userLocales, prefixCls: prefixClsInProps, className, style, ...restProps } = props;
   const { lang: langInProps } = restProps;
+  const { getPrefixCls } = useContext(ReactConfigProvider.ConfigContext);
+  const prefixCls = getPrefixCls('react-easy', prefixClsInProps);
+  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
 
   useEffect(() => {
     // Dynamically add language pack
@@ -39,7 +49,13 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
     locales.changeLanguage(langInProps || 'en');
   }, [langInProps]);
 
-  return <ReactEasyContext.Provider value={restProps}>{children}</ReactEasyContext.Provider>;
+  return wrapCSSVar(
+    <ReactEasyContext.Provider value={restProps}>
+      <div className={classNames(hashId, cssVarCls, prefixCls, className)} style={style}>
+        {children}
+      </div>
+    </ReactEasyContext.Provider>
+  );
 };
 ConfigProvider.displayName = 'ReactEasyConfigProvider';
 

@@ -6,6 +6,10 @@
 
 2026-1-2
 
+### Features
+
+- ✨ Add `easy-full-height-table` class to make table full height inside a container.
+
 ### Bug Fixes
 
 - **withEllipsisTypography**
