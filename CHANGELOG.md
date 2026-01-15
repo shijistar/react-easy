@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 1.6.4
+
+2026-1-15
+
+### Features
+
+- ✨ Improve `easy-full-height-table` class
+
 ## 1.6.3
 
 2026-1-2

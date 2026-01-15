@@ -27,9 +27,9 @@ export interface ConfigProviderProps extends ReactEasyContextProps {
 const ConfigProvider: FC<ConfigProviderProps> = (props) => {
   const { children, locales: userLocales, prefixCls: prefixClsInProps, className, style, ...restProps } = props;
   const { lang: langInProps } = restProps;
-  const { getPrefixCls } = useContext(ReactConfigProvider.ConfigContext);
+  const { getPrefixCls, rootPrefixCls } = useContext(ReactConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('react-easy', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootPrefixCls);
 
   useEffect(() => {
     // Dynamically add language pack
