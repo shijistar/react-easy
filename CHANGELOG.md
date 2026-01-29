@@ -2,13 +2,13 @@
 
 # Changelog
 
-## 1.6.4
+## UNRELEASED
 
-2026-1-15
+2026-1-29
 
 ### Features
 
-- ✨ Improve `easy-full-height-table` class
+- ✨ Improve `useValidatorBuilder` for better format of special characters in validation messages.
 
 ## 1.6.3
 

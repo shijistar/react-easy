@@ -143,7 +143,11 @@ function buildRuleMeta(options: { flags: RuleRegExpFlags; t: ReturnType<typeof u
   if (flags.special) {
     const specials = flags.special.filter((v) => !excludeSpecials.includes(v));
     symbols.push(escape(specials.join('')));
-    messages.push(specials.join(t(nameSeparator)));
+    messages.push(
+      t('validation.rule.buildRule.token.specialChars', {
+        value: specials.join(t('validation.rule.buildRule.token.delimiter')),
+      })
+    );
   }
   return {
     symbols,

@@ -14,8 +14,10 @@
   "i18n-ally.displayLanguage": "zh-CN",
   "i18n-ally.enabledParsers": ["ts"],
   "i18n-ally.includeSubfolders": false,
-  "i18n-ally.readonly": true,
+  "i18n-ally.readonly": false,
   "i18n-ally.keystyle": "nested",
+  "i18n-ally.fullReloadOnChanged": true,
+  "i18n-ally.annotationInPlace": true,
   "cSpell.words": ["contexify"],
   "files.exclude": {
     "**/.git": true,
