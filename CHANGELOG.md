@@ -2,17 +2,29 @@
 
 # Changelog
 
-## UNRELEASED
+## 1.6.5
 
-2026-1-29
+2026-2-4
 
 ### Features
 
-- ✨ Improve `useValidatorBuilder` for better format of special characters in validation messages.
+- **useValidatorBuilder**
+  - ✨ Improve `useValidatorBuilder` for better format of special characters in validation messages.
+- **OverflowTags**
+  - ✨ Enhance `tagProps` and `ellipsisTagProps` to provide more context in the function parameters.
+  - ✨ Support any data types
+
+## 1.6.4
+
+2026-1-15
+
+### Features
+
+- 🛠️ improve `easy-full-height-table` class styles
 
 ## 1.6.3
 
-2026-1-2
+2026-1-7
 
 ### Features
 
@@ -23,6 +35,15 @@
 - **withEllipsisTypography**
 
   - 🐞 Fix Tooltip not accepting custom `ellipsis.tooltip` props issue.
+
+## 1.6.2
+
+2026-1-2
+
+### Features
+
+- **withEllipsisTypography**
+  - 🛠️ accept custom `ellipsis.tooltip` props.
 
 ## 1.6.1
 

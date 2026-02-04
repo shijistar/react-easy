@@ -9,8 +9,7 @@ import Overflow from 'rc-overflow';
 import { random } from '../../utils/math';
 import useStyle from './style';
 
-export interface OverflowTagsProps<T extends Record<string, unknown> = Record<string, unknown>>
-  extends Omit<OverflowProps<T>, 'renderItem'> {
+export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem'> {
   /**
    * **CN**: 标签集合的数据
    *
@@ -37,25 +36,18 @@ export interface OverflowTagsProps<T extends Record<string, unknown> = Record<st
    */
   renderTag?: OverflowProps<T>['renderItem'];
   /**
-   * **EN**: Custom properties for the default tag rendering function, returning `TagProps`
+   * **EN**: Custom properties for the tag component
    *
-   * **CN**: 对于默认的标签渲染函数，自定义标签的属性，返回`TagProps`
+   * **CN**: 自定义标签的组件属性
    */
-  getTagProps?: (tag: T, tags: T[]) => TagProps;
-  /**
-   * **EN**: Custom properties for the tag component, if `renderTag` is also specified, the latter
-   * will override the former
-   *
-   * **CN**: 自定义标签的组件属性，如果同时指定了`renderTag`，则后者会覆盖前者
-   */
-  tagProps?: TagProps;
+  tagProps?: TagProps | ((tag: T, options: { tags: T[] }) => TagProps);
   /**
    * **EN**: When the number of tags exceeds the maximum display count, an ellipsis tag will be
    * shown. This property is used to set the style of the ellipsis tag.
    *
    * **CN**: 当标签数量超过最大显示数量时，会显示省略号的标签，此属性用于设置省略号标签的样式
    */
-  ellipsisTagProps?: TagProps;
+  ellipsisTagProps?: TagProps | ((tag: T, options: { omittedItems: T[]; allTags: T[] }) => TagProps);
   /**
    * **EN**: Whether to use random colors, default is `false`. Note that the tag object can also
    * contain a `color` property to specify the color, and the latter takes precedence.
@@ -82,13 +74,12 @@ export interface OverflowTagsProps<T extends Record<string, unknown> = Record<st
  *   />;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const OverflowTags = <T extends Record<string, any>>(props: OverflowTagsProps<T>) => {
+const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
   const {
     tags = [],
     randomColors,
     getTagName: getTagNameInProps,
     getTagKey,
-    getTagProps: getTagPropsInProps,
     tagProps,
     ellipsisTagProps,
     className,
@@ -104,20 +95,28 @@ const OverflowTags = <T extends Record<string, any>>(props: OverflowTagsProps<T>
     () => PresetColors.filter((c) => !['lime', 'yellow', 'magenta'].includes(c)).map((color) => token[`${color}-3`]),
     [token]
   );
+  const getValue = useCallback((tag: T | undefined, field: string) => {
+    if (tag != null && typeof tag === 'object') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const record = tag as Record<string, any>;
+      return record[field];
+    }
+    return undefined;
+  }, []);
   const getTagName = useCallback(
     (tag: T) => {
-      return getTagNameInProps ? getTagNameInProps(tag) : (tag.label ?? tag.name);
+      return getTagNameInProps
+        ? getTagNameInProps(tag)
+        : (getValue(tag, 'label') ?? getValue(tag, 'name') ?? tag?.toString());
     },
-    [getTagNameInProps]
+    [getTagNameInProps, getValue]
   );
   const renderTag = (item: T) => {
-    const customProps = getTagPropsInProps?.(item, tags);
     return (
       <Tag
-        {...tagProps}
-        icon={item.icon}
-        color={randomColors ? colors[random(0, colors.length - 1)] : (item.color ?? 'default')}
-        {...customProps}
+        icon={getValue(item, 'icon')}
+        color={randomColors ? colors[random(0, colors.length - 1)] : getValue(item, 'color') || 'default'}
+        {...(typeof tagProps === 'function' ? tagProps(item, { tags }) : tagProps)}
       >
         {getTagName(item)}
       </Tag>
@@ -135,12 +134,18 @@ const OverflowTags = <T extends Record<string, any>>(props: OverflowTagsProps<T>
           menu={{
             items: omittedItems.map((tag) => ({
               type: 'item',
-              key: getTagKey ? getTagKey(tag) : (tag.value ?? tag.id ?? getTagName(tag)),
+              key: getTagKey ? getTagKey(tag) : (getValue(tag, 'value') ?? getValue(tag, 'id') ?? getTagName(tag)),
               label: getTagName(tag),
             })),
           }}
         >
-          <Tag {...ellipsisTagProps}>+ {omittedItems.length}...</Tag>
+          <Tag
+            {...(typeof ellipsisTagProps === 'function'
+              ? ellipsisTagProps(omittedItems[0], { omittedItems, allTags: tags })
+              : ellipsisTagProps)}
+          >
+            + {omittedItems.length}...
+          </Tag>
         </Dropdown>
       )}
       {...restProps}
