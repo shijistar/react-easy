@@ -1,5 +1,7 @@
 import { createContext, type ReactNode } from 'react';
 import type { Langs } from '../../locales';
+import type { ConfirmActionProps } from '../ConfirmAction';
+import type { ModalActionProps } from '../ModalAction';
 
 export interface ReactEasyContextProps {
   /**
@@ -7,37 +9,6 @@ export interface ReactEasyContextProps {
    * - **CN:** 组件的语言，用于全局配置，可以是'en-US'或'zh-CN'
    */
   lang?: Langs;
-  /**
-   * - **EN:** Default title of the confirm dialog, used for global configuration, can be normal text
-   *   or the key of localized resources, the key of localized resources will be converted into
-   *   localized text through the `localize` method
-   * - **CN:** 确认弹框的默认标题，用于全局配置，可以是普通文本或本地化资源的键值，本地化资源的键值会通过`localize`方法转换成本地化文本
-   */
-  defaultConfirmTitle?: ReactNode;
-  /**
-   * - **EN:** Default content of the confirm dialog, used for global configuration, can be normal
-   *   text or the key of localized resources, the key of localized resources will be converted into
-   *   localized text through the `localize` method
-   * - **CN:** 确认弹框的默认内容，用于全局配置，可以是普通文本或本地化资源的键值，本地化资源的键值会通过`localize`方法转换成本地化文本
-   */
-  defaultConfirmContent?: ReactNode;
-
-  /**
-   * - **EN:** Default title of the deletion confirmation dialog, used for global configuration, can
-   *   be normal text or the key of localized resources, the key of localized resources will be
-   *   converted into localized text through the `localize` method
-   * - **CN:** 删除确认弹框的默认标题，用于全局配置，可以是普通文本或本地化资源的键值，本地化资源的键值会通过`localize`方法转换成本地化文本
-   */
-  defaultDeletionConfirmTitle?: ReactNode;
-
-  /**
-   * - **EN:** Default content of the deletion confirmation dialog, used for global configuration, can
-   *   be normal text or the key of localized resources, the key of localized resources will be
-   *   converted into localized text through the `localize` method
-   * - **CN:** 删除确认弹框的默认内容，用于全局配置，可以是普通文本或本地化资源的键值，本地化资源的键值会通过`localize`方法转换成本地化文本
-   */
-  defaultDeletionConfirmContent?: ReactNode;
-
   /**
    * - **EN:** Get localized text
    * - **CN:** 获取本地化文本
@@ -48,6 +19,38 @@ export interface ReactEasyContextProps {
    * @returns Localized text | 本地化文本
    */
   localize?: <T>(key: T, args?: Record<string, unknown>) => ReactNode;
+
+  /**
+   * - **EN:** Global configuration for `ConfirmAction` component, which can be used to set default
+   *   modal title and content for all `ConfirmAction` components in the application.
+   * - **CN:** `ConfirmAction`组件的全局配置，可以用来设置应用中所有`ConfirmAction`组件的默认模态框标题和内容。
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ConfirmAction?: ConfirmActionProps<any, never>;
+  /** @deprecated Use `ConfirmAction.title` instead */
+  defaultConfirmTitle?: ReactNode;
+  /** @deprecated Use `ConfirmAction.content` instead */
+  defaultConfirmContent?: ReactNode;
+
+  /**
+   * - **EN:** Global configuration for `DeleteConfirmAction` component, which can be used to set
+   *   default modal title and content for all `DeleteConfirmAction` components in the application.
+   * - **CN:** `DeleteConfirmAction`组件的全局配置，可以用来设置应用中所有`DeleteConfirmAction`组件的默认模态框标题和内容。
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  DeletionConfirmAction?: ConfirmActionProps<any, never>;
+  /** @deprecated Use `DeletionConfirmAction.title` instead */
+  defaultDeletionConfirmTitle?: ReactNode;
+  /** @deprecated Use `DeletionConfirmAction.content` instead */
+  defaultDeletionConfirmContent?: ReactNode;
+
+  /**
+   * - **EN:** Global configuration for `ModalAction` component, which can be used to set default
+   *   modal title and content for all `ModalAction` components in the application.
+   * - **CN:** `ModalAction`组件的全局配置，可以用来设置应用中所有`ModalAction`组件的默认模态框标题和内容。
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ModalAction?: Partial<ModalActionProps<any, any, any, any, any>>;
 }
 
 export const defaultContextValue: ReactEasyContextProps = {

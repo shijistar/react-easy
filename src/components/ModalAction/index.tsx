@@ -1,10 +1,11 @@
 import type { ComponentType, FC, ForwardedRef, ReactNode, RefAttributes } from 'react';
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { forwardRef, useCallback, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import { isForwardRef } from 'react-is';
 import useContextValidator from '../../hooks/useContextValidator';
+import ReactEasyContext from '../ConfigProvider/context';
 
 /**
  * - **EN:** Symbol for not closing the dialog when submitting the form, which takes effect when
@@ -386,44 +387,56 @@ function mergeProps<
   Ref extends object,
 >(
   first?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>,
-  second?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>
+  second?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>,
+  third?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>
 ) {
   return {
     ...first,
     ...second,
+    ...third,
     okButtonProps: {
       ...first?.okButtonProps,
       ...second?.okButtonProps,
+      ...third?.okButtonProps,
     },
     cancelButtonProps: {
       ...first?.cancelButtonProps,
       ...second?.cancelButtonProps,
+      ...third?.cancelButtonProps,
     },
     bodyProps: {
       ...first?.bodyProps,
       ...second?.bodyProps,
+      ...third?.bodyProps,
     },
     maskProps: {
       ...first?.maskProps,
       ...second?.maskProps,
+      ...third?.maskProps,
     },
     wrapProps: {
       ...first?.wrapProps,
       ...second?.wrapProps,
+      ...third?.wrapProps,
     },
     formProps: {
       ...first?.formProps,
       ...second?.formProps,
+      ...third?.formProps,
     },
     triggerProps: {
       ...first?.triggerProps,
       ...second?.triggerProps,
+      ...third?.triggerProps,
       style: {
         ...(first?.triggerProps && 'style' in first.triggerProps && typeof first.triggerProps.style === 'object'
           ? first.triggerProps.style
           : {}),
         ...(second?.triggerProps && 'style' in second.triggerProps && typeof second.triggerProps.style === 'object'
           ? second.triggerProps.style
+          : {}),
+        ...(third?.triggerProps && 'style' in third.triggerProps && typeof third.triggerProps.style === 'object'
+          ? third.triggerProps.style
           : {}),
       },
     },
@@ -730,10 +743,15 @@ export function withModalAction<
     ModalActionRef<Ref, FormData>,
     ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>
   >((props, ref) => {
+    const context = useContext(ReactEasyContext);
+    const globalDefaults = context?.ModalAction;
     const [modalActionRef, setModalActionRef] = useState<ModalActionRef<Ref, FormData> | null>(null);
     const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
     const defaults = useDefaultProps(props, modalActionRef);
-    const mergedProps = typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
+    const mergedProps =
+      typeof defaultProps === 'function'
+        ? mergeProps(globalDefaults, props, defaults)
+        : mergeProps(globalDefaults, defaults, props);
     WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
 
     useImperativeHandle(ref, () => modalActionRef as ModalActionRef<Ref, FormData>, [modalActionRef]);

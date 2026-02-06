@@ -113,54 +113,76 @@ export const genRenderer = (
     ref: ForwardedRef<ConfirmActionRef>
   ) => {
     const { confirmType, ...restDefaults } = defaultProps;
+
+    const context = useContext(ReactEasyContext);
+    const globalDefaults = confirmType === 'delete' ? context.DeletionConfirmAction : context.ConfirmAction;
+
+    const defaultTitle = useLocalizedText(
+      confirmType === 'delete'
+        ? context.DeletionConfirmAction?.title || context.defaultDeletionConfirmTitle
+        : context.ConfirmAction?.title || context.defaultConfirmTitle
+    );
+    const defaultContent = useLocalizedText(
+      confirmType === 'delete'
+        ? context.DeletionConfirmAction?.content || context.defaultDeletionConfirmContent
+        : context.ConfirmAction?.content || context.defaultConfirmContent
+    );
+
     const mergedProps: ConfirmActionProps<TriggerProp, Event> = {
       ...restDefaults,
+      ...globalDefaults,
       ...props,
+      title: props.title ?? defaultTitle ?? restDefaults.title,
+      content: props.content ?? defaultContent ?? restDefaults.content,
       okButtonProps: {
         ...restDefaults.okButtonProps,
+        ...globalDefaults?.okButtonProps,
         ...props.okButtonProps,
       },
       cancelButtonProps: {
         ...restDefaults.cancelButtonProps,
+        ...globalDefaults?.cancelButtonProps,
         ...props.cancelButtonProps,
       },
       bodyProps: {
         ...restDefaults.bodyProps,
+        ...globalDefaults?.bodyProps,
         ...props.bodyProps,
       },
       maskProps: {
         ...restDefaults.maskProps,
+        ...globalDefaults?.maskProps,
         ...props.maskProps,
       },
       wrapProps: {
         ...restDefaults.wrapProps,
+        ...globalDefaults?.wrapProps,
         ...props.wrapProps,
       },
       triggerProps: {
         ...restDefaults.triggerProps,
+        ...globalDefaults?.triggerProps,
         ...props.triggerProps,
         style: {
           ...restDefaults.triggerProps?.style,
+          ...(globalDefaults?.triggerProps &&
+          'style' in globalDefaults.triggerProps &&
+          typeof globalDefaults.triggerProps.style === 'object'
+            ? globalDefaults.triggerProps.style
+            : {}),
           ...(props.triggerProps && 'style' in props.triggerProps && typeof props.triggerProps.style === 'object'
             ? props.triggerProps.style
             : {}),
         },
       } as TriggerProp,
     };
-    const context = useContext(ReactEasyContext);
-    const defaultTitle = useLocalizedText(
-      confirmType === 'delete' ? context.defaultDeletionConfirmTitle : context.defaultConfirmTitle
-    );
-    const defaultContent = useLocalizedText(
-      confirmType === 'delete' ? context.defaultDeletionConfirmContent : context.defaultConfirmContent
-    );
     const {
       triggerComponent: Trigger = Button,
       triggerEvent = 'onClick' as Event,
       triggerProps,
       danger,
-      title = defaultTitle,
-      content = defaultContent,
+      title,
+      content,
       titleColor,
       contentColor,
       icon,

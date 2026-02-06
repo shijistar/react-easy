@@ -2,6 +2,16 @@
 
 # Changelog
 
+## 1.7.0
+
+2026-2-6
+
+### Features
+
+- **ConfigProvider**
+  - ✨ Enhance global configuration for `ConfirmAction`, `DeleteConfirmAction` and `ModalAction` components to allow setting default props for all instances in the application.
+  - ⚠️ Deprecate `defaultConfirmTitle`, `defaultConfirmContent`, `defaultDeletionConfirmTitle`, and `defaultDeletionConfirmContent` in favor of the new global configuration approach.
+
 ## 1.6.5
 
 2026-2-4
