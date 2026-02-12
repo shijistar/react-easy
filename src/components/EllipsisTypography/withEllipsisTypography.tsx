@@ -11,7 +11,7 @@ function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProp
   Component: ComponentType<MakeEllipsisTypographyProps<T>>
 ) {
   return function EllipsisText(props: MakeEllipsisTypographyProps<T>) {
-    const { ellipsis, text, ...rest } = props;
+    const { ellipsis = true, text, ...rest } = props;
     const [isEllipsis, setIsEllipsis] = useState(false);
     const [dom, setDom] = useState<HTMLElement | null>(null);
     const isAutoEllipsis = useMemo(() => ellipsis === true, [ellipsis]);

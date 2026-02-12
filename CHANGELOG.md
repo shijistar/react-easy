@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.1
+
+2026-2-12
+
+### Features
+
+- **withEllipsisTypography**
+  - ✨ Set default value for `ellipsis` prop to `true`. It affects `EllipsisTitle`, `EllipsisText`, and `EllipsisParagraph` components.
+
 ## 1.7.0
 
 2026-2-6
