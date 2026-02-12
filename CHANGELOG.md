@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.3
+
+2026-2-12
+
+### Features
+
+- **EllipsisText**, **EllipsisParagraph**, **EllipsisTitle**
+  - ✨ Make `text` prop optional.
+
 ## 1.7.2
 
 2026-2-12

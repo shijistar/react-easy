@@ -72,7 +72,7 @@ function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProp
 }
 
 export type MakeEllipsisTypographyProps<T> = Omit<T, 'children'> & {
-  text: string | undefined;
+  text?: string | undefined;
   children?: string | undefined | null;
 };
 
