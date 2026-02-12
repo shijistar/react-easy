@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.2
+
+2026-2-12
+
+### Features
+
+- **EllipsisText**, **EllipsisParagraph**, **EllipsisTitle**
+  - ✨ Support `children` as the fallback of `text` prop.
+
 ## 1.7.1
 
 2026-2-12
