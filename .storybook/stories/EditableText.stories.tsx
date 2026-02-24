@@ -27,60 +27,44 @@ const meta: Meta<EditableTextStoryArgs> = {
   argTypes: {
     value: {
       control: 'text',
-      description: `
-      - **EN:** Current value of editable text.
-      - **CN:** 可编辑文本的当前值。
-    `,
+      description: `- **EN:** Current value of editable text.
+- **CN:** 可编辑文本的当前值。`,
     },
     editable: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to allow editing.
-      - **CN:** 是否允许编辑。
-    `,
+      description: `- **EN:** Whether to allow editing.
+- **CN:** 是否允许编辑。`,
     },
     editing: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to open edit mode.
-      - **CN:** 是否打开编辑模式。
-    `,
+      description: `- **EN:** Whether to open edit mode.
+- **CN:** 是否打开编辑模式。`,
     },
     required: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether input value is required.
-      - **CN:** 输入值是否必填。
-    `,
+      description: `- **EN:** Whether input value is required.
+- **CN:** 输入值是否必填。`,
     },
     textComp: {
       control: 'radio',
       options: ['Text', 'Paragraph', 'Title', 'Link'],
-      description: `
-      - **EN:** Custom component type for rendering the text.
-      - **CN:** 自定义渲染文本组件类型。
-    `,
+      description: `- **EN:** Custom component type for rendering the text.
+- **CN:** 自定义渲染文本组件类型。`,
     },
     blockView: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to display as block in view mode.
-      - **CN:** 只读模式是否块级显示。
-    `,
+      description: `- **EN:** Whether to display as block in view mode.
+- **CN:** 只读模式是否块级显示。`,
     },
     blockEdit: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to display as block in edit mode.
-      - **CN:** 编辑模式是否块级显示。
-    `,
+      description: `- **EN:** Whether to display as block in edit mode.
+- **CN:** 编辑模式是否块级显示。`,
     },
     maxLength: {
       control: { type: 'number', min: 10, max: 300, step: 1 },
-      description: `
-      - **EN:** Maximum input length in this demo.
-      - **CN:** 当前示例中的输入最大长度。
-    `,
+      description: `- **EN:** Maximum input length in this demo.
+- **CN:** 当前示例中的输入最大长度。`,
     },
   },
 };

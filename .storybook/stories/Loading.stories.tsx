@@ -15,25 +15,19 @@ const meta: Meta<typeof Loading> = {
     mode: {
       control: 'select',
       options: ['flex', 'absolute'],
-      description: `
-      - **EN:** Positioning mode when used independently.
-      - **CN:** 独立使用时的定位方式。
-    `,
+      description: `- **EN:** Positioning mode when used independently.
+- **CN:** 独立使用时的定位方式。`,
     },
     spinning: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether loading animation is active.
-      - **CN:** 是否显示加载动画。
-    `,
+      description: `- **EN:** Whether loading animation is active.
+- **CN:** 是否显示加载动画。`,
     },
     size: {
       control: 'select',
       options: ['small', 'default', 'large'],
-      description: `
-      - **EN:** Size of loading indicator.
-      - **CN:** 加载指示器尺寸。
-    `,
+      description: `- **EN:** Size of loading indicator.
+- **CN:** 加载指示器尺寸。`,
     },
   },
   render: (args) => (

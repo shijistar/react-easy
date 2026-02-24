@@ -25,45 +25,33 @@ const meta: Meta<typeof OverflowTags<TagItem>> = {
     maxCount: {
       control: 'radio',
       options: ['responsive', 2, 3, 4, 5],
-      description: `
-      - **EN:** Maximum number of tags to display before overflow.
-      - **CN:** 超出前最多显示的标签数量。
-    `,
+      description: `- **EN:** Maximum number of tags to display before overflow.
+- **CN:** 超出前最多显示的标签数量。`,
     },
     randomColors: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to use random colors for tags.
-      - **CN:** 是否为标签使用随机颜色。
-    `,
+      description: `- **EN:** Whether to use random colors for tags.
+- **CN:** 是否为标签使用随机颜色。`,
     },
     tags: {
       control: 'object',
-      description: `
-      - **EN:** Data collection of tags.
-      - **CN:** 标签集合数据。
-    `,
+      description: `- **EN:** Data collection of tags.
+- **CN:** 标签集合数据。`,
     },
     ellipsisDropdownProps: {
       control: 'object',
-      description: `
-      - **EN:** Custom dropdown props when tags are overflowed.
-      - **CN:** 标签溢出时下拉菜单自定义属性。
-    `,
+      description: `- **EN:** Custom dropdown props when tags are overflowed.
+- **CN:** 标签溢出时下拉菜单自定义属性。`,
     },
     tagProps: {
       control: 'object',
-      description: `
-      - **EN:** Custom props for normal tag items.
-      - **CN:** 普通标签项自定义属性。
-    `,
+      description: `- **EN:** Custom props for normal tag items.
+- **CN:** 普通标签项自定义属性。`,
     },
     ellipsisTagProps: {
       control: 'object',
-      description: `
-      - **EN:** Custom props for the ellipsis tag.
-      - **CN:** 省略标签自定义属性。
-    `,
+      description: `- **EN:** Custom props for the ellipsis tag.
+- **CN:** 省略标签自定义属性。`,
     },
   },
   render: (args) => (

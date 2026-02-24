@@ -29,52 +29,38 @@ const meta: Meta<ConfirmActionStoryArgs> = {
     triggerType: {
       control: 'radio',
       options: ['button', 'switch', 'link'],
-      description: `
-      - **EN:** Demo-only option to switch trigger component type.
-      - **CN:** 示例专用：切换触发器组件类型。
-    `,
+      description: `- **EN:** Demo-only option to switch trigger component type.
+- **CN:** 示例专用：切换触发器组件类型。`,
     },
     triggerText: {
       control: 'text',
-      description: `
-      - **EN:** Custom trigger content.
-      - **CN:** 自定义触发器内容。
-    `,
+      description: `- **EN:** Custom trigger content.
+- **CN:** 自定义触发器内容。`,
     },
     title: {
       control: 'text',
-      description: `
-      - **EN:** Confirm box title.
-      - **CN:** 确认框标题。
-    `,
+      description: `- **EN:** Confirm box title.
+- **CN:** 确认框标题。`,
     },
     content: {
       control: 'text',
-      description: `
-      - **EN:** Confirm box content text.
-      - **CN:** 确认框内容文本。
-    `,
+      description: `- **EN:** Confirm box content text.
+- **CN:** 确认框内容文本。`,
     },
     danger: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to display in red danger mode.
-      - **CN:** 是否显示为红色危险模式。
-    `,
+      description: `- **EN:** Whether to display in red danger mode.
+- **CN:** 是否显示为红色危险模式。`,
     },
     okText: {
       control: 'text',
-      description: `
-      - **EN:** Confirm button text.
-      - **CN:** 确认按钮文本。
-    `,
+      description: `- **EN:** Confirm button text.
+- **CN:** 确认按钮文本。`,
     },
     cancelText: {
       control: 'text',
-      description: `
-      - **EN:** Cancel button text.
-      - **CN:** 取消按钮文本。
-    `,
+      description: `- **EN:** Cancel button text.
+- **CN:** 取消按钮文本。`,
     },
   },
 };

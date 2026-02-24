@@ -20,67 +20,49 @@ const meta: Meta<typeof FloatDrawer> = {
   argTypes: {
     open: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether the drawer is open.
-      - **CN:** 抽屉是否打开。
-    `,
+      description: `- **EN:** Whether the drawer is open.
+- **CN:** 抽屉是否打开。`,
     },
     position: {
       control: 'radio',
       options: ['left', 'right', 'top', 'bottom'],
-      description: `
-      - **EN:** Position of the drawer.
-      - **CN:** 抽屉的位置。
-    `,
+      description: `- **EN:** Position of the drawer.
+    - **CN:** 抽屉的位置。`,
     },
     defaultSize: {
       control: { type: 'number', min: 120, max: 500, step: 10 },
-      description: `
-      - **EN:** Default size of the drawer.
-      - **CN:** 抽屉默认尺寸。
-    `,
+      description: `- **EN:** Default size of the drawer.
+    - **CN:** 抽屉默认尺寸。`,
     },
     minSize: {
       control: { type: 'number', min: 0, max: 400, step: 10 },
-      description: `
-      - **EN:** Minimum size of the drawer.
-      - **CN:** 抽屉最小尺寸。
-    `,
+      description: `- **EN:** Minimum size of the drawer.
+    - **CN:** 抽屉最小尺寸。`,
     },
     maxSize: {
       control: { type: 'number', min: 120, max: 800, step: 10 },
-      description: `
-      - **EN:** Maximum size of the drawer.
-      - **CN:** 抽屉最大尺寸。
-    `,
+      description: `- **EN:** Maximum size of the drawer.
+    - **CN:** 抽屉最大尺寸。`,
     },
     showToggle: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to show the toggle button.
-      - **CN:** 是否显示展开/收起按钮。
-    `,
+      description: `- **EN:** Whether to show the toggle button.
+    - **CN:** 是否显示展开/收起按钮。`,
     },
     resizable: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether the drawer is resizable.
-      - **CN:** 抽屉是否可调整大小。
-    `,
+      description: `- **EN:** Whether the drawer is resizable.
+    - **CN:** 抽屉是否可调整大小。`,
     },
     destroyOnClose: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to destroy the drawer content when closed.
-      - **CN:** 抽屉关闭时是否销毁内容。
-    `,
+      description: `- **EN:** Whether to destroy the drawer content when closed.
+    - **CN:** 抽屉关闭时是否销毁内容。`,
     },
     cardProps: {
       control: 'object',
-      description: `
-      - **EN:** Custom properties for the inner card element.
-      - **CN:** 内部卡片元素自定义属性。
-    `,
+      description: `- **EN:** Custom properties for the inner card element.
+    - **CN:** 内部卡片元素自定义属性。`,
     },
   },
   render: (args) => (

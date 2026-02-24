@@ -27,25 +27,19 @@ const meta: Meta<typeof ContextMenu> = {
     trigger: {
       control: 'inline-check',
       options: ['click', 'doubleClick', 'hover', 'contextMenu'],
-      description: `
-      - **EN:** Trigger methods to show the menu.
-      - **CN:** 触发显示菜单的方式。
-    `,
+      description: `- **EN:** Trigger methods to show the menu.
+- **CN:** 触发显示菜单的方式。`,
     },
     items: {
       control: 'object',
-      description: `
-      - **EN:** Menu items to be displayed.
-      - **CN:** 要显示的菜单项。
-    `,
+      description: `- **EN:** Menu items to be displayed.
+- **CN:** 要显示的菜单项。`,
     },
     theme: {
       control: 'radio',
       options: ['light', 'dark'],
-      description: `
-      - **EN:** Theme mode of the context menu.
-      - **CN:** 上下文菜单主题模式。
-    `,
+      description: `- **EN:** Theme mode of the context menu.
+- **CN:** 上下文菜单主题模式。`,
     },
   },
   render: (args) => (

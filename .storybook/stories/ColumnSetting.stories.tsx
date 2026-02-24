@@ -41,17 +41,13 @@ const meta: Meta<ColumnSettingStoryArgs> = {
   argTypes: {
     useStorage: {
       control: 'boolean',
-      description: `
-      - **EN:** Whether to enable local storage persistence in this demo.
-      - **CN:** 当前示例中是否启用本地存储持久化。
-    `,
+      description: `- **EN:** Whether to enable local storage persistence in this demo.
+- **CN:** 当前示例中是否启用本地存储持久化。`,
     },
     storageKey: {
       control: 'text',
-      description: `
-      - **EN:** Local storage key for persisting column settings.
-      - **CN:** 用于持久化列设置的本地存储键。
-    `,
+      description: `- **EN:** Local storage key for persisting column settings.
+- **CN:** 用于持久化列设置的本地存储键。`,
     },
   },
 };

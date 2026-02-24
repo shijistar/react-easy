@@ -20,24 +20,18 @@ const meta: Meta<ConfigProviderStoryArgs> = {
     lang: {
       control: 'radio',
       options: ['en', 'zh-CN'],
-      description: `
-      - **EN:** Language of the component for global configuration.
-      - **CN:** 组件语言（全局配置）。
-    `,
+      description: `- **EN:** Language of the component for global configuration.
+- **CN:** 组件语言（全局配置）。`,
     },
     defaultTitle: {
       control: 'text',
-      description: `
-      - **EN:** Global default title for \`ConfirmAction\` in this demo.
-      - **CN:** 当前示例中 \`ConfirmAction\` 的全局默认标题。
-    `,
+      description: `- **EN:** Global default title for \`ConfirmAction\` in this demo.
+- **CN:** 当前示例中 \`ConfirmAction\` 的全局默认标题。`,
     },
     defaultContent: {
       control: 'text',
-      description: `
-      - **EN:** Global default content for \`ConfirmAction\` in this demo.
-      - **CN:** 当前示例中 \`ConfirmAction\` 的全局默认内容。
-    `,
+      description: `- **EN:** Global default content for \`ConfirmAction\` in this demo.
+- **CN:** 当前示例中 \`ConfirmAction\` 的全局默认内容。`,
     },
   },
 };

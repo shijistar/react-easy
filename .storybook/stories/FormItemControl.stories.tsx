@@ -8,10 +8,8 @@ const meta: Meta<typeof FormItemControl> = {
   argTypes: {
     children: {
       control: false,
-      description: `
-      - **EN:** Render function receiving \`value\` and \`onChange\`, used as a valid Form.Item control.
-      - **CN:** 渲染函数，接收 \`value\` 与 \`onChange\`，用于包装为有效的 Form.Item 控件。
-    `,
+      description: `- **EN:** Render function receiving \`value\` and \`onChange\`, used as a valid Form.Item control.
+- **CN:** 渲染函数，接收 \`value\` 与 \`onChange\`，用于包装为有效的 Form.Item 控件。`,
     },
   },
 };
