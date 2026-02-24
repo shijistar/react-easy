@@ -7,22 +7,22 @@ export interface BreakLinesProps {
    */
   value: string | undefined;
   /**
-   * - **EN:** Whether to enable line breaking
-   * - **CN:** 是否启用换行功能
+   * - **EN:** Whether the line break conversion is enabled
+   * - **CN:** 是否启用换行转换
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * - **EN:** Line break character
-   * - **CN:** 换行符
+   * - **EN:** The end-of-line character to use for splitting lines
+   * - **CN:** 用于分割行的行结束字符
    *
    * @default '\n'
    */
   EOL?: string;
   /**
-   * - **CN:** 渲染dom节点的标签名
-   * - **EN:** Render the tag name of the DOM node
+   * - **EN:** The HTML tag to use for rendering the content
+   * - **CN:** 用于渲染内容的 HTML 标签
    *
    * @default false
    */

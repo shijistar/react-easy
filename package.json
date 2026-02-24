@@ -33,9 +33,11 @@
   "scripts": {
     "build": "run-s build-core correct-sourcemap",
     "build-core": "father build",
+    "build-storybook": "storybook build",
     "correct-sourcemap": "tsx scripts/correct-sourcemap.ts",
     "prepare": "husky",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
     "@lexical/react": "^0.33.1",
@@ -48,6 +50,11 @@
     "sockjs-client": "^1.6.1"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "8.6.17",
+    "@storybook/addon-interactions": "8.6.17",
+    "@storybook/addon-links": "8.6.17",
+    "@storybook/react-vite": "8.6.17",
+    "@storybook/test": "8.6.17",
     "@tiny-codes/code-style-all-in-one": "^1.1.5",
     "@tiny-codes/eslint-plugin-react-hooks": "^4.6.0",
     "@types/crypto-js": "^4.2.2",
@@ -64,9 +71,11 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
+    "storybook": "8.6.17",
     "ts-jest": "^29.3.0",
     "tsx": "^4.20.5",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vite": "^6.2.0"
   },
   "peerDependencies": {
     "antd": ">=5.1.0",

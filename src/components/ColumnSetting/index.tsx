@@ -83,7 +83,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
   const [selectedKeys, setSelectedKeys] = useState<string[]>(initialSelectedRef.current);
   const t = useT();
   const [selectedKeysFromStorage, setSelectedKeysFromStorage] = useLocalStorage<string[]>(
-    storageKey ?? '',
+    storageKey ?? '---',
     initialSelectedRef.current
   );
   const storageRef = useRefValue(storageKey);
