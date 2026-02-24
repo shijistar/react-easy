@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.4
+
+2026-2-24
+
+### Features
+
+- **OverflowTags**
+  - ✨ Add `ellipsisDropdownProps` property to customize the dropdown when tags are overflowed.
+
 ## 1.7.3
 
 2026-2-12

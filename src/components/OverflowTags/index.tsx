@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useCallback, useContext, useMemo } from 'react';
-import type { TagProps } from 'antd';
+import type { DropdownProps, TagProps } from 'antd';
 import { ConfigProvider, Dropdown, Tag, theme } from 'antd';
 import { PresetColors } from 'antd/es/theme/internal';
 import classNames from 'classnames';
@@ -49,6 +49,12 @@ export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem
    */
   ellipsisTagProps?: TagProps | ((tag: T, options: { omittedItems: T[]; allTags: T[] }) => TagProps);
   /**
+   * **EN**: Custom properties for the dropdown component when tags are overflowed
+   *
+   * **CN**: 当标签溢出时，下拉菜单的自定义属性
+   */
+  ellipsisDropdownProps?: DropdownProps;
+  /**
    * **EN**: Whether to use random colors, default is `false`. Note that the tag object can also
    * contain a `color` property to specify the color, and the latter takes precedence.
    *
@@ -82,6 +88,7 @@ const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
     getTagKey,
     tagProps,
     ellipsisTagProps,
+    ellipsisDropdownProps,
     className,
     prefixCls: prefixClsInProps,
     ...restProps
@@ -131,12 +138,14 @@ const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
       renderItem={renderTag}
       renderRest={(omittedItems) => (
         <Dropdown
+          {...ellipsisDropdownProps}
           menu={{
             items: omittedItems.map((tag) => ({
               type: 'item',
               key: getTagKey ? getTagKey(tag) : (getValue(tag, 'value') ?? getValue(tag, 'id') ?? getTagName(tag)),
               label: getTagName(tag),
             })),
+            ...ellipsisDropdownProps?.menu,
           }}
         >
           <Tag
