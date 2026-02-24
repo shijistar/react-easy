@@ -57,32 +57,38 @@ const meta: Meta<ModalActionStoryArgs> = {
       control: 'text',
       description: `- **EN:** Modal title.
 - **CN:** 弹窗标题。`,
+      table: { defaultValue: { summary: '编辑用户信息（demo）' } },
     },
     triggerType: {
       control: 'radio',
       options: ['button', 'switch', 'link'],
       description: `- **EN:** Demo-only option to switch trigger component type.
 - **CN:** 示例专用：切换触发器组件类型。`,
+      table: { defaultValue: { summary: 'button（demo）' } },
     },
     triggerText: {
       control: 'text',
       description: `- **EN:** Custom trigger content.
 - **CN:** 自定义触发器内容。`,
+      table: { defaultValue: { summary: '打开弹窗（demo）' } },
     },
     width: {
       control: { type: 'number', min: 320, max: 900, step: 10 },
       description: `- **EN:** Width of the modal dialog.
 - **CN:** 弹窗宽度。`,
+      table: { defaultValue: { summary: '520（demo）' } },
     },
     destroyOnClose: {
       control: 'boolean',
       description: `- **EN:** Whether to destroy child components on close.
 - **CN:** 关闭时是否销毁子组件。`,
+      table: { defaultValue: { summary: 'true' } },
     },
     maskClosable: {
       control: 'boolean',
       description: `- **EN:** Whether clicking the mask closes the modal.
 - **CN:** 点击遮罩是否可关闭弹窗。`,
+      table: { defaultValue: { summary: 'false' } },
     },
   },
 };

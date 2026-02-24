@@ -22,16 +22,19 @@ const meta: Meta<ConfigProviderStoryArgs> = {
       options: ['en', 'zh-CN'],
       description: `- **EN:** Language of the component for global configuration.
 - **CN:** 组件语言（全局配置）。`,
+      table: { defaultValue: { summary: 'en（组件默认） / zh-CN（demo）' } },
     },
     defaultTitle: {
       control: 'text',
       description: `- **EN:** Global default title for \`ConfirmAction\` in this demo.
 - **CN:** 当前示例中 \`ConfirmAction\` 的全局默认标题。`,
+      table: { defaultValue: { summary: '全局确认标题（demo）' } },
     },
     defaultContent: {
       control: 'text',
       description: `- **EN:** Global default content for \`ConfirmAction\` in this demo.
 - **CN:** 当前示例中 \`ConfirmAction\` 的全局默认内容。`,
+      table: { defaultValue: { summary: '这是由 ConfigProvider 注入的全局默认内容。（demo）' } },
     },
   },
 };

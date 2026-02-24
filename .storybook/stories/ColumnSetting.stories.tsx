@@ -43,11 +43,13 @@ const meta: Meta<ColumnSettingStoryArgs> = {
       control: 'boolean',
       description: `- **EN:** Whether to enable local storage persistence in this demo.
 - **CN:** 当前示例中是否启用本地存储持久化。`,
+      table: { defaultValue: { summary: 'false（demo）' } },
     },
     storageKey: {
       control: 'text',
       description: `- **EN:** Local storage key for persisting column settings.
 - **CN:** 用于持久化列设置的本地存储键。`,
+      table: { defaultValue: { summary: 'storybook:column-setting（demo）' } },
     },
   },
 };

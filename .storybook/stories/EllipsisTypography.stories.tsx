@@ -29,11 +29,13 @@ export const Text: TextStory = {
       control: 'text',
       description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
 - **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      table: { defaultValue: { summary: 'longText（demo）' } },
     },
     ellipsis: {
       control: 'object',
       description: `- **EN:** Ellipsis configuration. Set \`true\` or \`ellipsis.tooltip\` to enable automatic tooltip behavior.
 - **CN:** 省略配置。设置为 \`true\` 或配置 \`ellipsis.tooltip\` 可启用自动 tooltip 行为。`,
+      table: { defaultValue: { summary: 'true（demo） / true（组件默认）' } },
     },
   },
   render: (args) => <EllipsisText {...args} />,
@@ -50,11 +52,13 @@ export const Paragraph: ParagraphStory = {
       control: 'text',
       description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
 - **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      table: { defaultValue: { summary: 'longText（demo）' } },
     },
     ellipsis: {
       control: 'object',
       description: `- **EN:** Ellipsis configuration with optional rows and tooltip settings.
 - **CN:** 省略配置，支持行数和 tooltip 设置。`,
+      table: { defaultValue: { summary: '{ rows: 2, tooltip: true }（demo）' } },
     },
   },
   render: (args) => <EllipsisParagraph {...args} />,
@@ -72,17 +76,20 @@ export const Title: TitleStory = {
       control: 'text',
       description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
 - **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      table: { defaultValue: { summary: 'longText（demo）' } },
     },
     level: {
       control: 'select',
       options: [1, 2, 3, 4, 5],
       description: `- **EN:** Title level.
     - **CN:** 标题层级。`,
+      table: { defaultValue: { summary: '4（demo）' } },
     },
     ellipsis: {
       control: 'object',
       description: `- **EN:** Ellipsis configuration. Supports automatic tooltip title behavior.
     - **CN:** 省略配置，支持自动 tooltip title 行为。`,
+      table: { defaultValue: { summary: '{ tooltip: { title: true } }（demo）' } },
     },
   },
   render: (args) => <EllipsisTitle {...args} />,
@@ -100,16 +107,19 @@ export const Link: LinkStory = {
       control: 'text',
       description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
 - **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      table: { defaultValue: { summary: 'longText（demo）' } },
     },
     ellipsis: {
       control: 'object',
       description: `- **EN:** Ellipsis configuration. Set \`true\` for automatic ellipsis and tooltip behavior.
 - **CN:** 省略配置。设为 \`true\` 可启用自动省略与 tooltip 行为。`,
+      table: { defaultValue: { summary: 'true（demo） / true（组件默认）' } },
     },
     href: {
       control: 'text',
       description: `- **EN:** Link target URL.
 - **CN:** 链接跳转地址。`,
+      table: { defaultValue: { summary: 'https://github.com/shijistar/react-easy（demo）' } },
     },
   },
   render: (args) => <EllipsisLink {...args} />,

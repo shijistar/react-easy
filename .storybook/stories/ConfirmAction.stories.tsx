@@ -31,36 +31,43 @@ const meta: Meta<ConfirmActionStoryArgs> = {
       options: ['button', 'switch', 'link'],
       description: `- **EN:** Demo-only option to switch trigger component type.
 - **CN:** 示例专用：切换触发器组件类型。`,
+      table: { defaultValue: { summary: 'button（demo）' } },
     },
     triggerText: {
       control: 'text',
       description: `- **EN:** Custom trigger content.
 - **CN:** 自定义触发器内容。`,
+      table: { defaultValue: { summary: '执行操作（demo）' } },
     },
     title: {
       control: 'text',
       description: `- **EN:** Confirm box title.
 - **CN:** 确认框标题。`,
+      table: { defaultValue: { summary: '确认执行该操作？（demo）' } },
     },
     content: {
       control: 'text',
       description: `- **EN:** Confirm box content text.
 - **CN:** 确认框内容文本。`,
+      table: { defaultValue: { summary: '这是一个可交互的 ConfirmAction demo。（demo）' } },
     },
     danger: {
       control: 'boolean',
       description: `- **EN:** Whether to display in red danger mode.
 - **CN:** 是否显示为红色危险模式。`,
+      table: { defaultValue: { summary: 'false' } },
     },
     okText: {
       control: 'text',
       description: `- **EN:** Confirm button text.
 - **CN:** 确认按钮文本。`,
+      table: { defaultValue: { summary: '确认（demo）' } },
     },
     cancelText: {
       control: 'text',
       description: `- **EN:** Cancel button text.
 - **CN:** 取消按钮文本。`,
+      table: { defaultValue: { summary: '取消（demo）' } },
     },
   },
 };
