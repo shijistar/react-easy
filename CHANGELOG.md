@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.5
+
+2026-2-24
+
+### Features
+
+- **EllipsisLink**
+  - ✨ Add `EllipsisLink` component with automatic ellipsis and tooltip functionality.
+
 ## 1.7.4
 
 2026-2-24

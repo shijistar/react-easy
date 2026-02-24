@@ -39,6 +39,9 @@ export { default as EllipsisText } from './EllipsisTypography/EllipsisText';
 export * from './EllipsisTypography/EllipsisTitle';
 export { default as EllipsisTitle } from './EllipsisTypography/EllipsisTitle';
 
+export * from './EllipsisTypography/EllipsisLink';
+export { default as EllipsisLink } from './EllipsisTypography/EllipsisLink';
+
 export type { FloatDrawerProps } from './FloatDrawer';
 export { default as FloatDrawer } from './FloatDrawer';
 
