@@ -1,6 +1,7 @@
 node_modules
 lib
 es
+storybook-static
 npm-debug.log
 coverage/
 run
