@@ -2,6 +2,20 @@
 
 # Changelog
 
+## UNRELEASED
+
+2026-?-?
+
+### Features
+
+- **useLocalStorage**
+  - ✨ Add `useLocalStorage` hook for managing state with localStorage.
+
+### Bug Fixes
+
+- Fix the issue where the `storageKey` is empty in `ColumnSetting` and `useMovable`.
+- Fix the issue where the reset button in `ColumnSetting` is always disabled.
+
 ## 1.7.5
 
 2026-2-24
