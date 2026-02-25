@@ -2,6 +2,7 @@ module.exports = {
   extends: [
     './node_modules/@tiny-codes/code-style-all-in-one/eslint/config/react-recommended',
     'plugin:@tiny-codes/react-hooks/recommended',
+    'plugin:storybook/recommended',
   ],
   rules: {
     'react/no-array-index-key': 'error',

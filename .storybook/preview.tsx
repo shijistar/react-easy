@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
+import { DocsContainer } from '@storybook/addon-docs/blocks';
 import type { Preview } from '@storybook/react';
 import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme } from 'antd';
 import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
-// import { ensure, themes } from 'storybook/theming';
+import { ensure, themes } from 'storybook/theming';
 import ConfigProvider from '../src/components/ConfigProvider';
 import demoI18n from './locales';
 
@@ -25,7 +26,15 @@ const preview: Preview = {
       },
     },
     docs: {
-      // theme: ensure(isPreferDark ? themes.dark : themes.light),
+      container: (props: any) => {
+        const bgValue = props.context.globals?.backgrounds?.value;
+        const isDark = bgValue ? bgValue === 'dark' : isPreferDark;
+        return <DocsContainer {...props} theme={isDark ? themes.dark : themes.light} />;
+      },
+      extractComponentDescription: (component: any) => {
+        const raw = component?.__docgenInfo?.description ?? '';
+        return stripExampleBlock(raw);
+      },
     },
   },
   globalTypes: {
@@ -71,5 +80,14 @@ const preview: Preview = {
     },
   ],
 };
+
+function stripExampleBlock(input = '') {
+  return (
+    input
+      // Remove @example to the next @tag (or the end).
+      .replace(/\n?@example[\s\S]*?(?=\n@\w+|$)/g, '')
+      .trim()
+  );
+}
 
 export default preview;
