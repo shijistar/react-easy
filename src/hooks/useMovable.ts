@@ -1,5 +1,5 @@
 import { type RefObject, useEffect, useRef, useState } from 'react';
-import { useLocalStorage } from 'react-use';
+import useLocalStorage from './useLocalStorage';
 import useRefFunction from './useRefFunction';
 import useRefValue from './useRefValue';
 
@@ -64,7 +64,7 @@ const useMovable = (props: UseMovableProps) => {
     e.preventDefault();
   });
 
-  // 调整：在窗口 resize 时自动收敛位置，防止超出可视区域
+  // Automatically adjust the position during window resize to prevent it from exceeding the visible area.
   useEffect(() => {
     const clampToViewport = () => {
       const pos = positionRef.current;

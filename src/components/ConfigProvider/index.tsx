@@ -1,5 +1,5 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { ConfigProvider as ReactConfigProvider } from 'antd';
 import classNames from 'classnames';
 import locales, { langs, resources } from '../../locales';
@@ -30,6 +30,16 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
   const { getPrefixCls, rootPrefixCls } = useContext(ReactConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('react-easy', prefixClsInProps);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootPrefixCls);
+  const contextValue = useMemo(
+    () => {
+      if (langInProps !== locales.language) {
+        locales.changeLanguage(langInProps || 'en');
+      }
+      return restProps;
+    },
+    // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
+    [langInProps, ...Object.values(restProps)]
+  );
 
   useEffect(() => {
     // Dynamically add language pack
@@ -44,13 +54,8 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
     }
   }, [langInProps, userLocales]);
 
-  useEffect(() => {
-    // Set the language of the component
-    locales.changeLanguage(langInProps || 'en');
-  }, [langInProps]);
-
   return wrapCSSVar(
-    <ReactEasyContext.Provider value={restProps}>
+    <ReactEasyContext.Provider value={contextValue}>
       <div className={classNames(hashId, cssVarCls, prefixCls, className)} style={style}>
         {children}
       </div>

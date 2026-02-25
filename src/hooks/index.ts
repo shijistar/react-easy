@@ -2,6 +2,9 @@ export { default as useAudioPlayer } from './useAudioPlayer';
 
 export { default as useDebounce } from './useDebounce';
 
+export * from './useLocalStorage';
+export { default as useLocalStorage } from './useLocalStorage';
+
 export * from './useMovable';
 export { default as useMovable } from './useMovable';
 

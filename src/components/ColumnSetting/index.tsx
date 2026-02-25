@@ -1,11 +1,11 @@
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Button, Checkbox, ConfigProvider, Divider, Dropdown, Space, Typography } from 'antd';
 import type { ButtonProps, DropdownProps } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import classNames from 'classnames';
-import { useLocalStorage } from 'react-use';
 import { ReloadOutlined, SettingOutlined } from '@ant-design/icons';
 import { useRefFunction, useRefValue } from '../../hooks';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import useT from '../../hooks/useT';
 import useStyle from './style';
 
@@ -78,19 +78,16 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('column-setting', prefixClsInProps);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
-  const initialSelectedRef = useRef<string[]>(normalizeToSelectedKeys(columns));
   const [open, setOpen] = useState(false);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(initialSelectedRef.current);
   const t = useT();
-  const [selectedKeysFromStorage, setSelectedKeysFromStorage] = useLocalStorage<string[]>(
-    storageKey ?? '---',
-    initialSelectedRef.current
-  );
+  const [selectedKeysFromStorage, setSelectedKeysFromStorage] = useLocalStorage<string[]>(storageKey, []);
+  const [initialKeys, setInitialKeys] = useState<string[]>(selectedKeysFromStorage ?? []);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(initialKeys);
   const storageRef = useRefValue(storageKey);
   const selectedKeysFromStorageRef = useRefValue(selectedKeysFromStorage);
   const hasChange = useMemo(() => {
-    return [...selectedKeys].sort().join(',') !== initialSelectedRef.current.join(',');
-  }, [selectedKeys]);
+    return [...selectedKeys].sort().join(',') !== initialKeys.join(',');
+  }, [selectedKeys, initialKeys]);
 
   // Compute keys and selectable keys
   const keys = useMemo(() => columns.map((c, i) => String(getColKey(c, i))), [columns]);
@@ -146,14 +143,22 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
 
   // Reset to initial selected columns
   const handleReset = () => {
-    const next = initialSelectedRef.current.length > 0 ? initialSelectedRef.current : [keys[0]];
+    const next = initialKeys.length > 0 ? initialKeys : [keys[0]];
     change(next, true);
+  };
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (nextOpen) {
+      setInitialKeys(normalizeToSelectedKeys(columns));
+    } else {
+      setInitialKeys([]);
+    }
   };
 
   // Sync when columns change
   useEffect(() => {
     const next = normalizeToSelectedKeys(columns);
-    initialSelectedRef.current = next;
     change(next, false);
   }, [columns]);
 
@@ -162,11 +167,11 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
     if (
       storageRef.current &&
       selectedKeysFromStorageRef.current &&
-      selectedKeysFromStorageRef.current.join(',') !== initialSelectedRef.current.join(',')
+      selectedKeysFromStorageRef.current.join(',') !== initialKeys.join(',')
     ) {
       change(selectedKeysFromStorageRef.current, true);
     }
-  }, []);
+  }, [initialKeys]);
 
   const dropdownRender = () => (
     <div
@@ -232,7 +237,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
   return wrapCSSVar(
     <Dropdown
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={handleOpenChange}
       trigger={['click']}
       dropdownRender={dropdownRender}
       popupRender={dropdownRender}
