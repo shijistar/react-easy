@@ -20,6 +20,6 @@
     "experimentalDecorators": true,
     "strict": true
   },
-  "include": ["./src", "scripts"],
+  "include": ["./src", "scripts", ".storybook"],
   "exclude": ["src/components/tmp"]
 }

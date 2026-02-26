@@ -1,35 +1,30 @@
-import { useMemo, useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import { useEffect, useMemo, useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import ColumnSetting from '../../src/components/ColumnSetting';
 import type { ColumnSettingItem } from '../../src/components/ColumnSetting';
+import { useStoryT } from '../locales';
 
-type User = {
+interface User {
   id: number;
   name: string;
   age: number;
   city: string;
   role: string;
-};
+}
 
-type ColumnSettingStoryArgs = {
+interface ColumnSettingStoryArgs {
   storageKey: string;
   useStorage: boolean;
-};
+}
 
-const data: User[] = [
-  { id: 1, name: 'Alice', age: 28, city: 'Shanghai', role: 'Admin' },
-  { id: 2, name: 'Bob', age: 32, city: 'Beijing', role: 'Editor' },
-  { id: 3, name: 'Cindy', age: 25, city: '广州', role: 'Viewer' },
-];
-
-const baseColumns: ColumnSettingItem<User>[] = [
+const buildBaseColumns = (t: ReturnType<typeof useStoryT>): ColumnSettingItem<User>[] => [
   { title: 'ID', dataIndex: 'id', key: 'id', width: 80, disabled: true },
-  { title: '姓名', dataIndex: 'name', key: 'name' },
-  { title: '年龄', dataIndex: 'age', key: 'age' },
-  { title: '城市', dataIndex: 'city', key: 'city' },
-  { title: '角色', dataIndex: 'role', key: 'role' },
+  { title: t('storybook.stories.ColumnSetting.columns.name'), dataIndex: 'name', key: 'name' },
+  { title: t('storybook.stories.ColumnSetting.columns.age'), dataIndex: 'age', key: 'age' },
+  { title: t('storybook.stories.ColumnSetting.columns.city'), dataIndex: 'city', key: 'city' },
+  { title: t('storybook.stories.ColumnSetting.columns.role'), dataIndex: 'role', key: 'role' },
 ];
 
 const meta: Meta<ColumnSettingStoryArgs> = {
@@ -58,8 +53,29 @@ export default meta;
 type Story = StoryObj<ColumnSettingStoryArgs>;
 
 export const Playground: Story = {
-  render: (args: ColumnSettingStoryArgs) => {
-    const [columns, setColumns] = useState<ColumnSettingItem<User>[]>(baseColumns);
+  render: function Render(args: ColumnSettingStoryArgs) {
+    const t = useStoryT();
+    const [columns, setColumns] = useState<ColumnSettingItem<User>[]>(() => buildBaseColumns(t));
+    const data: User[] = useMemo(
+      () => [
+        { id: 1, name: 'Alice', age: 28, city: t('storybook.stories.ColumnSetting.data.shanghai'), role: 'Admin' },
+        { id: 2, name: 'Bob', age: 32, city: t('storybook.stories.ColumnSetting.data.beijing'), role: 'Editor' },
+        {
+          id: 3,
+          name: 'Cindy',
+          age: 25,
+          city: t('storybook.stories.ColumnSetting.data.guangzhou'),
+          role: 'Viewer',
+        },
+      ],
+      [t]
+    );
+
+    useEffect(() => {
+      const nextBaseColumns = buildBaseColumns(t);
+      const titleMap = new Map(nextBaseColumns.map((col) => [String(col.key), col.title]));
+      setColumns((prev) => prev.map((col) => ({ ...col, title: titleMap.get(String(col.key)) ?? col.title })));
+    }, [t]);
 
     const tableColumns = useMemo<ColumnsType<User>>(
       () => columns.filter((col) => !col.hidden) as ColumnsType<User>,
@@ -73,7 +89,7 @@ export const Playground: Story = {
             columns={columns}
             storageKey={args.useStorage ? args.storageKey : undefined}
             onChange={setColumns}
-            triggerProps={{ children: '列设置' }}
+            triggerProps={{ children: t('storybook.stories.ColumnSetting.trigger') }}
           />
         </div>
         <Table<User> rowKey="id" dataSource={data} columns={tableColumns} pagination={false} />

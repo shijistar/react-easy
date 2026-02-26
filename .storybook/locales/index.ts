@@ -10,23 +10,23 @@ export const resources = {
   'zh-CN': { translation: zhCN },
 } as const;
 
-const demoI18n: i18n = createInstance({});
+const storyI18n: i18n = createInstance({});
 
-demoI18n.init({
+storyI18n.init({
   lng: 'en',
   resources,
 });
 
 export const t: i18n['t'] = ((...args) => {
-  return demoI18n.t(...args);
+  return storyI18n.t(...args);
 }) as i18n['t'];
 
-export const useT = (): typeof t => {
+export const useStoryT = () => {
   const context = useContext(ReactEasyContext);
   const lang = context.lang;
 
   // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
-  return useMemo(() => t, [lang]);
+  return useMemo(() => ((...args: unknown) => t(...args)) as typeof t, [lang]);
 };
 
-export default demoI18n;
+export default storyI18n;

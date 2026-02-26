@@ -7,7 +7,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "i18n-ally.localesPaths": ["src/locales/langs"],
+  "i18n-ally.localesPaths": ["src/locales/langs", ".storybook/locales/langs"],
   "i18n-ally.enabledFrameworks": ["react"],
   "i18n-ally.pathMatcher": "{locale}.ts",
   "i18n-ally.extract.autoDetect": true,

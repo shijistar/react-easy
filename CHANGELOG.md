@@ -10,6 +10,8 @@
 
 - **useLocalStorage**
   - ✨ Add `useLocalStorage` hook for managing state with localStorage.
+- **utils.math.random**
+  - ✨ Add an override method with zero parameters for generating random float numbers between 0 and 1.
 
 ### Bug Fixes
 

@@ -1,12 +1,14 @@
-import { useMemo } from 'react';
-import { DocsContainer } from '@storybook/addon-docs/blocks';
-import type { Preview } from '@storybook/react';
+import { type ComponentType, type PropsWithChildren, useMemo } from 'react';
+import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
+import type { Preview, ReactRenderer } from '@storybook/react-vite';
 import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme } from 'antd';
 import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
-import { ensure, themes } from 'storybook/theming';
+import type { StoryContext } from 'storybook/internal/csf';
+import { themes } from 'storybook/theming';
 import ConfigProvider from '../src/components/ConfigProvider';
-import demoI18n from './locales';
+import storyI18n from './locales';
+import './preview.css';
 
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -26,12 +28,16 @@ const preview: Preview = {
       },
     },
     docs: {
-      container: (props: any) => {
-        const bgValue = props.context.globals?.backgrounds?.value;
+      container: (props: PropsWithChildren<DocsContainerProps>) => {
+        const bgValue = (props.context as unknown as StoryContext<ReactRenderer>)?.globals?.backgrounds?.value;
         const isDark = bgValue ? bgValue === 'dark' : isPreferDark;
         return <DocsContainer {...props} theme={isDark ? themes.dark : themes.light} />;
       },
-      extractComponentDescription: (component: any) => {
+      extractComponentDescription: (
+        component: ComponentType & {
+          __docgenInfo?: { description?: string };
+        }
+      ) => {
         const raw = component?.__docgenInfo?.description ?? '';
         return stripExampleBlock(raw);
       },
@@ -60,8 +66,8 @@ const preview: Preview = {
       const lang = context.globals.lang ?? 'en-US';
       const antdLocale = lang === 'zh-CN' ? zhCN : enUS;
       useMemo(() => {
-        if (demoI18n.language !== lang) {
-          demoI18n.changeLanguage(lang);
+        if (storyI18n.language !== lang) {
+          storyI18n.changeLanguage(lang);
         }
       }, [lang]);
 

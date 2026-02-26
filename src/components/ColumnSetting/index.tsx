@@ -239,7 +239,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
       open={open}
       onOpenChange={handleOpenChange}
       trigger={['click']}
-      dropdownRender={dropdownRender}
+      dropdownRender={dropdownRender} // To be compatible with lower versions of antd
       popupRender={dropdownRender}
       placement="bottomRight"
       {...dropdownProps}
