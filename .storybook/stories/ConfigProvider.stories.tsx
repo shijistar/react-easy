@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { App as AntdApp, Space, Typography } from 'antd';
 import ConfigProvider from '../../src/components/ConfigProvider';
 import ConfirmAction from '../../src/components/ConfirmAction';
 
-type ConfigProviderStoryArgs = {
+interface ConfigProviderStoryArgs {
   lang: 'en' | 'zh-CN';
   defaultTitle: string;
   defaultContent: string;
-};
+}
 
 const meta: Meta<ConfigProviderStoryArgs> = {
   title: 'Components/ConfigProvider',

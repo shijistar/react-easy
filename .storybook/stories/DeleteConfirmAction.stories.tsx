@@ -1,17 +1,17 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { App as AntdApp, message } from 'antd';
 import DeleteConfirmAction from '../../src/components/DeleteConfirmAction';
 
 type TriggerType = 'button' | 'switch' | 'link';
 
-type DeleteConfirmActionStoryArgs = {
+interface DeleteConfirmActionStoryArgs {
   triggerType: TriggerType;
   triggerText: string;
   title: string;
   content: string;
   okText: string;
   cancelText: string;
-};
+}
 
 const meta: Meta<DeleteConfirmActionStoryArgs> = {
   title: 'Components/DeleteConfirmAction',

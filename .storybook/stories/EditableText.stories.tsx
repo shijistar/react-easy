@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EditableText from '../../src/components/EditableText';
 
-type EditableTextStoryArgs = {
+interface EditableTextStoryArgs {
   value: string;
   editable: boolean;
   editing: boolean;
@@ -10,7 +10,7 @@ type EditableTextStoryArgs = {
   blockView: boolean;
   blockEdit: boolean;
   maxLength: number;
-};
+}
 
 const meta: Meta<EditableTextStoryArgs> = {
   title: 'Components/EditableText',

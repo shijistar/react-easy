@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EllipsisLink from '../../src/components/EllipsisTypography/EllipsisLink';
 import EllipsisParagraph from '../../src/components/EllipsisTypography/EllipsisParagraph';
 import EllipsisText from '../../src/components/EllipsisTypography/EllipsisText';

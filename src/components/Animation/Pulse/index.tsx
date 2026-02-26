@@ -57,7 +57,7 @@ export interface PulseAnimationProps {
  *
  * > 使用 `token.AnimationPulse` 来全局配置 `barMinSize` 和 `barMaxSize` 属性
  */
-export const PulseAnimation: FC<PulseAnimationProps> = (props) => {
+const PulseAnimation: FC<PulseAnimationProps> = (props) => {
   const {
     bars = 8,
     barGap,

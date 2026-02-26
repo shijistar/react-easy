@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import FloatDrawer from '../../src/components/FloatDrawer';
 
 const meta: Meta<typeof FloatDrawer> = {

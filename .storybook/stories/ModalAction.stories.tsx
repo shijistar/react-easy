@@ -1,26 +1,26 @@
-import type { ComponentType, RefAttributes } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { ComponentType, FC, RefAttributes } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Form, Input, message } from 'antd';
 import type { FormCompPropsConstraint } from '../../src/components/ModalAction';
 import { withModalAction } from '../../src/components/ModalAction';
 
-type UserForm = {
+interface UserForm {
   name: string;
   email: string;
-};
+}
 
 type UserFormProps = FormCompPropsConstraint<UserForm>;
 
-type ModalActionStoryArgs = {
+interface ModalActionStoryArgs {
   title: string;
   triggerType: 'button' | 'switch' | 'link';
   triggerText: string;
   width: number;
   destroyOnClose: boolean;
   maskClosable: boolean;
-};
+}
 
-const UserFormComp: ComponentType<UserFormProps> = ({ form, onSave }) => {
+const UserFormComp: FC<UserFormProps & FormCompPropsConstraint<UserForm>> = ({ form, onSave }) => {
   onSave((formData) => {
     message.success(`已保存：${formData.name}`);
     return formData;

@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { App as AntdApp, message } from 'antd';
 import ConfirmAction from '../../src/components/ConfirmAction';
 
 type TriggerType = 'button' | 'switch' | 'link';
 
-type ConfirmActionStoryArgs = {
+interface ConfirmActionStoryArgs {
   triggerType: TriggerType;
   triggerText: string;
   title: string;
@@ -12,7 +12,7 @@ type ConfirmActionStoryArgs = {
   danger: boolean;
   okText: string;
   cancelText: string;
-};
+}
 
 const meta: Meta<ConfirmActionStoryArgs> = {
   title: 'Components/ConfirmAction',

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Form, Slider, Typography } from 'antd';
 import FormItemControl from '../../src/components/FormItemControl';
 

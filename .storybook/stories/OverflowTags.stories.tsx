@@ -1,7 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import OverflowTags from '../../src/components/OverflowTags';
 
-type TagItem = { id: number; label: string; color?: string };
+interface TagItem {
+  id: number;
+  label: string;
+  color?: string;
+}
 
 const tags: TagItem[] = [
   { id: 1, label: 'React', color: 'blue' },

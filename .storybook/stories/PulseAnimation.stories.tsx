@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import PulseAnimation from '../../src/components/Animation/Pulse';
 
 const meta: Meta<typeof PulseAnimation> = {
