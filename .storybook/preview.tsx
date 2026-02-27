@@ -4,7 +4,7 @@ import type { Preview, ReactRenderer } from '@storybook/react-vite';
 import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme } from 'antd';
 import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
-import type { StoryContext } from 'storybook/internal/csf';
+import type { StoryContext, StoryContextForEnhancers } from 'storybook/internal/csf';
 import { themes } from 'storybook/theming';
 import ConfigProvider from '../src/components/ConfigProvider';
 import storyI18n from './locales';
@@ -85,6 +85,7 @@ const preview: Preview = {
       );
     },
   ],
+  argTypesEnhancers: [jsdocArgTypesEnhancer],
 };
 
 function stripExampleBlock(input = '') {
@@ -94,6 +95,35 @@ function stripExampleBlock(input = '') {
       .replace(/\n?@example[\s\S]*?(?=\n@\w+|$)/g, '')
       .trim()
   );
+}
+
+function jsdocArgTypesEnhancer(context: StoryContextForEnhancers) {
+  const component = context.component;
+  const docProps = component?.__docgenInfo?.props;
+  if (!docProps) return context.argTypes;
+
+  const next = { ...(context.argTypes || {}) };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Object.entries(docProps).forEach(([propName, propInfo]: [string, any]) => {
+    next[propName] = {
+      ...(next[propName] || {}),
+      // control: ?
+      // The handwritten description will not be overwritten.
+      description: next[propName]?.description ?? propInfo?.description ?? '',
+      table: {
+        ...(next[propName]?.table || {}),
+        type: next[propName]?.table?.type ?? {
+          summary: propInfo?.type?.name || '',
+        },
+        defaultValue:
+          next[propName]?.table?.defaultValue ??
+          (propInfo?.defaultValue?.value ? { summary: String(propInfo.defaultValue.value) } : undefined),
+      },
+    };
+  });
+  console.log(next);
+  return next;
 }
 
 export default preview;

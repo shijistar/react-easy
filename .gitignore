@@ -8,3 +8,4 @@ run
 .DS_Store
 .cache
 .eslintcache
+debug-storybook.log
