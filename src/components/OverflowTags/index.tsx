@@ -59,6 +59,8 @@ export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem
    * contain a `color` property to specify the color, and the latter takes precedence.
    *
    * **CN**: 是否使用随机颜色，默认`false`。注意，tag对象还可以包含`color`属性来指定颜色，而且后者优先级更高。
+   *
+   * @default false
    */
   randomColors?: boolean;
 }

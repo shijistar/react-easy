@@ -8,8 +8,25 @@ import ReactEasyContext, { type ReactEasyContextProps } from './context';
 import useStyle from './style';
 
 export interface ConfigProviderProps extends ReactEasyContextProps {
+  /**
+   * - **EN:** Child elements of the ConfigProvider
+   * - **CN:** ConfigProvider 的子元素
+   */
+  children: ReactNode;
+  /**
+   * - **EN:** Custom prefix for the component's CSS class.
+   * - **CN:** 组件的自定义 CSS 类前缀。
+   */
   prefixCls?: string;
+  /**
+   * - **EN:** Custom class name for the root element
+   * - **CN:** 根元素的自定义类名
+   */
   className?: string;
+  /**
+   * - **EN:** Custom styles for the root element
+   * - **CN:** 根元素的自定义样式
+   */
   style?: CSSProperties;
   /**
    * - **EN:** Custom localization resources, if `lang` exists, it will override the localization
@@ -17,7 +34,6 @@ export interface ConfigProviderProps extends ReactEasyContextProps {
    * - **CN:** 自定义本地化资源，如果`lang`存在，则会覆盖该语言的本地化资源，否则，会添加一种新的语言
    */
   locales?: Partial<typeof localesEn>;
-  children: ReactNode;
 }
 
 /**

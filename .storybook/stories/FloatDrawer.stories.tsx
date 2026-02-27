@@ -17,63 +17,7 @@ const meta: Meta<typeof FloatDrawer> = {
       title: '设置面板',
     },
   },
-  argTypes: {
-    open: {
-      control: 'boolean',
-      description: `- **EN:** Whether the drawer is open.
-- **CN:** 抽屉是否打开。`,
-      table: { defaultValue: { summary: 'true（demo）' } },
-    },
-    position: {
-      control: 'radio',
-      options: ['left', 'right', 'top', 'bottom'],
-      description: `- **EN:** Position of the drawer.
-- **CN:** 抽屉的位置。`,
-      table: { defaultValue: { summary: 'right' } },
-    },
-    defaultSize: {
-      control: { type: 'number', min: 120, max: 500, step: 10 },
-      description: `- **EN:** Default size of the drawer.
-- **CN:** 抽屉默认尺寸。`,
-      table: { defaultValue: { summary: '260（demo）' } },
-    },
-    minSize: {
-      control: { type: 'number', min: 0, max: 400, step: 10 },
-      description: `- **EN:** Minimum size of the drawer.
-- **CN:** 抽屉最小尺寸。`,
-      table: { defaultValue: { summary: '160（demo） / 0（组件默认）' } },
-    },
-    maxSize: {
-      control: { type: 'number', min: 120, max: 800, step: 10 },
-      description: `- **EN:** Maximum size of the drawer.
-- **CN:** 抽屉最大尺寸。`,
-      table: { defaultValue: { summary: '420（demo） / Infinity（组件默认）' } },
-    },
-    showToggle: {
-      control: 'boolean',
-      description: `- **EN:** Whether to show the toggle button.
-- **CN:** 是否显示展开/收起按钮。`,
-      table: { defaultValue: { summary: 'true' } },
-    },
-    resizable: {
-      control: 'boolean',
-      description: `- **EN:** Whether the drawer is resizable.
-- **CN:** 抽屉是否可调整大小。`,
-      table: { defaultValue: { summary: 'true' } },
-    },
-    destroyOnClose: {
-      control: 'boolean',
-      description: `- **EN:** Whether to destroy the drawer content when closed.
-- **CN:** 抽屉关闭时是否销毁内容。`,
-      table: { defaultValue: { summary: 'false' } },
-    },
-    cardProps: {
-      control: 'object',
-      description: `- **EN:** Custom properties for the inner card element.
-- **CN:** 内部卡片元素自定义属性。`,
-      table: { defaultValue: { summary: '{ title: "设置面板" }（demo）' } },
-    },
-  },
+  argTypes: {},
   render: (args) => (
     <div style={{ width: 640, height: 640, border: '1px dashed #d9d9d9', position: 'relative', overflow: 'hidden' }}>
       <FloatDrawer {...args}>

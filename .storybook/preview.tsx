@@ -1,5 +1,5 @@
 import { type ComponentType, type PropsWithChildren, useMemo } from 'react';
-import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
+import { type Control, DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Preview, ReactRenderer } from '@storybook/react-vite';
 import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme } from 'antd';
 import enUS from 'antd/es/locale/en_US';
@@ -8,6 +8,7 @@ import type { StoryContext, StoryContextForEnhancers } from 'storybook/internal/
 import { themes } from 'storybook/theming';
 import ConfigProvider from '../src/components/ConfigProvider';
 import storyI18n from './locales';
+import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
 import './preview.css';
 
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -97,33 +98,37 @@ function stripExampleBlock(input = '') {
   );
 }
 
+/** Enhances the argTypes of a story based on JSDoc comments. */
 function jsdocArgTypesEnhancer(context: StoryContextForEnhancers) {
   const component = context.component;
   const docProps = component?.__docgenInfo?.props;
   if (!docProps) return context.argTypes;
 
-  const next = { ...(context.argTypes || {}) };
+  const newArgTypes = { ...(context.argTypes || {}) };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Object.entries(docProps).forEach(([propName, propInfo]: [string, any]) => {
-    next[propName] = {
-      ...(next[propName] || {}),
-      // control: ?
+  Object.entries(docProps).forEach(([name, docProp]: [string, any]) => {
+    const inferred = inferControlFromDocgenType(docProp?.type);
+    const argType = newArgTypes[name];
+
+    newArgTypes[name] = {
+      ...argType,
+      control: { type: argType?.control ?? inferred.control } as Control,
+      options: argType?.options ?? inferred.options,
       // The handwritten description will not be overwritten.
-      description: next[propName]?.description ?? propInfo?.description ?? '',
+      description: argType?.description ?? docProp?.description ?? '',
       table: {
-        ...(next[propName]?.table || {}),
-        type: next[propName]?.table?.type ?? {
-          summary: propInfo?.type?.name || '',
+        ...(argType?.table || {}),
+        defaultValue: {
+          ...docProp?.defaultValue,
+          summary:
+            docProp?.defaultValue?.summary ?? standardizeJsDocDefaultValue(String(docProp.defaultValue?.value ?? '-')),
         },
-        defaultValue:
-          next[propName]?.table?.defaultValue ??
-          (propInfo?.defaultValue?.value ? { summary: String(propInfo.defaultValue.value) } : undefined),
       },
     };
   });
-  console.log(next);
-  return next;
+  console.log('newArgTypes', newArgTypes);
+  return newArgTypes;
 }
 
 export default preview;

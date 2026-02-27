@@ -24,6 +24,10 @@ export interface EditableTextProps<
   TT extends 'Text' | 'Paragraph' | 'Title' | 'Link' = 'Text',
   IT extends 'Input' | 'TextArea' | RenderInputInterface = 'Input',
 > extends Omit<EditableFormProps<V, IT>, 'block'> {
+  /**
+   * - **EN:** Custom prefix for the component's CSS class.
+   * - **CN:** 组件的自定义 CSS 类前缀。
+   */
   prefixCls?: string;
   /**
    * - **EN:** Custom read-only display text, replacing `value` display
@@ -31,7 +35,7 @@ export interface EditableTextProps<
    *
    * @default true
    */
-  displayText?: ReactNode | ((value: V | undefined) => ReactNode);
+  displayText?: boolean | ReactNode | ((value: V | undefined) => ReactNode);
   /**
    * - **EN:** Another way to customize read-only display text, with higher priority than
    *   `displayText`. This method does not support text truncation.
@@ -133,7 +137,7 @@ export interface EditableTextProps<
    * - **EN:** Custom component type for rendering the text
    * - **CN:** 自定义设置渲染文本组件的组件类型
    *
-   * @default 'Text'
+   * @default Typography.Text
    */
   textComp?: TT;
   /**

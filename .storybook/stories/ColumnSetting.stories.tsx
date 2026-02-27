@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import ColumnSetting from '../../src/components/ColumnSetting';
-import type { ColumnSettingItem } from '../../src/components/ColumnSetting';
-import { useStoryT } from '../locales';
+import type { ColumnSettingItem, ColumnSettingProps } from '../../src/components/ColumnSetting';
+import { storyT, useStoryT } from '../locales';
 
 interface User {
   id: number;
@@ -13,11 +13,7 @@ interface User {
   city: string;
   role: string;
 }
-
-interface ColumnSettingStoryArgs {
-  storageKey: string;
-  useStorage: boolean;
-}
+type ColumnSettingStoryArgs = ColumnSettingProps;
 
 const buildBaseColumns = (t: ReturnType<typeof useStoryT>): ColumnSettingItem<User>[] => [
   { title: 'ID', dataIndex: 'id', key: 'id', width: 80, disabled: true },
@@ -29,24 +25,12 @@ const buildBaseColumns = (t: ReturnType<typeof useStoryT>): ColumnSettingItem<Us
 
 const meta: Meta<ColumnSettingStoryArgs> = {
   title: 'Components/ColumnSetting',
+  component: ColumnSetting,
   args: {
-    useStorage: false,
     storageKey: 'storybook:column-setting',
+    columns: buildBaseColumns(storyT),
   },
-  argTypes: {
-    useStorage: {
-      control: 'boolean',
-      description: `- **EN:** Whether to enable local storage persistence in this demo.
-- **CN:** 当前示例中是否启用本地存储持久化。`,
-      table: { defaultValue: { summary: 'false（demo）' } },
-    },
-    storageKey: {
-      control: 'text',
-      description: `- **EN:** Local storage key for persisting column settings.
-- **CN:** 用于持久化列设置的本地存储键。`,
-      table: { defaultValue: { summary: 'storybook:column-setting（demo）' } },
-    },
-  },
+  argTypes: {},
 };
 
 export default meta;
@@ -87,7 +71,7 @@ export const Playground: Story = {
         <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'flex-end' }}>
           <ColumnSetting<ColumnSettingItem<User>>
             columns={columns}
-            storageKey={args.useStorage ? args.storageKey : undefined}
+            storageKey={args.storageKey}
             onChange={setColumns}
             triggerProps={{ children: t('storybook.stories.ColumnSetting.trigger') }}
           />

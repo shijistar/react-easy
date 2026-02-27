@@ -1,33 +1,28 @@
-import type { ComponentType, FC, RefAttributes } from 'react';
+import { type ComponentType, type FC, type RefAttributes, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Form, Input, message } from 'antd';
-import type { FormCompPropsConstraint } from '../../src/components/ModalAction';
+import { type ButtonProps, Form, Input, message, Space, type SwitchProps } from 'antd';
+import type { LinkProps } from 'antd/es/typography/Link';
+import type { FormCompPropsConstraint, ModalActionProps } from '../../src/components/ModalAction';
 import { withModalAction } from '../../src/components/ModalAction';
 
-interface UserForm {
-  name: string;
-  email: string;
-}
+type ModalActionStoryArgs = ModalActionProps<
+  UserForm,
+  FormCompPropsConstraint<UserForm>,
+  ButtonProps,
+  'onClick',
+  object
+> & {
+  triggerType: 'Button' | 'Switch' | 'Link';
+};
 
-type UserFormProps = FormCompPropsConstraint<UserForm>;
-
-interface ModalActionStoryArgs {
-  title: string;
-  triggerType: 'button' | 'switch' | 'link';
-  triggerText: string;
-  width: number;
-  destroyOnClose: boolean;
-  maskClosable: boolean;
-}
-
-const UserFormComp: FC<UserFormProps & FormCompPropsConstraint<UserForm>> = ({ form, onSave }) => {
+const UserFormComp: FC<UserFormProps> = ({ data, form, onSave }) => {
   onSave((formData) => {
     message.success(`已保存：${formData.name}`);
     return formData;
   });
 
   return (
-    <Form form={form} layout="vertical" initialValues={{ name: '', email: '' }}>
+    <Form form={form} layout="vertical" initialValues={data} autoComplete="off">
       <Form.Item label="姓名" name="name" rules={[{ required: true, message: '请输入姓名' }]}>
         <Input placeholder="请输入姓名" />
       </Form.Item>
@@ -38,57 +33,27 @@ const UserFormComp: FC<UserFormProps & FormCompPropsConstraint<UserForm>> = ({ f
   );
 };
 
-const UserModalAction = withModalAction<UserForm, UserFormProps, object, never, object>(
+const UserModalAction = withModalAction<UserForm, UserFormProps, ButtonProps, 'onClick', object>(
   UserFormComp as ComponentType<UserFormProps & RefAttributes<object>>
 );
 
 const meta: Meta<ModalActionStoryArgs> = {
   title: 'Components/ModalAction',
+  component: UserModalAction,
   args: {
-    title: '编辑用户信息',
-    triggerType: 'button',
-    triggerText: '打开弹窗',
+    title: '用户信息',
+    triggerType: 'Button',
     width: 520,
     destroyOnClose: true,
     maskClosable: false,
   },
   argTypes: {
-    title: {
-      control: 'text',
-      description: `- **EN:** Modal title.
-- **CN:** 弹窗标题。`,
-      table: { defaultValue: { summary: '编辑用户信息（demo）' } },
-    },
     triggerType: {
       control: 'radio',
-      options: ['button', 'switch', 'link'],
+      options: ['Button', 'Switch', 'Link'],
       description: `- **EN:** Demo-only option to switch trigger component type.
 - **CN:** 示例专用：切换触发器组件类型。`,
-      table: { defaultValue: { summary: 'button（demo）' } },
-    },
-    triggerText: {
-      control: 'text',
-      description: `- **EN:** Custom trigger content.
-- **CN:** 自定义触发器内容。`,
-      table: { defaultValue: { summary: '打开弹窗（demo）' } },
-    },
-    width: {
-      control: { type: 'number', min: 320, max: 900, step: 10 },
-      description: `- **EN:** Width of the modal dialog.
-- **CN:** 弹窗宽度。`,
-      table: { defaultValue: { summary: '520（demo）' } },
-    },
-    destroyOnClose: {
-      control: 'boolean',
-      description: `- **EN:** Whether to destroy child components on close.
-- **CN:** 关闭时是否销毁子组件。`,
-      table: { defaultValue: { summary: 'true' } },
-    },
-    maskClosable: {
-      control: 'boolean',
-      description: `- **EN:** Whether clicking the mask closes the modal.
-- **CN:** 点击遮罩是否可关闭弹窗。`,
-      table: { defaultValue: { summary: 'false' } },
+      table: { defaultValue: { summary: '"Button"' } },
     },
   },
 };
@@ -97,23 +62,91 @@ export default meta;
 type Story = StoryObj<ModalActionStoryArgs>;
 
 export const Playground: Story = {
-  render: (args: ModalActionStoryArgs) => {
-    const commonProps = {
-      title: args.title,
-      width: args.width,
-      destroyOnClose: args.destroyOnClose,
-      maskClosable: args.maskClosable,
-      onOk: async () => Promise.resolve(),
-    };
+  render: function Render(args: ModalActionStoryArgs) {
+    const { triggerType, ...props } = args;
+    const [user, setUser] = useState<UserForm>();
+    const [editUser] = useState<UserForm>({
+      name: 'Alice',
+      email: 'alice@example.com',
+    });
 
-    if (args.triggerType === 'switch') {
-      return <UserModalAction.Switch {...commonProps} />;
-    }
-
-    if (args.triggerType === 'link') {
-      return <UserModalAction.Link {...commonProps}>{args.triggerText}</UserModalAction.Link>;
-    }
-
-    return <UserModalAction.Button {...commonProps}>{args.triggerText}</UserModalAction.Button>;
+    return (
+      <div>
+        <Space direction="vertical">
+          <Space>
+            {triggerType === 'Switch' && (
+              <UserModalAction.Switch
+                {...(props as ModalActionProps<UserForm, UserFormProps, SwitchProps, 'onChange', object>)}
+                onOk={setUser}
+              >
+                创建
+              </UserModalAction.Switch>
+            )}
+            {triggerType === 'Link' && (
+              <UserModalAction.Link
+                {...(props as ModalActionProps<UserForm, UserFormProps, LinkProps, 'onClick', object>)}
+                onOk={setUser}
+              >
+                创建
+              </UserModalAction.Link>
+            )}
+            {triggerType === 'Button' && (
+              <UserModalAction.Button
+                {...(props as ModalActionProps<UserForm, UserFormProps, ButtonProps, 'onClick', object>)}
+                onOk={setUser}
+              >
+                创建
+              </UserModalAction.Button>
+            )}
+            {triggerType === 'Switch' && (
+              <UserModalAction.Switch
+                {...(props as ModalActionProps<UserForm, UserFormProps, SwitchProps, 'onChange', object>)}
+                formProps={{
+                  data: user ?? editUser,
+                  ...props.formProps,
+                }}
+                onOk={setUser}
+              >
+                编辑
+              </UserModalAction.Switch>
+            )}
+            {triggerType === 'Link' && (
+              <UserModalAction.Link
+                {...(props as ModalActionProps<UserForm, UserFormProps, LinkProps, 'onClick', object>)}
+                formProps={{
+                  data: user ?? editUser,
+                  ...props.formProps,
+                }}
+                onOk={setUser}
+              >
+                编辑
+              </UserModalAction.Link>
+            )}
+            {triggerType === 'Button' && (
+              <UserModalAction.Button
+                {...(props as ModalActionProps<UserForm, UserFormProps, ButtonProps, 'onClick', object>)}
+                formProps={{
+                  data: user ?? editUser,
+                  ...props.formProps,
+                }}
+                onOk={setUser}
+              >
+                编辑
+              </UserModalAction.Button>
+            )}
+          </Space>
+          <div>{user && `用户信息：${user.name} (${user.email})`}</div>
+        </Space>
+      </div>
+    );
   },
 };
+
+interface UserForm {
+  name: string;
+  email: string;
+}
+
+interface UserFormProps extends FormCompPropsConstraint<UserForm> {
+  data?: UserForm;
+}

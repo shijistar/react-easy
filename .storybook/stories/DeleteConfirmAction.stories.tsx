@@ -1,23 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { App as AntdApp, message } from 'antd';
+import type { ButtonProps, SwitchProps } from 'antd';
+import { App as AntdApp } from 'antd';
+import type { LinkProps } from 'antd/es/typography/Link';
+import type { ConfirmActionProps } from '../../src/components/ConfirmAction';
 import DeleteConfirmAction from '../../src/components/DeleteConfirmAction';
 
-type TriggerType = 'button' | 'switch' | 'link';
+type TriggerType = 'Button' | 'Switch' | 'Link';
 
-interface DeleteConfirmActionStoryArgs {
+type DeleteConfirmActionStoryArgs = ConfirmActionProps<object, never> & {
   triggerType: TriggerType;
-  triggerText: string;
-  title: string;
-  content: string;
-  okText: string;
-  cancelText: string;
-}
+};
 
 const meta: Meta<DeleteConfirmActionStoryArgs> = {
   title: 'Components/DeleteConfirmAction',
   args: {
-    triggerType: 'button',
-    triggerText: '删除',
+    triggerType: 'Button',
+    triggerProps: {
+      children: '删除',
+    },
     title: '确认删除该记录？',
     content: '删除后不可恢复，请谨慎操作。',
     okText: '确认删除',
@@ -26,40 +26,10 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
   argTypes: {
     triggerType: {
       control: 'radio',
-      options: ['button', 'switch', 'link'],
+      options: ['Button', 'Switch', 'Link'],
       description: `- **EN:** Demo-only option to switch trigger component type.
 - **CN:** 示例专用：切换触发器组件类型。`,
-      table: { defaultValue: { summary: 'button（demo）' } },
-    },
-    triggerText: {
-      control: 'text',
-      description: `- **EN:** Custom trigger content.
-- **CN:** 自定义触发器内容。`,
-      table: { defaultValue: { summary: '删除（demo）' } },
-    },
-    title: {
-      control: 'text',
-      description: `- **EN:** Confirm box title.
-- **CN:** 确认框标题。`,
-      table: { defaultValue: { summary: '确认删除该记录？（demo）' } },
-    },
-    content: {
-      control: 'text',
-      description: `- **EN:** Confirm box content text.
-- **CN:** 确认框内容文本。`,
-      table: { defaultValue: { summary: '删除后不可恢复，请谨慎操作。（demo）' } },
-    },
-    okText: {
-      control: 'text',
-      description: `- **EN:** Confirm button text.
-- **CN:** 确认按钮文本。`,
-      table: { defaultValue: { summary: '确认删除（demo）' } },
-    },
-    cancelText: {
-      control: 'text',
-      description: `- **EN:** Cancel button text.
-- **CN:** 取消按钮文本。`,
-      table: { defaultValue: { summary: '取消（demo）' } },
+      table: { defaultValue: { summary: '"Button"' } },
     },
   },
 };
@@ -69,37 +39,27 @@ type Story = StoryObj<DeleteConfirmActionStoryArgs>;
 
 export const Playground: Story = {
   render: (args: DeleteConfirmActionStoryArgs) => {
-    const commonProps = {
-      title: args.title,
-      content: args.content,
-      okText: args.okText,
-      cancelText: args.cancelText,
-      onOk: async () => {
-        message.success('删除成功');
-      },
-    };
+    const { triggerType, ...props } = args;
 
-    if (args.triggerType === 'switch') {
+    if (triggerType === 'Switch') {
       return (
         <AntdApp>
-          <DeleteConfirmAction.Switch {...commonProps} />
+          <DeleteConfirmAction.Switch {...(props as ConfirmActionProps<SwitchProps, 'onChange'>)} />
         </AntdApp>
       );
     }
 
-    if (args.triggerType === 'link') {
+    if (triggerType === 'Link') {
       return (
         <AntdApp>
-          <DeleteConfirmAction.Link {...commonProps}>{args.triggerText}</DeleteConfirmAction.Link>
+          <DeleteConfirmAction.Link {...(props as ConfirmActionProps<LinkProps, 'onClick'>)} />
         </AntdApp>
       );
     }
 
     return (
       <AntdApp>
-        <DeleteConfirmAction.Button {...commonProps} danger>
-          {args.triggerText}
-        </DeleteConfirmAction.Button>
+        <DeleteConfirmAction.Button {...(props as ConfirmActionProps<ButtonProps, 'onClick'>)} />
       </AntdApp>
     );
   },

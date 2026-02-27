@@ -17,7 +17,7 @@ storyI18n.init({
   resources,
 });
 
-export const t: i18n['t'] = ((...args) => {
+export const storyT: i18n['t'] = ((...args) => {
   return storyI18n.t(...args);
 }) as i18n['t'];
 
@@ -25,8 +25,8 @@ export const useStoryT = () => {
   const context = useContext(ReactEasyContext);
   const lang = context.lang;
 
-  // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
-  return useMemo(() => ((...args: unknown) => t(...args)) as typeof t, [lang]);
+  // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps, @typescript-eslint/no-explicit-any
+  return useMemo(() => ((...args: any) => storyT(...args)) as typeof storyT, [lang]);
 };
 
 export default storyI18n;

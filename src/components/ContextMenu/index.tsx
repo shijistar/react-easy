@@ -19,10 +19,26 @@ export interface ContextMenuProps extends MenuProps {
    * - **CN:** 触发显示菜单的方式，默认是 `['contextMenu']`
    */
   trigger?: ('click' | 'doubleClick' | 'hover' | 'contextMenu')[];
+  /**
+   * - **EN:** Custom properties for the trigger element
+   * - **CN:** 触发元素的自定义属性
+   */
   triggerProps?: {
+    /**
+     * - **EN:** Custom class name for the trigger element
+     * - **CN:** 触发元素的自定义类名
+     */
     className?: string;
+    /**
+     * - **EN:** Custom styles for the trigger element
+     * - **CN:** 触发元素的自定义样式
+     */
     style?: CSSProperties;
   };
+  /**
+   * - **EN:** Custom prefix for the component's CSS class.
+   * - **CN:** 组件的自定义 CSS 类前缀。
+   */
   prefixCls?: string;
 }
 // 上下文菜单组件

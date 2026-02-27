@@ -27,7 +27,7 @@ export interface BreakLinesProps {
    * @default false
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  tagName?: 'span' | 'div' | 'i' | 'pre' | (string & {}) | false;
+  tagName?: false | 'span' | 'div' | 'i' | 'pre' | (string & {});
   /**
    * - **EN:** The CSS class name of the dom node, if `tagName` is set to false, this property is
    *   invalid

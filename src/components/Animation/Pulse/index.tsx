@@ -5,13 +5,29 @@ import classNames from 'classnames';
 import useStyle from './style';
 
 export interface PulseAnimationProps {
+  /**
+   * - **EN:** Custom class name for the root element
+   * - **CN:** 根元素的自定义类名
+   */
   className?: string;
+  /**
+   * - **EN:** Custom styles for the root element
+   * - **CN:** 根元素的自定义样式
+   */
   style?: CSSProperties;
+  /**
+   * - **EN:** Custom styles for the pulse bars
+   * - **CN:** 心跳条的自定义样式
+   */
   barStyle?: CSSProperties;
+  /**
+   * - **EN:** Custom prefix for the component's CSS class.
+   * - **CN:** 组件的自定义 CSS 类前缀。
+   */
   prefixCls?: string;
   /**
    * - **EN:** Number of bars, default is `24`
-   * - **CN:** 心跳柱子数量，默认`24`
+   * - **CN:** 心跳条数量，默认`24`
    */
 
   bars?: number;

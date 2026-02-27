@@ -21,8 +21,9 @@ export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingI
    */
   onChange?: (nextColumns: T[]) => void;
   /**
-   * - **EN:** Local storage key for persisting column settings.
-   * - **CN:** 用于持久化列设置的本地存储键。
+   * - **EN:** Set a local storage key for persisting column settings. If not set, local storage is
+   *   not enabled.
+   * - **CN:** 设置一个本地存储的键值，用于持久化保存列设置。如果未设置，则不启用本地存储。
    */
   storageKey?: string;
   /**
@@ -55,6 +56,10 @@ export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingI
    * - **CN:** “重置”按钮的属性。
    */
   resetProps?: ButtonProps;
+  /**
+   * - **EN:** Custom prefix for the component's CSS class.
+   * - **CN:** 组件的自定义 CSS 类前缀。
+   */
   prefixCls?: string;
 }
 

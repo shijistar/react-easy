@@ -10,6 +10,10 @@ import useT from '../../hooks/useT';
 const defaultInputActionGap = 8;
 // eslint-disable-next-line @typescript-eslint/ban-types
 export interface EditableFormProps<V, IT extends 'Input' | 'TextArea' | RenderInputInterface> {
+  /**
+   * - **EN:** Custom prefix for the component's CSS class.
+   * - **CN:** 组件的自定义 CSS 类前缀。
+   */
   prefixCls?: string;
   /**
    * - **EN:** The value to edit

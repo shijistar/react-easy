@@ -1,24 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { App as AntdApp, message } from 'antd';
+import type { ButtonProps, SwitchProps } from 'antd';
+import { App as AntdApp } from 'antd';
+import type { LinkProps } from 'antd/es/typography/Link';
+import type { ConfirmActionProps } from '../../src/components/ConfirmAction';
 import ConfirmAction from '../../src/components/ConfirmAction';
 
-type TriggerType = 'button' | 'switch' | 'link';
+type TriggerType = 'Button' | 'Switch' | 'Link';
 
-interface ConfirmActionStoryArgs {
+type ConfirmActionStoryArgs = ConfirmActionProps<object, never> & {
   triggerType: TriggerType;
-  triggerText: string;
-  title: string;
-  content: string;
-  danger: boolean;
-  okText: string;
-  cancelText: string;
-}
+};
 
 const meta: Meta<ConfirmActionStoryArgs> = {
   title: 'Components/ConfirmAction',
   args: {
-    triggerType: 'button',
-    triggerText: '执行操作',
+    triggerType: 'Button',
+    triggerProps: {
+      children: '执行操作',
+    },
     title: '确认执行该操作？',
     content: '这是一个可交互的 ConfirmAction demo。',
     danger: false,
@@ -28,46 +27,10 @@ const meta: Meta<ConfirmActionStoryArgs> = {
   argTypes: {
     triggerType: {
       control: 'radio',
-      options: ['button', 'switch', 'link'],
+      options: ['Button', 'Switch', 'Link'],
       description: `- **EN:** Demo-only option to switch trigger component type.
 - **CN:** 示例专用：切换触发器组件类型。`,
-      table: { defaultValue: { summary: 'button（demo）' } },
-    },
-    triggerText: {
-      control: 'text',
-      description: `- **EN:** Custom trigger content.
-- **CN:** 自定义触发器内容。`,
-      table: { defaultValue: { summary: '执行操作（demo）' } },
-    },
-    title: {
-      control: 'text',
-      description: `- **EN:** Confirm box title.
-- **CN:** 确认框标题。`,
-      table: { defaultValue: { summary: '确认执行该操作？（demo）' } },
-    },
-    content: {
-      control: 'text',
-      description: `- **EN:** Confirm box content text.
-- **CN:** 确认框内容文本。`,
-      table: { defaultValue: { summary: '这是一个可交互的 ConfirmAction demo。（demo）' } },
-    },
-    danger: {
-      control: 'boolean',
-      description: `- **EN:** Whether to display in red danger mode.
-- **CN:** 是否显示为红色危险模式。`,
-      table: { defaultValue: { summary: 'false' } },
-    },
-    okText: {
-      control: 'text',
-      description: `- **EN:** Confirm button text.
-- **CN:** 确认按钮文本。`,
-      table: { defaultValue: { summary: '确认（demo）' } },
-    },
-    cancelText: {
-      control: 'text',
-      description: `- **EN:** Cancel button text.
-- **CN:** 取消按钮文本。`,
-      table: { defaultValue: { summary: '取消（demo）' } },
+      table: { defaultValue: { summary: '"Button"' } },
     },
   },
 };
@@ -77,36 +40,27 @@ type Story = StoryObj<ConfirmActionStoryArgs>;
 
 export const Playground: Story = {
   render: (args: ConfirmActionStoryArgs) => {
-    const commonProps = {
-      title: args.title,
-      content: args.content,
-      danger: args.danger,
-      okText: args.okText,
-      cancelText: args.cancelText,
-      onOk: async () => {
-        message.success('操作成功');
-      },
-    };
+    const { triggerType, ...props } = args;
 
-    if (args.triggerType === 'switch') {
+    if (triggerType === 'Switch') {
       return (
         <AntdApp>
-          <ConfirmAction.Switch {...commonProps} />
+          <ConfirmAction.Switch {...(props as ConfirmActionProps<SwitchProps, 'onChange'>)} />
         </AntdApp>
       );
     }
 
-    if (args.triggerType === 'link') {
+    if (triggerType === 'Link') {
       return (
         <AntdApp>
-          <ConfirmAction.Link {...commonProps}>{args.triggerText}</ConfirmAction.Link>
+          <ConfirmAction.Link {...(props as ConfirmActionProps<LinkProps, 'onClick'>)} />
         </AntdApp>
       );
     }
 
     return (
       <AntdApp>
-        <ConfirmAction.Button {...commonProps}>{args.triggerText}</ConfirmAction.Button>
+        <ConfirmAction.Button {...(props as ConfirmActionProps<ButtonProps, 'onClick'>)} />
       </AntdApp>
     );
   },

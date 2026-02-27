@@ -8,6 +8,10 @@ import useRefFunction from '../../hooks/useRefFunction';
 import useStyle from './style';
 
 export interface FloatDrawerProps {
+  /**
+   * - **EN:** Custom prefix for the component's CSS class.
+   * - **CN:** 组件的自定义 CSS 类前缀。
+   */
   prefixCls?: string;
   /**
    * - **EN:** Whether the drawer is open
@@ -60,16 +64,22 @@ export interface FloatDrawerProps {
   /**
    * - **EN:** Whether to show the toggle button, default is `true`.
    * - **CN:** 是否显示展开/收起按钮，默认`true`。
+   *
+   * @default true
    */
   showToggle?: boolean;
   /**
    * - **EN:** Whether the drawer is resizable, default is `true`.
    * - **CN:** 抽屉是否可调整大小, 默认`true`。
+   *
+   * @default true
    */
   resizable?: boolean;
   /**
    * - **EN:** Whether to destroy the drawer content when closed, default is `false`.
    * - **CN:** 抽屉关闭时是否销毁内容，默认`false`。
+   *
+   * @default false
    */
   destroyOnClose?: boolean;
   /**
