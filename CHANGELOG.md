@@ -2,9 +2,9 @@
 
 # Changelog
 
-## UNRELEASED
+## 1.7.5
 
-2026-?-?
+2026-2-28
 
 ### Features
 
