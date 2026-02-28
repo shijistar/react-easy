@@ -15,8 +15,8 @@
 
 ### Bug Fixes
 
-- Fix the issue where the `storageKey` is empty in `ColumnSetting` and `useMovable`.
-- Fix the issue where the reset button in `ColumnSetting` is always disabled.
+- 🐞 Fix the issue where the `storageKey` is empty in `ColumnSetting` and `useMovable`.
+- 🐞 Fix the issue where the reset button in `ColumnSetting` is always disabled.
 
 ## 1.7.5
 
