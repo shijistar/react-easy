@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import OverflowTags from '../../src/components/OverflowTags';
+import { storyT } from '../locales';
 
 interface TagItem {
   id: number;
@@ -8,13 +9,13 @@ interface TagItem {
 }
 
 const tags: TagItem[] = [
-  { id: 1, label: 'React', color: 'blue' },
-  { id: 2, label: 'TypeScript', color: 'blue' },
-  { id: 3, label: 'Ant Design', color: 'purple' },
-  { id: 4, label: 'Storybook', color: 'magenta' },
-  { id: 5, label: 'Hooks', color: 'green' },
-  { id: 6, label: 'HOC', color: 'cyan' },
-  { id: 7, label: 'Utilities', color: 'orange' },
+  { id: 1, label: storyT('storybook.stories.OverflowTags.tags.react'), color: 'blue' },
+  { id: 2, label: storyT('storybook.stories.OverflowTags.tags.typescript'), color: 'blue' },
+  { id: 3, label: storyT('storybook.stories.OverflowTags.tags.antDesign'), color: 'purple' },
+  { id: 4, label: storyT('storybook.stories.OverflowTags.tags.storybook'), color: 'magenta' },
+  { id: 5, label: storyT('storybook.stories.OverflowTags.tags.hooks'), color: 'green' },
+  { id: 6, label: storyT('storybook.stories.OverflowTags.tags.hoc'), color: 'cyan' },
+  { id: 7, label: storyT('storybook.stories.OverflowTags.tags.utilities'), color: 'orange' },
 ];
 
 const meta: Meta<typeof OverflowTags<TagItem>> = {
@@ -31,11 +32,11 @@ const meta: Meta<typeof OverflowTags<TagItem>> = {
       options: [2, 3, 4, 5, 'responsive', 'invalidate'],
       description: `- **EN:** Maximum number of tags to display before overflow.
 - **CN:** 超出前最多显示的标签数量。`,
-      table: { defaultValue: { summary: '"responsive"' } },
+      table: { defaultValue: { summary: storyT('storybook.stories.OverflowTags.maxCountSummary') } },
     },
   },
   render: (args) => (
-    <div style={{ width: 360, border: '1px dashed #d9d9d9', padding: 12 }}>
+    <div style={{ width: 360, border: '1px dashed #d54305', padding: 12 }}>
       <OverflowTags<TagItem> {...args} />
     </div>
   ),

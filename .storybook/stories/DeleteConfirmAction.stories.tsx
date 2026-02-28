@@ -4,6 +4,7 @@ import { App as AntdApp } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { ConfirmActionProps } from '../../src/components/ConfirmAction';
 import DeleteConfirmAction from '../../src/components/DeleteConfirmAction';
+import { storyT } from '../locales';
 
 type TriggerType = 'Button' | 'Switch' | 'Link';
 
@@ -16,12 +17,12 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
   args: {
     triggerType: 'Button',
     triggerProps: {
-      children: '删除',
+      children: storyT('storybook.stories.DeleteConfirmAction.args.triggerChildren'),
     },
-    title: '确认删除该记录？',
-    content: '删除后不可恢复，请谨慎操作。',
-    okText: '确认删除',
-    cancelText: '取消',
+    title: storyT('storybook.stories.DeleteConfirmAction.args.title'),
+    content: storyT('storybook.stories.DeleteConfirmAction.args.content'),
+    okText: storyT('storybook.stories.DeleteConfirmAction.args.okText'),
+    cancelText: storyT('storybook.stories.DeleteConfirmAction.args.cancelText'),
   },
   argTypes: {
     triggerType: {
@@ -38,7 +39,7 @@ export default meta;
 type Story = StoryObj<DeleteConfirmActionStoryArgs>;
 
 export const Playground: Story = {
-  render: (args: DeleteConfirmActionStoryArgs) => {
+  render: function Render(args: DeleteConfirmActionStoryArgs) {
     const { triggerType, ...props } = args;
 
     if (triggerType === 'Switch') {

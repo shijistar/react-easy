@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import EditableText, { type EditableTextProps } from '../../src/components/EditableText';
+import { storyT } from '../locales';
 
 const meta: Meta<EditableTextProps> = {
   title: 'Components/EditableText',
   component: EditableText,
   args: {
-    value: '点击右侧编辑图标可修改文本',
+    value: storyT('storybook.stories.EditableText.args.value'),
     editable: true,
     editing: false,
     required: false,
@@ -18,14 +19,16 @@ export default meta;
 type Story = StoryObj<EditableTextProps>;
 
 export const Playground: Story = {
-  render: (args: EditableTextProps) => (
-    <div style={{ maxWidth: 520 }}>
-      <EditableText
-        {...args}
-        onOk={async () => {
-          await Promise.resolve();
-        }}
-      />
-    </div>
-  ),
+  render: function Render(args: EditableTextProps) {
+    return (
+      <div style={{ maxWidth: 520 }}>
+        <EditableText
+          {...args}
+          onOk={async () => {
+            await Promise.resolve();
+          }}
+        />
+      </div>
+    );
+  },
 };

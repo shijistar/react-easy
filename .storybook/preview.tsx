@@ -69,6 +69,7 @@ const preview: Preview = {
       useMemo(() => {
         if (storyI18n.language !== lang) {
           storyI18n.changeLanguage(lang);
+          (window.top ?? window.parent ?? window).location.reload();
         }
       }, [lang]);
 
@@ -127,7 +128,6 @@ function jsdocArgTypesEnhancer(context: StoryContextForEnhancers) {
       },
     };
   });
-  console.log('newArgTypes', newArgTypes);
   return newArgTypes;
 }
 

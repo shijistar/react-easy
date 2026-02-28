@@ -49,7 +49,7 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
   const contextValue = useMemo(
     () => {
       if (langInProps !== locales.language) {
-        locales.changeLanguage(langInProps || 'en');
+        locales.changeLanguage(langInProps || 'en-US');
       }
       return restProps;
     },
@@ -60,12 +60,12 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
   useEffect(() => {
     // Dynamically add language pack
     if (userLocales) {
-      const lang = langInProps || 'en';
+      const lang = langInProps || 'en-US';
       if (lang && langs.includes(lang)) {
         locales.removeResourceBundle(lang, 'translation');
         locales.addResourceBundle(lang, 'translation', { ...resources[lang].translation, ...userLocales });
       } else {
-        locales.addResourceBundle(lang, 'translation', { ...resources.en.translation, ...userLocales });
+        locales.addResourceBundle(lang, 'translation', { ...resources['en-US'].translation, ...userLocales });
       }
     }
   }, [langInProps, userLocales]);

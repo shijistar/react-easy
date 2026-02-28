@@ -12,8 +12,14 @@ export const resources = {
 
 const storyI18n: i18n = createInstance({});
 
+const globals = new URLSearchParams(window.location.search).get('globals') ?? '';
+const globalLang = globals
+  .split(';')
+  .find((item) => item.startsWith('lang:'))
+  ?.split(':')[1];
+
 storyI18n.init({
-  lng: 'en',
+  lng: globalLang ?? 'en-US',
   resources,
 });
 

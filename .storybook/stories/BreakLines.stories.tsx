@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import BreakLines, { type BreakLinesProps } from '../../src/components/BreakLines';
+import { storyT } from '../locales';
 
 const meta: Meta<typeof BreakLines> = {
   title: 'Components/BreakLines',
   component: BreakLines,
   args: {
-    value: '第一行\n第二行\n第三行',
+    value: storyT('storybook.stories.BreakLines.args.value'),
     enabled: true,
     EOL: '\n',
     tagName: 'div',

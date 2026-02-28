@@ -16,7 +16,7 @@ interface User {
 type ColumnSettingStoryArgs = ColumnSettingProps;
 
 const buildBaseColumns = (t: ReturnType<typeof useStoryT>): ColumnSettingItem<User>[] => [
-  { title: 'ID', dataIndex: 'id', key: 'id', width: 80, disabled: true },
+  { title: t('storybook.stories.ColumnSetting.columns.id'), dataIndex: 'id', key: 'id', width: 80, disabled: true },
   { title: t('storybook.stories.ColumnSetting.columns.name'), dataIndex: 'name', key: 'name' },
   { title: t('storybook.stories.ColumnSetting.columns.age'), dataIndex: 'age', key: 'age' },
   { title: t('storybook.stories.ColumnSetting.columns.city'), dataIndex: 'city', key: 'city' },
@@ -42,14 +42,26 @@ export const Playground: Story = {
     const [columns, setColumns] = useState<ColumnSettingItem<User>[]>(() => buildBaseColumns(t));
     const data: User[] = useMemo(
       () => [
-        { id: 1, name: 'Alice', age: 28, city: t('storybook.stories.ColumnSetting.data.shanghai'), role: 'Admin' },
-        { id: 2, name: 'Bob', age: 32, city: t('storybook.stories.ColumnSetting.data.beijing'), role: 'Editor' },
+        {
+          id: 1,
+          name: t('storybook.stories.ColumnSetting.data.alice'),
+          age: 28,
+          city: t('storybook.stories.ColumnSetting.data.shanghai'),
+          role: t('storybook.stories.ColumnSetting.data.admin'),
+        },
+        {
+          id: 2,
+          name: t('storybook.stories.ColumnSetting.data.bob'),
+          age: 32,
+          city: t('storybook.stories.ColumnSetting.data.beijing'),
+          role: t('storybook.stories.ColumnSetting.data.editor'),
+        },
         {
           id: 3,
-          name: 'Cindy',
+          name: t('storybook.stories.ColumnSetting.data.cindy'),
           age: 25,
           city: t('storybook.stories.ColumnSetting.data.guangzhou'),
-          role: 'Viewer',
+          role: t('storybook.stories.ColumnSetting.data.viewer'),
         },
       ],
       [t]

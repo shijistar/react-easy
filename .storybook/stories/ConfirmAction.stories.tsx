@@ -4,6 +4,7 @@ import { App as AntdApp } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { ConfirmActionProps } from '../../src/components/ConfirmAction';
 import ConfirmAction from '../../src/components/ConfirmAction';
+import { storyT } from '../locales';
 
 type TriggerType = 'Button' | 'Switch' | 'Link';
 
@@ -16,13 +17,13 @@ const meta: Meta<ConfirmActionStoryArgs> = {
   args: {
     triggerType: 'Button',
     triggerProps: {
-      children: '执行操作',
+      children: storyT('storybook.stories.ConfirmAction.args.triggerChildren'),
     },
-    title: '确认执行该操作？',
-    content: '这是一个可交互的 ConfirmAction demo。',
+    title: storyT('storybook.stories.ConfirmAction.args.title'),
+    content: storyT('storybook.stories.ConfirmAction.args.content'),
     danger: false,
-    okText: '确认',
-    cancelText: '取消',
+    okText: storyT('storybook.stories.ConfirmAction.args.okText'),
+    cancelText: storyT('storybook.stories.ConfirmAction.args.cancelText'),
   },
   argTypes: {
     triggerType: {
@@ -39,7 +40,7 @@ export default meta;
 type Story = StoryObj<ConfirmActionStoryArgs>;
 
 export const Playground: Story = {
-  render: (args: ConfirmActionStoryArgs) => {
+  render: function Render(args: ConfirmActionStoryArgs) {
     const { triggerType, ...props } = args;
 
     if (triggerType === 'Switch') {

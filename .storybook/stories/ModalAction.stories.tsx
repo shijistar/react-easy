@@ -4,6 +4,7 @@ import { type ButtonProps, Form, Input, message, Space, type SwitchProps } from 
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { FormCompPropsConstraint, ModalActionProps } from '../../src/components/ModalAction';
 import { withModalAction } from '../../src/components/ModalAction';
+import { storyT, useStoryT } from '../locales';
 
 type ModalActionStoryArgs = ModalActionProps<
   UserForm,
@@ -16,18 +17,28 @@ type ModalActionStoryArgs = ModalActionProps<
 };
 
 const UserFormComp: FC<UserFormProps> = ({ data, form, onSave }) => {
+  const t = useStoryT();
+
   onSave((formData) => {
-    message.success(`已保存：${formData.name}`);
+    message.success(t('storybook.stories.ModalAction.saved', { name: formData.name }));
     return formData;
   });
 
   return (
     <Form form={form} layout="vertical" initialValues={data} autoComplete="off">
-      <Form.Item label="姓名" name="name" rules={[{ required: true, message: '请输入姓名' }]}>
-        <Input placeholder="请输入姓名" />
+      <Form.Item
+        label={t('storybook.stories.ModalAction.form.nameLabel')}
+        name="name"
+        rules={[{ required: true, message: t('storybook.stories.ModalAction.form.nameRequired') }]}
+      >
+        <Input placeholder={t('storybook.stories.ModalAction.form.namePlaceholder')} />
       </Form.Item>
-      <Form.Item label="邮箱" name="email" rules={[{ required: true, type: 'email', message: '请输入合法邮箱地址' }]}>
-        <Input placeholder="请输入邮箱" />
+      <Form.Item
+        label={t('storybook.stories.ModalAction.form.emailLabel')}
+        name="email"
+        rules={[{ required: true, type: 'email', message: t('storybook.stories.ModalAction.form.emailInvalid') }]}
+      >
+        <Input placeholder={t('storybook.stories.ModalAction.form.emailPlaceholder')} />
       </Form.Item>
     </Form>
   );
@@ -41,7 +52,7 @@ const meta: Meta<ModalActionStoryArgs> = {
   title: 'Components/ModalAction',
   component: UserModalAction,
   args: {
-    title: '用户信息',
+    title: storyT('storybook.stories.ModalAction.args.title'),
     triggerType: 'Button',
     width: 520,
     destroyOnClose: true,
@@ -63,11 +74,12 @@ type Story = StoryObj<ModalActionStoryArgs>;
 
 export const Playground: Story = {
   render: function Render(args: ModalActionStoryArgs) {
+    const t = useStoryT();
     const { triggerType, ...props } = args;
     const [user, setUser] = useState<UserForm>();
     const [editUser] = useState<UserForm>({
-      name: 'Alice',
-      email: 'alice@example.com',
+      name: t('storybook.stories.ModalAction.defaults.name'),
+      email: t('storybook.stories.ModalAction.defaults.email'),
     });
 
     return (
@@ -79,7 +91,7 @@ export const Playground: Story = {
                 {...(props as ModalActionProps<UserForm, UserFormProps, SwitchProps, 'onChange', object>)}
                 onOk={setUser}
               >
-                创建
+                {t('storybook.stories.ModalAction.actions.create')}
               </UserModalAction.Switch>
             )}
             {triggerType === 'Link' && (
@@ -87,7 +99,7 @@ export const Playground: Story = {
                 {...(props as ModalActionProps<UserForm, UserFormProps, LinkProps, 'onClick', object>)}
                 onOk={setUser}
               >
-                创建
+                {t('storybook.stories.ModalAction.actions.create')}
               </UserModalAction.Link>
             )}
             {triggerType === 'Button' && (
@@ -95,7 +107,7 @@ export const Playground: Story = {
                 {...(props as ModalActionProps<UserForm, UserFormProps, ButtonProps, 'onClick', object>)}
                 onOk={setUser}
               >
-                创建
+                {t('storybook.stories.ModalAction.actions.create')}
               </UserModalAction.Button>
             )}
             {triggerType === 'Switch' && (
@@ -107,7 +119,7 @@ export const Playground: Story = {
                 }}
                 onOk={setUser}
               >
-                编辑
+                {t('storybook.stories.ModalAction.actions.edit')}
               </UserModalAction.Switch>
             )}
             {triggerType === 'Link' && (
@@ -119,7 +131,7 @@ export const Playground: Story = {
                 }}
                 onOk={setUser}
               >
-                编辑
+                {t('storybook.stories.ModalAction.actions.edit')}
               </UserModalAction.Link>
             )}
             {triggerType === 'Button' && (
@@ -131,11 +143,11 @@ export const Playground: Story = {
                 }}
                 onOk={setUser}
               >
-                编辑
+                {t('storybook.stories.ModalAction.actions.edit')}
               </UserModalAction.Button>
             )}
           </Space>
-          <div>{user && `用户信息：${user.name} (${user.email})`}</div>
+          <div>{user && t('storybook.stories.ModalAction.userInfo', { name: user.name, email: user.email })}</div>
         </Space>
       </div>
     );

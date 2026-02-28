@@ -15,7 +15,7 @@ export const resources = {
 const reactEasyI18n: i18n = createInstance({});
 
 reactEasyI18n.init({
-  lng: 'en',
+  lng: 'en-US',
   resources,
 });
 

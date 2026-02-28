@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import FloatDrawer from '../../src/components/FloatDrawer';
+import { storyT, useStoryT } from '../locales';
 
 const meta: Meta<typeof FloatDrawer> = {
   title: 'Components/FloatDrawer',
@@ -14,17 +15,20 @@ const meta: Meta<typeof FloatDrawer> = {
     resizable: true,
     destroyOnClose: false,
     cardProps: {
-      title: '设置面板',
+      title: storyT('storybook.stories.FloatDrawer.args.cardTitle'),
     },
   },
   argTypes: {},
-  render: (args) => (
-    <div style={{ width: 640, height: 640, border: '1px dashed #d9d9d9', position: 'relative', overflow: 'hidden' }}>
-      <FloatDrawer {...args}>
-        <div style={{ padding: 8 }}>这里可以放置筛选项、操作面板、预览内容等。</div>
-      </FloatDrawer>
-    </div>
-  ),
+  render: function Render(args) {
+    const t = useStoryT();
+    return (
+      <div style={{ width: 640, height: 640, border: '1px dashed #d54305', position: 'relative', overflow: 'hidden' }}>
+        <FloatDrawer {...args}>
+          <div style={{ padding: 8 }}>{t('storybook.stories.FloatDrawer.content')}</div>
+        </FloatDrawer>
+      </div>
+    );
+  },
 };
 
 export default meta;

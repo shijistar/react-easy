@@ -8,7 +8,7 @@ export interface ReactEasyContextProps {
    * - **EN:** Language of the component, used for global configuration, can be 'en-US' or 'zh-CN'
    * - **CN:** 组件的语言，用于全局配置，可以是'en-US'或'zh-CN'
    *
-   * @default 'en_US'
+   * @default 'en-US'
    */
   lang?: Langs;
   /**
@@ -56,7 +56,7 @@ export interface ReactEasyContextProps {
 }
 
 export const defaultContextValue: ReactEasyContextProps = {
-  lang: 'en',
+  lang: 'en-US',
 };
 
 const ReactEasyContext = createContext<ReactEasyContextProps>(defaultContextValue);
