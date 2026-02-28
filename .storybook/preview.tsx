@@ -4,12 +4,16 @@ import type { Preview, ReactRenderer } from '@storybook/react-vite';
 import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme } from 'antd';
 import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
+import { FORCE_RE_RENDER } from 'storybook/internal/core-events';
 import type { StoryContext, StoryContextForEnhancers } from 'storybook/internal/csf';
+import { addons, useStoryContext } from 'storybook/preview-api';
 import { themes } from 'storybook/theming';
 import ConfigProvider from '../src/components/ConfigProvider';
+import { useRefValue } from '../src/hooks';
 import storyI18n from './locales';
 import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
-import './preview.css';
+
+// import './preview.css';
 
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -66,10 +70,18 @@ const preview: Preview = {
       const bgValue = context.globals?.backgrounds?.value;
       const lang = context.globals.lang ?? 'en-US';
       const antdLocale = lang === 'zh-CN' ? zhCN : enUS;
+      const { viewMode } = useStoryContext();
+      const viewModeRef = useRefValue(viewMode);
+
       useMemo(() => {
         if (storyI18n.language !== lang) {
-          storyI18n.changeLanguage(lang);
-          (window.top ?? window.parent ?? window).location.reload();
+          storyI18n.changeLanguage(lang).then(() => {
+            if (viewModeRef.current === 'docs') {
+              addons.getChannel().emit(FORCE_RE_RENDER);
+            } else if (viewModeRef.current === 'story') {
+              (window.top ?? window.parent ?? window).location.reload();
+            }
+          });
         }
       }, [lang]);
 
