@@ -1,7 +1,7 @@
-import { type ComponentType, type PropsWithChildren, useMemo } from 'react';
+import { type ComponentType, type PropsWithChildren, useMemo, useState } from 'react';
 import { type Control, DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Preview, ReactRenderer } from '@storybook/react-vite';
-import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme } from 'antd';
+import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme as antThemes } from 'antd';
 import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
 import { FORCE_RE_RENDER } from 'storybook/internal/core-events';
@@ -10,42 +10,23 @@ import { addons, useStoryContext } from 'storybook/preview-api';
 import { themes } from 'storybook/theming';
 import ConfigProvider from '../src/components/ConfigProvider';
 import { useRefValue } from '../src/hooks';
-import storyI18n from './locales';
+import type { Langs } from '../src/locales';
+import storyI18n, { storyT } from './locales';
+import { getGlobalValueFromUrl } from './utils/global';
 import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
 
 // import './preview.css';
 
+const themeFromUrl = getGlobalValueFromUrl('backgrounds.value');
+const langFromUrl = getGlobalValueFromUrl('lang');
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const preview: Preview = {
-  parameters: {
-    controls: {
-      expanded: true,
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
+  initialGlobals: {
+    lang: 'en-US',
     backgrounds: {
-      options: {
-        light: { name: 'Light', value: '#ffffff' },
-        dark: { name: 'Dark', value: '#2c2c2c' },
-      },
-    },
-    docs: {
-      container: (props: PropsWithChildren<DocsContainerProps>) => {
-        const bgValue = (props.context as unknown as StoryContext<ReactRenderer>)?.globals?.backgrounds?.value;
-        const isDark = bgValue ? bgValue === 'dark' : isPreferDark;
-        return <DocsContainer {...props} theme={isDark ? themes.dark : themes.light} />;
-      },
-      extractComponentDescription: (
-        component: ComponentType & {
-          __docgenInfo?: { description?: string };
-        }
-      ) => {
-        const raw = component?.__docgenInfo?.description ?? '';
-        return stripExampleBlock(raw);
-      },
+      value: themeFromUrl ?? (isPreferDark ? 'dark' : 'light'),
+      grid: false,
     },
   },
   globalTypes: {
@@ -60,19 +41,58 @@ const preview: Preview = {
       },
     },
   },
-  initialGlobals: {
-    lang: 'en-US',
-    backgrounds: { value: isPreferDark ? 'dark' : 'light' },
+  parameters: {
+    controls: {
+      expanded: true,
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
+    backgrounds: {
+      options: {
+        light: { value: '#ffffff', name: storyT('storybook.stories.Backgrounds.light') },
+        dark: { value: '#2c2c2c', name: storyT('storybook.stories.Backgrounds.dark') },
+      },
+    },
+    docs: {
+      container: (props: PropsWithChildren<DocsContainerProps>) => {
+        const globalValue = (props.context as unknown as StoryContext<ReactRenderer>)?.globals?.backgrounds?.value;
+        const theme = globalValue ?? themeFromUrl;
+        const isDark = theme ? theme === 'dark' : isPreferDark;
+        return <DocsContainer {...props} theme={isDark ? themes.dark : themes.light} />;
+      },
+      extractComponentDescription: (
+        component: ComponentType & {
+          __docgenInfo?: { description?: string };
+        }
+      ) => {
+        const raw = component?.__docgenInfo?.description ?? '';
+        return stripExampleBlock(raw);
+      },
+    },
   },
   tags: ['autodocs'],
   decorators: [
     (Story, context) => {
-      const bgValue = context.globals?.backgrounds?.value;
-      const lang = context.globals.lang ?? 'en-US';
+      const themeFromGlobal = context.globals?.backgrounds?.value;
+      const theme: string | undefined = themeFromGlobal ?? themeFromUrl;
+      const lang: Langs | undefined = context.globals.lang ?? langFromUrl ?? 'en-US';
       const antdLocale = lang === 'zh-CN' ? zhCN : enUS;
       const { viewMode } = useStoryContext();
       const viewModeRef = useRefValue(viewMode);
+      const [prevTheme, setPrevTheme] = useState(themeFromGlobal);
+      const isDark = theme === 'dark' || (!theme && isPreferDark);
 
+      // Reload the page if the theme changes.
+      useMemo(() => {
+        if (themeFromGlobal !== prevTheme) {
+          setPrevTheme(themeFromGlobal);
+          (window.top ?? window.parent ?? window).location.reload();
+        }
+      }, [themeFromGlobal, prevTheme]);
+
+      // Reload the page if the language changes.
       useMemo(() => {
         if (storyI18n.language !== lang) {
           storyI18n.changeLanguage(lang).then(() => {
@@ -88,7 +108,7 @@ const preview: Preview = {
       return (
         <AntdConfigProvider
           locale={antdLocale}
-          theme={{ algorithm: bgValue === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm }}
+          theme={{ algorithm: isDark ? antThemes.darkAlgorithm : antThemes.defaultAlgorithm }}
         >
           <AntdApp>
             <ConfigProvider lang={lang}>

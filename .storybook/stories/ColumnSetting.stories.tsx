@@ -6,23 +6,6 @@ import ColumnSetting from '../../src/components/ColumnSetting';
 import type { ColumnSettingItem, ColumnSettingProps } from '../../src/components/ColumnSetting';
 import { storyT, useStoryT } from '../locales';
 
-interface User {
-  id: number;
-  name: string;
-  age: number;
-  city: string;
-  role: string;
-}
-type ColumnSettingStoryArgs = ColumnSettingProps;
-
-const buildBaseColumns = (t: ReturnType<typeof useStoryT>): ColumnSettingItem<User>[] => [
-  { title: t('storybook.stories.ColumnSetting.columns.id'), dataIndex: 'id', key: 'id', width: 80, disabled: true },
-  { title: t('storybook.stories.ColumnSetting.columns.name'), dataIndex: 'name', key: 'name' },
-  { title: t('storybook.stories.ColumnSetting.columns.age'), dataIndex: 'age', key: 'age' },
-  { title: t('storybook.stories.ColumnSetting.columns.city'), dataIndex: 'city', key: 'city' },
-  { title: t('storybook.stories.ColumnSetting.columns.role'), dataIndex: 'role', key: 'role' },
-];
-
 const meta: Meta<ColumnSettingStoryArgs> = {
   title: 'Components/ColumnSetting',
   component: ColumnSetting,
@@ -93,3 +76,22 @@ export const Playground: Story = {
     );
   },
 };
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  city: string;
+  role: string;
+}
+type ColumnSettingStoryArgs = ColumnSettingProps;
+
+function buildBaseColumns(t: ReturnType<typeof useStoryT>): ColumnSettingItem<User>[] {
+  return [
+    { title: t('storybook.stories.ColumnSetting.columns.id'), dataIndex: 'id', key: 'id', width: 80, disabled: true },
+    { title: t('storybook.stories.ColumnSetting.columns.name'), dataIndex: 'name', key: 'name' },
+    { title: t('storybook.stories.ColumnSetting.columns.age'), dataIndex: 'age', key: 'age' },
+    { title: t('storybook.stories.ColumnSetting.columns.city'), dataIndex: 'city', key: 'city' },
+    { title: t('storybook.stories.ColumnSetting.columns.role'), dataIndex: 'role', key: 'role' },
+  ];
+}

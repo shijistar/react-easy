@@ -1,4 +1,6 @@
 const enUS = {
+  'storybook.stories.Backgrounds.light': 'Light Mode',
+  'storybook.stories.Backgrounds.dark': 'Dark Mode',
   'storybook.stories.BreakLines.args.value': 'First line\nSecond line\nThird line',
   'storybook.stories.ColumnSetting.columns.name': 'Name',
   'storybook.stories.ColumnSetting.columns.id': 'ID',

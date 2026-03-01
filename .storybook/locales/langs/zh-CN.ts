@@ -1,4 +1,6 @@
 const zhCN = {
+  'storybook.stories.Backgrounds.light': '浅色模式',
+  'storybook.stories.Backgrounds.dark': '深色模式',
   'storybook.stories.BreakLines.args.value': '第一行\n第二行\n第三行',
   'storybook.stories.ColumnSetting.columns.name': '姓名',
   'storybook.stories.ColumnSetting.columns.id': 'ID',

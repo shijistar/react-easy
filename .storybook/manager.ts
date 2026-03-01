@@ -1,12 +1,14 @@
 import { addons } from 'storybook/manager-api';
-import { create } from 'storybook/theming';
+import { create, type ThemeVars } from 'storybook/theming';
+import { getGlobalValueFromUrl } from './utils/global';
 
 // import './manager.css';
 
+const globalValue = getGlobalValueFromUrl('backgrounds.value');
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 addons.setConfig({
   theme: create({
-    base: isPreferDark ? 'dark' : 'light',
+    base: (globalValue as ThemeVars['base']) ?? (isPreferDark ? 'dark' : 'light'),
     brandTitle: '@tiny-codes/react-easy',
   }),
   // navSize: 300,
