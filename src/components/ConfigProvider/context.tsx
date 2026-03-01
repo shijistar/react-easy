@@ -1,6 +1,11 @@
 import { createContext, type ReactNode } from 'react';
 import type { Langs } from '../../locales';
+import type { PulseAnimationProps } from '../Animation/Pulse';
+import type { BreakLinesProps } from '../BreakLines';
+import type { ColumnSettingProps } from '../ColumnSetting';
 import type { ConfirmActionProps } from '../ConfirmAction';
+import type { ContextMenuProps } from '../ContextMenu';
+import type { EditableTextProps } from '../EditableText';
 import type { ModalActionProps } from '../ModalAction';
 
 export interface ReactEasyContextProps {
@@ -21,6 +26,37 @@ export interface ReactEasyContextProps {
    * @returns Localized text | 本地化文本
    */
   localize?: <T>(key: T, args?: Record<string, unknown>) => ReactNode;
+
+  /**
+   * - **EN:** Global configuration for `PulseAnimation` component, which can be used to set default
+   *   animation properties for all `PulseAnimation` components in the application.
+   * - **CN:** `PulseAnimation`组件的全局配置，可以用来设置应用中所有`PulseAnimation`组件的默认动画属性。
+   */
+  PulseAnimation?: PulseAnimationProps;
+  /**
+   * - **EN:** Global configuration for `BreakLines` component, which can be used to set default
+   *   properties for all `BreakLines` components in the application.
+   * - **CN:** `BreakLines`组件的全局配置，可以用来设置应用中所有`BreakLines`组件的默认属性。
+   */
+  BreakLines?: BreakLinesProps;
+  /**
+   * - **EN:** Global configuration for `ColumnSetting` component, which can be used to set default
+   *   properties for all `ColumnSetting` components in the application.
+   * - **CN:** `ColumnSetting`组件的全局配置，可以用来设置应用中所有`ColumnSetting`组件的默认属性。
+   */
+  ColumnSetting?: ColumnSettingProps;
+  /**
+   * - **EN:** Global configuration for `ContextMenu` component, which can be used to set default
+   *   properties for all `ContextMenu` components in the application.
+   * - **CN:** `ContextMenu`组件的全局配置，可以用来设置应用中所有`ContextMenu`组件的默认属性。
+   */
+  ContextMenu?: ContextMenuProps;
+  /**
+   * - **EN:** Global configuration for `EditableText` component, which can be used to set default
+   *   properties for all `EditableText` components in the application.
+   * - **CN:** `EditableText`组件的全局配置，可以用来设置应用中所有`EditableText`组件的默认属性。
+   */
+  EditableText?: EditableTextProps;
 
   /**
    * - **EN:** Global configuration for `ConfirmAction` component, which can be used to set default
