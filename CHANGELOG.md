@@ -2,7 +2,21 @@
 
 # Changelog
 
-## 1.7.5
+## 1.7.7
+
+2026-3-9
+
+### Features
+
+- **ConfigProvider.ConfigContext**
+
+  - ✨ Add `getPrefixCls` in ConfigProvider.ConfigContext.
+
+- **Iconfont**
+
+  - ✨ Add `createIconfont` function to create custom Iconfont components.
+
+## 1.7.6
 
 2026-2-28
 

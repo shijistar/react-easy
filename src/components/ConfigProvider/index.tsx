@@ -7,7 +7,7 @@ import type localesEn from '../../locales/langs/en';
 import ReactEasyContext, { type ReactEasyContextProps } from './context';
 import useStyle from './style';
 
-export interface ConfigProviderProps extends ReactEasyContextProps {
+export interface ConfigProviderProps extends Omit<ReactEasyContextProps, 'getPrefixCls'> {
   /**
    * - **EN:** Child elements of the ConfigProvider
    * - **CN:** ConfigProvider 的子元素
@@ -40,7 +40,7 @@ export interface ConfigProviderProps extends ReactEasyContextProps {
  * - **EN:** Provide global configuration for AntdHelper
  * - **CN:** 提供AntdHelper的全局配置
  */
-const ConfigProvider: FC<ConfigProviderProps> = (props) => {
+const ConfigProvider: FC<ConfigProviderProps> & { ConfigContext: typeof ReactEasyContext } = (props) => {
   const { children, locales: userLocales, prefixCls: prefixClsInProps, className, style, ...restProps } = props;
   const { lang: langInProps } = restProps;
   const { getPrefixCls, rootPrefixCls } = useContext(ReactConfigProvider.ConfigContext);
@@ -51,10 +51,14 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
       if (langInProps !== locales.language) {
         locales.changeLanguage(langInProps || 'en-US');
       }
-      return restProps;
+      return {
+        ...restProps,
+        getPrefixCls: (suffixCls: string, customizePrefixCls?: string) =>
+          getPrefixCls(`easy-${suffixCls}`, customizePrefixCls),
+      };
     },
     // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
-    [langInProps, ...Object.values(restProps)]
+    [langInProps, getPrefixCls, ...Object.values(restProps)]
   );
 
   useEffect(() => {
@@ -79,5 +83,6 @@ const ConfigProvider: FC<ConfigProviderProps> = (props) => {
   );
 };
 ConfigProvider.displayName = 'ReactEasyConfigProvider';
+ConfigProvider.ConfigContext = ReactEasyContext;
 
 export default ConfigProvider;

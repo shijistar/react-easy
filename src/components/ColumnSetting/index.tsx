@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { Button, Checkbox, ConfigProvider, Divider, Dropdown, Space, Typography } from 'antd';
+import { Button, Checkbox, Divider, Dropdown, Space, Typography } from 'antd';
 import type { ButtonProps, DropdownProps } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import classNames from 'classnames';
@@ -7,6 +7,7 @@ import { ReloadOutlined, SettingOutlined } from '@ant-design/icons';
 import { useRefFunction, useRefValue } from '../../hooks';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import useT from '../../hooks/useT';
+import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
 
 export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingItem> {

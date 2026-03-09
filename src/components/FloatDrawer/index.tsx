@@ -1,10 +1,11 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { CardProps } from 'antd';
-import { Card, ConfigProvider } from 'antd';
+import { Card } from 'antd';
 import classNames from 'classnames';
 import { DownOutlined, LeftOutlined, RightOutlined, UpOutlined } from '@ant-design/icons';
 import useRefFunction from '../../hooks/useRefFunction';
+import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
 
 export interface FloatDrawerProps {
@@ -225,7 +226,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
     onClick,
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
-  const prefixCls = getPrefixCls('easy-float-drawer', prefixClsInProps);
+  const prefixCls = getPrefixCls('float-drawer', prefixClsInProps);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
   const [drawerRef, setDrawerRef] = useState<HTMLDivElement | null>(null);
   const [size, setSize] = useState(

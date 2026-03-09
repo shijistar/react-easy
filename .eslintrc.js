@@ -8,6 +8,7 @@ module.exports = {
     'react/no-array-index-key': 'error',
     'react-hooks/exhaustive-deps': 0,
     'react-hooks/rules-of-hooks': 0,
+    'react/prop-types': 0,
     '@tiny-codes/react-hooks/rules-of-hooks': ['error'],
     '@tiny-codes/react-hooks/exhaustive-deps': ['error'],
   },

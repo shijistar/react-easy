@@ -48,6 +48,8 @@ export { default as FloatDrawer } from './FloatDrawer';
 export type { FormItemControlProps } from './FormItemControl';
 export { default as FormItemControl } from './FormItemControl';
 
+export * from './Iconfont';
+
 export type { LoadingProps } from './Loading';
 export { default as Loading } from './Loading';
 

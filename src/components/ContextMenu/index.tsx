@@ -1,10 +1,11 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { forwardRef, useContext, useImperativeHandle, useMemo } from 'react';
-import { theme as AntdTheme, ConfigProvider, Typography } from 'antd';
+import { ConfigProvider as AntConfigProvider, theme as AntdTheme, Typography } from 'antd';
 import classNames from 'classnames';
 import type { ItemProps, MenuProps, SeparatorProps, ShowContextMenuParams, SubMenuProps } from 'react-contexify';
 import { Item, Menu, RightSlot, Separator, Submenu, useContextMenu } from 'react-contexify';
 import { useRefFunction } from '../../hooks';
+import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
 import 'react-contexify/dist/ReactContexify.css';
 
@@ -209,11 +210,11 @@ function getShortcutText(
   const keys: ReactNode[] = [];
   const Keyboard = (props: { children: ReactNode }) => {
     return (
-      <ConfigProvider theme={{ algorithm: theme === 'dark' ? AntdTheme.darkAlgorithm : undefined }}>
+      <AntConfigProvider theme={{ algorithm: theme === 'dark' ? AntdTheme.darkAlgorithm : undefined }}>
         <Typography.Text keyboard className={`${cmpPrefixCls}-shortcut-key`}>
           {props.children}
         </Typography.Text>
-      </ConfigProvider>
+      </AntConfigProvider>
     );
   };
   if (event.ctrlKey) keys.push(<Keyboard>^</Keyboard>);

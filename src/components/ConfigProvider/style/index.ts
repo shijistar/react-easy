@@ -3,9 +3,9 @@ import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
 
-type OverflowTagsToken = FullToken<{ ''?: object }, AliasToken, ''>;
+type ConfigProviderToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
-const genStyle: GenerateStyle<OverflowTagsToken> = (token): CSSObject => {
+const genStyle: GenerateStyle<ConfigProviderToken> = (token): CSSObject => {
   const { componentCls } = token;
   return {
     [componentCls]: {
@@ -87,4 +87,4 @@ const genStyle: GenerateStyle<OverflowTagsToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('EasyConfigProvider' as never, genStyle);
+export default genStyleHooks('ConfigProvider' as never, genStyle);

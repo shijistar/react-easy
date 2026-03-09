@@ -1,7 +1,8 @@
 import { type CSSProperties, type FC, useContext } from 'react';
 import type { SpinProps } from 'antd';
-import { ConfigProvider, Spin } from 'antd';
+import { Spin } from 'antd';
 import classNames from 'classnames';
+import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
 
 export type LoadingProps = SpinProps & {
@@ -82,7 +83,7 @@ const Loading: FC<LoadingProps> = (props) => {
   } = props;
 
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
-  const prefixCls = getPrefixCls('easy-loading', prefixClsInProps);
+  const prefixCls = getPrefixCls('loading', prefixClsInProps);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
 
   return children

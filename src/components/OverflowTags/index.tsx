@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react';
 import { useCallback, useContext, useMemo } from 'react';
 import type { DropdownProps, TagProps } from 'antd';
-import { ConfigProvider, Dropdown, Tag, theme } from 'antd';
+import { Dropdown, Tag, theme } from 'antd';
 import { PresetColors } from 'antd/es/theme/internal';
 import classNames from 'classnames';
 import type { OverflowProps } from 'rc-overflow';
 import Overflow from 'rc-overflow';
 import { random } from '../../utils/math';
+import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
 
 export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem'> {
@@ -97,7 +98,7 @@ const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
   } = props;
   const { token } = theme.useToken();
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
-  const prefixCls = getPrefixCls('easy-overflow-tags', prefixClsInProps);
+  const prefixCls = getPrefixCls('overflow-tags', prefixClsInProps);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
 
   const colors = useMemo(

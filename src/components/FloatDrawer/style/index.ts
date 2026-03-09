@@ -5,9 +5,9 @@ import type { FullToken } from '@ant-design/cssinjs-utils';
 import { FastColor } from '@ant-design/fast-color';
 import { getColorLuminance } from '../../../utils';
 
-type REFloatDrawerToken = FullToken<{ ''?: object }, AliasToken, ''>;
+type FloatDrawerToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
-const genStyle: GenerateStyle<REFloatDrawerToken> = (token): CSSObject => {
+const genStyle: GenerateStyle<FloatDrawerToken> = (token): CSSObject => {
   const { componentCls } = token;
   return {
     [componentCls]: {
@@ -228,4 +228,4 @@ const genStyle: GenerateStyle<REFloatDrawerToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('EasyFloatDrawer' as never, genStyle);
+export default genStyleHooks('FloatDrawer' as never, genStyle);

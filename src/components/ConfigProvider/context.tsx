@@ -9,6 +9,7 @@ import type { EditableTextProps } from '../EditableText';
 import type { ModalActionProps } from '../ModalAction';
 
 export interface ReactEasyContextProps {
+  getPrefixCls: (suffixCls: string, customizePrefixCls?: string) => string;
   /**
    * - **EN:** Language of the component, used for global configuration, can be 'en-US' or 'zh-CN'
    * - **CN:** 组件的语言，用于全局配置，可以是'en-US'或'zh-CN'
@@ -92,6 +93,7 @@ export interface ReactEasyContextProps {
 }
 
 export const defaultContextValue: ReactEasyContextProps = {
+  getPrefixCls: undefined!,
   lang: 'en-US',
 };
 
