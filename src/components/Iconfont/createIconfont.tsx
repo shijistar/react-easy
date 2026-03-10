@@ -8,12 +8,27 @@ import ConfigProvider from '../ConfigProvider';
  * - **EN:** Props for the Iconfont component
  * - **CN:** Iconfont 组件的props
  */
-export interface IconfontProps<T extends string = string> extends Omit<AntIconFontProps<T>, 'type' | 'size'> {
+export interface IconfontProps<T extends string = string>
+  extends Omit<AntIconFontProps<T>, 'type' | 'size' | 'spin' | 'rotate'> {
   /**
    * - **EN:** Icon name. Find an icon in iconfont and click `Copy Code`
    * - **CN:** 图标名称。在 iconfont 中找到某个图标，点击`复制代码`
    */
   type: T;
+  /**
+   * - **EN:** Whether the icon should spin continuously, can be used to indicate loading
+   * - **CN:** 图标是否持续旋转，可以实现 loading 的效果
+   *
+   * @default false
+   */
+  spin?: boolean;
+  /**
+   * - **EN:** Rotate the icon by a fixed angle clockwise
+   * - **CN:** 图标顺时针旋转一个固定角度
+   *
+   * @default 0
+   */
+  rotate?: number;
   /**
    * - **EN:** Icon size, an alias for `style.fontSize`
    * - **CN:** 图标尺寸，是 `style.fontSize` 的别名
