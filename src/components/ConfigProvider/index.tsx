@@ -1,5 +1,5 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { ConfigProvider as ReactConfigProvider } from 'antd';
 import classNames from 'classnames';
 import locales, { langs, resources } from '../../locales';
@@ -46,6 +46,10 @@ const ConfigProvider: FC<ConfigProviderProps> & { ConfigContext: typeof ReactEas
   const { getPrefixCls, rootPrefixCls } = useContext(ReactConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('react-easy', prefixClsInProps);
   const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootPrefixCls);
+  const getEasyPrefixCls = useCallback(
+    (suffixCls: string, customizePrefixCls?: string) => getPrefixCls(`easy-${suffixCls}`, customizePrefixCls),
+    [getPrefixCls]
+  );
   const contextValue = useMemo(
     () => {
       if (langInProps !== locales.language) {
@@ -53,12 +57,11 @@ const ConfigProvider: FC<ConfigProviderProps> & { ConfigContext: typeof ReactEas
       }
       return {
         ...restProps,
-        getPrefixCls: (suffixCls: string, customizePrefixCls?: string) =>
-          getPrefixCls(`easy-${suffixCls}`, customizePrefixCls),
+        getPrefixCls: getEasyPrefixCls,
       };
     },
     // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
-    [langInProps, getPrefixCls, ...Object.values(restProps)]
+    [langInProps, getEasyPrefixCls, ...Object.values(restProps)]
   );
 
   useEffect(() => {
