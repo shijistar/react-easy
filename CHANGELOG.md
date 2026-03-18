@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.8
+
+2026-3-18
+
+### Features
+
+- **EllipsisText**, **EllipsisParagraph**, **EllipsisTitle**, **EllipsisLink**
+  - ✨ add `watchResize` prop to monitor component size and adjust ellipsis accordingly.
+
 ## 1.7.7
 
 2026-3-9

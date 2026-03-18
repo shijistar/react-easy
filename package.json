@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.7.7",
+  "version": "1.7.8",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -46,6 +46,7 @@
     "crypto-js": "^4.2.0",
     "lexical": "^0.33.1",
     "react-contexify": "^6.0.0",
+    "react-resize-detector": "^12.3.0",
     "sockjs-client": "^1.6.1"
   },
   "devDependencies": {
