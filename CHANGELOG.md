@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.9
+
+2026-3-18
+
+### Features
+
+- **useRowSelection**
+  - ✨ Add `useRowSelection` hook for managing row selection in tables.
+
 ## 1.7.8
 
 2026-3-18

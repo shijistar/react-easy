@@ -11,9 +11,12 @@ export { default as useMovable } from './useMovable';
 export * from './useProcessingText';
 export { default as useProcessingText } from './useProcessingText';
 
+export { default as useRefFunction } from './useRefFunction';
+
 export { default as useRefValue } from './useRefValue';
 
-export { default as useRefFunction } from './useRefFunction';
+export * from './useRowSelection';
+export { default as useRowSelection } from './useRowSelection';
 
 export * from './useSplitter';
 export { default as useSplitter } from './useSplitter';
