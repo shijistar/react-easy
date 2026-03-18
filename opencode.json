@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "small_model": "anthropic/claude-haiku-4-5",
+  "default_agent": "build",
+  "autoupdate": "notify",
+  "share": "manual",
+  "snapshot": true,
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 12000
+  },
+  "watcher": {
+    "ignore": [".git/**", "node_modules/**", "lib/**", "es/**", "dist/**", "coverage/**", "storybook-static/**"]
+  },
+  "instructions": ["AGENTS.md", ".cursor/rules/**", ".cursorrules", ".github/copilot-instructions.md"],
+  "permission": {
+    "edit": "allow",
+    "webfetch": "allow",
+    "bash": {
+      "*": "allow",
+      "git push*": "ask",
+      "npm publish*": "ask",
+      "rm -rf *": "ask"
+    }
+  },
+  "agent": {
+    "plan": {
+      "description": "Plan changes without modifying files",
+      "mode": "primary",
+      "permission": {
+        "edit": "ask",
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow"
+        },
+        "webfetch": "allow"
+      }
+    },
+    "code-reviewer": {
+      "description": "Review changes for correctness, maintainability, and safety",
+      "mode": "subagent",
+      "prompt": "You are a code reviewer. Focus on correctness, edge cases, readability, API compatibility, and regression risk. Prefer concise findings. Do not modify files.",
+      "permission": {
+        "edit": "deny",
+        "webfetch": "deny",
+        "bash": {
+          "*": "ask",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow"
+        }
+      }
+    }
+  }
+}

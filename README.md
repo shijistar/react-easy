@@ -2,7 +2,7 @@
 
 [English](./README.md) | [中文](./README.zh-CN.md) | [Changelog](./CHANGELOG.md)
 
-> A toolkit that simplifies React and AntDesign development with powerful components and hooks
+> Practical React components, hooks, and utilities built around Ant Design.
 
 [![npm version](https://img.shields.io/npm/v/@tiny-codes/react-easy.svg)](https://www.npmjs.com/package/@tiny-codes/react-easy)
 [![npm bundle size](https://img.shields.io/bundlejs/size/@tiny-codes/react-easy?logo=javascript&label=Minzipped&color=44cc11&cacheSeconds=86400)](https://bundlephobia.com/result?p=@tiny-codes/react-easy)
@@ -10,249 +10,241 @@
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/shijistar/react-easy)
 ![GitHub License](https://img.shields.io/github/license/shijistar/react-easy?label=License)
 
-⬇️ &nbsp;&nbsp; [Introduction](#introduction) | [Installation](#installation) | [Usage](#usage) | [Compatibility](#compatibility) &nbsp;&nbsp; ⬇️
+## Overview
 
-## Introduction
+`@tiny-codes/react-easy` is a TypeScript React library that packages:
 
-Includes a series of React components, some of which are secondary encapsulations of AntDesign, helping you use the AntDesign component library more easily. In addition, it also includes some common Hooks and utility functions.
+- Ant Design oriented UI components for common product workflows
+- reusable hooks for state, validation, communication, and interaction
+- utility helpers for browser and Node-friendly data handling
 
-> The library is shipped in ECMAScript version `ES2016`
+Demo: https://shijistar.github.io/react-easy
+
+The library is published as:
+
+- CommonJS: `lib/`
+- ESM: `es/`
+- types: `lib/index.d.ts`
+
+Shipped JavaScript target: `ES2016`
+
+## Highlights
+
+- Global `ConfigProvider` with localization support and shared defaults
+- confirm / delete-confirm / modal action abstractions for repetitive dialogs
+- form-oriented helpers such as `withModalAction`, `EditableText`, and validation hooks
+- table and layout helpers such as `ColumnSetting`, `OverflowTags`, and `FloatDrawer`
+- communication hooks such as `useSSE` and `useStompSocket`
+- browser-friendly helpers for `base64`, crypto, strings, streams, and math
 
 ## Installation
 
-Install using npm:
+Install the package and required peer dependencies:
 
 ```bash
-npm install @tiny-codes/react-easy
+npm install @tiny-codes/react-easy react react-is antd i18next
 ```
 
-Install using pnpm:
+Or with other package managers:
 
 ```bash
-pnpm add @tiny-codes/react-easy
+pnpm add @tiny-codes/react-easy react react-is antd i18next
 ```
-
-Install using bun:
 
 ```bash
-bun add @tiny-codes/react-easy
+yarn add @tiny-codes/react-easy react react-is antd i18next
 ```
-
-Or using yarn:
 
 ```bash
-yarn add @tiny-codes/react-easy
-```
-
-## Usage
-
-### ConfigProvider
-
-You can use `ConfigProvider` to provide a global configuration for the components.
-
-```jsx
-import { ConfigProvider } from '@tiny-codes/react-easy';
-import { useTranslation } from 'react-i18next';
-
-const { t } = useTranslation();
-
-<ConfigProvider
-  localize={t}
-  defaultConfirmTitle="common.confirm"
-  defaultConfirmContent="common.confirm.content"
-  defaultDeletionConfirmTitle="common.confirm"
-  defaultDeletionConfirmContent="common.confirmDeleteValue"
->
-  <App />
-</ConfigProvider>;
-```
-
-In the example above, the `localize` function uses `react-i18next`, you can also use other internationalization libraries, or directly pass in a custom function that satisfies your internationalization solution.
-
-`defaultConfirmTitle` and `defaultConfirmContent` are the default confirmation box title and content, `defaultDeletionConfirmTitle` and `defaultDeletionConfirmContent` are the default deletion confirmation box title and content. You can use the key of the internationalization resource, or use plain text if you don't consider internationalization.
-
-### ConfirmAction (Confirm box)
-
-```jsx
-import { ConfirmAction } from '@tiny-codes/react-easy';
-
-<ConfirmAction.Button title="Are you sure?" content="This action cannot be undone!" onOk={handleTurnOff}>
-  Turn off
-</ConfirmAction.Button>;
-```
-
-With the default values of `ConfigProvider`, you can simplify the code further:
-
-```jsx
-<ConfirmAction.Button onOk={handleTurnOff}>Turn off</ConfirmAction.Button>
-```
-
-### DeleteConfirmAction (Deletion confirm box)
-
-```jsx
-import { DeleteConfirmAction } from '@tiny-codes/react-easy';
-
-<DeleteConfirmAction.Button title="Are you sure?" content="This action cannot be undone!" onOk={handleDelete}>
-  Delete
-</DeleteConfirmAction.Button>;
-```
-
-With the default values of `ConfigProvider`, you can simplify the code further:
-
-```jsx
-<DeleteConfirmAction.Button onOk={handleDelete}>Delete</DeleteConfirmAction.Button>
-```
-
-### ModalAction (Modal box)
-
-```jsx
-import { ModalAction } from '@tiny-codes/react-easy';
-
-<ModalAction.Button title="Edit" onOk={handleEdit}>
-  Edit
-</ModalAction.Button>;
-```
-
-### withModalAction
-
-This is a higher-order component that wraps a form component into a modal, and when you click the button to display the modal, the content of the modal is the form component, which is used to edit data.
-
-_**form.tsx**_
-
-```jsx
-import { withModalAction, FormCompPropsConstraint } from '@tiny-codes/react-easy';
-
-type FormProps = { data?: FormData }; // Form component properties
-type FormData = { name: string; age: number; } // Form binding data
-
-const EditForm: React.FC<FormProps & FormCompPropsConstraint<FormData>> = (props) => {
-  // The form instance is automatically injected by withModalAction, do not create the form instance yourself
-  // onSave is to pass the submission function to withModalAction, which is called when the user clicks the OK button
-  const { data, form, onSave } = props;
-
-  // 3. Click the OK button to save the form data
-  const handleSubmit = useRefFunction(async (values: FormData) => {
-    await axios.put('/api/edit', values);
-  });
-
-  // 1. Register save event
-  useEffect(() => { onSave(handleSubmit); }, [onSave, handleSubmit]);
-
-  // 2. Bind form data
-  return (
-    <Form form={form} initialValues={data}>
-      <Form.Item name="name" label="Name"> <Input /> </Form.Item>
-      <Form.Item name="age" label="Age"> <InputNumber /> </Form.Item>
-    </Form>
-  );
-};
-
-export default withModalAction(EditForm);
-```
-
-_**app.tsx**_
-
-```jsx
-<EditModalAction>Edit</EditModalAction>
-```
-
-### useRefFunction
-
-`useRefFunction` is used to wrap a function into an immutable function, which is suitable for scenarios that need to be used in `useEffect`, avoiding repeated execution of useEffect due to changes in function references. Another common scenario is that multiple variables are used in useEffect, but only one variable needs to be monitored in practice. We may have to use multiple `useRef` to save those other variables so that they do not appear in the dependency array of useEffect. At this time, we can use `useRefFunction` to solve this problem.
-
-`useRefFunction` returns an immutable function, the reference of this function is immutable throughout the lifecycle of the component, but the variables used inside are real-time changes.
-
-```jsx
-import { useRefFunction } from '@tiny-codes/react-easy';
-
-const Foo: React.FC<{ value: string; }> = (props) => {
-  const printValue = useRefFunction(() => {
-    // The value here changes in real time, but the reference of printValue is stable and unchanged
-    console.log(props.value);
-  });
-
-  useEffect(() => {
-    const timer = setInterval(() => { printValue(); }, 1000);
-    return () => { clearInterval(timer); };
-  }, [printValue])
-
-  return null;
-};
-```
-
-### useValidators
-
-`useValidators` is used to get some built-in validator rules or build a custom rule.
-
-```jsx
-import { useValidators } from '@tiny-codes/react-easy';
-import { Form } from 'antd';
-
-const { number, email, code } = useValidators();
-
-<Form>
-  <Form.Item name="number" rules={[{ validator: number }]}>
-    <Input />
-  </Form.Item>
-  <Form.Item name="email" rules={[{ validator: email }]}>
-    <Input />
-  </Form.Item>
-  <Form.Item name="code" rules={[{ validator: code }]}>
-    <Input />
-  </Form.Item>
-</Form>;
-```
-
-### useValidator
-
-`useValidator` is used to build a custom validator rule.
-
-```jsx
-import { useValidator } from '@tiny-codes/react-easy';
-
-const validator = useValidator({
-  allowed: {
-    number: true,
-    letter: true,
-  },
-});
-
-<Form.Item name="letterAndNumberOnly" rules={[{ validator }]}>
-  <Input />
-</Form.Item>;
-```
-
-### useValidatorBuilder
-
-`useValidatorBuilder` is used to get a function that builds a custom validator rule.
-
-```jsx
-import { useValidatorBuilder } from '@tiny-codes/react-easy';
-
-const build = useValidatorBuilder();
-
-const validator = build({
-  allowed: {
-    number: true,
-    letter: true,
-  },
-});
+bun add @tiny-codes/react-easy react react-is antd i18next
 ```
 
 ## Compatibility
 
 - `react` >= 16.8.0
-- `react-is` >= 16.8.0 _(Should be consistent with react)_
+- `react-is` >= 16.8.0
 - `antd` >= 5.1.0
+- `i18next` >= 8.4.0
 
-> To support different versions of npm dependencies, we use `peerDependencies` in the package.json declaration instead of `dependencies`, which requires you to explicitly install these dependencies in your project and ensure that they meet the version requirements. If these dependencies are not installed in the project, it may cause the installation of `@tiny-codes/react-easy` to fail.
->
-> The ECMAScript version of shipped codes is `ES2016`, please ensure that your bundler tool supports this version
+Notes:
 
+- Peer dependencies must be installed by the consuming app.
+- Output code targets `ES2016`, so your bundler/runtime should support it.
+
+## Quick Start
+
+Click [https://shijistar.github.io/react-easy](https://shijistar.github.io/react-easy) to see all features in action.
+
+### 1. Wrap your app
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+import { useTranslation } from 'react-i18next';
+
+function Root() {
+  const { t, i18n } = useTranslation();
+
+  return (
+    <ConfigProvider
+      lang={i18n.language}
+      localize={t}
+      defaultConfirmTitle="common.confirm"
+      defaultConfirmContent="common.confirm.content"
+      defaultDeletionConfirmTitle="common.deleteConfirm"
+      defaultDeletionConfirmContent="common.deleteConfirm.content"
+    >
+      <App />
+    </ConfigProvider>
+  );
+}
 ```
 
+### 2. Use action components
+
+```tsx
+import { ConfirmAction, DeleteConfirmAction } from '@tiny-codes/react-easy';
+
+function DangerZone() {
+  return (
+    <>
+      <ConfirmAction.Button onOk={() => console.log('confirmed')}>Enable feature</ConfirmAction.Button>
+      <DeleteConfirmAction.Button onOk={() => console.log('deleted')}>Delete item</DeleteConfirmAction.Button>
+    </>
+  );
+}
 ```
 
+### 3. Turn a form into a modal action
+
+```tsx
+import { type FormCompPropsConstraint, withModalAction } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+type User = { name: string };
+type UserFormProps = { data?: User };
+
+function UserForm(props: UserFormProps & FormCompPropsConstraint<User>) {
+  const { form, data, onSave } = props;
+
+  onSave(async (values) => {
+    await api.save(values);
+  });
+
+  return (
+    <Form form={form} initialValues={data}>
+      <Form.Item name="name" label="Name">
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
+
+const UserModalAction = withModalAction(UserForm);
 ```
 
+### 4. Use stable callback and validator hooks
+
+```tsx
+import { useRefFunction, useValidators } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+function Demo() {
+  const { email, codeMax20 } = useValidators();
+  const handleSubmit = useRefFunction(() => {
+    console.log('stable callback');
+  });
+
+  return (
+    <Form onFinish={handleSubmit}>
+      <Form.Item name="email" rules={[{ validator: email }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item name="code" rules={[codeMax20]}>
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
 ```
+
+## Exported API
+
+### Components
+
+- `BreakLines`
+- `ColumnSetting`
+- `ConfigProvider`
+- `ConfirmAction`
+- `ContextMenu`
+- `DeleteConfirmAction`
+- `EditableText`
+- `EllipsisParagraph`
+- `EllipsisText`
+- `EllipsisTitle`
+- `EllipsisLink`
+- `FloatDrawer`
+- `FormItemControl`
+- `Iconfont`
+- `Loading`
+- `ModalAction`
+- `OverflowTags`
+- `PulseAnimation`
+
+### Hooks
+
+- `useAudioPlayer`
+- `useDebounce`
+- `useLocalStorage`
+- `useMovable`
+- `useProcessingText`
+- `useRefFunction`
+- `useRefValue`
+- `useRowSelection`
+- `useSplitter`
+- `useSSE`
+- `useStompSocket`
+- `useUserMedia`
+- `useValidators`
+- `useValidator`
+- `useValidatorBuilder`
+
+### Utilities
+
+- `AudioPlayer`
+- `base64`
+- `color`
+- `crypto`
+- `math`
+- `stream`
+- `string`
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Common commands:
+
+```bash
+npm run build
+npm run build-core
+npm run storybook
+npm run build-storybook
+npx tsc -p tsconfig.json --noEmit
+npx eslint src .storybook scripts --ext .ts,.tsx,.js,.jsx
+npx prettier . --check
+```
+
+Notes for contributors:
+
+- Source code lives in `src/`.
+- `lib/` and `es/` are generated outputs.
+- Storybook is the main local playground for components and docs.
+- Jest is installed, but this repository may not always contain committed test files/config.
+
+## License
+
+[MIT](./LICENSE)
