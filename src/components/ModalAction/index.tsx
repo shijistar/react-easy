@@ -4,6 +4,7 @@ import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import { isForwardRef } from 'react-is';
+import { useRefValue } from '../../hooks';
 import useContextValidator from '../../hooks/useContextValidator';
 import ReactEasyContext from '../ConfigProvider/context';
 
@@ -38,11 +39,25 @@ export type ModalActionProps<
      *   `SubmitWithoutClosingSymbol` can prevent the dialog from closing, return other values will
      *   be passed to the `afterOk` event, if any
      * - **CN:** 点击确认按钮的回调，支持异步保存，返回`SubmitWithoutClosingSymbol`可以阻止弹框关闭，返回其他值会传递给`afterOk`事件，如果有的话
+     *
+     * @param formData The form data | 表单数据
+     * @param args The arguments passed from the trigger event | 触发事件传递的参数
+     * @param extra Additional information, such as the result of `onBeforeOpen` |
+     *   额外信息，例如`onBeforeOpen`的返回结果
      */
     onOk?: (
       formData: FormData,
-      // @ts-expect-error: because TP[E] should be a function type
-      ...args: Parameters<TriggerProp[Event]>
+      ...args: [
+        // @ts-expect-error: because TP[E] should be a function type
+        ...Parameters<TriggerProp[Event]>,
+        extra: {
+          /**
+           * - **EN:** The result of `onBeforeOpen` callback
+           * - **CN:** `onBeforeOpen`回调的返回结果
+           */
+          beforeOpenResult?: unknown;
+        },
+      ]
     ) => unknown | Promise<unknown>;
     /**
      * - **EN:** The callback after the confirmation event is completed, it will not be triggered when
@@ -153,6 +168,11 @@ export interface ModalActionTrigger<
    * - **CN:** 自定义触发器内容
    */
   children?: ReactNode;
+  /**
+   * - **EN:** Callback before opening the confirm box, if it throws an error, the dialog won't open
+   * - **CN:** 弹框打开前的回调，如果报错则不会打开弹窗
+   */
+  onBeforeOpen?: () => Promise<unknown> | unknown;
 }
 // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
 export type ModalActionRef<R = {}, FormData extends object = any> = R & {
@@ -195,6 +215,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       afterOk,
       onCancel,
       afterClose,
+      onBeforeOpen,
       children,
       ...restProps
     } = mergedProps;
@@ -207,11 +228,11 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     const [isSaving, setIsSaving] = useState(false);
     const [formCompRef, setFormCompRef] = useState<Ref | null>(null);
     const [form, setForm] = useState<FormInstance<FormData>>();
-    const formRef = useRef<FormInstance<FormData>>(form);
-    formRef.current = form;
-    const destroyOnCloseRef = useRef(destroyOnClose);
-    destroyOnCloseRef.current = destroyOnClose || destroyOnHidden;
+    const formRef = useRefValue(form);
+    const onBeforeOpenRef = useRefValue(onBeforeOpen);
+    const destroyOnCloseRef = useRefValue(destroyOnClose || destroyOnHidden);
     const openListenerRef = useRef<ModalProps['afterOpenChange']>(undefined);
+    const beforeOpenResultRef = useRef<unknown>(undefined);
 
     // Listen to the open props changes
     useEffect(() => {
@@ -239,9 +260,16 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     }, [showInProps, formProps]);
 
     // Show the dialog
-    const showModal = useCallback(() => {
-      setOpen(true);
-      openListenerRef.current?.(true);
+    const showModal = useCallback(async () => {
+      try {
+        const result = await onBeforeOpenRef.current?.();
+        beforeOpenResultRef.current = result;
+        setOpen(true);
+        openListenerRef.current?.(true);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }, []);
     // Hide the dialog
     const hideModal = useCallback(() => {
@@ -283,9 +311,9 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
             // Trigger event
             {...((triggerEvent
               ? {
-                  [triggerEvent]: (...args: any[]) => {
+                  [triggerEvent]: async (...args: any[]) => {
                     triggerEventArgsRef.current = args;
-                    showModal();
+                    await showModal();
                     if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
                       (triggerProps[triggerEvent] as (...args: any[]) => void)(...args);
                     }
@@ -334,7 +362,13 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
               // Then call onOk of the dialog, support asynchronous, and will pass the return value of onSave, if any
               if (onOk) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                result = await onOk((result as FormData) ?? formData, ...((triggerEventArgsRef.current ?? []) as any));
+                result = await onOk(
+                  (result as FormData) ?? formData,
+                  ...((triggerEventArgsRef.current ?? []).concat({
+                    beforeOpenResult: beforeOpenResultRef.current,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  }) as any)
+                );
               }
               // onOk also has the ability to prevent the dialog from closing
               if (result === SubmitWithoutClosingSymbol) {

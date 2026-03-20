@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.10
+
+2026-3-20
+
+### Features
+
+- **ConfirmAction**, **ModalAction**
+  - ✨ Add `onBeforeOpen` callback to execute logic before opening the modal, or prevent it from opening by throwing an error.
+
 ## 1.7.9
 
 2026-3-18

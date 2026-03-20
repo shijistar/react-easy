@@ -47,9 +47,24 @@ export type ConfirmActionProps<TriggerProp extends object, Event extends keyof T
     /**
      * - **EN:** Callback when click confirm button
      * - **CN:** 点击确认按钮的回调
+     *
+     * @param args The arguments passed from the trigger event | 触发事件传递的参数
+     * @param extra Additional information, such as the result of `onBeforeOpen` |
+     *   额外信息，例如`onBeforeOpen`的返回结果
      */
-    // @ts-expect-error: because TriggerProp[Event] should be casted to function type
-    onOk?: (...args: Parameters<TriggerProp[Event]>) => unknown | Promise<unknown>;
+    onOk?: (
+      ...args: [
+        // @ts-expect-error: because TriggerProp[Event] should be casted to function type
+        ...Parameters<TriggerProp[Event]>,
+        extra: {
+          /**
+           * - **EN:** The result of `onBeforeOpen` callback
+           * - **CN:** `onBeforeOpen`回调的返回结果
+           */
+          beforeOpenResult?: unknown;
+        },
+      ]
+    ) => unknown | Promise<unknown>;
     /**
      * - **EN:** Callback after confirm event, won't trigger if failed, the argument is the return
      *   value of `onOk`
@@ -85,6 +100,11 @@ export interface ConfirmActionTrigger<TriggerProp extends object, Event extends 
    * - **CN:** 自定义触发器内容
    */
   children?: ReactNode;
+  /**
+   * - **EN:** Callback before opening the confirm box, if it throws an error, the dialog won't open
+   * - **CN:** 弹框打开前的回调，如果报错则不会打开弹窗
+   */
+  onBeforeOpen?: () => Promise<unknown> | unknown;
 }
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type ConfirmActionRef<R = {}> = R &
@@ -191,6 +211,7 @@ export const genRenderer = (
       cancelButtonProps,
       onOk,
       afterOk,
+      onBeforeOpen,
       children,
       ...restProps
     } = mergedProps;
@@ -220,7 +241,7 @@ export const genRenderer = (
     };
 
     // Show confirm box
-    const showConfirm: ConfirmActionRef['show'] = useRefFunction(() => {
+    const showConfirm = useRefFunction((beforeOpenResult: unknown): ReturnType<ModalFunc> => {
       const okProps: ButtonProps = {
         ...(danger ? { type: 'primary', danger: true } : {}),
         ...(okButtonProps ?? {}),
@@ -249,7 +270,13 @@ export const genRenderer = (
                 ...cancelProps,
               },
             });
-            const result = await onOk?.(...((triggerEventArgsRef.current ?? []) as Parameters<typeof onOk>));
+            const result = await onOk?.(
+              ...((triggerEventArgsRef.current ?? []).concat([
+                {
+                  beforeOpenResult,
+                },
+              ]) as Parameters<NonNullable<typeof onOk>>)
+            );
             afterOk?.(result);
           } finally {
             api.update({
@@ -281,11 +308,16 @@ export const genRenderer = (
         // Trigger event
         {...((triggerEvent
           ? {
-              [triggerEvent]: (...args: any[]) => {
+              [triggerEvent]: async (...args: any[]) => {
                 triggerEventArgsRef.current = args;
-                const api = showConfirm();
-                if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
-                  (triggerProps[triggerEvent] as (...args: any[]) => void)(...args, { api });
+                try {
+                  const result = await onBeforeOpen?.();
+                  const api = showConfirm(result);
+                  if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
+                    (triggerProps[triggerEvent] as (...args: any[]) => void)(...args, { api });
+                  }
+                } catch (error) {
+                  // Handle error if needed
                 }
               },
             }
