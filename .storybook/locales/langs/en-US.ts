@@ -59,6 +59,9 @@ const enUS = {
   'storybook.stories.ModalAction.actions.create': 'Create',
   'storybook.stories.ModalAction.actions.edit': 'Edit',
   'storybook.stories.ModalAction.userInfo': 'User info: {{name}} ({{email}})',
+  'storybook.stories.OverflowTags.maxCountSummary': '"responsive"',
+  'storybook.stories.OverflowTags.guide':
+    'Tips: please adjust the page width to be smaller than the content width to see the responsive effect.',
   'storybook.stories.OverflowTags.tags.react': 'React',
   'storybook.stories.OverflowTags.tags.typescript': 'TypeScript',
   'storybook.stories.OverflowTags.tags.antDesign': 'Ant Design',
@@ -66,6 +69,11 @@ const enUS = {
   'storybook.stories.OverflowTags.tags.hooks': 'Hooks',
   'storybook.stories.OverflowTags.tags.hoc': 'HOC',
   'storybook.stories.OverflowTags.tags.utilities': 'Utilities',
-  'storybook.stories.OverflowTags.maxCountSummary': '"responsive"',
+  'storybook.stories.OverflowTags.tags.other': 'Other',
+  'storybook.stories.OverflowTags.tags.newTag': 'New Tag',
+  'storybook.stories.OverflowTags.tags.anotherTag': 'Another Tag',
+  'storybook.stories.OverflowTags.tags.yetAnotherTag': 'Yet Another Tag',
+  'storybook.stories.OverflowTags.tags.finalTag': 'Final Tag',
+  'storybook.stories.OverflowTags.tags.extraTag': 'Extra Tag',
 } as const;
 export default enUS;

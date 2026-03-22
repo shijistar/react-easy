@@ -59,6 +59,8 @@ const zhCN = {
   'storybook.stories.ModalAction.actions.create': '创建',
   'storybook.stories.ModalAction.actions.edit': '编辑',
   'storybook.stories.ModalAction.userInfo': '用户信息：{{name}} ({{email}})',
+  'storybook.stories.OverflowTags.maxCountSummary': '"responsive"',
+  'storybook.stories.OverflowTags.guide': '小提示：请调整页面宽度小于内容宽度，以查看响应式效果。',
   'storybook.stories.OverflowTags.tags.react': 'React',
   'storybook.stories.OverflowTags.tags.typescript': 'TypeScript',
   'storybook.stories.OverflowTags.tags.antDesign': 'Ant Design',
@@ -66,6 +68,11 @@ const zhCN = {
   'storybook.stories.OverflowTags.tags.hooks': 'Hooks',
   'storybook.stories.OverflowTags.tags.hoc': 'HOC',
   'storybook.stories.OverflowTags.tags.utilities': 'Utilities',
-  'storybook.stories.OverflowTags.maxCountSummary': '"responsive"',
+  'storybook.stories.OverflowTags.tags.other': 'Other',
+  'storybook.stories.OverflowTags.tags.newTag': 'New Tag',
+  'storybook.stories.OverflowTags.tags.anotherTag': 'Another Tag',
+  'storybook.stories.OverflowTags.tags.yetAnotherTag': 'Yet Another Tag',
+  'storybook.stories.OverflowTags.tags.finalTag': 'Final Tag',
+  'storybook.stories.OverflowTags.tags.extraTag': 'Extra Tag',
 } as const;
 export default zhCN;

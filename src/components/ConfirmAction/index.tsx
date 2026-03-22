@@ -200,6 +200,7 @@ export const genRenderer = (
       triggerComponent: Trigger = Button,
       triggerEvent = 'onClick' as Event,
       triggerProps,
+      type = 'confirm',
       danger,
       title,
       content,
@@ -249,10 +250,11 @@ export const genRenderer = (
       const cancelProps: ButtonProps = {
         ...(cancelButtonProps ?? {}),
       };
-      const api = modal.confirm({
-        title: coloredText(title, titleColor ?? fallbackColor ?? 'warning'),
+      const showApi = modal[type === 'warn' ? 'warning' : type];
+      const api = showApi({
+        title: coloredText(title, titleColor ?? fallbackColor ?? (type === 'confirm' ? 'warning' : undefined)),
         content: coloredText(content, contentColor),
-        icon: coloredText(icon, iconColor ?? fallbackColor ?? 'warning'),
+        icon: coloredText(icon, iconColor ?? fallbackColor ?? (type === 'confirm' ? 'warning' : undefined)),
         autoFocusButton: null,
         closable: true,
         okButtonProps: okProps,

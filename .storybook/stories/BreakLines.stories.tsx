@@ -11,7 +11,7 @@ const meta: Meta<typeof BreakLines> = {
     EOL: '\n',
     tagName: 'div',
     className: '',
-  } satisfies Partial<BreakLinesProps>,
+  },
   argTypes: {},
 };
 type BreakLinesStoryArgs = BreakLinesProps;

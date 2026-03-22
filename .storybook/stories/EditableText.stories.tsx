@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import EditableText, { type EditableTextProps } from '../../src/components/EditableText';
 import { storyT } from '../locales';
 
@@ -11,6 +12,10 @@ const meta: Meta<EditableTextProps> = {
     editing: false,
     required: false,
     textComp: 'Text',
+    onChange: fn(),
+    onOk: fn(),
+    onCancel: fn(),
+    onEditingChange: fn(),
   },
   argTypes: {},
 };

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ButtonProps, SwitchProps } from 'antd';
 import { App as AntdApp } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
+import { fn } from 'storybook/test';
 import type { ConfirmActionProps } from '../../src/components/ConfirmAction';
 import DeleteConfirmAction from '../../src/components/DeleteConfirmAction';
 import { storyT } from '../locales';
@@ -17,12 +18,29 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
   args: {
     triggerType: 'Button',
     triggerProps: {
+      type: 'primary',
+      shape: 'default',
+      size: 'middle',
+      ghost: false,
+      loading: false,
+      danger: false,
+      block: false,
       children: storyT('storybook.stories.DeleteConfirmAction.args.triggerChildren'),
     },
     title: storyT('storybook.stories.DeleteConfirmAction.args.title'),
     content: storyT('storybook.stories.DeleteConfirmAction.args.content'),
     okText: storyT('storybook.stories.DeleteConfirmAction.args.okText'),
     cancelText: storyT('storybook.stories.DeleteConfirmAction.args.cancelText'),
+    width: 416,
+    closable: true,
+    mask: true,
+    maskClosable: false,
+    danger: false,
+    onOk: fn(),
+    onCancel: fn(),
+    afterOpenChange: fn(),
+    afterClose: fn(),
+    afterOk: fn(),
   },
   argTypes: {
     triggerType: {

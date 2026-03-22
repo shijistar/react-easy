@@ -2,6 +2,7 @@ import { type ComponentType, type FC, type RefAttributes, useState } from 'react
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ButtonProps, Form, Input, message, Space, type SwitchProps } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
+import { fn } from 'storybook/test';
 import type { FormCompPropsConstraint, ModalActionProps } from '../../src/components/ModalAction';
 import { withModalAction } from '../../src/components/ModalAction';
 import { storyT, useStoryT } from '../locales';
@@ -54,9 +55,25 @@ const meta: Meta<ModalActionStoryArgs> = {
   args: {
     title: storyT('storybook.stories.ModalAction.args.title'),
     triggerType: 'Button',
+    triggerProps: {
+      type: 'default',
+      shape: 'default',
+      size: 'middle',
+      ghost: false,
+      loading: false,
+      danger: false,
+      block: false,
+    },
     width: 520,
-    destroyOnClose: true,
+    closable: true,
+    mask: true,
     maskClosable: false,
+    destroyOnClose: true,
+    onOk: fn(),
+    onCancel: fn(),
+    afterOpenChange: fn(),
+    afterClose: fn(),
+    afterOk: fn(),
   },
   argTypes: {
     triggerType: {

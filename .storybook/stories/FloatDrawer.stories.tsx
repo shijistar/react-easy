@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import FloatDrawer from '../../src/components/FloatDrawer';
 import { storyT, useStoryT } from '../locales';
 
@@ -17,6 +18,9 @@ const meta: Meta<typeof FloatDrawer> = {
     cardProps: {
       title: storyT('storybook.stories.FloatDrawer.args.cardTitle'),
     },
+    onClick: fn(),
+    onOpenChange: fn(),
+    onResize: fn(),
   },
   argTypes: {},
   render: function Render(args) {

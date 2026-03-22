@@ -10,9 +10,9 @@ const meta: Meta<typeof PulseAnimation> = {
     duration: 1.6,
     delayRate: 0.09,
     barColor: '#1677ff',
+    style: { width: 240, height: 64 },
   },
   argTypes: {},
-  render: (args) => <PulseAnimation {...args} style={{ width: 240, height: 64, ...args.style }} />,
 };
 
 export default meta;

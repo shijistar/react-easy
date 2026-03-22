@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { action } from 'storybook/actions';
 import ColumnSetting from '../../src/components/ColumnSetting';
 import type { ColumnSettingItem, ColumnSettingProps } from '../../src/components/ColumnSetting';
 import { storyT, useStoryT } from '../locales';
 
-const meta: Meta<ColumnSettingStoryArgs> = {
+const meta: Meta<ColumnSettingProps> = {
   title: 'Components/ColumnSetting',
   component: ColumnSetting,
   args: {
@@ -17,10 +18,10 @@ const meta: Meta<ColumnSettingStoryArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<ColumnSettingStoryArgs>;
+type Story = StoryObj<ColumnSettingProps>;
 
 export const Playground: Story = {
-  render: function Render(args: ColumnSettingStoryArgs) {
+  render: function Render(args: ColumnSettingProps) {
     const t = useStoryT();
     const [columns, setColumns] = useState<ColumnSettingItem<User>[]>(() => buildBaseColumns(t));
     const data: User[] = useMemo(
@@ -67,7 +68,10 @@ export const Playground: Story = {
           <ColumnSetting<ColumnSettingItem<User>>
             columns={columns}
             storageKey={args.storageKey}
-            onChange={setColumns}
+            onChange={(cols) => {
+              setColumns(cols);
+              action('onChange')(cols);
+            }}
             triggerProps={{ children: t('storybook.stories.ColumnSetting.trigger') }}
           />
         </div>
@@ -84,7 +88,6 @@ interface User {
   city: string;
   role: string;
 }
-type ColumnSettingStoryArgs = ColumnSettingProps;
 
 function buildBaseColumns(t: ReturnType<typeof useStoryT>): ColumnSettingItem<User>[] {
   return [
