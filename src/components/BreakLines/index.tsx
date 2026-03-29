@@ -37,12 +37,15 @@ export interface BreakLinesProps {
 }
 
 /**
- * - **EN:** Output a piece of text, keeping line breaks
- * - **CN:** 输出一段文本，保留换行符
+ * - **EN:** Renders plain text with preserved line breaks by splitting with a configurable EOL marker
+ *   and output tag.
+ * - **CN:** 按指定换行符拆分文本并保留换行展示，可自定义输出标签。
  *
  * @example
  *   <BreakLines value="hello \n world" />;
  *   // hello <br/> world
+ *
+ * @summary for user interactions that do not navigate to another route
  */
 const BreakLines: FC<BreakLinesProps> = (props) => {
   const { value, className, tagName = false, enabled = true, EOL = '\n' } = props;

@@ -10,6 +10,9 @@ import { storyT, useStoryT } from '../locales';
 const meta: Meta<ColumnSettingProps> = {
   title: 'Components/ColumnSetting',
   component: ColumnSetting,
+  parameters: {
+    docs: {},
+  },
   args: {
     storageKey: 'storybook:column-setting',
     columns: buildBaseColumns(storyT),

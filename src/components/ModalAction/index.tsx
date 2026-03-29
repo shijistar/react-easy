@@ -710,14 +710,16 @@ const addTriggers = <
 };
 
 /**
- * - **EN:** Dialog component with trigger
- * - **CN:** 带触发器的弹窗组件
+ * - **EN:** A dynamic form modal component that supports multiple trigger variants. It is ideal for
+ *   reusing the same form component in create and edit flows.
+ * - **CN:** 一个动态表单的弹窗组件，并支持多种触发器形态。非常适合在创建和编辑流程中复用同一个表单组件。
  */
 const ModalAction = addTriggers(forwardedModalAction);
 
 /**
- * - **EN:** Dialog component with trigger
- * - **CN:** 带触发器的弹窗组件
+ * - **EN:** A dynamic form modal component that supports multiple trigger variants. It is ideal for
+ *   reusing the same form component in create and edit flows.
+ * - **CN:** 一个动态表单的弹窗组件，并支持多种触发器形态。非常适合在创建和编辑流程中复用同一个表单组件。
  */
 export type ModalActionWithStatic = typeof ModalAction & {
   /**

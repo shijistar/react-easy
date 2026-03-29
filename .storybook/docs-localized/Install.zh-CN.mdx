@@ -1,0 +1,59 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Install (zh-CN)" />
+
+# 安装 @tiny-codes/react-easy
+
+## npm
+
+```bash
+npm install @tiny-codes/react-easy
+```
+
+## pnpm
+
+```bash
+pnpm add @tiny-codes/react-easy
+```
+
+## yarn
+
+```bash
+yarn add @tiny-codes/react-easy
+```
+
+## bun
+
+```bash
+bun add @tiny-codes/react-easy
+```
+
+## Peer Dependencies
+
+该库依赖宿主应用自行提供以下包：
+
+- `react` >= `16.8.0`
+- `react-is` >= `16.8.0`
+- `antd` >= `5.1.0`
+- `i18next` >= `8.4.0`
+
+## 运行时说明
+
+- 包同时暴露 `lib/` 与 `es/` 两种构建产物。
+- 类型声明发布在 `lib/index.d.ts`。
+- 输出目标为 `ES2016`，请确保运行环境或打包工具支持。
+
+## 本地开发
+
+```bash
+npm install
+npm run storybook
+```
+
+常用命令：
+
+```bash
+npm run build
+npm run build-storybook
+npx tsc -p tsconfig.json --noEmit
+```

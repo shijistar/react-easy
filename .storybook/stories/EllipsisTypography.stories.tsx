@@ -9,6 +9,22 @@ const longText = storyT('storybook.stories.EllipsisTypography.longText');
 
 const meta: Meta = {
   title: 'Components/EllipsisTypography',
+  parameters: {
+    docs: {
+      description: {
+        component: `- **EN:** A set of typography wrapper components with ellipsis capabilities, covering text, paragraph, title, and link variants.
+When the text overflows, the ellipsis effect is displayed; if the text does not overflow, the tooltip is not shown.
+- **CN:** 一组带省略能力的排版封装组件，覆盖文本、段落、标题和链接几种形态。在文本溢出时显示省略效果，如果文本没有溢出，则不显示tooltip。`,
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ margin: '0 auto', border: '1px dashed #d54305', padding: 12 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
@@ -19,10 +35,17 @@ type EllipsisTitleStory = StoryObj<typeof EllipsisTitleComponent>;
 type EllipsisLinkStory = StoryObj<typeof EllipsisLinkComponent>;
 
 export const EllipsisText: EllipsisTextStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Single-line text ellipsis example.
+- **CN:** 单行文本省略示例。`,
+      },
+    },
+  },
   args: {
     text: longText,
     ellipsis: true,
-    style: { maxWidth: 260, display: 'inline-block' },
   },
   argTypes: {
     text: {
@@ -36,10 +59,17 @@ export const EllipsisText: EllipsisTextStory = {
 };
 
 export const EllipsisParagraph: EllipsisParagraphStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Multi-line paragraph ellipsis with tooltip support.
+- **CN:** 支持 tooltip 的多行段落省略示例。`,
+      },
+    },
+  },
   args: {
     text: longText,
     ellipsis: { rows: 2, tooltip: true },
-    style: { maxWidth: 320 },
   },
   argTypes: {
     text: {
@@ -59,11 +89,19 @@ export const EllipsisParagraph: EllipsisParagraphStory = {
 };
 
 export const EllipsisTitle: EllipsisTitleStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Heading ellipsis example with configurable title level.
+- **CN:** 支持标题层级配置的标题省略示例。`,
+      },
+    },
+  },
   args: {
     text: longText,
     level: 4,
     ellipsis: { tooltip: { title: true } },
-    style: { maxWidth: 320, margin: 0 },
+    style: { margin: 0 },
   },
   argTypes: {
     text: {
@@ -90,11 +128,18 @@ export const EllipsisTitle: EllipsisTitleStory = {
 };
 
 export const EllipsisLink: EllipsisLinkStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Link ellipsis example for long URLs or labels.
+- **CN:** 适用于长链接文本或长链接标签的省略示例。`,
+      },
+    },
+  },
   args: {
     text: longText,
     href: 'https://github.com/shijistar/react-easy',
     ellipsis: true,
-    style: { maxWidth: 260, display: 'inline-block' },
   },
   argTypes: {
     text: {

@@ -67,10 +67,10 @@ export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem
 }
 
 /**
- * - **EN:** Overflow tags component, used to display a collection of tags that can overflow and be
- *   truncated. It supports displaying tags in a dropdown when the number of tags exceeds the
- *   maximum display count. It also supports custom tag rendering and properties.
- * - **CN:** 溢出标签组件，用于显示一组可以溢出和截断的标签集合。当标签数量超过最大显示数量时，支持在下拉菜单中显示标签。还支持自定义标签渲染和属性。
+ * - **EN:** Renders a tag collection with overflow collapsing, suitable for dense metadata or filter
+ *   summaries. When the number of tags exceeds the maximum count, an ellipsis tag will be
+ *   displayed, and custom tag rendering and properties are supported.
+ * - **CN:** 用于渲染可折叠溢出的标签集合，适合密集元信息或筛选条件摘要场景。 当标签数量超过最大数量时，会显示省略号标签，还支持自定义标签渲染和属性。
  *
  * @example
  *   <OverflowTags

@@ -5,6 +5,9 @@ import { storyT } from '../locales';
 const meta: Meta<typeof BreakLines> = {
   title: 'Components/BreakLines',
   component: BreakLines,
+  parameters: {
+    docs: {},
+  },
   args: {
     value: storyT('storybook.stories.BreakLines.args.value'),
     enabled: true,

@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduce (en-US)" />
+
+# ReactEasy
+
+Practical React components, hooks, and utilities built around Ant Design.
+
+`ReactEasy` is a TypeScript React library designed to reduce repeated UI and interaction work in Ant Design based applications.
+
+## Overview
+
+- Ant Design oriented components for common product workflows
+- reusable hooks for state, validation, communication, and interaction
+- browser and Node friendly utility helpers
+
+The package ships as:
+
+- CommonJS: `lib/`
+- ESM: `es/`
+- types: `lib/index.d.ts`
+
+The published JavaScript target is `ES2016`.
+
+## Highlights
+
+- `ConfigProvider` for localization and shared global defaults
+- `ConfirmAction`, `DeleteConfirmAction`, and `ModalAction` for repetitive dialogs
+- `EditableText`, `FormItemControl`, and `withModalAction` for form workflows
+- `ColumnSetting`, `OverflowTags`, and `FloatDrawer` for layout and table related interaction
+- `useSSE` and `useStompSocket` for communication scenarios
+- `base64`, `crypto`, `math`, `stream`, and `string` helpers for cross-runtime utility work
+
+## Installation
+
+Install the package together with its peer dependencies:
+
+```bash
+npm install @tiny-codes/react-easy
+```
+
+See the dedicated `Installation` page for alternative package managers and compatibility notes.
+
+## Compatibility
+
+- `react` >= `16.8.0`
+- `react-is` >= `16.8.0`
+- `antd` >= `5.1.0`
+- `i18next` >= `8.4.0`
+
+Notes:
+
+- Peer dependencies must be installed by the consuming app.
+- Your bundler or runtime should support `ES2016` output.
+
+## What You Can Explore Here
+
+- The docs pages explain setup and common usage patterns.
+- The component stories under `Components` show interactive examples and prop tables.
+- Use the top toolbar to switch language and preview theme while browsing stories.

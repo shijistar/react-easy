@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduce (zh-CN)" />
+
+# ReactEasy
+
+基于 Ant Design 的实用 React 组件、Hooks 与工具函数集合。
+
+`ReactEasy` 是一个 TypeScript React 组件库，目标是在基于 Ant Design 的项目中减少重复的 UI 与交互开发工作。
+
+## 概览
+
+- 面向常见业务流程的 Ant Design 组件封装
+- 覆盖状态管理、校验、通信与交互的可复用 Hooks
+- 同时适用于浏览器与 Node 环境的工具函数
+
+包产物包含：
+
+- CommonJS：`lib/`
+- ESM：`es/`
+- 类型声明：`lib/index.d.ts`
+
+发布的 JavaScript 目标为 `ES2016`。
+
+## 亮点
+
+- `ConfigProvider`：统一本地化与全局默认配置
+- `ConfirmAction`、`DeleteConfirmAction`、`ModalAction`：简化重复确认弹窗流程
+- `EditableText`、`FormItemControl`、`withModalAction`：提升表单相关开发效率
+- `ColumnSetting`、`OverflowTags`、`FloatDrawer`：覆盖布局与表格交互场景
+- `useSSE`、`useStompSocket`：支持实时通信相关场景
+- `base64`、`crypto`、`math`、`stream`、`string`：提供跨运行时通用工具方法
+
+## 安装
+
+安装主包即可：
+
+```bash
+npm install @tiny-codes/react-easy
+```
+
+可在 `Install` 页面查看更多包管理器安装方式与兼容性说明。
+
+## 兼容性
+
+- `react` >= `16.8.0`
+- `react-is` >= `16.8.0`
+- `antd` >= `5.1.0`
+- `i18next` >= `8.4.0`
+
+说明：
+
+- Peer dependencies 需要由接入方应用自行安装。
+- 运行环境或打包工具需支持 `ES2016` 产物。
+
+## 你可以在这里看到
+
+- 文档页会说明接入方式与常见使用模式。
+- `Components` 下的故事页提供可交互示例和参数表。
+- 通过顶部工具栏可切换语言与预览主题。

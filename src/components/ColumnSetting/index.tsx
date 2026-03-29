@@ -12,8 +12,8 @@ import useStyle from './style';
 
 export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingItem> {
   /**
-   * - **EN:** The columns to be displayed in the column setting.
-   * - **CN:** 列设置中要显示的列。
+   * - **EN:** Column definitions including visibility, ordering, and disabled state.
+   * - **CN:** 列定义集合，包含显示状态、排序位置和禁用信息。
    */
   columns: T[];
   /**
@@ -24,7 +24,7 @@ export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingI
   /**
    * - **EN:** Set a local storage key for persisting column settings. If not set, local storage is
    *   not enabled.
-   * - **CN:** 设置一个本地存储的键值，用于持久化保存列设置。如果未设置，则不启用本地存储。
+   * - **CN:** 设置一个本地存储的键名，用于持久化保存列设置。如果未设置，则不启用本地存储。
    */
   storageKey?: string;
   /**
@@ -65,8 +65,9 @@ export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingI
 }
 
 /**
- * - **EN:** A component for configuring table column visibility.
- * - **CN:** 用于配置表格列可见性的组件。
+ * - **EN:** Helps users manage table columns such as visibility and ordering, and can persist
+ *   preferences with a storage key.
+ * - **CN:** 用于管理表格列的显示与顺序，并可通过 storageKey 持久化用户偏好。
  */
 function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: ColumnSettingProps<T>) {
   const {

@@ -1,0 +1,55 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Get Started (en-US)" />
+
+# Get Started
+
+This page shows the typical integration flow for a project that already uses React, Ant Design, and i18next.
+
+## 1. Wrap Your App With ConfigProvider
+
+`ConfigProvider` supplies localization and default copy for confirmation style components.
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+import { ConfigProvider as AntdConfigProvider } from 'antd';
+
+function Root() {
+  return (
+    <AntdConfigProvider>
+      <ConfigProvider>
+        <App />
+      </ConfigProvider>
+    </AntdConfigProvider>
+  );
+}
+```
+
+## 2. Set Current Language
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+
+<ConfigProvider lang="zh-CN"></ConfigProvider>;
+```
+
+### 3. Set Global Default Configuration of Components
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+
+<ConfigProvider
+  ConfirmAction={{
+    title: 'Are you sure?',
+    content: 'This action cannot be undone.',
+    okText: 'Yes',
+    cancelText: 'No',
+  }}
+></ConfigProvider>;
+```
+
+## Next
+
+- Open the individual component stories to inspect props and live behavior.
+- Use the `Controls` panel to understand default values and supported options.
+- Switch the top toolbar language when you want to preview localized story content.

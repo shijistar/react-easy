@@ -35,17 +35,17 @@ export type LoadingProps = SpinProps & {
 };
 
 /**
- * **EN:** Page loading animation component, providing two usage methods:
+ * - **EN:** Displays a loading indicator that can work as an overlay or as a standalone visual state.
+ *   It provides two usage methods:
  *
- * - **Spin** - When the component wraps children, it wraps the `Spin` component around the children
- *   to provide animation effects.
- * - **Independent** - Directly render a loading animation that automatically fills the parent
- *   container and is centered.
+ *   - **Spin** - When the component wraps children, it wraps the `Spin` component around the children
+ *       to provide animation effects.
+ *   - **Independent** - Directly render a loading animation that automatically fills the parent
+ *       container and is centered.
+ * - **CN:** 用于展示加载状态，可作为覆盖层使用，也可单独作为视觉占位。提供两种使用方式：
  *
- * **CN:** 页面加载动画组件，提供两种使用方式：
- *
- * - **Spin** - 组件包裹children时，在children外层包裹 `Spin` 组件，提供动画效果。
- * - **独立使用** - 直接渲染一个加载动画，自动撑满父容器，且显示在居中位置。
+ *   - **Spin** - 组件包裹children时，在children外层包裹 `Spin` 组件，提供动画效果。
+ *   - **独立使用** - 直接渲染一个加载动画，自动撑满父容器，且显示在居中位置。
  *
  * @example
  *   1. Spin surrounding children

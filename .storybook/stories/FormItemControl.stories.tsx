@@ -13,6 +13,14 @@ export default meta;
 type Story = StoryObj<typeof FormItemControl>;
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Uses a Slider as a controlled field and mirrors the current form value below it.
+- **CN:** 使用 Slider 作为受控字段，并在下方同步展示当前表单值。`,
+      },
+    },
+  },
   render: function Render() {
     const t = useStoryT();
     return (

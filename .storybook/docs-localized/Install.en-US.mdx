@@ -1,0 +1,59 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Install (en-US)" />
+
+# Install @tiny-codes/react-easy
+
+## npm
+
+```bash
+npm install @tiny-codes/react-easy
+```
+
+## pnpm
+
+```bash
+pnpm add @tiny-codes/react-easy
+```
+
+## yarn
+
+```bash
+yarn add @tiny-codes/react-easy
+```
+
+## bun
+
+```bash
+bun add @tiny-codes/react-easy
+```
+
+## Peer Dependencies
+
+This library expects the host application to provide these packages:
+
+- `react` >= `16.8.0`
+- `react-is` >= `16.8.0`
+- `antd` >= `5.1.0`
+- `i18next` >= `8.4.0`
+
+## Runtime Notes
+
+- The package exposes both `lib/` and `es/` builds.
+- Types are published from `lib/index.d.ts`.
+- Output targets `ES2016`, so make sure your runtime or bundler supports it.
+
+## Local Development
+
+```bash
+npm install
+npm run storybook
+```
+
+Useful commands:
+
+```bash
+npm run build
+npm run build-storybook
+npx tsc -p tsconfig.json --noEmit
+```

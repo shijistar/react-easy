@@ -14,8 +14,9 @@ const renderDeleteConfirmAction = genRenderer({
 const forwarded = forwardRef(renderDeleteConfirmAction);
 
 /**
- * - **EN:** Delete operation confirmation box
- * - **CN:** 删除操作确认框
+ * - **EN:** Wraps a trigger component and opens a delete confirmation modal before executing the
+ *   action. Can switch between Button, Switch, and Link trigger types.
+ * - **CN:** 对触发器组件进行封装，在真正执行操作前弹出删除确认框，可切换 Button、Switch、Link 三种触发方式。
  */
 const DeleteConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
 /**

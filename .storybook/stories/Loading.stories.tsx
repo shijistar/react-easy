@@ -19,6 +19,14 @@ export default meta;
 type Story = StoryObj<typeof Loading>;
 
 export const Standalone: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Shows the loading overlay on top of a simple content container.
+- **CN:** 演示加载态叠加在普通内容容器之上的效果。`,
+      },
+    },
+  },
   args: {
     spinning: true,
   },

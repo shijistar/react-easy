@@ -9,8 +9,15 @@ type ConfigProviderStoryArgs = ConfigProviderProps;
 const meta: Meta<ConfigProviderStoryArgs> = {
   title: 'Components/ConfigProvider',
   component: ConfigProvider,
+  parameters: {
+    docs: {
+      description: {
+        component: `- **EN:** Provides shared configuration such as locale-aware copy and default action text for components in ReactEasy.
+- **CN:** 为ReactEasy提供共享配置，例如本地化文案和确认类组件的默认文本。`,
+      },
+    },
+  },
   args: {
-    lang: 'zh-CN',
     ConfirmAction: {
       title: storyT('storybook.stories.ConfigProvider.args.confirmTitle'),
       content: storyT('storybook.stories.ConfigProvider.args.confirmContent'),

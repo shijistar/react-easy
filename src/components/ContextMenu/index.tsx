@@ -42,7 +42,11 @@ export interface ContextMenuProps extends MenuProps {
    */
   prefixCls?: string;
 }
-// 上下文菜单组件
+/**
+ * - **EN:** Renders a configurable context menu with support for shortcuts, separators, and nested
+ *   submenu items.
+ * - **CN:** 提供可配置的右键菜单能力，支持快捷键、分隔线和嵌套子菜单。
+ */
 const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) => {
   const {
     id,

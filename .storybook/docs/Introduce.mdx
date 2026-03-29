@@ -1,13 +1,8 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-
-# Get started with react-easy
+import LocalizedDoc from '../components/LocalizedDoc';
+import IntroduceEN from '../docs-localized/Introduce.en-US.mdx';
+import IntroduceCN from '../docs-localized/Introduce.zh-CN.mdx';
 
 <Meta title="Introduce" />
 
-Introduce...
-
-## Overview
-
-## Installation
-
-## Compatibility
+<LocalizedDoc docEn={IntroduceEN} docCn={IntroduceCN} />

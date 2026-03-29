@@ -15,6 +15,14 @@ type ConfirmActionStoryArgs = ConfirmActionProps<ButtonProps, 'onClick'> & {
 
 const meta: Meta<ConfirmActionStoryArgs> = {
   title: 'Components/ConfirmAction',
+  parameters: {
+    docs: {
+      description: {
+        component: `- **EN:** Wraps a trigger component and opens a confirm-style modal before executing the action. Can switch between Button, Switch, and Link trigger types.
+- **CN:** 对触发器组件进行封装，在真正执行操作前弹出确认对话框，可切换 Button、Switch、Link 三种触发方式。`,
+      },
+    },
+  },
   args: {
     triggerType: 'Button',
     type: 'confirm',
@@ -72,12 +80,25 @@ const meta: Meta<ConfirmActionStoryArgs> = {
       table: { defaultValue: { summary: 'undefined' } },
     },
   },
+  subcomponents: {
+    Button: ConfirmAction.Button,
+    Switch: ConfirmAction.Switch,
+    Link: ConfirmAction.Link,
+  },
 };
 
 export default meta;
 type Story = StoryObj<ConfirmActionStoryArgs>;
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Switch between Button, Switch, and Link triggers to compare how the same confirm flow is exposed.
+- **CN:** 可切换 Button、Switch、Link 三种触发方式，对比相同确认流程的接入形式。`,
+      },
+    },
+  },
   render: function Render(args: ConfirmActionStoryArgs) {
     const { triggerType, ...props } = args;
 

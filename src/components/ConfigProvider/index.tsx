@@ -37,8 +37,8 @@ export interface ConfigProviderProps extends Omit<ReactEasyContextProps, 'getPre
 }
 
 /**
- * - **EN:** Provide global configuration for AntdHelper
- * - **CN:** 提供AntdHelper的全局配置
+ * - **EN:** Provide global configuration for ReactEasy
+ * - **CN:** 提供ReactEasy的全局配置
  */
 const ConfigProvider: FC<ConfigProviderProps> & { ConfigContext: typeof ReactEasyContext } = (props) => {
   const { children, locales: userLocales, prefixCls: prefixClsInProps, className, style, ...restProps } = props;

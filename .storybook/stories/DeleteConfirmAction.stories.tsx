@@ -15,6 +15,14 @@ type DeleteConfirmActionStoryArgs = ConfirmActionProps<object, never> & {
 
 const meta: Meta<DeleteConfirmActionStoryArgs> = {
   title: 'Components/DeleteConfirmAction',
+  parameters: {
+    docs: {
+      description: {
+        component: `- **EN:** Wraps a trigger component and opens a delete confirmation modal before executing the action. Can switch between Button, Switch, and Link trigger types.
+- **CN:** 对触发器组件进行封装，在真正执行操作前弹出删除确认框，可切换 Button、Switch、Link 三种触发方式。`,
+      },
+    },
+  },
   args: {
     triggerType: 'Button',
     triggerProps: {
@@ -59,6 +67,11 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
 - **CN:** 确认操作打开时自动获取焦点的按钮。`,
       table: { defaultValue: { summary: 'undefined' } },
     },
+  },
+  subcomponents: {
+    Button: DeleteConfirmAction.Button,
+    Switch: DeleteConfirmAction.Switch,
+    Link: DeleteConfirmAction.Link,
   },
 };
 

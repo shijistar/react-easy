@@ -51,7 +51,14 @@ const UserModalAction = withModalAction<UserForm, UserFormProps, ButtonProps, 'o
 
 const meta: Meta<ModalActionStoryArgs> = {
   title: 'Components/ModalAction',
-  component: UserModalAction,
+  parameters: {
+    docs: {
+      description: {
+        component: `- **EN:** A dynamic form modal component that supports multiple trigger variants. It is ideal for reusing the same form component in create and edit flows.
+- **CN:** 一个动态表单的弹窗组件，并支持多种触发器形态。非常适合在创建和编辑流程中复用同一个表单组件。`,
+      },
+    },
+  },
   args: {
     title: storyT('storybook.stories.ModalAction.args.title'),
     triggerType: 'Button',
@@ -91,6 +98,14 @@ export default meta;
 type Story = StoryObj<ModalActionStoryArgs>;
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `- **EN:** Demonstrates create and edit flows backed by the same form component and different trigger variants.
+- **CN:** 演示同一个表单组件在创建、编辑流程以及不同触发器形态下的复用方式。`,
+      },
+    },
+  },
   render: function Render(args: ModalActionStoryArgs) {
     const t = useStoryT();
     const { triggerType, ...props } = args;

@@ -1,0 +1,55 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Get Started (zh-CN)" />
+
+# 快速开始
+
+本页展示的是已经使用 React、Ant Design 和 i18next 的项目中的典型接入流程。
+
+## 1. 使用 ConfigProvider 包裹应用
+
+`ConfigProvider` 会为确认类组件提供本地化能力和默认文案配置。
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+import { ConfigProvider as AntdConfigProvider } from 'antd';
+
+function Root() {
+  return (
+    <AntdConfigProvider>
+      <ConfigProvider>
+        <App />
+      </ConfigProvider>
+    </AntdConfigProvider>
+  );
+}
+```
+
+## 2. 设置当前语言
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+
+<ConfigProvider lang="zh-CN"></ConfigProvider>;
+```
+
+## 3. 配置组件全局默认值
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+
+<ConfigProvider
+  ConfirmAction={{
+    title: '确认执行吗？',
+    content: '该操作不可撤销。',
+    okText: '确认',
+    cancelText: '取消',
+  }}
+></ConfigProvider>;
+```
+
+## 下一步
+
+- 打开各个组件故事页查看参数与实际交互效果。
+- 使用 `Controls` 面板了解默认值与支持的配置项。
+- 通过顶部工具栏切换语言，预览本地化后的文档和故事内容。
