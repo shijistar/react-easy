@@ -55,6 +55,13 @@ const preview: Preview = {
         dark: { value: '#2c2c2c', name: storyT('storybook.stories.Backgrounds.dark') },
       },
     },
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: ['Introduce', 'Install', 'Get Started', 'Changelog', 'Components'],
+        locales: '',
+      },
+    },
     docs: {
       container: (props: PropsWithChildren<DocsContainerProps>) => {
         const globalValue = (props.context as unknown as StoryContext<ReactRenderer>)?.globals?.backgrounds?.value;
@@ -68,7 +75,9 @@ const preview: Preview = {
         }
       ) => {
         const raw = component?.__docgenInfo?.description ?? '';
-        return stripExampleBlock(raw);
+        let result = stripExampleBlock(raw);
+        result = removeOtherLang(result);
+        return result;
       },
     },
   },
@@ -121,6 +130,15 @@ const preview: Preview = {
   ],
   argTypesEnhancers: [jsdocArgTypesEnhancer],
 };
+
+function removeOtherLang(input = '') {
+  const lang = langFromUrl ?? 'en-US';
+  const targetLang = lang === 'zh-CN' ? 'CN' : 'EN';
+  const oppositeLang = lang === 'zh-CN' ? 'EN' : 'CN';
+  let result = input.replace(new RegExp(`-\\s\\*\\*${oppositeLang}:\\*\\*[^@|\\n]+`, 'g'), '');
+  result = result.replace(new RegExp(`-\\s\\*\\*${targetLang}:\\*\\*`, 'g'), '');
+  return result;
+}
 
 function stripExampleBlock(input = '') {
   return (

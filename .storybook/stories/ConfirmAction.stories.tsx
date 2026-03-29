@@ -37,6 +37,8 @@ const meta: Meta<ConfirmActionStoryArgs> = {
     mask: true,
     maskClosable: false,
     danger: false,
+    keyboard: false,
+    autoFocusButton: undefined,
     onOk: fn(),
     onCancel: fn(),
     afterOpenChange: fn(),
@@ -61,6 +63,13 @@ const meta: Meta<ConfirmActionStoryArgs> = {
     triggerProps: {
       description: `- **EN:** Props of the trigger component, will change according to the trigger type.
 - **CN:** 触发器组件的Props属性，随触发器类型变化进行调整类型定义。`,
+    },
+    autoFocusButton: {
+      control: 'select',
+      options: ['ok', 'cancel'],
+      description: `- **EN:** The button to auto focus when the confirm action is opened.
+- **CN:** 确认操作打开时自动获取焦点的按钮。`,
+      table: { defaultValue: { summary: 'undefined' } },
     },
   },
 };

@@ -36,6 +36,8 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
     mask: true,
     maskClosable: false,
     danger: false,
+    keyboard: false,
+    autoFocusButton: undefined,
     onOk: fn(),
     onCancel: fn(),
     afterOpenChange: fn(),
@@ -49,6 +51,13 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
       description: `- **EN:** Demo-only option to switch trigger component type.
 - **CN:** 示例专用：切换触发器组件类型。`,
       table: { defaultValue: { summary: '"Button"' } },
+    },
+    autoFocusButton: {
+      control: 'select',
+      options: ['ok', 'cancel'],
+      description: `- **EN:** The button to auto focus when the confirm action is opened.
+- **CN:** 确认操作打开时自动获取焦点的按钮。`,
+      table: { defaultValue: { summary: 'undefined' } },
     },
   },
 };

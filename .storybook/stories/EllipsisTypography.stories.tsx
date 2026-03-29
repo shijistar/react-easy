@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import EllipsisLink from '../../src/components/EllipsisTypography/EllipsisLink';
-import EllipsisParagraph from '../../src/components/EllipsisTypography/EllipsisParagraph';
-import EllipsisText from '../../src/components/EllipsisTypography/EllipsisText';
-import EllipsisTitle from '../../src/components/EllipsisTypography/EllipsisTitle';
+import EllipsisLinkComponent from '../../src/components/EllipsisTypography/EllipsisLink';
+import EllipsisParagraphComponent from '../../src/components/EllipsisTypography/EllipsisParagraph';
+import EllipsisTextComponent from '../../src/components/EllipsisTypography/EllipsisText';
+import EllipsisTitleComponent from '../../src/components/EllipsisTypography/EllipsisTitle';
 import { storyT } from '../locales';
 
 const longText = storyT('storybook.stories.EllipsisTypography.longText');
@@ -13,12 +13,12 @@ const meta: Meta = {
 
 export default meta;
 
-type TextStory = StoryObj<typeof EllipsisText>;
-type ParagraphStory = StoryObj<typeof EllipsisParagraph>;
-type TitleStory = StoryObj<typeof EllipsisTitle>;
-type LinkStory = StoryObj<typeof EllipsisLink>;
+type EllipsisTextStory = StoryObj<typeof EllipsisTextComponent>;
+type EllipsisParagraphStory = StoryObj<typeof EllipsisParagraphComponent>;
+type EllipsisTitleStory = StoryObj<typeof EllipsisTitleComponent>;
+type EllipsisLinkStory = StoryObj<typeof EllipsisLinkComponent>;
 
-export const Text: TextStory = {
+export const EllipsisText: EllipsisTextStory = {
   args: {
     text: longText,
     ellipsis: true,
@@ -31,17 +31,11 @@ export const Text: TextStory = {
 - **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
       table: { defaultValue: { summary: '-' } },
     },
-    ellipsis: {
-      control: 'object',
-      description: `- **EN:** Ellipsis configuration. Set \`true\` or \`ellipsis.tooltip\` to enable automatic tooltip behavior.
-- **CN:** 省略配置。设置为 \`true\` 或配置 \`ellipsis.tooltip\` 可启用自动 tooltip 行为。`,
-      table: { defaultValue: { summary: 'true' } },
-    },
   },
-  render: (args) => <EllipsisText {...args} />,
+  render: (args) => <EllipsisTextComponent {...args} />,
 };
 
-export const Paragraph: ParagraphStory = {
+export const EllipsisParagraph: EllipsisParagraphStory = {
   args: {
     text: longText,
     ellipsis: { rows: 2, tooltip: true },
@@ -61,10 +55,10 @@ export const Paragraph: ParagraphStory = {
       table: { defaultValue: { summary: '-' } },
     },
   },
-  render: (args) => <EllipsisParagraph {...args} />,
+  render: (args) => <EllipsisParagraphComponent {...args} />,
 };
 
-export const Title: TitleStory = {
+export const EllipsisTitle: EllipsisTitleStory = {
   args: {
     text: longText,
     level: 4,
@@ -92,10 +86,10 @@ export const Title: TitleStory = {
       table: { defaultValue: { summary: '-' } },
     },
   },
-  render: (args) => <EllipsisTitle {...args} />,
+  render: (args) => <EllipsisTitleComponent {...args} />,
 };
 
-export const Link: LinkStory = {
+export const EllipsisLink: EllipsisLinkStory = {
   args: {
     text: longText,
     href: 'https://github.com/shijistar/react-easy',
@@ -122,5 +116,5 @@ export const Link: LinkStory = {
       table: { defaultValue: { summary: '-' } },
     },
   },
-  render: (args) => <EllipsisLink {...args} />,
+  render: (args) => <EllipsisLinkComponent {...args} />,
 };

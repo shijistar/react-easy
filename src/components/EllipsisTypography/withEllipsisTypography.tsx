@@ -86,7 +86,7 @@ function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProp
   };
 }
 
-export type MakeEllipsisTypographyProps<T> = Omit<T, 'children'> & {
+export type MakeEllipsisTypographyProps<T> = {
   /**
    * - **EN:** The text content to display. If not provided, the children will be used.
    * - **CN:** 要显示的文本内容。如果未提供，将使用子元素。
@@ -105,6 +105,6 @@ export type MakeEllipsisTypographyProps<T> = Omit<T, 'children'> & {
    * @default true
    */
   watchResize?: boolean;
-};
+} & Omit<T, 'children'>;
 
 export default withEllipsisTypography;

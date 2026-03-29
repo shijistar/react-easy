@@ -71,7 +71,7 @@ Notes:
 - Peer dependencies must be installed by the consuming app.
 - Output code targets `ES2016`, so your bundler/runtime should support it.
 
-## Quick Start
+## Get Started
 
 Click [https://shijistar.github.io/react-easy](https://shijistar.github.io/react-easy) to see all features in action.
 

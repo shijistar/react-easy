@@ -69,6 +69,7 @@ const meta: Meta<ModalActionStoryArgs> = {
     mask: true,
     maskClosable: false,
     destroyOnClose: true,
+    keyboard: false,
     onOk: fn(),
     onCancel: fn(),
     afterOpenChange: fn(),
