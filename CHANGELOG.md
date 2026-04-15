@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.11
+
+2026-4-15
+
+### Features
+
+- **utils.readTextAnyEncoding**
+  - ✨ Add `readTextAnyEncoding` function to read text from a `Blob` or `Uint8Array` with automatic encoding detection.
+
 ## 1.7.10
 
 2026-3-20
