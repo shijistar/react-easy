@@ -17,6 +17,12 @@ export interface AudioPlayerInit {
    */
   volume?: number;
   /**
+   * - **EN:** Cross-origin setting for the audio element (e.g., 'anonymous', 'use-credentials').
+   *   Optional.
+   * - **CN:** 音频元素的跨域设置（例如，'anonymous'，'use-credentials'）。可选。
+   */
+  crossOrigin?: HTMLMediaElement['crossOrigin'];
+  /**
    * - **EN:** Callback when audio starts playing
    * - **CN:** 音频开始播放时的回调
    */
@@ -46,8 +52,14 @@ export interface AudioPlayerInit {
 }
 
 /**
- * - **EN:** An audio player class that supports URL or streaming data input
- * - **CN:** 一个音频播放器类，支持URL或流数据输入
+ * - **EN:** An audio player that supports URL or streaming data input. It only provides a programming
+ *   interface and does not provide a user interface. You need to control it programmatically.
+ * - **CN:** 一个音频播放器，支持URL或流数据输入。仅提供编程接口，不提供用户界面，你需要通过编程方式控制它。
+ *
+ * > **EN:** If the audio source is a URL, the audio source must support cross-origin access,
+ * > otherwise there may be no sound.
+ *
+ * > **CN:** 如果音频源是URL，则需要音频源支持跨域访问，否则可能没有声音
  */
 class AudioPlayer {
   private audio: HTMLAudioElement;
@@ -72,9 +84,10 @@ class AudioPlayer {
    *   可以是URL字符串或ReadableStreamDefaultReader
    */
   constructor(options?: AudioPlayerInit) {
-    const { source, volume } = options || {};
+    const { source, volume, crossOrigin } = options || {};
     this.options = options;
     this.audio = new Audio();
+    this.audio.crossOrigin = crossOrigin ?? null;
     this._volume = volume != null ? Math.min(1.0, Math.max(0, volume)) : 0.5; // Default volume 50%
     this.audio.volume = this._volume;
     if (typeof source === 'function') {
@@ -332,7 +345,7 @@ class AudioPlayer {
         this.audio.src = url;
         return result;
       } else if (source instanceof ArrayBuffer || source instanceof Uint8Array) {
-        const blob = source instanceof Uint8Array ? new Blob([source]) : new Blob([new Uint8Array(source)]);
+        const blob = source instanceof Uint8Array ? new Blob([source as BlobPart]) : new Blob([new Uint8Array(source)]);
         const url = URL.createObjectURL(blob);
         this.audio.src = url;
         this.audio.onloadeddata = () => URL.revokeObjectURL(url);
@@ -445,7 +458,7 @@ class AudioPlayer {
     const chunk = this.chunkQueue.shift()!;
     this.appending = true;
     try {
-      this.sourceBuffer.appendBuffer(chunk);
+      this.sourceBuffer.appendBuffer(chunk as BufferSource);
     } catch (e) {
       console.error('Error appending buffer:', e);
       this.appending = false;
