@@ -24,13 +24,13 @@ const meta: Meta<UseAudioPlayerStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** Demonstrates how to use the \`useAudioPlayer\` hook to create a stable \`AudioPlayer\` instance, control playback, switch sources, and observe player state in a React view.
-- **CN:** 演示如何使用 \`useAudioPlayer\` 钩子创建稳定的 \`AudioPlayer\` 实例，完成播放控制、音源切换，并在 React 视图中观察播放器状态。`,
+        component: `- **EN:** Demonstrates how to use the \`useAudioPlayer\` hook to create a stable \`AudioPlayer\` instance, control playback, switch sources, and observe player state in a React view. \n\n Note that AudioPlayer is an audio playback API object and does not provide a user interface, only playback control and state management functionality.
+- **CN:** 演示如何使用 \`useAudioPlayer\` 钩子创建稳定的 \`AudioPlayer\` 实例，完成播放控制、音源切换，并在 React 视图中观察播放器状态。\n\n 注意 AudioPlayer 是一个音频播放API对象，不提供用户界面，仅提供播放控制和状态管理功能。`,
       },
     },
   },
   args: {
-    source: musicUrl,
+    source: location.origin + musicUrl,
     initialVolume: 0.5,
     seekStep: 10,
   },
@@ -82,6 +82,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
   const [isPlaying, setIsPlaying] = useState(false);
   const [eventLogs, setEventLogs] = useState<AudioEventLog[]>([]);
 
+  // Keep only the latest few events so the demo stays readable while showing playback transitions.
   const appendEventLog = useRefFunction((type: string) => {
     setEventLogs((prev) => {
       const next = [
@@ -96,6 +97,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
     });
   });
 
+  // useAudioPlayer returns a stable AudioPlayer instance; later updates are pushed via imperative methods.
   const player = useAudioPlayer({
     source,
     volume: initialVolume,
@@ -107,6 +109,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
   });
 
   useEffect(() => {
+    // Mirror Storybook args into the existing player instance instead of recreating it on every arg change.
     setDraftSource(source);
     if (source !== sourceRef.current) {
       sourceRef.current = source;
@@ -121,11 +124,12 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
     player.setVolume(initialVolume);
     setVolume(initialVolume);
     appendEventLog('volume-change');
-  }, [appendEventLog, initialVolume, player]);
+  }, [initialVolume, player]);
 
   useEffect(() => {
     let cancelled = false;
 
+    // Combine polling with native media events so the demo reflects both continuous progress and discrete state changes.
     const syncState = () => {
       if (cancelled) return;
       setCurrentTime(Number.isFinite(player.currentTime) ? player.currentTime : 0);
