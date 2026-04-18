@@ -168,7 +168,9 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
       <Tag color="default">{t('storybook.stories.useAudioPlayer.status.paused')}</Tag>
     );
   }, [isPlaying, t]);
-  const progressMax = Number.isFinite(duration) && duration > 0 ? duration : Math.max(currentTime, 0);
+  const progressMax = useMemo(() => {
+    return Number.isFinite(duration) && duration > 0 ? duration : Math.max(currentTime, 0);
+  }, [currentTime, duration]);
 
   return (
     <Card
