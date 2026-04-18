@@ -74,6 +74,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
   const t = useStoryT();
   const sourceRef = useRef(source);
   const volumeRef = useRef(initialVolume);
+  const eventIdRef = useRef(0);
   const [draftSource, setDraftSource] = useState(source);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -85,7 +86,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
     setEventLogs((prev) => {
       const next = [
         {
-          id: Date.now() + prev.length,
+          id: ++eventIdRef.current,
           type,
           time: new Date().toLocaleTimeString(),
         },
