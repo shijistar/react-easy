@@ -30,7 +30,7 @@ const meta: Meta<UseAudioPlayerStoryArgs> = {
     },
   },
   args: {
-    source: location.origin + musicUrl,
+    source: musicUrl,
     initialVolume: 0.5,
     seekStep: 10,
   },
