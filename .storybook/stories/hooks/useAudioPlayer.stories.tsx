@@ -30,15 +30,15 @@ const meta: Meta<UseAudioPlayerStoryArgs> = {
     },
   },
   args: {
-    source: window.location.origin + musicUrl,
+    source: musicUrl,
     initialVolume: 0.5,
     seekStep: 10,
   },
   argTypes: {
     source: {
       control: 'text',
-      description: `- **EN:** Initial remote audio source URL used by the demo.
-- **CN:** 示例初始使用的远程音频地址。`,
+      description: `- **EN:** Initial audio source URL used by the demo. Prefer local static assets served by Storybook for reliable playback.
+- **CN:** 示例初始使用的音频地址。为保证播放更稳定，建议优先使用由 Storybook 提供的本地静态资源。`,
     },
     initialVolume: {
       control: { type: 'range', min: 0, max: 1, step: 0.1 },
@@ -73,6 +73,7 @@ export const Playground: Story = {
 function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPlayerStoryArgs) {
   const t = useStoryT();
   const sourceRef = useRef(source);
+  const volumeRef = useRef(initialVolume);
   const [draftSource, setDraftSource] = useState(source);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -114,6 +115,14 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
   }, [player, source]);
 
   useEffect(() => {
+    if (volumeRef.current === initialVolume) return;
+    volumeRef.current = initialVolume;
+    player.setVolume(initialVolume);
+    setVolume(initialVolume);
+    appendEventLog('volume-change');
+  }, [appendEventLog, initialVolume, player]);
+
+  useEffect(() => {
     let cancelled = false;
 
     const syncState = () => {
@@ -125,12 +134,17 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
     };
 
     const handler = () => syncState();
+    const errorHandler = () => {
+      appendEventLog('error');
+      syncState();
+    };
     const interval = window.setInterval(syncState, 250);
     player.addEventListener('timeupdate', handler);
     player.addEventListener('loadedmetadata', handler);
     player.addEventListener('ended', handler);
     player.addEventListener('play', handler);
     player.addEventListener('pause', handler);
+    player.addEventListener('error', errorHandler);
 
     syncState();
 
@@ -142,9 +156,10 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
       player.removeEventListener('ended', handler);
       player.removeEventListener('play', handler);
       player.removeEventListener('pause', handler);
+      player.removeEventListener('error', errorHandler);
       player.dispose();
     };
-  }, [player]);
+  }, [appendEventLog, player]);
 
   const statusTag = useMemo(() => {
     return isPlaying ? (
@@ -153,6 +168,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
       <Tag color="default">{t('storybook.stories.useAudioPlayer.status.paused')}</Tag>
     );
   }, [isPlaying, t]);
+  const progressMax = Number.isFinite(duration) && duration > 0 ? duration : Math.max(currentTime, 0);
 
   return (
     <Card
@@ -198,9 +214,9 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
           <Typography.Text strong>{t('storybook.stories.useAudioPlayer.progressLabel')}</Typography.Text>
           <Slider
             min={0}
-            max={duration || 0}
+            max={progressMax}
             step={0.1}
-            value={Math.min(currentTime, duration || currentTime)}
+            value={Math.min(Math.max(currentTime, 0), progressMax)}
             onChange={(value) => player.seek(Number(value))}
             tooltip={{ open: false }}
           />
@@ -236,6 +252,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
           <List
             bordered
             size="small"
+            rowKey="id"
             dataSource={eventLogs}
             locale={{ emptyText: t('storybook.stories.useAudioPlayer.emptyLog') }}
             renderItem={(item) => (
