@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import BreakLines, { type BreakLinesProps } from '../../src/components/BreakLines';
-import { storyT } from '../locales';
+import BreakLines, { type BreakLinesProps } from '../../../src/components/BreakLines';
+import { storyT } from '../../locales';
 
 const meta: Meta<typeof BreakLines> = {
   title: 'Components/BreakLines',

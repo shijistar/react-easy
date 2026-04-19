@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import EllipsisLinkComponent from '../../src/components/EllipsisTypography/EllipsisLink';
-import EllipsisParagraphComponent from '../../src/components/EllipsisTypography/EllipsisParagraph';
-import EllipsisTextComponent from '../../src/components/EllipsisTypography/EllipsisText';
-import EllipsisTitleComponent from '../../src/components/EllipsisTypography/EllipsisTitle';
-import { storyT } from '../locales';
+import EllipsisLinkComponent from '../../../src/components/EllipsisTypography/EllipsisLink';
+import EllipsisParagraphComponent from '../../../src/components/EllipsisTypography/EllipsisParagraph';
+import EllipsisTextComponent from '../../../src/components/EllipsisTypography/EllipsisText';
+import EllipsisTitleComponent from '../../../src/components/EllipsisTypography/EllipsisTitle';
+import { storyT } from '../../locales';
 
 const longText = storyT('storybook.stories.EllipsisTypography.longText');
 

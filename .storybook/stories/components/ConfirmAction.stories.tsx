@@ -3,9 +3,9 @@ import type { ButtonProps, SwitchProps } from 'antd';
 import { App as AntdApp } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import { fn } from 'storybook/test';
-import type { ConfirmActionProps } from '../../src/components/ConfirmAction';
-import ConfirmAction from '../../src/components/ConfirmAction';
-import { storyT } from '../locales';
+import type { ConfirmActionProps } from '../../../src/components/ConfirmAction';
+import ConfirmAction from '../../../src/components/ConfirmAction';
+import { storyT } from '../../locales';
 
 type TriggerType = 'Button' | 'Switch' | 'Link';
 

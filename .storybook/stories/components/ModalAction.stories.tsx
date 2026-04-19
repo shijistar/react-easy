@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { type ButtonProps, Form, Input, message, Space, type SwitchProps } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import { fn } from 'storybook/test';
-import type { FormCompPropsConstraint, ModalActionProps } from '../../src/components/ModalAction';
-import { withModalAction } from '../../src/components/ModalAction';
-import { storyT, useStoryT } from '../locales';
+import type { FormCompPropsConstraint, ModalActionProps } from '../../../src/components/ModalAction';
+import { withModalAction } from '../../../src/components/ModalAction';
+import { storyT, useStoryT } from '../../locales';
 
 type ModalActionStoryArgs = ModalActionProps<
   UserForm,

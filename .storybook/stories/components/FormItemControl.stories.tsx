@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Form, Slider, Typography } from 'antd';
-import FormItemControl from '../../src/components/FormItemControl';
-import { useStoryT } from '../locales';
+import FormItemControl from '../../../src/components/FormItemControl';
+import { useStoryT } from '../../locales';
 
 const meta: Meta<typeof FormItemControl> = {
   title: 'Components/FormItemControl',

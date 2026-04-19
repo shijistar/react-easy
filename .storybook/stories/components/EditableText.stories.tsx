@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import EditableText, { type EditableTextProps } from '../../src/components/EditableText';
-import { storyT } from '../locales';
+import EditableText, { type EditableTextProps } from '../../../src/components/EditableText';
+import { storyT } from '../../locales';
 
 const meta: Meta<EditableTextProps> = {
   title: 'Components/EditableText',

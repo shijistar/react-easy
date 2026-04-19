@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import Loading from '../../src/components/Loading';
-import { storyT, useStoryT } from '../locales';
+import Loading from '../../../src/components/Loading';
+import { storyT, useStoryT } from '../../locales';
 
 const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from 'antd';
 import { fn } from 'storybook/test';
-import ContextMenu from '../../src/components/ContextMenu';
-import { storyT, useStoryT } from '../locales';
+import ContextMenu from '../../../src/components/ContextMenu';
+import { storyT, useStoryT } from '../../locales';
 
 const meta: Meta<typeof ContextMenu> = {
   title: 'Components/ContextMenu',

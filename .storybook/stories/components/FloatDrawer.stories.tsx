@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import FloatDrawer from '../../src/components/FloatDrawer';
-import { storyT, useStoryT } from '../locales';
+import FloatDrawer from '../../../src/components/FloatDrawer';
+import { storyT, useStoryT } from '../../locales';
 
 const meta: Meta<typeof FloatDrawer> = {
   title: 'Components/FloatDrawer',

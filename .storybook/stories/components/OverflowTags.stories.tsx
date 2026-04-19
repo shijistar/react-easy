@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Typography } from 'antd';
-import OverflowTags from '../../src/components/OverflowTags';
-import { storyT } from '../locales';
+import OverflowTags from '../../../src/components/OverflowTags';
+import { storyT } from '../../locales';
 
 interface TagItem {
   id: number;

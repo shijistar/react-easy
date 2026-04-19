@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { action } from 'storybook/actions';
-import ColumnSetting from '../../src/components/ColumnSetting';
-import type { ColumnSettingItem, ColumnSettingProps } from '../../src/components/ColumnSetting';
-import { storyT, useStoryT } from '../locales';
+import ColumnSetting from '../../../src/components/ColumnSetting';
+import type { ColumnSettingItem, ColumnSettingProps } from '../../../src/components/ColumnSetting';
+import { storyT, useStoryT } from '../../locales';
 
 const meta: Meta<ColumnSettingProps> = {
   title: 'Components/ColumnSetting',
