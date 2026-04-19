@@ -91,13 +91,14 @@ function UseDebounceStoryDemo({ wait, leading, maxWait }: UseDebounceStoryArgs) 
   );
 
   function appendEventLog(type: string, value: string) {
+    const now = new Date();
     setEventLogs((prev) => {
       const next = [
         {
-          id: Date.now() + prev.length,
+          id: now.getTime() + prev.length,
           type,
           value,
-          time: new Date().toLocaleTimeString(),
+          time: `${now.toLocaleTimeString()}.${now.getMilliseconds()}`,
         },
         ...prev,
       ];
