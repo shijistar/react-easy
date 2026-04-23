@@ -189,6 +189,7 @@ function Demo() {
 - `ModalAction`
 - `OverflowTags`
 - `PulseAnimation`
+- `VirtualTextViewer`
 
 ### Hooks
 

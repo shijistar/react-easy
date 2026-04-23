@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.12
+
+2026-4-16
+
+### Features
+
+- **VirtualTextViewer**
+  - ✨ Add `VirtualTextViewer` component for efficient rendering of large text content.
+
 ## 1.7.11
 
 2026-4-15

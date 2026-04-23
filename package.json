@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.7.11",
+  "version": "1.7.12",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -40,6 +40,7 @@
     "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
+    "@chenglou/pretext": "^0.0.6",
     "@lexical/react": "^0.33.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@stomp/stompjs": "^7.1.1",
