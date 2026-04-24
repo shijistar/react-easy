@@ -75,6 +75,17 @@ const enUS = {
   'storybook.stories.OverflowTags.tags.yetAnotherTag': 'Yet Another Tag',
   'storybook.stories.OverflowTags.tags.finalTag': 'Final Tag',
   'storybook.stories.OverflowTags.tags.extraTag': 'Extra Tag',
+  'storybook.stories.VirtualTextViewer.docs.component':
+    '- **EN:** A simplified large-text virtualization component built on top of Pretext. It predicts wrapped line geometry without DOM text measurement and only materializes the visible line window.\n- **CN:** 一个基于 Pretext 的简化版大文本虚拟查看组件。它不依赖 DOM 文本测量来预测换行几何，并且只物化可见行窗口。',
+  'storybook.stories.VirtualTextViewer.header.title': 'Pretext Virtual Text Viewer',
+  'storybook.stories.VirtualTextViewer.header.subtitle':
+    'Scroll through a very large plain string while only rendering the visible lines.',
+  'storybook.stories.VirtualTextViewer.metrics.chars': 'chars: {{value}}',
+  'storybook.stories.VirtualTextViewer.metrics.sourceLines': 'source lines: {{value}}',
+  'storybook.stories.VirtualTextViewer.demo.section': 'SECTION {{index}}',
+  'storybook.stories.VirtualTextViewer.demo.viewerLine': 'This is a virtualized plain-text viewer powered by Pretext.',
+  'storybook.stories.VirtualTextViewer.demo.wrappingLine':
+    'It keeps wrapping stable for mixed content like 北京, مرحبا, emoji 👩‍🚀, and long URLs.',
   'storybook.stories.useAudioPlayer.cardTitle': 'Audio player playground',
   'storybook.stories.useAudioPlayer.sourcePlaceholder': 'Enter a remote audio URL',
   'storybook.stories.useAudioPlayer.applySource': 'Apply source',

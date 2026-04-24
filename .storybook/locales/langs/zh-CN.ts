@@ -74,6 +74,16 @@ const zhCN = {
   'storybook.stories.OverflowTags.tags.yetAnotherTag': 'Yet Another Tag',
   'storybook.stories.OverflowTags.tags.finalTag': 'Final Tag',
   'storybook.stories.OverflowTags.tags.extraTag': 'Extra Tag',
+  'storybook.stories.VirtualTextViewer.docs.component':
+    '- **EN:** A simplified large-text virtualization component built on top of Pretext. It predicts wrapped line geometry without DOM text measurement and only materializes the visible line window.\n- **CN:** 一个基于 Pretext 的简化版大文本虚拟查看组件。它不依赖 DOM 文本测量来预测换行几何，并且只物化可见行窗口。',
+  'storybook.stories.VirtualTextViewer.header.title': 'Pretext 虚拟文本查看器',
+  'storybook.stories.VirtualTextViewer.header.subtitle': '滚动浏览超大纯文本字符串，同时只渲染当前可见行。',
+  'storybook.stories.VirtualTextViewer.metrics.chars': '字符数：{{value}}',
+  'storybook.stories.VirtualTextViewer.metrics.sourceLines': '源行数：{{value}}',
+  'storybook.stories.VirtualTextViewer.demo.section': '第 {{index}} 节',
+  'storybook.stories.VirtualTextViewer.demo.viewerLine': '这是一个由 Pretext 驱动的虚拟化纯文本查看器。',
+  'storybook.stories.VirtualTextViewer.demo.wrappingLine':
+    '它能让包含北京、مرحبا、emoji 👩‍🚀 和长链接的混合内容保持稳定换行。',
   'storybook.stories.useAudioPlayer.cardTitle': '音频播放器演示',
   'storybook.stories.useAudioPlayer.sourcePlaceholder': '请输入远程音频地址',
   'storybook.stories.useAudioPlayer.applySource': '应用音源',
