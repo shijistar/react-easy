@@ -40,17 +40,13 @@
     "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
-    "@chenglou/pretext": "^0.0.6",
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "@ant-design/fast-color": "^3.0.1",
     "@lexical/react": "^0.33.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@stomp/stompjs": "^7.1.1",
-    "crypto-js": "^4.2.0",
-    "lexical": "^0.33.1",
-    "react-contexify": "^6.0.0",
-    "react-resize-detector": "^12.3.0",
-    "sockjs-client": "^1.6.1"
-  },
-  "devDependencies": {
     "@storybook/addon-docs": "^10.2.12",
     "@storybook/addon-links": "^10.2.12",
     "@storybook/react-vite": "^10.2.12",
@@ -64,13 +60,19 @@
     "@types/react-is": "^19.0.0",
     "@types/sockjs-client": "^1.5.4",
     "antd": "^5.29.3",
+    "classnames": "^2.5.1",
     "eslint-plugin-storybook": "10.2.13",
     "father": "^4.5.2",
     "jest": "^29.7.0",
+    "lexical": "^0.33.1",
     "npm-run-all2": "^8.0.4",
+    "rc-overflow": "^1.5.0",
     "react": "^19.0.0",
+    "react-contexify": "^6.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
+    "react-resize-detector": "^12.3.0",
+    "sockjs-client": "^1.6.1",
     "storybook": "^10.2.12",
     "ts-jest": "^29.3.0",
     "tsx": "^4.20.5",
@@ -80,7 +82,20 @@
   "peerDependencies": {
     "antd": ">=5.1.0",
     "i18next": ">=8.4.0",
-    "react": ">=16.8.0",
-    "react-is": ">=16.8.0"
+    "react": ">=17.0.2",
+    "react-is": ">=17.0.2"
+  },
+  "optionalDependencies": {
+    "@ant-design/fast-color": "^3.0.1",
+    "@chenglou/pretext": "^0.0.6",
+    "@lexical/react": "^0.33.1",
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "@stomp/stompjs": "^7.1.1",
+    "classnames": "^2.5.1",
+    "lexical": "^0.33.1",
+    "rc-overflow": "^1.5.0",
+    "react-contexify": "^6.0.0",
+    "react-resize-detector": "^12.3.0",
+    "sockjs-client": "^1.6.1"
   }
 }
