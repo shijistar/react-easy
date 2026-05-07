@@ -79,9 +79,10 @@ const genStyle: GenerateStyle<ConfigProviderToken> = (token): CSSObject => {
             [`& > ${token.antCls}-table-pagination`]: {
               flex: 'none',
               marginBottom: 0,
-              [`& ${token.antCls}-pagination-item-link`]: {
-                lineHeight: 1,
-              },
+              [`& ${token.antCls}-pagination-prev ${token.antCls}-pagination-item-link, & ${token.antCls}-pagination-next ${token.antCls}-pagination-item-link`]:
+                {
+                  lineHeight: 1,
+                },
             },
           },
         },

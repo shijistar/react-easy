@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.13
+
+2026-5-7
+
+### Bug Fixes
+
+- **ConfigProvider**
+  - 🐞 Fix the line height issue of `.ant-pagination-jump-next` in `easy-full-height-table` global css.
+
 ## 1.7.12
 
 2026-4-16
