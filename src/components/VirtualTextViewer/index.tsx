@@ -5,7 +5,7 @@ import { layoutNextLineRange, materializeLineRange, measureLineStats, prepareWit
 import { useRefFunction } from '../../hooks';
 import type { CursorCheckpointCache, VisibleLine } from './types';
 
-const DEFAULT_HEIGHT = 320;
+const DEFAULT_HEIGHT = '100%';
 const DEFAULT_LINE_HEIGHT = 22;
 const DEFAULT_OVERSCAN = 8;
 const DEFAULT_TAB_SIZE = 8;
@@ -22,7 +22,7 @@ export interface VirtualTextViewerProps extends Omit<HTMLAttributes<HTMLDivEleme
    * - **EN:** Height of the scroll viewport.
    * - **CN:** 滚动视口的高度。
    *
-   * @default 320
+   * @default '100%'
    */
   height?: CSSProperties['height'];
   /**

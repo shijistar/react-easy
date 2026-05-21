@@ -2,6 +2,15 @@
 
 # Changelog
 
+## UNRELEASED
+
+2026-?-?
+
+### Features
+
+- **VirtualTextViewer**
+  - 🛠️ Change the default value of `height` to `100%`
+
 ## 1.7.13
 
 2026-5-7
