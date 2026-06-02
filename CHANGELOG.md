@@ -2,14 +2,16 @@
 
 # Changelog
 
-## UNRELEASED
+## 1.7.14
 
-2026-?-?
+2026-6-2
 
 ### Features
 
 - **VirtualTextViewer**
   - 🛠️ Change the default value of `height` to `100%`
+- **package.json**
+  - 🛠️ Set `sideEffects` to `false` to enable tree-shaking.
 
 ## 1.7.13
 

@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.7.13",
+  "version": "1.7.14",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -20,6 +20,7 @@
   },
   "license": "MIT",
   "author": "李凤宝(Leo) <shijistar@gmail.com>",
+  "sideEffects": false,
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "lib/index.d.ts",
