@@ -2,9 +2,10 @@ import { useRef, useState } from 'react';
 import type { StompConfig } from '@stomp/stompjs';
 import { Client } from '@stomp/stompjs';
 import { notification } from 'antd';
-import SockJS from 'sockjs-client';
 import useRefFunction from './useRefFunction';
 import useT from './useT';
+// @ts-expect-error: because dist/sockjs.js is for browser but no types provided
+import SockJS from 'sockjs-client/dist/sockjs.js';
 
 export interface UseSocketOptions<M = string> {
   /**

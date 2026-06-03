@@ -2,6 +2,15 @@
 
 # Changelog
 
+## 1.7.15
+
+2026-6-3
+
+### Features
+
+- **hooks/useStompSocket**
+  - 🛠️ Import `sockjs-client/dist/sockjs.js` for esm format.
+
 ## 1.7.14
 
 2026-6-2
