@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import { useCallback, useContext, useMemo } from 'react';
-import type { DropdownProps, TagProps } from 'antd';
-import { Dropdown, Tag, theme } from 'antd';
-import { PresetColors } from 'antd/es/theme/internal';
 import classNames from 'classnames';
 import type { OverflowProps } from 'rc-overflow';
 import Overflow from 'rc-overflow';
+import type { DropdownProps, TagProps } from 'antd';
+import { Dropdown, Tag, theme } from 'antd';
+import { PresetColors } from 'antd/es/theme/internal';
 import { random } from '../../utils/math';
 import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
@@ -99,11 +99,11 @@ const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
   const { token } = theme.useToken();
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('overflow-tags', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
 
   const colors = useMemo(
     () => PresetColors.filter((c) => !['lime', 'yellow', 'magenta'].includes(c)).map((color) => token[`${color}-3`]),
-    [token]
+    [token],
   );
   const getValue = useCallback((tag: T | undefined, field: string) => {
     if (tag != null && typeof tag === 'object') {
@@ -119,7 +119,7 @@ const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
         ? getTagNameInProps(tag)
         : (getValue(tag, 'label') ?? getValue(tag, 'name') ?? tag?.toString());
     },
-    [getTagNameInProps, getValue]
+    [getTagNameInProps, getValue],
   );
   const renderTag = (item: T) => {
     return (
@@ -161,7 +161,7 @@ const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
         </Dropdown>
       )}
       {...restProps}
-    />
+    />,
   );
 };
 

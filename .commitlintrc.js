@@ -1,2 +1,2 @@
-const config = require('@tiny-codes/code-style-all-in-one/commitlint/config');
+const config = require('@tiny-codes/code-style-all-in-one/commitlint');
 module.exports = config;

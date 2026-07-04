@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es2020",
     "module": "esnext",
-    "moduleResolution": "node10",
+    "moduleResolution": "bundler",
     "lib": ["ES2020", "dom", "webworker"],
     "resolveJsonModule": true,
     "jsx": "react-jsx",

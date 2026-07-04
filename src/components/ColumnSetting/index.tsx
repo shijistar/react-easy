@@ -1,8 +1,8 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
+import classNames from 'classnames';
 import { Button, Checkbox, Divider, Dropdown, Space, Typography } from 'antd';
 import type { ButtonProps, DropdownProps } from 'antd';
 import type { ColumnType } from 'antd/es/table';
-import classNames from 'classnames';
 import { ReloadOutlined, SettingOutlined } from '@ant-design/icons';
 import { useRefFunction, useRefValue } from '../../hooks';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -84,7 +84,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('column-setting', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const [open, setOpen] = useState(false);
   const t = useT();
   const [selectedKeysFromStorage, setSelectedKeysFromStorage] = useLocalStorage<string[]>(storageKey, []);
@@ -104,7 +104,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
         .map((c, i) => ({ k: String(getColKey(c, i)), disabled: !!c.disabled }))
         .filter((x) => !x.disabled)
         .map((x) => x.k),
-    [columns]
+    [columns],
   );
   const isAllChecked = allSelectableKeys.length > 0 && allSelectableKeys.every((k) => selectedKeys.includes(k));
   const isIndeterminate = selectedKeys.length > 0 && !isAllChecked;
@@ -257,7 +257,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
         {...triggerProps}
         className={classNames(hashId, cssVarCls, prefixCls, `${prefixCls}-trigger`, triggerProps?.className)}
       />
-    </Dropdown>
+    </Dropdown>,
   );
 }
 

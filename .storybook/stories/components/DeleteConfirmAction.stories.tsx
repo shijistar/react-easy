@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import type { ButtonProps, SwitchProps } from 'antd';
 import { App as AntdApp } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
-import { fn } from 'storybook/test';
 import type { ConfirmActionProps } from '../../../src/components/ConfirmAction';
 import DeleteConfirmAction from '../../../src/components/DeleteConfirmAction';
 import { storyT } from '../../locales';
@@ -39,11 +39,14 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
     content: storyT('storybook.stories.DeleteConfirmAction.args.content'),
     okText: storyT('storybook.stories.DeleteConfirmAction.args.okText'),
     cancelText: storyT('storybook.stories.DeleteConfirmAction.args.cancelText'),
+    iconColor: undefined,
+    titleColor: undefined,
+    contentColor: undefined,
+    danger: false,
     width: 416,
     closable: true,
     mask: true,
     maskClosable: false,
-    danger: false,
     keyboard: false,
     autoFocusButton: undefined,
     onOk: fn(),
@@ -65,6 +68,24 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
       options: ['ok', 'cancel'],
       description: `- **EN:** The button to auto focus when the confirm action is opened.
 - **CN:** 确认操作打开时自动获取焦点的按钮。`,
+      table: { defaultValue: { summary: 'undefined' } },
+    },
+    iconColor: {
+      options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
+      description: `- **EN:** The color of the icon.
+- **CN:** 图标的颜色。`,
+      table: { defaultValue: { summary: 'undefined' } },
+    },
+    titleColor: {
+      options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
+      description: `- **EN:** The color of the title text.
+- **CN:** 标题文本的颜色。`,
+      table: { defaultValue: { summary: 'undefined' } },
+    },
+    contentColor: {
+      options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
+      description: `- **EN:** The color of the content text.
+- **CN:** 内容文本的颜色。`,
       table: { defaultValue: { summary: 'undefined' } },
     },
   },

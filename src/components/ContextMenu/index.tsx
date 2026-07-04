@@ -1,9 +1,9 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { forwardRef, useContext, useImperativeHandle, useMemo } from 'react';
-import { ConfigProvider as AntConfigProvider, theme as AntdTheme, Typography } from 'antd';
 import classNames from 'classnames';
 import type { ItemProps, MenuProps, SeparatorProps, ShowContextMenuParams, SubMenuProps } from 'react-contexify';
 import { Item, Menu, RightSlot, Separator, Submenu, useContextMenu } from 'react-contexify';
+import { ConfigProvider as AntConfigProvider, theme as AntdTheme, Typography } from 'antd';
 import { useRefFunction } from '../../hooks';
 import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
@@ -60,7 +60,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('context-menu', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const { show, hideAll } = useContextMenu({ id });
   const eventNames = useMemo<Record<NonNullable<ContextMenuProps['trigger']>[number], [string, string | undefined]>>(
     () => ({
@@ -69,7 +69,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
       hover: ['onPointerEnter', 'onPointerLeave'],
       contextMenu: ['onContextMenu', undefined],
     }),
-    []
+    [],
   );
 
   // Show context menu handler
@@ -81,7 +81,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
         props,
         position: options?.position,
       });
-    }
+    },
   );
   // Hide all context menus handler
   const handleHideAll = useRefFunction(() => {
@@ -110,7 +110,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
       show: handleShow,
       hideAll: handleHideAll,
     }),
-    []
+    [],
   );
 
   return (
@@ -123,7 +123,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
             style={triggerProps?.style}
           >
             {children}
-          </div>
+          </div>,
         )}
       {wrapCSSVar(
         <Menu
@@ -136,12 +136,12 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
             {
               [`${prefixCls}-menu-has-items`]: !!items?.length,
             },
-            className
+            className,
           )}
           {...rest}
         >
           {renderItems(items, { theme: props.theme, cmpPrefixCls: prefixCls })}
-        </Menu>
+        </Menu>,
       )}
     </>
   );
@@ -151,7 +151,7 @@ ContextMenu.displayName = 'ContextMenu';
 // Render menu items
 function renderItems(
   items: (ContextMenuItem | ContextMenuSeparator | ContextMenuSubmenu)[] | undefined,
-  options: Pick<ContextMenuProps, 'theme'> & { cmpPrefixCls: string }
+  options: Pick<ContextMenuProps, 'theme'> & { cmpPrefixCls: string },
 ): ReactNode[] | undefined {
   return items?.map((item, index) => {
     const isSeparator = 'type' in item && item.type === 'separator';
@@ -208,7 +208,7 @@ function renderItems(
 
 function getShortcutText(
   event: Partial<Pick<KeyboardEvent, 'ctrlKey' | 'altKey' | 'shiftKey' | 'metaKey' | 'key'>>,
-  options: Pick<ContextMenuProps, 'theme'> & { cmpPrefixCls: string }
+  options: Pick<ContextMenuProps, 'theme'> & { cmpPrefixCls: string },
 ): ReactNode[] {
   const { theme, cmpPrefixCls } = options;
   const keys: ReactNode[] = [];

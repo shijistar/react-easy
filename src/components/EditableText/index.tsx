@@ -1,12 +1,12 @@
 import type { CSSProperties, ReactNode } from 'react';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import names from 'classnames';
 import { Flex, Typography } from 'antd';
 import type { EllipsisConfig } from 'antd/es/typography/Base';
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { ParagraphProps } from 'antd/es/typography/Paragraph';
 import type { TextProps } from 'antd/es/typography/Text';
 import type { TitleProps } from 'antd/es/typography/Title';
-import names from 'classnames';
 import { EditOutlined } from '@ant-design/icons';
 import useT from '../../hooks/useT';
 import ConfigProvider from '../ConfigProvider';
@@ -189,7 +189,7 @@ const EditableText = <
   TT extends 'Text' | 'Paragraph' | 'Title' | 'Link',
   IT extends 'Input' | 'TextArea' | RenderInputInterface,
 >(
-  props: EditableTextProps<V, TT, IT>
+  props: EditableTextProps<V, TT, IT>,
 ) => {
   const {
     prefixCls: prefixClsInProps,
@@ -223,7 +223,7 @@ const EditableText = <
 
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('editable-text', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const t = useT();
   const [isEditing, setIsEditing] = useState<boolean>(editing);
   const TypographyComponent = Typography[textComp];
@@ -333,7 +333,7 @@ const EditableText = <
           )}
         </Flex>
       )}
-    </div>
+    </div>,
   );
 };
 

@@ -1,9 +1,9 @@
 import type { AliasToken, GenerateStyle } from 'antd/es/theme/interface';
-import { genStyleHooks } from 'antd/es/theme/util/genStyleUtils';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
 import { FastColor } from '@ant-design/fast-color';
 import { getColorLuminance } from '../../../utils';
+import genStyleHooksCompitible from '../../../utils/genStyleHooksCompitible';
 
 type FloatDrawerToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
@@ -228,4 +228,4 @@ const genStyle: GenerateStyle<FloatDrawerToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('FloatDrawer' as never, genStyle);
+export default genStyleHooksCompitible('FloatDrawer' as never, genStyle);

@@ -1,7 +1,7 @@
-import { genStyleHooks } from 'antd/es/theme/internal';
 import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
+import genStyleHooksCompitible from '../../../utils/genStyleHooksCompitible';
 
 type LoadingToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
@@ -29,4 +29,4 @@ const genStyle: GenerateStyle<LoadingToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('Loading' as never, genStyle);
+export default genStyleHooksCompitible('Loading' as never, genStyle);

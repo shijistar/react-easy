@@ -1,7 +1,7 @@
 import type { CSSProperties, FC } from 'react';
 import { useContext, useMemo } from 'react';
-import { ConfigProvider } from 'antd';
 import classNames from 'classnames';
+import { ConfigProvider } from 'antd';
 import useStyle from './style';
 
 export interface PulseAnimationProps {
@@ -88,7 +88,7 @@ const PulseAnimation: FC<PulseAnimationProps> = (props) => {
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('animation-pulse', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const array = useMemo(() => Array.from({ length: bars }), [bars]);
 
   return wrapCSSVar(
@@ -113,7 +113,7 @@ const PulseAnimation: FC<PulseAnimationProps> = (props) => {
           }}
         />
       ))}
-    </div>
+    </div>,
   );
 };
 

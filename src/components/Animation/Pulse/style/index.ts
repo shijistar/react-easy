@@ -1,7 +1,7 @@
-import { genStyleHooks } from 'antd/es/theme/internal';
 import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
+import genStyleHooksCompitible from '../../../../utils/genStyleHooksCompitible';
 
 type PulseToken = FullToken<
   {
@@ -44,4 +44,4 @@ const genStyle: GenerateStyle<PulseToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('AnimationPulse' as never, genStyle);
+export default genStyleHooksCompitible('AnimationPulse' as never, genStyle);

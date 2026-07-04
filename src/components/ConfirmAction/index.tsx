@@ -1,7 +1,8 @@
 import type { ComponentType, ForwardedRef, PropsWithoutRef, ReactElement, ReactNode, RefAttributes } from 'react';
 import { forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react';
+import classNames from 'classnames';
 import type { ButtonProps, ModalFuncProps, SwitchProps } from 'antd';
-import { App, Button, Modal, Switch, Typography } from 'antd';
+import { App, Button, Modal, ConfigProvider as ReactConfigProvider, Switch, Typography } from 'antd';
 import type { ModalFunc } from 'antd/es/modal/confirm';
 import type confirm from 'antd/es/modal/confirm';
 import useToken from 'antd/es/theme/useToken';
@@ -126,11 +127,11 @@ export type ConfirmActionRef<R = {}> = R &
  */
 export const genRenderer = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  defaultProps: Partial<ConfirmActionProps<any, never>> & { confirmType: 'normal' | 'delete' }
+  defaultProps: Partial<ConfirmActionProps<any, never>> & { confirmType: 'normal' | 'delete' },
 ) => {
   const Render = <TriggerProp extends object, Event extends keyof TriggerProp>(
     props: ConfirmActionProps<TriggerProp, Event>,
-    ref: ForwardedRef<ConfirmActionRef>
+    ref: ForwardedRef<ConfirmActionRef>,
   ) => {
     const { confirmType, ...restDefaults } = defaultProps;
 
@@ -140,12 +141,12 @@ export const genRenderer = (
     const defaultTitle = useLocalizedText(
       confirmType === 'delete'
         ? context.DeletionConfirmAction?.title || context.defaultDeletionConfirmTitle
-        : context.ConfirmAction?.title || context.defaultConfirmTitle
+        : context.ConfirmAction?.title || context.defaultConfirmTitle,
     );
     const defaultContent = useLocalizedText(
       confirmType === 'delete'
         ? context.DeletionConfirmAction?.content || context.defaultDeletionConfirmContent
-        : context.ConfirmAction?.content || context.defaultConfirmContent
+        : context.ConfirmAction?.content || context.defaultConfirmContent,
     );
 
     const mergedProps: ConfirmActionProps<TriggerProp, Event> = {
@@ -200,6 +201,7 @@ export const genRenderer = (
       triggerComponent: Trigger = Button,
       triggerEvent = 'onClick' as Event,
       triggerProps,
+      rootClassName,
       type = 'confirm',
       danger,
       title,
@@ -222,6 +224,7 @@ export const genRenderer = (
     const app = App.useApp();
     // @ts-expect-error: because app may return a stub object when App is not used
     const modal = app.modal?.confirm ? app.modal : Modal;
+    const { getPrefixCls } = useContext(ReactConfigProvider.ConfigContext);
     const { localize } = useContext(ReactEasyContext);
     const [, token] = useToken();
     const [confirmApi, setConfirmApi] = useState<ReturnType<typeof confirm>>();
@@ -229,6 +232,7 @@ export const genRenderer = (
     const triggerEventArgsRef = useRef<any[]>(undefined);
 
     const fallbackColor = danger ? 'danger' : undefined;
+    const iconColorFinal = iconColor ?? fallbackColor ?? (type === 'confirm' ? 'warning' : undefined);
     // Text with color
     const coloredText = (text: ReactNode, color?: TextProps['type'] | 'primary') => {
       const textContent = typeof text === 'string' ? (localize?.(text) ?? text) : text;
@@ -252,9 +256,14 @@ export const genRenderer = (
       };
       const showApi = modal[type === 'warn' ? 'warning' : type];
       const api = showApi({
+        rootClassName: classNames(
+          rootClassName,
+          getPrefixCls('react-easy'),
+          `easy-confirm-root-color-${iconColorFinal}`,
+        ),
         title: coloredText(title, titleColor ?? fallbackColor ?? (type === 'confirm' ? 'warning' : undefined)),
         content: coloredText(content, contentColor),
-        icon: coloredText(icon, iconColor ?? fallbackColor ?? (type === 'confirm' ? 'warning' : undefined)),
+        icon,
         autoFocusButton: null,
         closable: true,
         okButtonProps: okProps,
@@ -277,7 +286,7 @@ export const genRenderer = (
                 {
                   beforeOpenResult,
                 },
-              ]) as Parameters<NonNullable<typeof onOk>>)
+              ]) as Parameters<NonNullable<typeof onOk>>),
             );
             afterOk?.(result);
           } finally {
@@ -353,13 +362,13 @@ export const withDefaultConfirmActionProps = <
   defaultProps?:
     | Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>>
     | ((
-        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>
-      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>>)
+        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>,
+      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>>),
 ) => {
   const WithDefaultProps = forwardRef(
     (
       props: PropsWithoutRef<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>>,
-      ref: ForwardedRef<ConfirmActionRef<Ref>>
+      ref: ForwardedRef<ConfirmActionRef<Ref>>,
     ) => {
       const actualProps = props as Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<TriggerProp, Event>;
       const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
@@ -384,7 +393,7 @@ export const withDefaultConfirmActionProps = <
             };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return <RenderComponent ref={ref} {...(mergedProps as any)} />;
-    }
+    },
   );
   WithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
   return WithDefaultProps;
@@ -411,7 +420,7 @@ ConfirmAction.Button = withDefaultConfirmActionProps<ActionCompConstraint, Butto
     triggerComponent: Button,
     triggerEvent: 'onClick',
     triggerProps: {},
-  }
+  },
 );
 // Type of switch
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -422,7 +431,7 @@ ConfirmAction.Switch = withDefaultConfirmActionProps<ActionCompConstraint, Switc
     triggerComponent: Switch,
     triggerEvent: 'onChange',
     triggerProps: {},
-  }
+  },
 );
 // Type of link
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -435,7 +444,7 @@ ConfirmAction.Link = withDefaultConfirmActionProps<ActionCompConstraint, LinkPro
     triggerProps: {
       style: { whiteSpace: 'nowrap' },
     },
-  }
+  },
 );
 
 export interface ActionCompConstraint extends ReturnType<ModalFunc> {
@@ -455,7 +464,7 @@ export interface ActionCompConstraint extends ReturnType<ModalFunc> {
        * - **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值；对于`Button`类型的触发器，可以获取按钮的点击事件对象
        */
       ...triggerEventArgs: any[]
-    ) => unknown | Promise<unknown>
+    ) => unknown | Promise<unknown>,
   ) => void;
 
   /**
@@ -470,7 +479,7 @@ export interface ActionCompConstraint extends ReturnType<ModalFunc> {
  * - **CN:** 泛型组件的接口
  */
 export type GenericConfirmActionInterface = <TriggerProp extends object, Event extends keyof TriggerProp>(
-  props: PropsWithoutRef<TypedConfirmActionProps<TriggerProp, Event>> & RefAttributes<ConfirmActionRef>
+  props: PropsWithoutRef<TypedConfirmActionProps<TriggerProp, Event>> & RefAttributes<ConfirmActionRef>,
 ) => ReactElement;
 
 /**

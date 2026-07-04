@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "1.7.15",
+  "version": "2.0.0",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -51,7 +51,7 @@
     "@storybook/addon-docs": "^10.2.12",
     "@storybook/addon-links": "^10.2.12",
     "@storybook/react-vite": "^10.2.12",
-    "@tiny-codes/code-style-all-in-one": "^1.1.5",
+    "@tiny-codes/code-style-all-in-one": "^2.0.2",
     "@tiny-codes/eslint-plugin-react-hooks": "^5.2.0",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.14",
@@ -60,10 +60,10 @@
     "@types/react-dom": "^19.0.4",
     "@types/react-is": "^19.0.0",
     "@types/sockjs-client": "^1.5.4",
-    "antd": "^5.29.3",
+    "antd": "^6.5.0",
     "classnames": "^2.5.1",
-    "eslint-plugin-storybook": "10.2.13",
-    "father": "^4.5.2",
+    "eslint-plugin-storybook": "10.2.19",
+    "father": "^4.6.2",
     "jest": "^29.7.0",
     "lexical": "^0.33.1",
     "npm-run-all2": "^8.0.4",
@@ -77,8 +77,8 @@
     "storybook": "^10.2.12",
     "ts-jest": "^29.3.0",
     "tsx": "^4.20.5",
-    "typescript": "^5.8.2",
-    "vite": "^7.3.1"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.6"
   },
   "peerDependencies": {
     "antd": ">=5.1.0",
@@ -88,7 +88,7 @@
   },
   "optionalDependencies": {
     "@ant-design/fast-color": "^3.0.1",
-    "@chenglou/pretext": "^0.0.6",
+    "@chenglou/pretext": "^0.0.8",
     "@lexical/react": "^0.33.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@stomp/stompjs": "^7.1.1",

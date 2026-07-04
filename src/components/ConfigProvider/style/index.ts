@@ -1,12 +1,12 @@
-import { genStyleHooks } from 'antd/es/theme/internal';
 import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
+import genStyleHooksCompitible from '../../../utils/genStyleHooksCompitible';
 
 type ConfigProviderToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
 const genStyle: GenerateStyle<ConfigProviderToken> = (token): CSSObject => {
-  const { componentCls } = token;
+  const { componentCls, antCls, iconCls } = token;
   return {
     [componentCls]: {
       width: '100%',
@@ -88,7 +88,48 @@ const genStyle: GenerateStyle<ConfigProviderToken> = (token): CSSObject => {
         },
       },
     },
+
+    [`${antCls}-react-easy.easy-confirm-root-color-info`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorInfo,
+      },
+    },
+    [`${antCls}-react-easy.easy-confirm-root-color-primary`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorPrimary,
+      },
+    },
+    [`${antCls}-react-easy.easy-confirm-root-color-success`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorSuccess,
+      },
+    },
+    [`${antCls}-react-easy.easy-confirm-root-color-error`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorError,
+      },
+    },
+    [`${antCls}-react-easy.easy-confirm-root-color-danger`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorError,
+      },
+    },
+    [`${antCls}-react-easy.easy-confirm-root-color-warn`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorWarning,
+      },
+    },
+    [`${antCls}-react-easy.easy-confirm-root-color-warning`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorWarning,
+      },
+    },
+    [`${antCls}-react-easy.easy-confirm-root-color-secondary`]: {
+      [`${antCls}-modal-confirm-body > ${iconCls}`]: {
+        color: token.colorTextSecondary,
+      },
+    },
   };
 };
 
-export default genStyleHooks('ConfigProvider' as never, genStyle);
+export default genStyleHooksCompitible('ConfigProvider' as never, genStyle);

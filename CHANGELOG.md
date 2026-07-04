@@ -2,6 +2,14 @@
 
 # Changelog
 
+## 2.0.0
+
+2026-7-5
+
+### Features
+
+- Add new compatibility adaptation for antd `v6`.
+
 ## 1.7.15
 
 2026-6-3

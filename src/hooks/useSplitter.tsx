@@ -111,7 +111,7 @@ const useSplitter = (props: UseSplitterProps) => {
   } = props || {};
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('splitter', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const directionRef = useRefValue(direction);
   const [splitterRef, setSplitterRef] = useState<HTMLDivElement | null>(null);
   const [container, setContainer] = useState(containerFromProps);
@@ -119,7 +119,7 @@ const useSplitter = (props: UseSplitterProps) => {
   const percentRef = useRefValue(percent);
   const onChangeRef = useRefValue(onChange);
   const [width, setWidth] = useState(
-    container && defaultRatio ? (container?.clientWidth || 0) * defaultRatio : undefined
+    container && defaultRatio ? (container?.clientWidth || 0) * defaultRatio : undefined,
   );
   const [dragging, setDragging] = useState(false);
   const minRatioRef = useRefValue(minRatio);
@@ -192,7 +192,7 @@ const useSplitter = (props: UseSplitterProps) => {
         {
           [`${prefixCls}-vertical`]: vertical,
           [`${prefixCls}-horizontal`]: !vertical,
-        }
+        },
       )}
       style={{
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -207,7 +207,7 @@ const useSplitter = (props: UseSplitterProps) => {
       aria-label="Resize"
     >
       <div className={names(`${prefixCls}-handle`, classNames?.handle)} style={styles?.handle}></div>
-    </div>
+    </div>,
   );
 
   return {

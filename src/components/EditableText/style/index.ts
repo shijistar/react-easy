@@ -1,7 +1,7 @@
-import { genStyleHooks } from 'antd/es/theme/internal';
 import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
+import genStyleHooksCompitible from '../../../utils/genStyleHooksCompitible';
 
 type EditableTextToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
@@ -109,4 +109,4 @@ const genStyle: GenerateStyle<EditableTextToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('EasyEditableText' as never, genStyle);
+export default genStyleHooksCompitible('EasyEditableText' as never, genStyle);

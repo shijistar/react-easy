@@ -1,9 +1,9 @@
 import type { ComponentType, FC, ForwardedRef, ReactNode, RefAttributes } from 'react';
 import { forwardRef, useCallback, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { isForwardRef } from 'react-is';
 import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
-import { isForwardRef } from 'react-is';
 import { useRefValue } from '../../hooks';
 import useContextValidator from '../../hooks/useContextValidator';
 import ReactEasyContext from '../ConfigProvider/context';
@@ -96,7 +96,7 @@ export interface FormCompPropsConstraint<FormData> {
        * - **CN:** 触发器点击的事件数据，例如，对于`Switch`类型的触发器，可以获取点击开关的值；对于`Button`类型的触发器，可以获取按钮的点击事件对象
        */
       ...triggerEventData: any[]
-    ) => unknown | Promise<unknown>
+    ) => unknown | Promise<unknown>,
   ) => void;
   /**
    * - **EN:** Listen to the open and close status of the dialog. When `destroyOnHidden` is set to
@@ -194,7 +194,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     Ref extends object,
   >(
     props: ModalActionProps<FormData, P, TriggerProp, Event, Ref>,
-    ref: ForwardedRef<ModalActionRef<Ref, FormData>>
+    ref: ForwardedRef<ModalActionRef<Ref, FormData>>,
   ) => {
     const [userModalProps, setUserModalProps] = useState<Partial<ModalProps>>({});
     let mergedProps = mergeProps<FormData, P, TriggerProp, Event, Ref>(defaultProps, props);
@@ -209,6 +209,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       destroyOnClose = true,
       destroyOnHidden = true,
       maskClosable = false,
+      mask,
       okButtonProps,
       cancelButtonProps,
       onOk,
@@ -283,7 +284,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
         // Call once when initialized
         openListenerRef.current?.(open);
       },
-      [open]
+      [open],
     );
     // Receive the onSave callback method passed by the form component
     const setOnSaveHandler: FormCompPropsConstraint<FormData>['onSave'] = useCallback((handler) => {
@@ -330,6 +331,14 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
           destroyOnClose={destroyOnClose}
           destroyOnHidden={destroyOnHidden}
           maskClosable={maskClosable}
+          mask={
+            typeof mask === 'boolean'
+              ? mask
+              : {
+                  closable: false,
+                  ...mask,
+                }
+          }
           okButtonProps={{
             loading: isSaving,
             ...okButtonProps,
@@ -348,7 +357,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
             }
             if (Object.keys(formData).length === 0) {
               console.warn(
-                'form.getFieldsValue() is empty. Please use the form instance passed to formComp instead of creating the form instance yourself.'
+                'form.getFieldsValue() is empty. Please use the form instance passed to formComp instead of creating the form instance yourself.',
               );
             }
             try {
@@ -367,7 +376,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
                   ...((triggerEventArgsRef.current ?? []).concat({
                     beforeOpenResult: beforeOpenResultRef.current,
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  }) as any)
+                  }) as any),
                 );
               }
               // onOk also has the ability to prevent the dialog from closing
@@ -422,7 +431,7 @@ function mergeProps<
 >(
   first?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>,
   second?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>,
-  third?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>
+  third?: Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>,
 ) {
   return {
     ...first,
@@ -524,8 +533,8 @@ export const withDefaultModalActionProps = <
          *   component has not been rendered yet when executed for the first time.
          * - **CN:** ModalAction组件的ref对象。注意，该ref可能为null，因为第一次执行时组件还未渲染。
          */
-        ref: ModalActionRef<Ref, FormData> | null
-      ) => Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>)
+        ref: ModalActionRef<Ref, FormData> | null,
+      ) => Partial<ModalActionProps<FormData, P, TriggerProp, Event, Ref>>),
 ) => {
   const WithDefaultProps = forwardRef<
     ModalActionRef<Ref, FormData>,
@@ -571,7 +580,7 @@ export type GenericModalActionInterface = <
   Event extends keyof TriggerProp,
   Ref extends object,
 >(
-  props: ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref, FormData>>
+  props: ModalActionProps<FormData, P, TriggerProp, Event, Ref> & RefAttributes<ModalActionRef<Ref, FormData>>,
 ) => ReactNode;
 /**
  * - **EN:** ModalAction with specified trigger type (specified form component)
@@ -599,7 +608,7 @@ type GenericModalActionWithTrigger<TP extends object, E extends keyof TP, OMIT e
   Ref extends object,
 >(
   props: Omit<ModalActionProps<FormData, P, TP, E, Ref>, 'triggerComponent' | 'triggerEvent' | OMIT> &
-    RefAttributes<ModalActionRef<Ref, FormData>>
+    RefAttributes<ModalActionRef<Ref, FormData>>,
 ) => ReactNode;
 
 /**
@@ -656,7 +665,7 @@ type WithGenericTriggers<
   OMIT extends string = never,
 > = (<TriggerProp extends object, Event extends keyof TriggerProp>(
   props: Omit<ModalActionProps<FormData, P, TriggerProp, Event, Ref>, OMIT> &
-    RefAttributes<ModalActionRef<Ref, FormData>>
+    RefAttributes<ModalActionRef<Ref, FormData>>,
 ) => ReactNode) &
   (P extends never ? GenericTypedTriggers<OMIT> : TypedTriggers<FormData, P, Ref, OMIT>);
 
@@ -674,7 +683,7 @@ const addTriggers = <
 >(
   comp: ComponentType<
     ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref> & RefAttributes<ModalActionRef<Ref, FormData>>
-  >
+  >,
 ) => {
   const patchedComp = comp as WithGenericTriggers<FormData, P, Ref, OMIT>;
   // Type of button trigger
@@ -684,7 +693,7 @@ const addTriggers = <
       triggerComponent: Button,
       triggerEvent: 'onClick',
       triggerProps: {},
-    }
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as any;
   // Type of switch trigger
@@ -694,7 +703,7 @@ const addTriggers = <
       triggerComponent: Switch,
       triggerEvent: 'onChange',
       triggerProps: {},
-    }
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as any;
   // Type of link trigger
@@ -765,8 +774,8 @@ export function withModalAction<
          *   component has not been rendered yet when executed for the first time.
          * - **CN:** ModalAction组件的ref对象。注意，该ref可能为null，因为第一次执行时组件还未渲染。
          */
-        ref: ModalActionRef<Ref, FormData> | null
-      ) => Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>)
+        ref: ModalActionRef<Ref, FormData> | null,
+      ) => Partial<ModalActionProps<FormData, P, OuterTriggerProp, OuterEvent, Ref>>),
 ) {
   const ForwardedModalAction = forwardedModalAction as unknown as ModalActionInterface<
     FormData,

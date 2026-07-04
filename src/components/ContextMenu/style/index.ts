@@ -1,7 +1,7 @@
-import { genStyleHooks } from 'antd/es/theme/internal';
 import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
+import genStyleHooksCompitible from '../../../utils/genStyleHooksCompitible';
 
 type ContextMenuToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
@@ -27,4 +27,4 @@ const genStyle: GenerateStyle<ContextMenuToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('ContextMenu' as never, genStyle);
+export default genStyleHooksCompitible('ContextMenu' as never, genStyle);

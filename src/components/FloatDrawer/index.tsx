@@ -1,8 +1,8 @@
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import classNames from 'classnames';
 import type { CardProps } from 'antd';
 import { Card } from 'antd';
-import classNames from 'classnames';
 import { DownOutlined, LeftOutlined, RightOutlined, UpOutlined } from '@ant-design/icons';
 import useRefFunction from '../../hooks/useRefFunction';
 import ConfigProvider from '../ConfigProvider';
@@ -227,10 +227,10 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
   } = props;
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('float-drawer', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const [drawerRef, setDrawerRef] = useState<HTMLDivElement | null>(null);
   const [size, setSize] = useState(
-    cacheKey && localStorage.getItem(cacheKey) ? Number(localStorage.getItem(cacheKey)) || defaultSize : defaultSize
+    cacheKey && localStorage.getItem(cacheKey) ? Number(localStorage.getItem(cacheKey)) || defaultSize : defaultSize,
   );
   const sizeMap = useMemo(() => {
     const type = position === 'left' || position === 'right' ? 'width' : 'height';
@@ -251,7 +251,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
       [`${prefixCls}-${position}`]: position,
     },
     hashId,
-    cssVarCls
+    cssVarCls,
   );
   const closeIcon = useMemo(() => {
     return position === 'left' ? (
@@ -367,7 +367,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
             className={classNames(
               `${prefixCls}-resize-handle`,
               isDragging && `${prefixCls}-resize-handle-dragging`,
-              classNamesInProps?.resizeHandle
+              classNamesInProps?.resizeHandle,
             )}
             style={styles?.resizeHandle}
             onMouseDown={handleResizeStart}
@@ -399,7 +399,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
           </div>
         )}
       </div>
-    </div>
+    </div>,
   );
 };
 

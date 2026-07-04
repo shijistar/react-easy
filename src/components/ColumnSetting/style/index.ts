@@ -1,7 +1,7 @@
-import { genStyleHooks } from 'antd/es/theme/internal';
 import type { AliasToken, GenerateStyle } from 'antd/es/theme/internal';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
+import genStyleHooksCompitible from '../../../utils/genStyleHooksCompitible';
 
 type ColumnSettingToken = FullToken<{ ''?: object }, AliasToken, ''>;
 
@@ -55,4 +55,4 @@ const genStyle: GenerateStyle<ColumnSettingToken> = (token): CSSObject => {
   };
 };
 
-export default genStyleHooks('ColumnSetting' as never, genStyle);
+export default genStyleHooksCompitible('ColumnSetting' as never, genStyle);

@@ -1,7 +1,7 @@
 import { type CSSProperties, type FC, useContext } from 'react';
+import classNames from 'classnames';
 import type { SpinProps } from 'antd';
 import { Spin } from 'antd';
-import classNames from 'classnames';
 import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
 
@@ -84,7 +84,7 @@ const Loading: FC<LoadingProps> = (props) => {
 
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('loading', prefixClsInProps);
-  const [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls);
+  const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
 
   return children
     ? // Use spin to wrap children when children is provided,
@@ -92,7 +92,7 @@ const Loading: FC<LoadingProps> = (props) => {
       wrapCSSVar(
         <Spin className={classNames(hashId, cssVarCls, prefixCls, className)} spinning={spinning} {...spinProps}>
           {children}
-        </Spin>
+        </Spin>,
       )
     : // Show the loading animation in a wrapper that fills the parent container and centers the animation,
       // and hides the entire component when the animation is off.
@@ -104,12 +104,12 @@ const Loading: FC<LoadingProps> = (props) => {
               cssVarCls,
               prefixCls,
               rootClassName,
-              mode === 'absolute' ? `${prefixCls}-absolute` : `${prefixCls}-flex`
+              mode === 'absolute' ? `${prefixCls}-absolute` : `${prefixCls}-flex`,
             )}
             style={rootStyle}
           >
             <Spin className={className} spinning={spinning} {...spinProps} />
-          </div>
+          </div>,
         );
 };
 

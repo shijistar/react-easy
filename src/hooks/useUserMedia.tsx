@@ -145,15 +145,15 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
       onSlice: (channels) => {
         onPcmStreamChunkRef.current?.(channels, pcmSampleRateRef.current);
       },
-    })
+    }),
   );
   const deviceType = useMemo(
     () => (media.video ? t('hooks.useUserMedia.camera') : t('hooks.useUserMedia.microphone')),
-    [media, t]
+    [media, t],
   );
   const featureName = useMemo(
     () => (media.video ? t('hooks.featureName.camera') : t('hooks.featureName.microphone')),
-    [media, t]
+    [media, t],
   );
 
   const showDeniedPopup = () => {
@@ -458,27 +458,35 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
   }, [includeAudio, mediaStream, t]);
 
   useEffect(() => {
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/request-microphone-en.js').then((module) => {
       setRequestMicrophoneEnUrl(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/request-microphone-zh.js').then((module) => {
       setRequestMicrophoneZhUrl(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/reset-microphone-en.js').then((module) => {
       setResetMicrophoneEnUrl(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/reset-microphone-zh.js').then((module) => {
       setResetMicrophoneZhUrl(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/request-camera-en.js').then((module) => {
       setRequestCameraEnUrl(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/request-camera-zh.js').then((module) => {
       setRequestCameraZhUrl(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/reset-camera-en.js').then((module) => {
       setResetCameraEnUrl(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/reset-camera-zh.js').then((module) => {
       setResetCameraZhUrl(module.default);
     });
@@ -531,7 +539,7 @@ function SaveAudioDeviceForm(props: {
   const [saveDefaultAudioDevicePermanently, setSaveDefaultAudioDevicePermanently] = useState(false);
   const audioInputs = useMemo(() => devices.filter((d) => d.kind === 'audioinput'), [devices]);
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | undefined>(
-    () => mediaStream.getAudioTracks()[0]?.getSettings()?.deviceId ?? audioInputs[0]?.deviceId
+    () => mediaStream.getAudioTracks()[0]?.getSettings()?.deviceId ?? audioInputs[0]?.deviceId,
   );
 
   const openDataImageInNewTab = useRefFunction((dataUrl: string | undefined) => {
@@ -548,15 +556,19 @@ function SaveAudioDeviceForm(props: {
   });
 
   useEffect(() => {
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/save-default-audio1-en.js').then((module) => {
       setSaveAudioDeviceEnUrl1(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/save-default-audio2-en.js').then((module) => {
       setSaveAudioDeviceEnUrl2(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/save-default-audio1-zh.js').then((module) => {
       setSaveAudioDeviceZhUrl1(module.default);
     });
+    // @ts-expect-error: because dynamic import assets with js
     import('../assets/save-default-audio2-zh.js').then((module) => {
       setSaveAudioDeviceZhUrl2(module.default);
     });
