@@ -1,0 +1,14 @@
+package.json
+  h_3a0b15d296f1fe 81
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fac108e270fa8d1d10bef05737d07fd0ac24d84a",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
