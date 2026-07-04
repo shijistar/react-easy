@@ -1,0 +1,72 @@
+src/components/ContextMenu/style/index.ts
+  h_3a0b15d296f1fe 4,30
+src/components/ColumnSetting/index.tsx
+  h_3a0b15d296f1fe 87
+src/components/Animation/Pulse/index.tsx
+  h_3a0b15d296f1fe 91
+src/components/ConfigProvider/style/index.ts
+  h_3a0b15d296f1fe 4,9,91-129,135
+src/components/EditableText/index.tsx
+  h_3a0b15d296f1fe 226
+src/hooks/useSplitter.tsx
+  h_3a0b15d296f1fe 114
+package.json
+  h_3a0b15d296f1fe 3,54,63,65-66,80-81,91
+src/components/ConfirmAction/index.tsx
+  h_3a0b15d296f1fe 5,204,227,235,259-263
+src/hooks/style/useSplitter.ts
+  h_3a0b15d296f1fe 4,62
+src/utils/genStyleHooksCompitible.ts
+  h_3a0b15d296f1fe 1-32
+.prettierrc.js
+  h_3a0b15d296f1fe 1
+src/components/Loading/style/index.ts
+  h_3a0b15d296f1fe 4,32
+src/components/ModalAction/index.tsx
+  h_3a0b15d296f1fe 212,334-341
+.storybook/stories/components/DeleteConfirmAction.stories.tsx
+  h_3a0b15d296f1fe 42-45,73-90
+stylelint.config.js
+  h_3a0b15d296f1fe 1
+src/components/Animation/Pulse/style/index.ts
+  h_3a0b15d296f1fe 4,47
+src/hooks/useUserMedia.tsx
+  h_3a0b15d296f1fe 461,465,469,473,477,481,485,489,559,563,567,571
+src/components/ColumnSetting/style/index.ts
+  h_3a0b15d296f1fe 4,58
+src/components/EditableText/style/index.ts
+  h_3a0b15d296f1fe 4,112
+lint-staged.config.js
+  h_3a0b15d296f1fe 1
+.commitlintrc.js
+  h_3a0b15d296f1fe 1
+src/components/ConfigProvider/index.tsx
+  h_3a0b15d296f1fe 48
+tsconfig.json
+  h_3a0b15d296f1fe 5
+src/components/Loading/index.tsx
+  h_3a0b15d296f1fe 87
+src/components/ContextMenu/index.tsx
+  h_3a0b15d296f1fe 63
+src/components/FloatDrawer/style/index.ts
+  h_3a0b15d296f1fe 6,231
+src/components/OverflowTags/style/index.ts
+  h_3a0b15d296f1fe 4,15,23
+src/components/OverflowTags/index.tsx
+  h_3a0b15d296f1fe 102
+CHANGELOG.md
+  h_3a0b15d296f1fe 5-12
+src/components/FloatDrawer/index.tsx
+  h_3a0b15d296f1fe 230
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0deb268446e986509f05b6520608cc28de13fa19",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
