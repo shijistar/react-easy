@@ -47,7 +47,7 @@ export const createIconfont = <T extends string = string>(
   options?: {
     /** Icon name prefix | 图标名称前缀 */
     iconPrefix?: string;
-  }
+  },
 ): FC<IconfontProps<T>> => {
   const { iconPrefix = '' } = options || {};
   const AntdIconfont = createFromIconfontCN({ scriptUrl });

@@ -100,7 +100,7 @@ function useRowSelection<T extends object = Record<string, unknown>>(options?: U
 
 function getKey<T extends object = Record<string, unknown>>(
   item: T,
-  keyField?: keyof T | ((item: T) => string)
+  keyField?: keyof T | ((item: T) => string),
 ): keyof T | string {
   if (!item) {
     return '';

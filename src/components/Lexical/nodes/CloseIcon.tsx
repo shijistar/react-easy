@@ -1,7 +1,7 @@
 import { type CSSProperties, type HtmlHTMLAttributes, type ReactNode } from 'react';
-import { theme } from 'antd';
 import classNames from 'classnames';
 import type { LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
+import { theme } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { randomChars } from '../../../utils';
 import { updateDomProps } from '../helpers';

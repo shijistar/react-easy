@@ -20,8 +20,8 @@ export default function withDeleteConfirmAction<
   defaultProps?:
     | Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>
     | ((
-        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>
-      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>)
+        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>,
+      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>),
 ) {
   return withConfirmActionInternal(
     ActionComponent,
@@ -30,6 +30,6 @@ export default function withDeleteConfirmAction<
       danger: true,
       icon: <CloseCircleFilled />,
     },
-    defaultProps
+    defaultProps,
   );
 }

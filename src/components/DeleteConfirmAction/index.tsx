@@ -31,7 +31,7 @@ DeleteConfirmAction.Button = withDefaultConfirmActionProps<ActionCompConstraint,
     triggerComponent: Button,
     triggerEvent: 'onClick',
     triggerProps: {},
-  }
+  },
 );
 /**
  * - **EN:** Deletion confirmation box with switch type
@@ -45,7 +45,7 @@ DeleteConfirmAction.Switch = withDefaultConfirmActionProps<ActionCompConstraint,
     triggerComponent: Switch,
     triggerEvent: 'onChange',
     triggerProps: {},
-  }
+  },
 );
 /**
  * - **EN:** Deletion confirmation box with link type
@@ -61,7 +61,7 @@ DeleteConfirmAction.Link = withDefaultConfirmActionProps<ActionCompConstraint, L
     triggerProps: {
       style: { whiteSpace: 'nowrap' },
     },
-  }
+  },
 );
 
 export default DeleteConfirmAction;

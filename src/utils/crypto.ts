@@ -187,7 +187,7 @@ export async function encryptWithCryptoJS(text: string, key: string) {
         iv,
         mode: CBC,
         padding: Pkcs7,
-      }).ciphertext
+      }).ciphertext,
     );
     return `${Base64.stringify(iv)}:${encryptedBase64}`;
   } catch (error) {

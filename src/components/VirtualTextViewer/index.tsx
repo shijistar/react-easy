@@ -119,7 +119,7 @@ function getCheckpointCursor(
   prepared: PreparedTextWithSegments,
   lineWidth: number,
   targetLineIndex: number,
-  cache: CursorCheckpointCache
+  cache: CursorCheckpointCache,
 ): LayoutCursor {
   let closestLineIndex = 0;
   let closestCursor = cache.checkpoints.get(0) ?? { segmentIndex: 0, graphemeIndex: 0 };
@@ -153,7 +153,7 @@ function collectVisibleLines(
   lineWidth: number,
   startLineIndex: number,
   endLineIndex: number,
-  cache: CursorCheckpointCache
+  cache: CursorCheckpointCache,
 ): VisibleLine[] {
   if (endLineIndex <= startLineIndex) {
     return [];

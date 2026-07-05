@@ -1,16 +1,16 @@
 import type { ComponentType } from 'react';
 import { useEffect, useMemo, useState } from 'react';
+import { useResizeDetector } from 'react-resize-detector';
 import type { TooltipProps } from 'antd';
 import { Tooltip } from 'antd';
 import type { EllipsisConfig } from 'antd/es/typography/Base';
 import type { ParagraphProps } from 'antd/es/typography/Paragraph';
 import type { TextProps } from 'antd/es/typography/Text';
 import type { TitleProps } from 'antd/es/typography/Title';
-import { useResizeDetector } from 'react-resize-detector';
 import { useRefFunction, useRefValue } from '../../hooks';
 
 function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProps>(
-  Component: ComponentType<MakeEllipsisTypographyProps<T>>
+  Component: ComponentType<MakeEllipsisTypographyProps<T>>,
 ) {
   return function EllipsisText(props: MakeEllipsisTypographyProps<T>) {
     const { ellipsis = true, children, text = children, watchResize = true, ...rest } = props;
@@ -26,16 +26,16 @@ function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProp
         typeof ellipsis.tooltip === 'object' &&
         'title' in ellipsis.tooltip &&
         ellipsis.tooltip.title === true,
-      [ellipsis]
+      [ellipsis],
     );
     const isAuto = useMemo(
       () => isAutoEllipsis || isAutoTooltip || isAutoTooltipTitle,
-      [isAutoEllipsis, isAutoTooltip, isAutoTooltipTitle]
+      [isAutoEllipsis, isAutoTooltip, isAutoTooltipTitle],
     );
     const tooltipTitle = useMemo(() => (isEllipsis ? text : undefined), [isEllipsis, text]);
 
     const detectEllipsis = useRefFunction(
-      () => dom && setIsEllipsis(dom.scrollWidth > dom.clientWidth || dom.scrollHeight > dom.clientHeight)
+      () => dom && setIsEllipsis(dom.scrollWidth > dom.clientWidth || dom.scrollHeight > dom.clientHeight),
     );
     useResizeDetector({
       targetRef: watchResize ? domRef : undefined,

@@ -1,9 +1,9 @@
 import type { CSSProperties, ReactElement } from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
+import names from 'classnames';
 import type { ButtonProps, FormItemProps, FormProps, InputProps, SpaceProps } from 'antd';
 import { Button, ConfigProvider, Form, Input, Space } from 'antd';
 import type { InputRef, TextAreaProps } from 'antd/es/input';
-import names from 'classnames';
 import { CheckSquareFilled, CloseSquareFilled } from '@ant-design/icons';
 import useT from '../../hooks/useT';
 
@@ -155,7 +155,7 @@ export interface EditableFormProps<V, IT extends 'Input' | 'TextArea' | RenderIn
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterface>(
-  props: EditableFormProps<V, IT>
+  props: EditableFormProps<V, IT>,
 ) => {
   const {
     prefixCls,
@@ -354,7 +354,7 @@ const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterf
               `${prefixCls}-form-btn`,
               `${prefixCls}-form-btn-save`,
               classNames?.submitButton,
-              submitProps?.className
+              submitProps?.className,
             )}
           />
           <Button
@@ -378,7 +378,7 @@ const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterf
 function CustomInput<V>(
   props: RenderInputProps<V> & {
     render: RenderInputInterface;
-  }
+  },
 ): ReactElement | null {
   const { render, value, onChange, ...restProps } = props;
   const useInput = render;

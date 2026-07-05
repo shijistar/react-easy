@@ -24,7 +24,7 @@ function buildRule(
      * - **CN:** 国际化函数
      */
     t: ReturnType<typeof useT>;
-  }
+  },
 ): ValidatorRule {
   const { allowed, startsWith, flags, t } = options;
   if (!Object.values(allowed).some((v) => v === true)) {
@@ -45,7 +45,7 @@ function buildRule(
     messages.push(
       t('validation.rule.buildRule.startsWithFormat', {
         prefix: meta.messages.join(t(nameSeparator)),
-      })
+      }),
     );
   }
 
@@ -73,7 +73,7 @@ function buildRule(
         t('validation.rule.buildRule.rangeLength', {
           min,
           max,
-        })
+        }),
       );
     } else {
       if (min > 1) {
@@ -146,7 +146,7 @@ function buildRuleMeta(options: { flags: RuleRegExpFlags; t: ReturnType<typeof u
     messages.push(
       t('validation.rule.buildRule.token.specialChars', {
         value: specials.join(t('validation.rule.buildRule.token.delimiter')),
-      })
+      }),
     );
   }
   return {

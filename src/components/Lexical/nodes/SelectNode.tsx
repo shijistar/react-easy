@@ -1,9 +1,9 @@
 import { type CSSProperties, type ReactNode, useCallback } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import type { LexicalEditor, LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
 import { Select } from 'antd';
 import type { SelectProps } from 'antd';
 import type { BaseOptionType, DefaultOptionType } from 'antd/es/select';
-import type { LexicalEditor, LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
 import { insertNodeAtCursor, shallowEqual, updateDomStyle } from '../helpers';
 import type { BaseDecoratorNodeProps } from './base';
 import { BaseDecoratorNode } from './base';
@@ -54,14 +54,14 @@ export class SelectNode<
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static clone<ValueType = any, OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
-    node: SelectNode<ValueType, OptionType>
+    node: SelectNode<ValueType, OptionType>,
   ): SelectNode<ValueType, OptionType> {
     return new SelectNode<ValueType, OptionType>({ ...node.__props, key: node.getKey() });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static importJSON<ValueType = any, OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(
-    serializedNode: SerializedSelectNode<ValueType, OptionType>
+    serializedNode: SerializedSelectNode<ValueType, OptionType>,
   ): SelectNode<ValueType, OptionType> {
     return $createSelectNode(serializedNode.props);
   }
@@ -119,7 +119,7 @@ export class SelectNode<
   }
 
   getProp(
-    propName: keyof SelectNodeProps<ValueType, OptionType>
+    propName: keyof SelectNodeProps<ValueType, OptionType>,
   ): SelectNodeProps<ValueType, OptionType>[typeof propName] {
     return this.__props?.[propName];
   }
@@ -156,7 +156,7 @@ function SelectComponent<ValueType = any, OptionType extends BaseOptionType | De
         node.__props?.onChange?.(value, options);
       });
     },
-    [editor, node]
+    [editor, node],
   );
 
   const handleClear = useCallback(() => {

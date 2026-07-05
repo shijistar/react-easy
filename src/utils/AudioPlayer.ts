@@ -284,7 +284,7 @@ class AudioPlayer {
    */
   addEventListener: HTMLAudioElement['addEventListener'] = (
     event: string,
-    listener: EventListenerOrEventListenerObject
+    listener: EventListenerOrEventListenerObject,
   ): void => {
     this.audio.addEventListener(event, listener);
   };
@@ -295,7 +295,7 @@ class AudioPlayer {
    */
   removeEventListener: HTMLAudioElement['removeEventListener'] = (
     event: string,
-    listener: EventListenerOrEventListenerObject
+    listener: EventListenerOrEventListenerObject,
   ): void => {
     this.audio.removeEventListener(event, listener);
   };
@@ -331,7 +331,7 @@ class AudioPlayer {
 
   /** Process streaming data source /ArrayBuffer/Uint8Array/Blob */
   private async handleStreamSource(
-    source: Exclude<AudioSource, string> | undefined
+    source: Exclude<AudioSource, string> | undefined,
   ): Promise<{ stopLoading: () => void }> {
     const result = {
       stopLoading: () => {

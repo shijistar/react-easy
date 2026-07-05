@@ -14,7 +14,7 @@ export function stringToBase64(
      * - **CN:** 为 true 时使用 URL 安全 Base64（将 +/ 替换为 -_ 并去掉 =）
      */
     urlSafe?: boolean;
-  } = {}
+  } = {},
 ): string {
   const { urlSafe = false } = opts;
   if (content == null || content === '') return '';
@@ -58,7 +58,7 @@ export function base64ToString(
      * - **CN:** 为 true 时使用 URL 安全 Base64（将 +/ 替换为 -_ 并去掉 =）
      */
     urlSafe?: boolean;
-  } = {}
+  } = {},
 ): string {
   const { urlSafe = false } = opts;
   if (content == null || content === '') return '';
@@ -135,7 +135,7 @@ export function base64ToArrayBuffer(
      * - CN: 为 true 时按 URL 安全 Base64 进行规范化（将 -_ 还原为 +/ 并补齐 =）
      */
     urlSafe?: boolean;
-  } = {}
+  } = {},
 ): ArrayBuffer {
   const { urlSafe = false } = opts;
   if (base64 == null || base64 === '') return new ArrayBuffer(0);

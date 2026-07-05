@@ -139,7 +139,7 @@ export function clearEditorContent(editor: LexicalEditor) {
  */
 export function findNode<T extends LexicalNode>(
   editor: LexicalEditor,
-  predicate: (node: LexicalNode) => boolean
+  predicate: (node: LexicalNode) => boolean,
 ): T | undefined {
   const matched = findNodes<T>(editor, predicate, { stopOnFirstMatch: true });
   return matched[0];
@@ -159,7 +159,7 @@ export function findNodes<T extends LexicalNode>(
   predicate: (node: LexicalNode) => boolean,
   options?: {
     stopOnFirstMatch?: boolean;
-  }
+  },
 ): T[] {
   const matched: T[] = [];
   editor.getEditorState().read(() => {

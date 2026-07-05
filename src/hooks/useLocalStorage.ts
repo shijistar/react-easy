@@ -31,7 +31,7 @@ function defaultDeserialize<T>(raw: string) {
 function useLocalStorage<T>(
   key?: string | null,
   initialValue?: T | (() => T),
-  options?: UseLocalStorageOptions<T>
+  options?: UseLocalStorageOptions<T>,
 ): [T, (action: SetStateAction<T>) => void, () => void] {
   const storageKey = (key ?? '').trim();
   const enabled = storageKey.length > 0;
@@ -70,7 +70,7 @@ function useLocalStorage<T>(
         // ignore write errors (e.g., quota exceeded, blocked storage)
       }
     },
-    [enabled, serialize, storageKey]
+    [enabled, serialize, storageKey],
   );
 
   const setValue = useCallback(
@@ -81,7 +81,7 @@ function useLocalStorage<T>(
         return next;
       });
     },
-    [writeStorage]
+    [writeStorage],
   );
 
   const remove = useCallback(() => {

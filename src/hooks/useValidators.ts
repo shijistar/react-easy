@@ -16,19 +16,19 @@ const useValidators = (): ValidatorRuleMap => {
     build({
       allowed: { letter: true, number: true, underscore: true, max },
       startsWith: { letter: true },
-    })
+    }),
   );
   const nameWithMax = useRefFunction((max?: number) =>
     build({
       allowed: { letter: true, number: true, hyphen: true, underscore: true, chineseCharacter: true, max },
       startsWith: { chineseCharacter: true, letter: true },
-    })
+    }),
   );
   const strongNameWithMax = useRefFunction((max?: number) =>
     build({
       allowed: { letter: true, number: true, hyphen: true, underscore: true, chineseCharacter: true, max },
       startsWith: { chineseCharacter: true, letter: true },
-    })
+    }),
   );
 
   return useMemo<ValidatorRuleMap>(
@@ -76,7 +76,7 @@ const useValidators = (): ValidatorRuleMap => {
       strongNameMax128: strongNameWithMax(128),
       strongNameWithMax,
     }),
-    [codeWithMax, nameWithMax, strongNameWithMax, t]
+    [codeWithMax, nameWithMax, strongNameWithMax, t],
   );
 };
 

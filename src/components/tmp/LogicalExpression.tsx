@@ -4,9 +4,9 @@ import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from 
 import type { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { createUseStyles } from 'react-jss';
 import { Button, DatePicker, Input, Radio, Select } from 'antd';
 import type { SelectProps } from 'antd';
-import { createUseStyles } from 'react-jss';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
 type FieldType = 'string' | 'number' | 'date';
@@ -177,12 +177,12 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
       number: operatorsMap?.number || defaultOperatorsMap.number,
       date: operatorsMap?.date || defaultOperatorsMap.date,
     }),
-    [operatorsMap]
+    [operatorsMap],
   );
 
   const fieldOptions: SelectProps['options'] = useMemo(
     () => fields.map((f) => ({ label: f.label, value: f.key })),
-    [fields]
+    [fields],
   );
 
   const change = useCallback((next: LogicExpressionBuilderValue) => onChange(next), [onChange]);
@@ -203,7 +203,7 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
       if (disabled) return;
       change({ groups: value.groups.filter((g) => g.id !== groupId) });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const setGroupRelation = useCallback(
@@ -213,7 +213,7 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
         groups: value.groups.map((g) => (g.id === groupId ? { ...g, relationWithPrevious: rel } : g)),
       });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const addCondition = useCallback(
@@ -229,11 +229,11 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
                   { id: newId(), relationWithPrevious: g.conditions.length === 0 ? undefined : 'AND' },
                 ],
               }
-            : g
+            : g,
         ),
       });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const removeCondition = useCallback(
@@ -241,11 +241,11 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
       if (disabled) return;
       change({
         groups: value.groups.map((g) =>
-          g.id === groupId ? { ...g, conditions: g.conditions.filter((c) => c.id !== condId) } : g
+          g.id === groupId ? { ...g, conditions: g.conditions.filter((c) => c.id !== condId) } : g,
         ),
       });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const setConditionField = useCallback(
@@ -257,14 +257,14 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
             ? {
                 ...g,
                 conditions: g.conditions.map((c) =>
-                  c.id === condId ? { ...c, fieldKey, operator: undefined, value: undefined } : c
+                  c.id === condId ? { ...c, fieldKey, operator: undefined, value: undefined } : c,
                 ),
               }
-            : g
+            : g,
         ),
       });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const setConditionOperator = useCallback(
@@ -274,11 +274,11 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
         groups: value.groups.map((g) =>
           g.id === groupId
             ? { ...g, conditions: g.conditions.map((c) => (c.id === condId ? { ...c, operator } : c)) }
-            : g
+            : g,
         ),
       });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const setConditionRelation = useCallback(
@@ -290,14 +290,14 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
             ? {
                 ...g,
                 conditions: g.conditions.map((c, idx) =>
-                  c.id === condId && idx > 0 ? { ...c, relationWithPrevious: rel } : c
+                  c.id === condId && idx > 0 ? { ...c, relationWithPrevious: rel } : c,
                 ),
               }
-            : g
+            : g,
         ),
       });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const setConditionValue = useCallback(
@@ -307,11 +307,11 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
         groups: value.groups.map((g) =>
           g.id === groupId
             ? { ...g, conditions: g.conditions.map((c) => (c.id === condId ? { ...c, value: v } : c)) }
-            : g
+            : g,
         ),
       });
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   // dnd-kit sensors and reorder handler
@@ -352,7 +352,7 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
         if (src.id === dst.id) {
           const newConditions = arrayMove(src.conditions, fromIndex, toIndex);
           newConditions.forEach(
-            (c, idx) => (c.relationWithPrevious = idx === 0 ? undefined : c.relationWithPrevious || 'AND')
+            (c, idx) => (c.relationWithPrevious = idx === 0 ? undefined : c.relationWithPrevious || 'AND'),
           );
           change({ groups: value.groups.map((g) => (g.id === src.id ? { ...g, conditions: newConditions } : g)) });
         } else {
@@ -361,10 +361,10 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
           const dstNext = [...dst.conditions];
           dstNext.splice(toIndex, 0, moved);
           srcRest.forEach(
-            (c, idx) => (c.relationWithPrevious = idx === 0 ? undefined : c.relationWithPrevious || 'AND')
+            (c, idx) => (c.relationWithPrevious = idx === 0 ? undefined : c.relationWithPrevious || 'AND'),
           );
           dstNext.forEach(
-            (c, idx) => (c.relationWithPrevious = idx === 0 ? undefined : c.relationWithPrevious || 'AND')
+            (c, idx) => (c.relationWithPrevious = idx === 0 ? undefined : c.relationWithPrevious || 'AND'),
           );
           change({
             groups: value.groups.map((g) => {
@@ -376,7 +376,7 @@ const LogicExpressionBuilder: React.FC<LogicExpressionBuilderProps> = ({
         }
       }
     },
-    [disabled, value.groups, change]
+    [disabled, value.groups, change],
   );
 
   const renderValueInput = (groupId: string, condition: LogicCondition) => {

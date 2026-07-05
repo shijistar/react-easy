@@ -2,9 +2,9 @@ import type { ComponentType, PropsWithoutRef, ReactNode, RefAttributes } from 'r
 import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import type { ActionCompConstraint, ConfirmActionProps, ConfirmActionRef } from '.';
 import { genRenderer, withDefaultConfirmActionProps } from '.';
+import { isForwardRef } from 'react-is';
 import { Button, type ButtonProps, Switch, type SwitchProps, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
-import { isForwardRef } from 'react-is';
 
 /**
  * - **EN:** Generate a confirm box component with custom trigger and default props
@@ -23,15 +23,15 @@ export default function withConfirmAction<
   defaultProps?:
     | Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>
     | ((
-        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>
-      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>)
+        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>,
+      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>),
 ) {
   return withConfirmActionInternal(
     ActionComponent,
     {
       confirmType: 'normal',
     },
-    defaultProps
+    defaultProps,
   );
 }
 
@@ -47,8 +47,8 @@ export function withConfirmActionInternal<
   defaultProps?:
     | Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>
     | ((
-        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>
-      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>)
+        actualProps: Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>,
+      ) => Partial<Omit<P, keyof ActionCompConstraint> & ConfirmActionProps<OuterTriggerProp, OuterEvent>>),
 ) {
   const ConfirmActionWithRef = forwardRef(genRenderer(renderDefaultProps));
   ConfirmActionWithRef.displayName = 'ForwardRef(ConfirmAction)';
@@ -92,14 +92,14 @@ export function withConfirmActionInternal<
           triggerDom={triggerDom}
         />
       );
-    }
+    },
   );
   WrappedActionComponent.displayName = 'ConfirmAction(ActionComponent)';
 
   const withDefaults = withDefaultConfirmActionProps(
     WrappedActionComponent,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    defaultProps as any
+    defaultProps as any,
   ) as unknown as ComponentType<
     Omit<ConfirmActionProps<OuterTriggerProp, OuterEvent>, 'triggerComponent'> & RefAttributes<ConfirmActionRef>
   >;
@@ -127,7 +127,7 @@ function addTriggers<
       triggerComponent: Button,
       triggerEvent: 'onClick',
       triggerProps: {},
-    }
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as any;
   // Type of switch trigger
@@ -138,7 +138,7 @@ function addTriggers<
       triggerComponent: Switch,
       triggerEvent: 'onChange',
       triggerProps: {},
-    }
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as any;
   // Type of link trigger
@@ -151,7 +151,7 @@ function addTriggers<
       triggerProps: {
         style: { whiteSpace: 'nowrap' },
       },
-    }
+    },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) as any;
   return patchedComp;
@@ -171,7 +171,7 @@ type WithGenericTriggers<P extends ActionCompConstraint, Ref extends object> = (
 >(
   props: PropsWithoutRef<Omit<P, keyof ActionCompConstraint>> &
     ConfirmActionProps<TriggerProp, Event> &
-    RefAttributes<ConfirmActionRef<Ref>>
+    RefAttributes<ConfirmActionRef<Ref>>,
 ) => ReactNode) &
   TypedTriggers<P, Ref>;
 
