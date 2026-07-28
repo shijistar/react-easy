@@ -5,13 +5,13 @@ import { List, Space, Tag, Typography } from 'antd';
 import StreamDownloader, {
   type StreamDownloadRequest,
   type StreamDownloadSaveStrategy,
-} from '../../../src/utils/StreamDownloader';
-import { useStoryT } from '../../locales';
+} from '../../../../src/utils/StreamDownloader';
+import { useStoryT } from '../../../locales';
 import StreamDownloaderDemoCard, {
   formatErrorLog,
   getCodeBlockStyle,
   useStreamDownloaderDemoLogs,
-} from '../shared/streamDownloaderDemo';
+} from '../../shared/streamDownloaderDemo';
 
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
