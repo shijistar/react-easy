@@ -4,5 +4,7 @@ export * from './base64';
 export * from './color';
 export * from './crypto';
 export * from './math';
+export * from './StreamDownloader';
+export { default as StreamDownloader } from './StreamDownloader';
 export * from './stream';
 export * from './string';

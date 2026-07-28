@@ -27,6 +27,9 @@ export { default as useSSE } from './useSSE';
 export * from './useStompSocket';
 export { default as useStompSocket } from './useStompSocket';
 
+export * from './useStreamDownloader';
+export { default as useStreamDownloader } from './useStreamDownloader';
+
 export * from './useUserMedia';
 export { default as useUserMedia } from './useUserMedia';
 
