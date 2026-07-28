@@ -1,6 +1,7 @@
+import type { AxiosInstance } from 'axios';
 import streamSaver from 'streamsaver';
 import { describe, expect, it, vi } from 'vitest';
-import StreamDownloader, { type AxiosLikeInstance, StreamDownloadError } from '../../src/utils/StreamDownloader';
+import StreamDownloader, { StreamDownloadError } from '../../src/utils/StreamDownloader';
 
 vi.mock('streamsaver', () => ({
   default: {
@@ -97,7 +98,7 @@ describe('StreamDownloader', () => {
         },
         data: createByteStream(['axios', '.txt']),
       })),
-    } as unknown as AxiosLikeInstance;
+    } as unknown as AxiosInstance;
 
     vi.stubGlobal(
       'showSaveFilePicker',
@@ -221,7 +222,7 @@ describe('StreamDownloader', () => {
         status: 200,
         data: {},
       })),
-    } as unknown as AxiosLikeInstance;
+    } as unknown as AxiosInstance;
     const downloader = new StreamDownloader();
 
     await expect(

@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { create as createAxios } from 'axios';
-import { Alert, Button, Card, Collapse, Descriptions, List, Progress, Space, Tag, Typography } from 'antd';
-import { type AxiosLikeInstance, type StreamDownloadSaveStrategy, useStreamDownloader } from '../../../src';
+import { List, Space, Tag, Typography } from 'antd';
+import { type StreamDownloadSaveStrategy, useStreamDownloader } from '../../../src';
 import { useStoryT } from '../../locales';
+import StreamDownloaderDemoCard, { formatErrorLog, useStreamDownloaderDemoLogs } from '../shared/streamDownloaderDemo';
 
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
@@ -33,19 +34,6 @@ interface UseStreamDownloaderStoryArgs {
    * - **CN:** 透传给 `start(request)` 的保存策略。
    */
   saveStrategy: StreamDownloadSaveStrategy;
-}
-
-interface DemoLogItem {
-  /**
-   * - **EN:** Stable row key for the event log list.
-   * - **CN:** 事件日志列表的稳定行键。
-   */
-  id: number;
-  /**
-   * - **EN:** Human-readable event text.
-   * - **CN:** 面向人的事件文本。
-   */
-  message: string;
 }
 
 const HOOK_API_ITEMS = [
@@ -159,25 +147,20 @@ function UseStreamDownloaderStoryDemo({
   saveStrategy,
 }: UseStreamDownloaderStoryArgs) {
   const t = useStoryT();
-  const logIdRef = useRef(0);
-  const [logs, setLogs] = useState<DemoLogItem[]>([]);
+  const { appendLog, logs } = useStreamDownloaderDemoLogs();
   const { downloader, snapshot, isRunning, start, cancel, reset } = useStreamDownloader({
     autoDispose,
     progressThrottleMs,
   });
-  const axiosInstance = useRef<AxiosLikeInstance>(createAxios({ adapter: 'fetch' })).current;
+  const axiosInstance = useMemo(() => createAxios({ adapter: 'fetch' }), []);
 
   const normalizedFileName = fileName.trim() || undefined;
-
-  const appendLog = (message: string) => {
-    setLogs((prev) => [{ id: ++logIdRef.current, message }, ...prev].slice(0, 10));
-  };
 
   const startFetchDownload = async () => {
     appendLog(t('storybook.stories.useStreamDownloader.logs.fetchStart'));
     try {
       const result = await start({
-        url: url,
+        url,
         fileName: normalizedFileName,
         saveStrategy,
       });
@@ -192,7 +175,7 @@ function UseStreamDownloaderStoryDemo({
     try {
       const result = await start({
         transport: 'axios',
-        url: url,
+        url,
         fileName: normalizedFileName,
         saveStrategy,
         axios: {
@@ -211,166 +194,119 @@ function UseStreamDownloaderStoryDemo({
     appendLog(t('storybook.stories.useStreamDownloader.logs.reset'));
   };
 
-  return (
-    <Card variant="outlined" style={{ maxWidth: 1080 }} title={t('storybook.stories.useStreamDownloader.cardTitle')}>
-      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-        <Alert
-          type="info"
-          showIcon
-          title={t('storybook.stories.useStreamDownloader.realHint')}
-          description={t('storybook.stories.useStreamDownloader.description')}
-        />
+  const configItems = [
+    {
+      key: 'url',
+      label: t('storybook.stories.useStreamDownloader.config.url'),
+      value: (
+        <Typography.Link href={url} target="_blank">
+          {url}
+        </Typography.Link>
+      ),
+    },
+    {
+      key: 'fileName',
+      label: t('storybook.stories.useStreamDownloader.config.fileName'),
+      value: normalizedFileName ?? '--',
+    },
+    {
+      key: 'saveStrategy',
+      label: t('storybook.stories.useStreamDownloader.config.saveStrategy'),
+      value: <Tag>{saveStrategy}</Tag>,
+    },
+    {
+      key: 'progressThrottleMs',
+      label: t('storybook.stories.useStreamDownloader.config.progressThrottleMs'),
+      value: String(progressThrottleMs),
+    },
+    {
+      key: 'autoDispose',
+      label: t('storybook.stories.useStreamDownloader.config.autoDispose'),
+      value: String(autoDispose),
+    },
+    {
+      key: 'downloaderStatus',
+      label: t('storybook.stories.useStreamDownloader.config.downloaderStatus'),
+      value: downloader.status,
+    },
+  ];
 
-        <Descriptions bordered column={1} size="small" title={t('storybook.stories.useStreamDownloader.configTitle')}>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.config.url')}>
-            <Typography.Link href={url} target="_blank">
-              {url}
-            </Typography.Link>
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.config.fileName')}>
-            {normalizedFileName ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.config.saveStrategy')}>
-            <Tag>{saveStrategy}</Tag>
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.config.progressThrottleMs')}>
-            {String(progressThrottleMs)}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.config.autoDispose')}>
-            {String(autoDispose)}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.config.downloaderStatus')}>
-            {downloader.status}
-          </Descriptions.Item>
-        </Descriptions>
-
-        <Space wrap>
-          <Button type="primary" onClick={() => void startFetchDownload()} disabled={isRunning}>
-            {t('storybook.stories.useStreamDownloader.actions.startFetch')}
-          </Button>
-          <Button type="primary" onClick={() => void startAxiosDownload()} disabled={isRunning}>
-            {t('storybook.stories.useStreamDownloader.actions.startAxios')}
-          </Button>
-          <Button
-            onClick={() => {
-              cancel();
-              appendLog(t('storybook.stories.useStreamDownloader.logs.cancel'));
-            }}
-            disabled={!isRunning}
-          >
-            {t('storybook.stories.useStreamDownloader.actions.cancel')}
-          </Button>
-          <Button onClick={resetSnapshot}>{t('storybook.stories.useStreamDownloader.actions.reset')}</Button>
-        </Space>
-
-        <Descriptions
-          bordered
-          column={1}
+  const sections = [
+    {
+      key: 'hook-api',
+      label: t('storybook.stories.useStreamDownloader.sections.hookApi'),
+      children: (
+        <List
           size="small"
-          title={t('storybook.stories.useStreamDownloader.snapshotTitle')}
-          styles={{ label: { width: 200 } }}
-        >
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.status')}>
-            {snapshot.status}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.isRunning')}>
-            {String(isRunning)}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.requestUrl')}>
-            {snapshot.requestUrl ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.fileName')}>
-            {snapshot.fileName ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.transport')}>
-            {snapshot.transport ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.saveStrategy')}>
-            {snapshot.saveStrategy ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.loadedBytes')}>
-            {String(snapshot.progress.loadedBytes)}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.totalBytes')}>
-            {snapshot.progress.totalBytes != null ? String(snapshot.progress.totalBytes) : '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.percent')}>
-            <Progress
-              percent={snapshot.progress.percent ?? 0}
-              status={snapshot.progress.percent === 100 ? 'success' : 'active'}
-            />
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.speedBps')}>
-            {snapshot.progress.speedBps != null ? formatByteRate(snapshot.progress.speedBps) : '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.error')}>
-            <Typography.Text type={snapshot.errorCode ? 'danger' : undefined}>
-              {snapshot.errorCode ? `${snapshot.errorCode}: ${snapshot.errorMessage}` : '--'}
-            </Typography.Text>
-          </Descriptions.Item>
-        </Descriptions>
-
-        <Collapse
-          items={[
-            {
-              key: 'hook-api',
-              label: t('storybook.stories.useStreamDownloader.sections.hookApi'),
-              children: (
-                <List
-                  size="small"
-                  dataSource={[...HOOK_API_ITEMS]}
-                  renderItem={(item: (typeof HOOK_API_ITEMS)[number]) => (
-                    <List.Item>
-                      <Space direction="vertical" size={0}>
-                        <Typography.Text code>{item.signature}</Typography.Text>
-                        <Typography.Text>{item.description}</Typography.Text>
-                      </Space>
-                    </List.Item>
-                  )}
-                />
-              ),
-            },
-            {
-              key: 'class-link',
-              label: t('storybook.stories.useStreamDownloader.sections.classLink'),
-              children: (
-                <Typography.Paragraph>
-                  <Typography.Link href="?path=/docs/utils-streamdownloader--playground">
-                    {t('storybook.stories.useStreamDownloader.sections.classLinkText')}
-                  </Typography.Link>
-                </Typography.Paragraph>
-              ),
-            },
-          ]}
+          dataSource={[...HOOK_API_ITEMS]}
+          renderItem={(item: (typeof HOOK_API_ITEMS)[number]) => (
+            <List.Item>
+              <Space direction="vertical" size={0}>
+                <Typography.Text code>{item.signature}</Typography.Text>
+                <Typography.Text>{item.description}</Typography.Text>
+              </Space>
+            </List.Item>
+          )}
         />
+      ),
+    },
+    {
+      key: 'class-link',
+      label: t('storybook.stories.useStreamDownloader.sections.classLink'),
+      children: (
+        <Typography.Paragraph>
+          <Typography.Link href="?path=/docs/utils-streamdownloader--playground">
+            {t('storybook.stories.useStreamDownloader.sections.classLinkText')}
+          </Typography.Link>
+        </Typography.Paragraph>
+      ),
+    },
+  ];
 
-        <div>
-          <Typography.Text strong>{t('storybook.stories.useStreamDownloader.logs.title')}</Typography.Text>
-          <List
-            bordered
-            size="small"
-            style={{ marginTop: 8 }}
-            dataSource={logs}
-            rowKey="id"
-            locale={{ emptyText: t('storybook.stories.useStreamDownloader.logs.empty') }}
-            renderItem={(item) => <List.Item>{item.message}</List.Item>}
-          />
-        </div>
-      </Space>
-    </Card>
+  return (
+    <StreamDownloaderDemoCard
+      title={t('storybook.stories.useStreamDownloader.cardTitle')}
+      hintTitle={t('storybook.stories.useStreamDownloader.realHint')}
+      hintDescription={t('storybook.stories.useStreamDownloader.description')}
+      configTitle={t('storybook.stories.useStreamDownloader.configTitle')}
+      configItems={configItems}
+      snapshotTitle={t('storybook.stories.useStreamDownloader.snapshotTitle')}
+      snapshot={snapshot}
+      isRunning={isRunning}
+      onStartFetch={() => {
+        void startFetchDownload();
+      }}
+      onStartAxios={() => {
+        void startAxiosDownload();
+      }}
+      onCancel={() => {
+        cancel();
+        appendLog(t('storybook.stories.useStreamDownloader.logs.cancel'));
+      }}
+      onReset={resetSnapshot}
+      actionLabels={{
+        startFetch: t('storybook.stories.useStreamDownloader.actions.startFetch'),
+        startAxios: t('storybook.stories.useStreamDownloader.actions.startAxios'),
+        cancel: t('storybook.stories.useStreamDownloader.actions.cancel'),
+        reset: t('storybook.stories.useStreamDownloader.actions.reset'),
+      }}
+      fieldLabels={{
+        status: t('storybook.stories.useStreamDownloader.fields.status'),
+        isRunning: t('storybook.stories.useStreamDownloader.fields.isRunning'),
+        requestUrl: t('storybook.stories.useStreamDownloader.fields.requestUrl'),
+        fileName: t('storybook.stories.useStreamDownloader.fields.fileName'),
+        transport: t('storybook.stories.useStreamDownloader.fields.transport'),
+        saveStrategy: t('storybook.stories.useStreamDownloader.fields.saveStrategy'),
+        loadedBytes: t('storybook.stories.useStreamDownloader.fields.loadedBytes'),
+        totalBytes: t('storybook.stories.useStreamDownloader.fields.totalBytes'),
+        percent: t('storybook.stories.useStreamDownloader.fields.percent'),
+        speedBps: t('storybook.stories.useStreamDownloader.fields.speedBps'),
+        error: t('storybook.stories.useStreamDownloader.fields.error'),
+      }}
+      sections={sections}
+      logsTitle={t('storybook.stories.useStreamDownloader.logs.title')}
+      logsEmptyText={t('storybook.stories.useStreamDownloader.logs.empty')}
+      logs={logs}
+    />
   );
-}
-
-function formatErrorLog(prefix: string, error: unknown) {
-  return `${prefix}: ${error instanceof Error ? error.message : String(error)}`;
-}
-
-function formatByteRate(speedBps: number) {
-  if (speedBps < 1024) {
-    return `${speedBps.toFixed(0)} B/s`;
-  }
-  if (speedBps < 1024 ** 2) {
-    return `${(speedBps / 1024).toFixed(2)} KB/s`;
-  }
-  return `${(speedBps / 1024 ** 2).toFixed(2)} MB/s`;
 }

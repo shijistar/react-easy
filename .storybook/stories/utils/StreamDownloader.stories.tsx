@@ -1,13 +1,17 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useSyncExternalStore } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { create as createAxios } from 'axios';
-import { Alert, Button, Card, Collapse, Descriptions, List, Progress, Space, Tag, Typography } from 'antd';
+import { List, Space, Tag, Typography } from 'antd';
 import StreamDownloader, {
-  type AxiosLikeInstance,
   type StreamDownloadRequest,
   type StreamDownloadSaveStrategy,
 } from '../../../src/utils/StreamDownloader';
 import { useStoryT } from '../../locales';
+import StreamDownloaderDemoCard, {
+  formatErrorLog,
+  getCodeBlockStyle,
+  useStreamDownloaderDemoLogs,
+} from '../shared/streamDownloaderDemo';
 
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
@@ -32,19 +36,6 @@ interface StreamDownloaderStoryArgs {
    * - **CN:** 透传给 `downloader.start()` 的保存策略。
    */
   saveStrategy: StreamDownloadSaveStrategy;
-}
-
-interface DemoLogItem {
-  /**
-   * - **EN:** Stable row key for the event log list.
-   * - **CN:** 事件日志列表的稳定行键。
-   */
-  id: number;
-  /**
-   * - **EN:** Human-readable event text.
-   * - **CN:** 面向人的事件文本。
-   */
-  message: string;
 }
 
 const INSTANCE_API_ITEMS = [
@@ -104,8 +95,6 @@ const TYPE_API_ITEMS = [
   'StreamDownloadError',
   'StreamDownloaderInit',
   'StreamDownloadListener',
-  'AxiosLikeResponse',
-  'AxiosLikeInstance',
   'StreamDownloadAxiosOptions',
   'SaveFilePickerFn',
 ] as const;
@@ -169,15 +158,14 @@ export const Playground: Story = {
 
 function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStrategy }: StreamDownloaderStoryArgs) {
   const t = useStoryT();
-  const logIdRef = useRef(0);
-  const [logs, setLogs] = useState<DemoLogItem[]>([]);
+  const { appendLog, logs } = useStreamDownloaderDemoLogs();
   const downloader = useMemo(() => new StreamDownloader({ progressThrottleMs }), [progressThrottleMs]);
   const snapshot = useSyncExternalStore(
     downloader.subscribe.bind(downloader),
     downloader.getSnapshot.bind(downloader),
     downloader.getSnapshot.bind(downloader),
   );
-  const axiosInstance = useMemo<AxiosLikeInstance>(() => createAxios({ adapter: 'fetch' }), []);
+  const axiosInstance = useMemo(() => createAxios({ adapter: 'fetch' }), []);
 
   useEffect(() => {
     return () => {
@@ -187,15 +175,11 @@ function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStra
 
   const normalizedFileName = fileName.trim() || undefined;
 
-  const appendLog = (message: string) => {
-    setLogs((prev) => [{ id: ++logIdRef.current, message }, ...prev].slice(0, 10));
-  };
-
   const startFetchDownload = async () => {
     appendLog(t('storybook.stories.StreamDownloader.logs.fetchStart'));
     try {
       const result = await downloader.start({
-        url: url,
+        url,
         fileName: normalizedFileName,
         saveStrategy,
       });
@@ -210,7 +194,7 @@ function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStra
     try {
       const result = await downloader.start({
         transport: 'axios',
-        url: url,
+        url,
         fileName: normalizedFileName,
         saveStrategy,
         axios: {
@@ -235,174 +219,139 @@ function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStra
     saveStrategy,
   });
 
-  return (
-    <Card variant="outlined" style={{ maxWidth: 1080 }} title={t('storybook.stories.StreamDownloader.cardTitle')}>
-      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-        <Alert
-          type="info"
-          showIcon
-          title={t('storybook.stories.StreamDownloader.realHint')}
-          description={t('storybook.stories.StreamDownloader.description')}
-        />
+  const configItems = [
+    {
+      key: 'url',
+      label: t('storybook.stories.StreamDownloader.config.url'),
+      value: (
+        <Typography.Link href={url} target="_blank">
+          {url}
+        </Typography.Link>
+      ),
+    },
+    {
+      key: 'fileName',
+      label: t('storybook.stories.StreamDownloader.config.fileName'),
+      value: normalizedFileName ?? '--',
+    },
+    {
+      key: 'saveStrategy',
+      label: t('storybook.stories.StreamDownloader.config.saveStrategy'),
+      value: <Tag>{saveStrategy}</Tag>,
+    },
+    {
+      key: 'progressThrottleMs',
+      label: t('storybook.stories.StreamDownloader.config.progressThrottleMs'),
+      value: String(progressThrottleMs),
+    },
+    {
+      key: 'statusGetter',
+      label: t('storybook.stories.StreamDownloader.config.statusGetter'),
+      value: downloader.status,
+    },
+    {
+      key: 'isRunningGetter',
+      label: t('storybook.stories.StreamDownloader.config.isRunningGetter'),
+      value: String(downloader.isRunning),
+    },
+  ];
 
-        <Descriptions bordered column={1} size="small" title={t('storybook.stories.StreamDownloader.configTitle')}>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.url')}>
-            <Typography.Link href={url} target="_blank">
-              {url}
-            </Typography.Link>
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.fileName')}>
-            {normalizedFileName ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.saveStrategy')}>
-            <Tag>{saveStrategy}</Tag>
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.progressThrottleMs')}>
-            {String(progressThrottleMs)}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.statusGetter')}>
-            {downloader.status}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.isRunningGetter')}>
-            {String(downloader.isRunning)}
-          </Descriptions.Item>
-        </Descriptions>
-
-        <Space wrap>
-          <Button type="primary" onClick={() => void startFetchDownload()} disabled={downloader.isRunning}>
-            {t('storybook.stories.StreamDownloader.actions.startFetch')}
-          </Button>
-          <Button type="primary" onClick={() => void startAxiosDownload()} disabled={downloader.isRunning}>
-            {t('storybook.stories.StreamDownloader.actions.startAxios')}
-          </Button>
-          <Button
-            onClick={() => {
-              downloader.cancel();
-              appendLog(t('storybook.stories.StreamDownloader.logs.cancel'));
-            }}
-            disabled={!downloader.isRunning}
-          >
-            {t('storybook.stories.StreamDownloader.actions.cancel')}
-          </Button>
-          <Button onClick={resetSnapshot}>{t('storybook.stories.StreamDownloader.actions.reset')}</Button>
-        </Space>
-
-        <Descriptions
-          bordered
-          column={1}
+  const sections = [
+    {
+      key: 'instance-api',
+      label: t('storybook.stories.StreamDownloader.sections.instanceApi'),
+      children: (
+        <List
           size="small"
-          title={t('storybook.stories.StreamDownloader.snapshotTitle')}
-          styles={{ label: { width: 200 } }}
-        >
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.status')}>
-            {snapshot.status}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.requestUrl')}>
-            {snapshot.requestUrl ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.fileName')}>
-            {snapshot.fileName ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.transport')}>
-            {snapshot.transport ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.saveStrategy')}>
-            {snapshot.saveStrategy ?? '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.loadedBytes')}>
-            {String(snapshot.progress.loadedBytes)}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.totalBytes')}>
-            {snapshot.progress.totalBytes != null ? String(snapshot.progress.totalBytes) : '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.percent')}>
-            <Progress
-              percent={snapshot.progress.percent ?? 0}
-              status={snapshot.progress.percent === 100 ? 'success' : 'active'}
-            />
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.speedBps')}>
-            {snapshot.progress.speedBps != null ? formatByteRate(snapshot.progress.speedBps) : '--'}
-          </Descriptions.Item>
-          <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.error')}>
-            <Typography.Text type={snapshot.errorCode ? 'danger' : undefined}>
-              {snapshot.errorCode ? `${snapshot.errorCode}: ${snapshot.errorMessage}` : '--'}
-            </Typography.Text>
-          </Descriptions.Item>
-        </Descriptions>
-
-        <Collapse
-          items={[
-            {
-              key: 'instance-api',
-              label: t('storybook.stories.StreamDownloader.sections.instanceApi'),
-              children: (
-                <List
-                  size="small"
-                  dataSource={[...INSTANCE_API_ITEMS]}
-                  renderItem={(item: (typeof INSTANCE_API_ITEMS)[number]) => (
-                    <List.Item>
-                      <Space orientation="vertical" size={0}>
-                        <Typography.Text code>{item.signature}</Typography.Text>
-                        <Typography.Text>{item.description}</Typography.Text>
-                      </Space>
-                    </List.Item>
-                  )}
-                />
-              ),
-            },
-            {
-              key: 'request-api',
-              label: t('storybook.stories.StreamDownloader.sections.requestApi'),
-              children: (
-                <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
-                  <div>
-                    <Typography.Text strong>
-                      {t('storybook.stories.StreamDownloader.sections.fetchExample')}
-                    </Typography.Text>
-                    <pre style={getCodeBlockStyle()}>{requestExamples.fetchRequest}</pre>
-                  </div>
-                  <div>
-                    <Typography.Text strong>
-                      {t('storybook.stories.StreamDownloader.sections.axiosExample')}
-                    </Typography.Text>
-                    <pre style={getCodeBlockStyle()}>{requestExamples.axiosRequest}</pre>
-                  </div>
-                </Space>
-              ),
-            },
-            {
-              key: 'type-api',
-              label: t('storybook.stories.StreamDownloader.sections.typeApi'),
-              children: (
-                <List
-                  size="small"
-                  dataSource={[...TYPE_API_ITEMS]}
-                  renderItem={(item: (typeof TYPE_API_ITEMS)[number]) => (
-                    <List.Item>
-                      <Typography.Text code>{item}</Typography.Text>
-                    </List.Item>
-                  )}
-                />
-              ),
-            },
-          ]}
+          dataSource={[...INSTANCE_API_ITEMS]}
+          renderItem={(item: (typeof INSTANCE_API_ITEMS)[number]) => (
+            <List.Item>
+              <Space orientation="vertical" size={0}>
+                <Typography.Text code>{item.signature}</Typography.Text>
+                <Typography.Text>{item.description}</Typography.Text>
+              </Space>
+            </List.Item>
+          )}
         />
+      ),
+    },
+    {
+      key: 'request-api',
+      label: t('storybook.stories.StreamDownloader.sections.requestApi'),
+      children: (
+        <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+          <div>
+            <Typography.Text strong>{t('storybook.stories.StreamDownloader.sections.fetchExample')}</Typography.Text>
+            <pre style={getCodeBlockStyle()}>{requestExamples.fetchRequest}</pre>
+          </div>
+          <div>
+            <Typography.Text strong>{t('storybook.stories.StreamDownloader.sections.axiosExample')}</Typography.Text>
+            <pre style={getCodeBlockStyle()}>{requestExamples.axiosRequest}</pre>
+          </div>
+        </Space>
+      ),
+    },
+    {
+      key: 'type-api',
+      label: t('storybook.stories.StreamDownloader.sections.typeApi'),
+      children: (
+        <List
+          size="small"
+          dataSource={[...TYPE_API_ITEMS]}
+          renderItem={(item: (typeof TYPE_API_ITEMS)[number]) => (
+            <List.Item>
+              <Typography.Text code>{item}</Typography.Text>
+            </List.Item>
+          )}
+        />
+      ),
+    },
+  ];
 
-        <div>
-          <Typography.Text strong>{t('storybook.stories.StreamDownloader.logs.title')}</Typography.Text>
-          <List
-            bordered
-            size="small"
-            style={{ marginTop: 8 }}
-            dataSource={logs}
-            rowKey="id"
-            locale={{ emptyText: t('storybook.stories.StreamDownloader.logs.empty') }}
-            renderItem={(item) => <List.Item>{item.message}</List.Item>}
-          />
-        </div>
-      </Space>
-    </Card>
+  return (
+    <StreamDownloaderDemoCard
+      title={t('storybook.stories.StreamDownloader.cardTitle')}
+      hintTitle={t('storybook.stories.StreamDownloader.realHint')}
+      hintDescription={t('storybook.stories.StreamDownloader.description')}
+      configTitle={t('storybook.stories.StreamDownloader.configTitle')}
+      configItems={configItems}
+      snapshotTitle={t('storybook.stories.StreamDownloader.snapshotTitle')}
+      snapshot={snapshot}
+      isRunning={downloader.isRunning}
+      onStartFetch={() => {
+        void startFetchDownload();
+      }}
+      onStartAxios={() => {
+        void startAxiosDownload();
+      }}
+      onCancel={() => {
+        downloader.cancel();
+        appendLog(t('storybook.stories.StreamDownloader.logs.cancel'));
+      }}
+      onReset={resetSnapshot}
+      actionLabels={{
+        startFetch: t('storybook.stories.StreamDownloader.actions.startFetch'),
+        startAxios: t('storybook.stories.StreamDownloader.actions.startAxios'),
+        cancel: t('storybook.stories.StreamDownloader.actions.cancel'),
+        reset: t('storybook.stories.StreamDownloader.actions.reset'),
+      }}
+      fieldLabels={{
+        status: t('storybook.stories.StreamDownloader.fields.status'),
+        requestUrl: t('storybook.stories.StreamDownloader.fields.requestUrl'),
+        fileName: t('storybook.stories.StreamDownloader.fields.fileName'),
+        transport: t('storybook.stories.StreamDownloader.fields.transport'),
+        saveStrategy: t('storybook.stories.StreamDownloader.fields.saveStrategy'),
+        loadedBytes: t('storybook.stories.StreamDownloader.fields.loadedBytes'),
+        totalBytes: t('storybook.stories.StreamDownloader.fields.totalBytes'),
+        percent: t('storybook.stories.StreamDownloader.fields.percent'),
+        speedBps: t('storybook.stories.StreamDownloader.fields.speedBps'),
+        error: t('storybook.stories.StreamDownloader.fields.error'),
+      }}
+      sections={sections}
+      logsTitle={t('storybook.stories.StreamDownloader.logs.title')}
+      logsEmptyText={t('storybook.stories.StreamDownloader.logs.empty')}
+      logs={logs}
+    />
   );
 }
 
@@ -416,7 +365,7 @@ function buildRequestExamples({
   saveStrategy: StreamDownloadSaveStrategy;
 }) {
   const fetchRequest: StreamDownloadRequest = {
-    url: url,
+    url,
     fileName,
     saveStrategy,
   };
@@ -426,32 +375,5 @@ function buildRequestExamples({
   return {
     fetchRequest: JSON.stringify(fetchRequest, null, 2),
     axiosRequest: `const axiosInstance = axios.create({ adapter: 'fetch' });\n\nconst request = {\n  transport: 'axios',\n  url: '${url}',${normalizedFileName}\n  saveStrategy: '${saveStrategy}',\n  axios: {\n    instance: axiosInstance,\n    adapter: 'fetch',\n  },\n};`,
-  };
-}
-
-function formatErrorLog(prefix: string, error: unknown) {
-  return `${prefix}: ${error instanceof Error ? error.message : String(error)}`;
-}
-
-function formatByteRate(speedBps: number) {
-  if (speedBps < 1024) {
-    return `${speedBps.toFixed(0)} B/s`;
-  }
-  if (speedBps < 1024 ** 2) {
-    return `${(speedBps / 1024).toFixed(2)} KB/s`;
-  }
-  return `${(speedBps / 1024 ** 2).toFixed(2)} MB/s`;
-}
-
-function getCodeBlockStyle(): CSSProperties {
-  return {
-    marginTop: 8,
-    marginBottom: 0,
-    padding: 12,
-    borderRadius: 8,
-    background: '#00000008',
-    overflowX: 'auto',
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-word',
   };
 }
