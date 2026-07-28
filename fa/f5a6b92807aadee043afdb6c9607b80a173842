@@ -1,0 +1,14 @@
+src/utils/StreamDownloader.ts
+  h_3a0b15d296f1fe 699-700,704,706,721,723
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "faf5a6b92807aadee043afdb6c9607b80a173842",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
