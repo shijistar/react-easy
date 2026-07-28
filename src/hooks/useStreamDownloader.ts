@@ -6,6 +6,10 @@ import StreamDownloader, {
   type StreamDownloadSuccessResult,
 } from '../utils/StreamDownloader';
 
+/**
+ * - **EN:** Hook options for `useStreamDownloader`.
+ * - **CN:** `useStreamDownloader` 的可选参数。
+ */
 export interface UseStreamDownloaderOptions extends StreamDownloaderInit {
   /**
    * - **EN:** Whether to automatically dispose the downloader on component unmount. Default is
@@ -15,6 +19,10 @@ export interface UseStreamDownloaderOptions extends StreamDownloaderInit {
   autoDispose?: boolean;
 }
 
+/**
+ * - **EN:** React-friendly return value exposed by `useStreamDownloader`.
+ * - **CN:** `useStreamDownloader` 对 React 场景暴露的返回结构。
+ */
 export interface UseStreamDownloaderResult {
   /**
    * - **EN:** Stable downloader class instance.
@@ -49,8 +57,9 @@ export interface UseStreamDownloaderResult {
 }
 
 /**
- * - **EN:** React wrapper around `StreamDownloader`.
- * - **CN:** `StreamDownloader` 的 React 包装层。
+ * - **EN:** React wrapper around `StreamDownloader` that exposes a stable downloader instance, a
+ *   reactive snapshot, and bound action helpers.
+ * - **CN:** `StreamDownloader` 的 React 包装层，对外提供稳定的 downloader 实例、响应式 快照以及已经绑定好的 action 方法。
  */
 const useStreamDownloader = (options?: UseStreamDownloaderOptions): UseStreamDownloaderResult => {
   const ref = useRef<StreamDownloader | null>(null);

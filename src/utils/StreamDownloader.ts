@@ -1,11 +1,27 @@
 import streamSaver from 'streamsaver';
 
+/**
+ * - **EN:** Supported request transport types.
+ * - **CN:** 支持的请求传输类型。
+ */
 export type StreamDownloadTransport = 'fetch' | 'axios';
 
+/**
+ * - **EN:** Supported streaming save strategies.
+ * - **CN:** 支持的流式保存策略。
+ */
 export type StreamDownloadSaveStrategy = 'auto' | 'file-system-access' | 'stream-saver';
 
+/**
+ * - **EN:** Lifecycle status of a download task.
+ * - **CN:** 下载任务的生命周期状态。
+ */
 export type StreamDownloadStatus = 'idle' | 'preparing' | 'downloading' | 'success' | 'failed' | 'cancelled';
 
+/**
+ * - **EN:** Stable error codes exposed by `StreamDownloader`.
+ * - **CN:** `StreamDownloader` 对外暴露的稳定错误码。
+ */
 export type StreamDownloadErrorCode =
   | 'TASK_ALREADY_RUNNING'
   | 'UNSUPPORTED_TRANSPORT'
@@ -19,6 +35,10 @@ export type StreamDownloadErrorCode =
   | 'WRITE_FAILED'
   | 'DOWNLOAD_CANCELLED';
 
+/**
+ * - **EN:** Progress metrics reported during a streaming download.
+ * - **CN:** 流式下载过程中上报的进度指标。
+ */
 export interface StreamDownloadProgress {
   loadedBytes: number;
   totalBytes?: number;
@@ -26,6 +46,10 @@ export interface StreamDownloadProgress {
   speedBps?: number;
 }
 
+/**
+ * - **EN:** Reactive snapshot describing the latest downloader state.
+ * - **CN:** 描述下载器最新状态的响应式快照。
+ */
 export interface StreamDownloadSnapshot {
   status: StreamDownloadStatus;
   requestUrl?: string;
@@ -37,29 +61,49 @@ export interface StreamDownloadSnapshot {
   errorMessage?: string;
 }
 
+/**
+ * - **EN:** Minimal response shape required from an injected axios-like instance.
+ * - **CN:** 注入的 axios-like 实例所需满足的最小响应结构。
+ */
 export interface AxiosLikeResponse<T = unknown> {
   status: number;
   statusText?: string;
-  headers?: Headers | Record<string, string | undefined>;
+  headers?: Headers | Record<string, unknown>;
   data: T;
 }
 
+/**
+ * - **EN:** Minimal axios-like request contract consumed by `StreamDownloader`.
+ * - **CN:** `StreamDownloader` 所消费的最小 axios-like 请求契约。
+ */
 export interface AxiosLikeInstance {
   request<T = unknown>(config: Record<string, unknown>): Promise<AxiosLikeResponse<T>>;
 }
 
+/**
+ * - **EN:** Axios-specific options for the `transport: 'axios'` request branch.
+ * - **CN:** `transport: 'axios'` 请求分支专用的 axios 选项。
+ */
 export interface StreamDownloadAxiosOptions {
   instance: AxiosLikeInstance;
   adapterHint: 'fetch';
   config?: Record<string, unknown>;
 }
 
+/**
+ * - **EN:** Shared request fields for all download transports.
+ * - **CN:** 所有下载传输方式共享的请求字段。
+ */
 export interface StreamDownloadBaseRequest {
   url: string;
   fileName?: string;
   saveStrategy?: StreamDownloadSaveStrategy;
 }
 
+/**
+ * - **EN:** Request shape for the native `fetch` transport.
+ * - **CN:** 原生 `fetch` 传输方式对应的请求结构。
+ */
 export interface FetchStreamDownloadRequest extends StreamDownloadBaseRequest {
   transport?: 'fetch';
   method?: string;
@@ -69,6 +113,10 @@ export interface FetchStreamDownloadRequest extends StreamDownloadBaseRequest {
   init?: Omit<RequestInit, 'method' | 'headers' | 'body' | 'credentials' | 'signal'>;
 }
 
+/**
+ * - **EN:** Request shape for an injected axios instance using the fetch adapter.
+ * - **CN:** 使用 fetch adapter 的外部 axios 实例对应的请求结构。
+ */
 export interface AxiosStreamDownloadRequest extends StreamDownloadBaseRequest {
   transport: 'axios';
   method?: string;
@@ -77,8 +125,16 @@ export interface AxiosStreamDownloadRequest extends StreamDownloadBaseRequest {
   axios: StreamDownloadAxiosOptions;
 }
 
+/**
+ * - **EN:** Public request union accepted by `start()` and `defaultRequest`.
+ * - **CN:** `start()` 与 `defaultRequest` 接受的公开请求联合类型。
+ */
 export type StreamDownloadRequest = FetchStreamDownloadRequest | AxiosStreamDownloadRequest;
 
+/**
+ * - **EN:** Successful terminal result returned by `start()`.
+ * - **CN:** `start()` 成功完成时返回的终态结果。
+ */
 export interface StreamDownloadSuccessResult {
   status: 'success';
   fileName: string;
@@ -88,10 +144,18 @@ export interface StreamDownloadSuccessResult {
   saveStrategy: 'file-system-access' | 'stream-saver';
 }
 
+/**
+ * - **EN:** Structured error type used by `StreamDownloader`.
+ * - **CN:** `StreamDownloader` 使用的结构化错误类型。
+ */
 export class StreamDownloadError extends Error {
   code: StreamDownloadErrorCode;
   cause?: unknown;
 
+  /**
+   * - **EN:** Create a structured stream-download error.
+   * - **CN:** 创建结构化的流式下载错误。
+   */
   constructor(code: StreamDownloadErrorCode, message: string, options?: { cause?: unknown }) {
     super(message);
     this.name = 'StreamDownloadError';
@@ -100,11 +164,19 @@ export class StreamDownloadError extends Error {
   }
 }
 
+/**
+ * - **EN:** Constructor options for `StreamDownloader`.
+ * - **CN:** `StreamDownloader` 的构造参数。
+ */
 export interface StreamDownloaderInit {
   defaultRequest?: Partial<StreamDownloadRequest>;
   progressThrottleMs?: number;
 }
 
+/**
+ * - **EN:** Listener invoked whenever the public snapshot changes.
+ * - **CN:** 每次公开快照变化时触发的监听器。
+ */
 export type StreamDownloadListener = (snapshot: Readonly<StreamDownloadSnapshot>) => void;
 
 interface WritableChunkWriter {
@@ -129,6 +201,10 @@ interface NormalizedDownloadContext {
   transport: StreamDownloadTransport;
 }
 
+/**
+ * - **EN:** Minimal `showSaveFilePicker` signature used by the downloader.
+ * - **CN:** 下载器内部使用的最小 `showSaveFilePicker` 方法签名。
+ */
 export type SaveFilePickerFn = (options?: SaveFilePickerOptionsLike) => Promise<SaveHandleLike>;
 
 const INITIAL_SNAPSHOT: Readonly<StreamDownloadSnapshot> = {
@@ -152,23 +228,43 @@ export default class StreamDownloader {
   private activeWriter: WritableChunkWriter | null = null;
   private disposed = false;
 
+  /**
+   * - **EN:** Create a downloader instance with optional defaults and progress throttling.
+   * - **CN:** 使用可选默认请求与进度节流配置创建下载器实例。
+   */
   constructor(init?: StreamDownloaderInit) {
     this.defaultRequest = init?.defaultRequest;
     this.progressThrottleMs = init?.progressThrottleMs ?? 100;
   }
 
+  /**
+   * - **EN:** Return the latest immutable downloader snapshot.
+   * - **CN:** 返回当前最新的只读下载器快照。
+   */
   getSnapshot(): Readonly<StreamDownloadSnapshot> {
     return this.snapshot;
   }
 
+  /**
+   * - **EN:** Read the current task status without cloning the full snapshot.
+   * - **CN:** 在不复制完整快照的情况下读取当前任务状态。
+   */
   get status(): StreamDownloadStatus {
     return this.snapshot.status;
   }
 
+  /**
+   * - **EN:** Whether the downloader currently has an active task.
+   * - **CN:** 当前下载器是否存在活动中的任务。
+   */
   get isRunning(): boolean {
     return this.status === 'preparing' || this.status === 'downloading';
   }
 
+  /**
+   * - **EN:** Subscribe to snapshot changes and receive an unsubscribe function.
+   * - **CN:** 订阅快照变化，并返回一个取消订阅函数。
+   */
   subscribe(listener: StreamDownloadListener): () => void {
     this.listeners.add(listener);
     return () => {
@@ -176,6 +272,11 @@ export default class StreamDownloader {
     };
   }
 
+  /**
+   * - **EN:** Start a streaming download task. Rejects with `DOWNLOAD_CANCELLED` when the task is
+   *   cancelled.
+   * - **CN:** 启动一个流式下载任务；如果任务被取消，则以 `DOWNLOAD_CANCELLED` 拒绝。
+   */
   async start(request?: StreamDownloadRequest): Promise<StreamDownloadSuccessResult> {
     if (this.disposed) {
       this.disposed = false;
@@ -325,6 +426,10 @@ export default class StreamDownloader {
     }
   }
 
+  /**
+   * - **EN:** Cancel the active task if one is running.
+   * - **CN:** 如果当前存在活动任务，则取消该任务。
+   */
   cancel(): void {
     if (!this.isRunning) {
       return;
@@ -336,6 +441,10 @@ export default class StreamDownloader {
     void this.abortCurrentWriter(cancelledError);
   }
 
+  /**
+   * - **EN:** Reset a terminal snapshot back to the initial idle state.
+   * - **CN:** 将终态快照重置回初始 idle 状态。
+   */
   reset(): void {
     if (this.isRunning) {
       return;
@@ -344,6 +453,10 @@ export default class StreamDownloader {
     this.emit();
   }
 
+  /**
+   * - **EN:** Dispose the downloader, cancel any active task, and clear listeners.
+   * - **CN:** 释放下载器，取消活动任务，并清空监听器。
+   */
   dispose(): void {
     this.disposed = true;
     this.cancel();
@@ -739,7 +852,7 @@ function parseFileNameFromContentDisposition(contentDisposition: string | null) 
   return undefined;
 }
 
-function toHeaders(headers: Headers | Record<string, string | undefined> | undefined) {
+function toHeaders(headers: Headers | Record<string, unknown> | undefined) {
   if (headers instanceof Headers) {
     return headers;
   }
