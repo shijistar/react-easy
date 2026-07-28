@@ -163,8 +163,8 @@ const zhCN = {
     '本 hook 示例同样使用真实的、支持 CORS 的大文件，以及真实的 axios fetch-adapter 实例',
   'storybook.stories.useStreamDownloader.description':
     '观察 hook 如何在浏览器执行真实流式下载的同时，对外暴露稳定 downloader 实例、响应式 snapshot 与 action 方法。',
-  'storybook.stories.useStreamDownloader.actions.startFetch': '启动 fetch 下载',
-  'storybook.stories.useStreamDownloader.actions.startAxios': '启动 axios 下载',
+  'storybook.stories.useStreamDownloader.actions.startFetch': '用 fetch 方式下载',
+  'storybook.stories.useStreamDownloader.actions.startAxios': '用 axios 方式下载',
   'storybook.stories.useStreamDownloader.actions.cancel': '取消下载',
   'storybook.stories.useStreamDownloader.actions.reset': '重置快照',
   'storybook.stories.useStreamDownloader.configTitle': 'Hook 配置',

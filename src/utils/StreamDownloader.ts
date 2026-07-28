@@ -769,18 +769,21 @@ export type StreamDownloadTransport =
  */
 export type StreamDownloadSaveStrategy =
   /**
-   * - **EN:** Auto-detect the best available streaming save strategy at runtime.
-   * - **CN:** 运行时自动探测最合适的流式保存策略。
+   * - **EN:** Auto-detect the best available streaming save strategy at runtime. `file-system-access`
+   *   is preferred, followed by `stream-saver`.
+   * - **CN:** 运行时自动探测最合适的流式保存策略。优先使用 `file-system-access`，其次使用 `stream-saver`。
    */
   | 'auto'
   /**
-   * - **EN:** Use the File System Access API.
-   * - **CN:** 使用 File System Access API。
+   * - **EN:** Use the File System Access API, showing a file save dialog where the file name and save
+   *   location can be specified.
+   * - **CN:** 使用 File System Access API，显示一个文件保存对话框，可以指定文件名和保存位置。
    */
   | 'file-system-access'
   /**
-   * - **EN:** Use StreamSaver-backed writable streams.
-   * - **CN:** 使用基于 StreamSaver 的可写流。
+   * - **EN:** Use StreamSaver-backed writable streams, causing the browser to directly download the
+   *   file.
+   * - **CN:** 使用基于 StreamSaver 的可写流，浏览器直接下载文件。
    */
   | 'stream-saver';
 
@@ -1044,7 +1047,7 @@ export interface StreamDownloadBaseRequest {
   fileName?: string;
   /**
    * - **EN:** Requested save strategy.
-   * - **CN:** 请求的保存策略。
+   * - **CN:** 文件保存方式。
    */
   saveStrategy?: StreamDownloadSaveStrategy;
 }

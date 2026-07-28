@@ -166,8 +166,8 @@ const enUS = {
     'This hook demo also uses a real CORS-enabled large file and a real axios fetch-adapter instance',
   'storybook.stories.useStreamDownloader.description':
     'Observe how the hook exposes a stable downloader instance, reactive snapshot, and action helpers while the browser performs a real streaming download.',
-  'storybook.stories.useStreamDownloader.actions.startFetch': 'Start fetch download',
-  'storybook.stories.useStreamDownloader.actions.startAxios': 'Start axios download',
+  'storybook.stories.useStreamDownloader.actions.startFetch': 'Download with <fetch>',
+  'storybook.stories.useStreamDownloader.actions.startAxios': 'Download with <axios>',
   'storybook.stories.useStreamDownloader.actions.cancel': 'Cancel',
   'storybook.stories.useStreamDownloader.actions.reset': 'Reset snapshot',
   'storybook.stories.useStreamDownloader.configTitle': 'Hook configuration',

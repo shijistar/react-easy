@@ -1,7 +1,7 @@
 import { type CSSProperties, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { create as createAxios } from 'axios';
-import { Alert, Button, Card, Collapse, Descriptions, List, Space, Tag, Typography } from 'antd';
+import { Alert, Button, Card, Collapse, Descriptions, List, Progress, Space, Tag, Typography } from 'antd';
 import StreamDownloader, {
   type AxiosLikeInstance,
   type StreamDownloadRequest,
@@ -16,7 +16,7 @@ interface StreamDownloaderStoryArgs {
    * - **EN:** Storybook-controlled real download URL.
    * - **CN:** 由 Storybook 控制的真实下载 URL。
    */
-  downloadUrl: string;
+  url: string;
   /**
    * - **EN:** Optional explicit file name override.
    * - **CN:** 可选的显式文件名覆盖。
@@ -120,13 +120,13 @@ const meta: Meta<StreamDownloaderStoryArgs> = {
     },
   },
   args: {
-    downloadUrl: REAL_DOWNLOAD_URL,
-    fileName: 'gpt2-pytorch-model.bin',
+    url: REAL_DOWNLOAD_URL,
+    fileName: '',
     progressThrottleMs: 120,
-    saveStrategy: 'file-system-access',
+    saveStrategy: 'auto',
   },
   argTypes: {
-    downloadUrl: {
+    url: {
       control: 'text',
       description:
         '- **EN:** Real public file URL used by both fetch and axios demos.\n- **CN:** fetch 与 axios demo 共用的真实公开文件 URL。',
@@ -167,12 +167,7 @@ export const Playground: Story = {
   },
 };
 
-function StreamDownloaderStoryDemo({
-  downloadUrl,
-  fileName,
-  progressThrottleMs,
-  saveStrategy,
-}: StreamDownloaderStoryArgs) {
+function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStrategy }: StreamDownloaderStoryArgs) {
   const t = useStoryT();
   const logIdRef = useRef(0);
   const [logs, setLogs] = useState<DemoLogItem[]>([]);
@@ -200,7 +195,7 @@ function StreamDownloaderStoryDemo({
     appendLog(t('storybook.stories.StreamDownloader.logs.fetchStart'));
     try {
       const result = await downloader.start({
-        url: downloadUrl,
+        url: url,
         fileName: normalizedFileName,
         saveStrategy,
       });
@@ -215,7 +210,7 @@ function StreamDownloaderStoryDemo({
     try {
       const result = await downloader.start({
         transport: 'axios',
-        url: downloadUrl,
+        url: url,
         fileName: normalizedFileName,
         saveStrategy,
         axios: {
@@ -235,25 +230,25 @@ function StreamDownloaderStoryDemo({
   };
 
   const requestExamples = buildRequestExamples({
-    downloadUrl,
+    url,
     fileName: normalizedFileName,
     saveStrategy,
   });
 
   return (
-    <Card bordered style={{ maxWidth: 1080 }} title={t('storybook.stories.StreamDownloader.cardTitle')}>
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Card variant="outlined" style={{ maxWidth: 1080 }} title={t('storybook.stories.StreamDownloader.cardTitle')}>
+      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
         <Alert
           type="info"
           showIcon
-          message={t('storybook.stories.StreamDownloader.realHint')}
+          title={t('storybook.stories.StreamDownloader.realHint')}
           description={t('storybook.stories.StreamDownloader.description')}
         />
 
         <Descriptions bordered column={1} size="small" title={t('storybook.stories.StreamDownloader.configTitle')}>
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.url')}>
-            <Typography.Link href={downloadUrl} target="_blank">
-              {downloadUrl}
+            <Typography.Link href={url} target="_blank">
+              {url}
             </Typography.Link>
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.config.fileName')}>
@@ -277,7 +272,7 @@ function StreamDownloaderStoryDemo({
           <Button type="primary" onClick={() => void startFetchDownload()} disabled={downloader.isRunning}>
             {t('storybook.stories.StreamDownloader.actions.startFetch')}
           </Button>
-          <Button onClick={() => void startAxiosDownload()} disabled={downloader.isRunning}>
+          <Button type="primary" onClick={() => void startAxiosDownload()} disabled={downloader.isRunning}>
             {t('storybook.stories.StreamDownloader.actions.startAxios')}
           </Button>
           <Button
@@ -292,7 +287,13 @@ function StreamDownloaderStoryDemo({
           <Button onClick={resetSnapshot}>{t('storybook.stories.StreamDownloader.actions.reset')}</Button>
         </Space>
 
-        <Descriptions bordered column={1} size="small" title={t('storybook.stories.StreamDownloader.snapshotTitle')}>
+        <Descriptions
+          bordered
+          column={1}
+          size="small"
+          title={t('storybook.stories.StreamDownloader.snapshotTitle')}
+          styles={{ label: { width: 200 } }}
+        >
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.status')}>
             {snapshot.status}
           </Descriptions.Item>
@@ -315,13 +316,18 @@ function StreamDownloaderStoryDemo({
             {snapshot.progress.totalBytes != null ? String(snapshot.progress.totalBytes) : '--'}
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.percent')}>
-            {snapshot.progress.percent != null ? `${snapshot.progress.percent}%` : '--'}
+            <Progress
+              percent={snapshot.progress.percent ?? 0}
+              status={snapshot.progress.percent === 100 ? 'success' : 'active'}
+            />
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.speedBps')}>
             {snapshot.progress.speedBps != null ? formatByteRate(snapshot.progress.speedBps) : '--'}
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.error')}>
-            {snapshot.errorCode ? `${snapshot.errorCode}: ${snapshot.errorMessage}` : '--'}
+            <Typography.Text type={snapshot.errorCode ? 'danger' : undefined}>
+              {snapshot.errorCode ? `${snapshot.errorCode}: ${snapshot.errorMessage}` : '--'}
+            </Typography.Text>
           </Descriptions.Item>
         </Descriptions>
 
@@ -336,7 +342,7 @@ function StreamDownloaderStoryDemo({
                   dataSource={[...INSTANCE_API_ITEMS]}
                   renderItem={(item: (typeof INSTANCE_API_ITEMS)[number]) => (
                     <List.Item>
-                      <Space direction="vertical" size={0}>
+                      <Space orientation="vertical" size={0}>
                         <Typography.Text code>{item.signature}</Typography.Text>
                         <Typography.Text>{item.description}</Typography.Text>
                       </Space>
@@ -349,7 +355,7 @@ function StreamDownloaderStoryDemo({
               key: 'request-api',
               label: t('storybook.stories.StreamDownloader.sections.requestApi'),
               children: (
-                <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
                   <div>
                     <Typography.Text strong>
                       {t('storybook.stories.StreamDownloader.sections.fetchExample')}
@@ -401,16 +407,16 @@ function StreamDownloaderStoryDemo({
 }
 
 function buildRequestExamples({
-  downloadUrl,
+  url,
   fileName,
   saveStrategy,
 }: {
-  downloadUrl: string;
+  url: string;
   fileName?: string;
   saveStrategy: StreamDownloadSaveStrategy;
 }) {
   const fetchRequest: StreamDownloadRequest = {
-    url: downloadUrl,
+    url: url,
     fileName,
     saveStrategy,
   };
@@ -419,7 +425,7 @@ function buildRequestExamples({
 
   return {
     fetchRequest: JSON.stringify(fetchRequest, null, 2),
-    axiosRequest: `const axiosInstance = axios.create({ adapter: 'fetch' });\n\nconst request = {\n  transport: 'axios',\n  url: '${downloadUrl}',${normalizedFileName}\n  saveStrategy: '${saveStrategy}',\n  axios: {\n    instance: axiosInstance,\n    adapter: 'fetch',\n  },\n};`,
+    axiosRequest: `const axiosInstance = axios.create({ adapter: 'fetch' });\n\nconst request = {\n  transport: 'axios',\n  url: '${url}',${normalizedFileName}\n  saveStrategy: '${saveStrategy}',\n  axios: {\n    instance: axiosInstance,\n    adapter: 'fetch',\n  },\n};`,
   };
 }
 
