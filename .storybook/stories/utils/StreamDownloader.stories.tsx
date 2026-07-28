@@ -196,7 +196,7 @@ function StreamDownloaderStoryDemo({
         saveStrategy,
         axios: {
           instance: axiosInstance,
-          adapterHint: 'fetch',
+          adapter: 'fetch',
         },
       });
       appendLog(`${t('storybook.stories.StreamDownloader.logs.success')} (${result.transport})`);
@@ -398,7 +398,7 @@ function buildRequestExamples({
     saveStrategy,
     axios: {
       instance: 'axios.create({ adapter: "fetch" })' as unknown as AxiosLikeInstance,
-      adapterHint: 'fetch',
+      adapter: 'fetch',
     },
   };
 

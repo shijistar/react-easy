@@ -355,7 +355,7 @@ export default class StreamDownloader {
               : undefined,
         axios: {
           instance: axiosInstance as AxiosLikeInstance,
-          adapterHint: requestAxios?.adapterHint ?? defaultAxios?.adapterHint ?? 'fetch',
+          adapter: requestAxios?.adapter ?? defaultAxios?.adapter ?? 'fetch',
           config: {
             ...(defaultAxios?.config ?? {}),
             ...(requestAxios?.config ?? {}),
@@ -437,7 +437,7 @@ export default class StreamDownloader {
       throw new StreamDownloadError('INVALID_AXIOS_INSTANCE', 'A valid axios-like instance is required.');
     }
 
-    if (request.axios.adapterHint !== 'fetch') {
+    if (request.axios.adapter !== 'fetch') {
       throw new StreamDownloadError(
         'AXIOS_ADAPTER_NOT_SUPPORTED',
         'Only axios instances that explicitly use the fetch adapter are supported.',
@@ -768,8 +768,8 @@ export interface AxiosLikeInstance {
  * - **CN:** `transport: 'axios'` 请求分支专用的 axios 选项。
  */
 export interface StreamDownloadAxiosOptions {
+  adapter: 'fetch';
   instance: AxiosLikeInstance;
-  adapterHint: 'fetch';
   config?: Record<string, unknown>;
 }
 
