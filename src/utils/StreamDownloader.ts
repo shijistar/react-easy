@@ -724,7 +724,11 @@ function parseFileNameFromContentDisposition(contentDisposition: string | null) 
 
   const utf8Match = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
   if (utf8Match?.[1]) {
-    return decodeURIComponent(utf8Match[1].replace(/^"|"$/g, ''));
+    try {
+      return decodeURIComponent(utf8Match[1].replace(/^"|"$/g, ''));
+    } catch {
+      // Ignore malformed percent-encoding and continue with other strategies.
+    }
   }
 
   const simpleMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
