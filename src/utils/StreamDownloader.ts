@@ -353,7 +353,13 @@ export default class StreamDownloader {
 
   private emit() {
     const currentSnapshot = this.snapshot;
-    this.listeners.forEach((listener) => listener(currentSnapshot));
+    this.listeners.forEach((listener) => {
+      try {
+        listener(currentSnapshot);
+      } catch {
+        // Ignore listener errors to avoid breaking the download flow.
+      }
+    });
   }
 
   private setSnapshot(snapshot: StreamDownloadSnapshot) {
