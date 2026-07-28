@@ -1,0 +1,18 @@
+package.json
+  h_282d460392904f 82,93-94
+src/utils/StreamDownloader.ts
+  h_282d460392904f 359,361
+src/hooks/useStreamDownloader.ts
+  h_282d460392904f 20-21,25-26,30-31,35-36,40-41,45-46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "f6fbda3ea73dbbb6f04e4c098a00514e8264438e",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
