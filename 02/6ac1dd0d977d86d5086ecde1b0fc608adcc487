@@ -1,0 +1,22 @@
+.storybook/stories/utils/StreamDownloader.stories.tsx
+  h_282d460392904f 4,19,123-124,126,129,170,198,213,233,239-240,244,250-251,275,292,295,319-322,328,330,345,358,410,414,419,428
+src/utils/StreamDownloader.ts
+  h_282d460392904f 772-774,778-780,784-786,1050
+.storybook/locales/langs/zh-CN.ts
+  h_282d460392904f 166-167
+.storybook/stories/hooks/useStreamDownloader.stories.tsx
+  h_282d460392904f 4,15,103-104,107,110,155,180,195,215-216,220,226-227,251,271,298-301,307,309
+.storybook/locales/langs/en-US.ts
+  h_282d460392904f 169-170
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "026ac1dd0d977d86d5086ecde1b0fc608adcc487",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
