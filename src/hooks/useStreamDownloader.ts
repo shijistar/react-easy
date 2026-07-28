@@ -48,14 +48,17 @@ const useStreamDownloader = (options?: UseStreamDownloaderOptions): UseStreamDow
     downloader.getSnapshot.bind(downloader),
   );
 
+  const autoDisposeRef = useRef(options?.autoDispose);
+  autoDisposeRef.current = options?.autoDispose;
+
   useEffect(() => {
     return () => {
-      if (options?.autoDispose !== false) {
+      if (autoDisposeRef.current !== false) {
         downloader.dispose();
       }
       ref.current = null;
     };
-  }, [downloader, options?.autoDispose]);
+  }, [downloader]);
 
   return useMemo(
     () => ({
