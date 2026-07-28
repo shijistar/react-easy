@@ -696,12 +696,14 @@ function deriveFileName(url: string, explicitFileName: string | undefined, heade
 
   try {
     const pathname = new URL(url, 'http://localhost').pathname;
-    const lastSegment = pathname.split('/').filter(Boolean).at(-1);
+    const segments = pathname.split('/').filter(Boolean);
+    const lastSegment = segments[segments.length - 1];
     if (lastSegment) {
       return decodeURIComponent(lastSegment);
     }
-  } catch {
+  } catch (error) {
     // Ignore malformed URL parsing and fall back to a generic filename.
+    console.warn(error);
   }
 
   return 'download';
@@ -716,8 +718,9 @@ function parseFileNameFromContentDisposition(contentDisposition: string | null) 
   if (utf8Match?.[1]) {
     try {
       return decodeURIComponent(utf8Match[1].replace(/^"|"$/g, ''));
-    } catch {
+    } catch (error) {
       // Ignore malformed percent-encoding and continue with other strategies.
+      console.warn(error);
     }
   }
 
