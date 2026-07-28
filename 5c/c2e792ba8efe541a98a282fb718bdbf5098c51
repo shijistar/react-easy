@@ -1,0 +1,42 @@
+src/components/Animation/Pulse/style/index.ts
+  h_3a0b15d296f1fe 4
+src/hooks/style/useSplitter.ts
+  h_3a0b15d296f1fe 4
+src/components/ConfigProvider/style/index.ts
+  h_3a0b15d296f1fe 4
+src/components/ColumnSetting/style/index.ts
+  h_3a0b15d296f1fe 4
+.storybook/stories/shared/streamDownloaderDemo.tsx
+  h_3a0b15d296f1fe 3-4,287,292-297,319,330,335-337
+.storybook/stories/utils/StreamDownloader.stories.tsx
+  h_3a0b15d296f1fe 45,49,53,57,62,67,71,75,79,261-266,334
+.storybook/locales/langs/en-US.ts
+  h_3a0b15d296f1fe 135,137
+.storybook/locales/langs/zh-CN.ts
+  h_3a0b15d296f1fe 134-136,139-140
+src/components/Loading/style/index.ts
+  h_3a0b15d296f1fe 4
+src/components/EditableText/style/index.ts
+  h_3a0b15d296f1fe 4
+package.json
+  h_3a0b15d296f1fe 98
+src/components/ContextMenu/style/index.ts
+  h_3a0b15d296f1fe 4
+src/components/FloatDrawer/style/index.ts
+  h_3a0b15d296f1fe 6
+src/utils/internal.ts
+  h_3a0b15d296f1fe 8
+src/components/OverflowTags/style/index.ts
+  h_3a0b15d296f1fe 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "5cc2e792ba8efe541a98a282fb718bdbf5098c51",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
