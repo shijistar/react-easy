@@ -3,7 +3,7 @@ import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
 import { FastColor } from '@ant-design/fast-color';
 import { getColorLuminance } from '../../../utils';
-import genStyleHooksCompitible from '../../../utils/genStyleHooksCompitible';
+import { genStyleHooksCompitible } from '../../../utils/internal';
 
 type FloatDrawerToken = FullToken<{ ''?: object }, AliasToken, ''>;
 

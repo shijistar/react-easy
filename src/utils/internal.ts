@@ -5,7 +5,7 @@ import type { CSSInterpolation } from '@ant-design/cssinjs';
 import type { FullToken, TokenMap } from '@ant-design/cssinjs-utils';
 import type { StyleInfo } from '@ant-design/cssinjs-utils/es/util/genStyleUtils';
 
-const genStyleHooksCompitible = (
+export const genStyleHooksCompitible = (
   prefixCls: string,
   styleFn?: (token: FullToken<TokenMap, AliasToken, string>, info: StyleInfo) => CSSInterpolation,
 ): ((
@@ -28,5 +28,3 @@ const genStyleHooksCompitible = (
     return { wrapCSSVar, hashId, cssVarCls } as never;
   };
 };
-
-export default genStyleHooksCompitible;

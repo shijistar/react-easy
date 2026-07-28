@@ -1,6 +1,7 @@
 import { type CSSProperties, type Key, type ReactNode, useCallback, useRef, useState } from 'react';
 import type { CollapseProps } from 'antd';
-import { Alert, Button, Card, Collapse, Descriptions, List, Progress, Space, Typography } from 'antd';
+import { Alert, Button, Card, Collapse, Descriptions, List, Progress, Space, Tooltip, Typography } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import type { StreamDownloadSnapshot } from '../../../src';
 
 export interface DemoLogItem {
@@ -283,9 +284,19 @@ function StreamDownloaderDemoCard({
       <Space orientation="vertical" size="large" style={{ width: '100%' }}>
         <Alert type="info" showIcon title={hintTitle} description={hintDescription} />
 
-        <Descriptions bordered column={1} size="small" title={configTitle}>
+        <Descriptions bordered column={1} size="small" title={configTitle} styles={{ label: { width: 200 } }}>
           {configItems.map((item, index) => (
-            <Descriptions.Item key={item.key ?? index} label={item.label}>
+            <Descriptions.Item
+              key={item.key ?? index}
+              label={
+                <Space>
+                  {item.key}
+                  <Tooltip title={item.label}>
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                </Space>
+              }
+            >
               {item.value}
             </Descriptions.Item>
           ))}
@@ -305,23 +316,25 @@ function StreamDownloaderDemoCard({
         </Space>
 
         <Descriptions bordered column={1} size="small" title={snapshotTitle} styles={{ label: { width: 200 } }}>
+          <Descriptions.Item label={fieldLabels.isRunning}>{isRunning.toString()}</Descriptions.Item>
           <Descriptions.Item label={fieldLabels.status}>{snapshot.status}</Descriptions.Item>
-          {fieldLabels.isRunning ? (
-            <Descriptions.Item label={fieldLabels.isRunning}>{String(isRunning)}</Descriptions.Item>
-          ) : null}
           <Descriptions.Item label={fieldLabels.requestUrl}>{snapshot.requestUrl ?? '--'}</Descriptions.Item>
           <Descriptions.Item label={fieldLabels.fileName}>{snapshot.fileName ?? '--'}</Descriptions.Item>
           <Descriptions.Item label={fieldLabels.transport}>{snapshot.transport ?? '--'}</Descriptions.Item>
           <Descriptions.Item label={fieldLabels.saveStrategy}>{snapshot.saveStrategy ?? '--'}</Descriptions.Item>
-          <Descriptions.Item label={fieldLabels.loadedBytes}>{String(snapshot.progress.loadedBytes)}</Descriptions.Item>
+          <Descriptions.Item label={fieldLabels.loadedBytes}>{snapshot.progress.loadedBytes}</Descriptions.Item>
           <Descriptions.Item label={fieldLabels.totalBytes}>
-            {snapshot.progress.totalBytes != null ? String(snapshot.progress.totalBytes) : '--'}
+            {snapshot.progress.totalBytes != null ? snapshot.progress.totalBytes : '--'}
           </Descriptions.Item>
           <Descriptions.Item label={fieldLabels.percent}>
-            <Progress
-              percent={snapshot.progress.percent ?? 0}
-              status={snapshot.progress.percent === 100 ? 'success' : 'active'}
-            />
+            {snapshot.progress.percent != null ? (
+              <Progress
+                percent={snapshot.progress.percent ?? 0}
+                status={snapshot.progress.percent === 100 ? 'success' : 'active'}
+              />
+            ) : (
+              '--'
+            )}
           </Descriptions.Item>
           <Descriptions.Item label={fieldLabels.speedBps}>
             {snapshot.progress.speedBps != null ? formatByteRate(snapshot.progress.speedBps) : '--'}

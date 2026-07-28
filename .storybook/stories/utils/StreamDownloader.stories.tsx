@@ -42,41 +42,41 @@ const INSTANCE_API_ITEMS = [
   {
     signature: 'new StreamDownloader(init?)',
     description:
-      'EN: Create an instance with optional defaultRequest and progressThrottleMs. CN: 使用可选 defaultRequest 与 progressThrottleMs 创建实例。',
+      'EN: Create an instance with optional defaultRequest and progressThrottleMs. \nCN: 使用可选 defaultRequest 与 progressThrottleMs 创建实例。',
   },
   {
     signature: 'getSnapshot(): Readonly<StreamDownloadSnapshot>',
-    description: 'EN: Read the latest immutable snapshot. CN: 读取当前最新的只读快照。',
+    description: 'EN: Read the latest immutable snapshot. \nCN: 读取当前最新的只读快照。',
   },
   {
     signature: 'status: StreamDownloadStatus',
-    description: 'EN: Read the current task status getter. CN: 读取当前任务状态 getter。',
+    description: 'EN: Read the current task status getter. \nCN: 读取当前任务状态 getter。',
   },
   {
     signature: 'isRunning: boolean',
-    description: 'EN: Tell whether an active task exists. CN: 判断当前是否存在活动任务。',
+    description: 'EN: Tell whether an active task exists. \nCN: 判断当前是否存在活动任务。',
   },
   {
     signature: 'subscribe(listener): () => void',
     description:
-      'EN: Subscribe to snapshot changes and receive an unsubscribe function. CN: 订阅快照变化并获得取消订阅函数。',
+      'EN: Subscribe to snapshot changes and receive an unsubscribe function. \nCN: 订阅快照变化并获得取消订阅函数。',
   },
   {
     signature: 'start(request?): Promise<StreamDownloadSuccessResult>',
     description:
-      'EN: Start a real streaming download task with fetch or axios(fetch adapter). CN: 使用 fetch 或 axios(fetch adapter) 启动真实流式下载任务。',
+      'EN: Start a real streaming download task with fetch or axios(fetch adapter). \nCN: 使用 fetch 或 axios(fetch adapter) 启动真实流式下载任务。',
   },
   {
     signature: 'cancel(): void',
-    description: 'EN: Cancel the active task. CN: 取消当前活动任务。',
+    description: 'EN: Cancel the active task. \nCN: 取消当前活动任务。',
   },
   {
     signature: 'reset(): void',
-    description: 'EN: Reset a terminal snapshot back to idle. CN: 将终态快照重置回 idle。',
+    description: 'EN: Reset a terminal snapshot back to idle. \nCN: 将终态快照重置回 idle。',
   },
   {
     signature: 'dispose(): void',
-    description: 'EN: Cancel work, clear listeners, and release the instance. CN: 取消任务、清空监听器并释放实例。',
+    description: 'EN: Cancel work, clear listeners, and release the instance. \nCN: 取消任务、清空监听器并释放实例。',
   },
 ] as const;
 
@@ -244,16 +244,6 @@ function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStra
       label: t('storybook.stories.StreamDownloader.config.progressThrottleMs'),
       value: String(progressThrottleMs),
     },
-    {
-      key: 'statusGetter',
-      label: t('storybook.stories.StreamDownloader.config.statusGetter'),
-      value: downloader.status,
-    },
-    {
-      key: 'isRunningGetter',
-      label: t('storybook.stories.StreamDownloader.config.isRunningGetter'),
-      value: String(downloader.isRunning),
-    },
   ];
 
   const sections = [
@@ -268,7 +258,12 @@ function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStra
             <List.Item>
               <Space orientation="vertical" size={0}>
                 <Typography.Text code>{item.signature}</Typography.Text>
-                <Typography.Text>{item.description}</Typography.Text>
+                <Typography.Paragraph style={{ marginLeft: 24 }}>
+                  <br />
+                  {item.description.split('\n').map((line, index) => (
+                    <div key={line}>{line}</div>
+                  ))}
+                </Typography.Paragraph>
               </Space>
             </List.Item>
           )}
@@ -336,6 +331,7 @@ function StreamDownloaderStoryDemo({ url, fileName, progressThrottleMs, saveStra
         reset: t('storybook.stories.StreamDownloader.actions.reset'),
       }}
       fieldLabels={{
+        isRunning: t('storybook.stories.StreamDownloader.config.isRunningGetter'),
         status: t('storybook.stories.StreamDownloader.fields.status'),
         requestUrl: t('storybook.stories.StreamDownloader.fields.requestUrl'),
         fileName: t('storybook.stories.StreamDownloader.fields.fileName'),

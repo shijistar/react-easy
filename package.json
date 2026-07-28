@@ -95,6 +95,7 @@
   },
   "optionalDependencies": {
     "@ant-design/fast-color": "^3.0.1",
+    "@ant-design/icons": "^6.3.2",
     "@chenglou/pretext": "^0.0.8",
     "@lexical/react": "^0.33.1",
     "@microsoft/fetch-event-source": "^2.0.1",
