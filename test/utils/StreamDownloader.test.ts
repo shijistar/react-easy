@@ -111,7 +111,7 @@ describe('StreamDownloader', () => {
       saveStrategy: 'file-system-access',
       axios: {
         instance: axiosInstance,
-        adapterHint: 'fetch',
+        adapter: 'fetch',
       },
     });
 
@@ -124,6 +124,55 @@ describe('StreamDownloader', () => {
     });
     expect(axiosInstance.request).toHaveBeenCalledTimes(1);
     expect(writer.write).toHaveBeenCalledTimes(2);
+  });
+
+  it('warns when Content-Length is missing and keeps percent undefined', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const writer = {
+      write: vi.fn(async (_chunk?: Uint8Array) => undefined),
+      close: vi.fn(async () => undefined),
+      abort: vi.fn(async () => undefined),
+    };
+    const writable = {
+      getWriter: vi.fn(() => writer),
+    } as unknown as WritableStream<Uint8Array>;
+
+    vi.stubGlobal(
+      'showSaveFilePicker',
+      vi.fn(async () => ({ createWritable: async () => writable })),
+    );
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(createByteStream(['no', '-length']), {
+            status: 200,
+          }),
+      ),
+    );
+
+    const downloader = new StreamDownloader();
+    const result = await downloader.start({
+      url: 'https://example.com/files/no-length.bin',
+      saveStrategy: 'file-system-access',
+    });
+
+    expect(result).toMatchObject({
+      status: 'success',
+      loadedBytes: 9,
+      totalBytes: undefined,
+    });
+    expect(downloader.getSnapshot()).toMatchObject({
+      status: 'success',
+      progress: {
+        loadedBytes: 9,
+        totalBytes: undefined,
+        percent: undefined,
+      },
+    });
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[StreamDownloader] Missing Content-Length header for fetch request to https://example.com/files/no-length.bin; download percent cannot be calculated.',
+    );
   });
 
   it('falls back to StreamSaver when auto strategy cannot use file system access', async () => {
@@ -181,7 +230,7 @@ describe('StreamDownloader', () => {
         url: 'https://example.com/files/demo.txt',
         axios: {
           instance: axiosInstance,
-          adapterHint: 'fetch',
+          adapter: 'fetch',
         },
       }),
     ).rejects.toBeInstanceOf(StreamDownloadError);

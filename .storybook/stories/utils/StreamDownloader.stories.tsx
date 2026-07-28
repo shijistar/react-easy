@@ -12,14 +12,38 @@ import { useStoryT } from '../../locales';
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
 interface StreamDownloaderStoryArgs {
+  /**
+   * - **EN:** Storybook-controlled real download URL.
+   * - **CN:** 由 Storybook 控制的真实下载 URL。
+   */
   downloadUrl: string;
+  /**
+   * - **EN:** Optional explicit file name override.
+   * - **CN:** 可选的显式文件名覆盖。
+   */
   fileName: string;
+  /**
+   * - **EN:** Constructor-level progress throttling window in milliseconds.
+   * - **CN:** 构造级进度节流窗口，单位毫秒。
+   */
   progressThrottleMs: number;
+  /**
+   * - **EN:** Save strategy forwarded into `downloader.start()`.
+   * - **CN:** 透传给 `downloader.start()` 的保存策略。
+   */
   saveStrategy: StreamDownloadSaveStrategy;
 }
 
 interface DemoLogItem {
+  /**
+   * - **EN:** Stable row key for the event log list.
+   * - **CN:** 事件日志列表的稳定行键。
+   */
   id: number;
+  /**
+   * - **EN:** Human-readable event text.
+   * - **CN:** 面向人的事件文本。
+   */
   message: string;
 }
 
@@ -158,7 +182,7 @@ function StreamDownloaderStoryDemo({
     downloader.getSnapshot.bind(downloader),
     downloader.getSnapshot.bind(downloader),
   );
-  const axiosInstance = useMemo(() => createAxios({ adapter: 'fetch' }) as unknown as AxiosLikeInstance, []);
+  const axiosInstance = useMemo<AxiosLikeInstance>(() => createAxios({ adapter: 'fetch' }), []);
 
   useEffect(() => {
     return () => {
@@ -294,7 +318,7 @@ function StreamDownloaderStoryDemo({
             {snapshot.progress.percent != null ? `${snapshot.progress.percent}%` : '--'}
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.speedBps')}>
-            {snapshot.progress.speedBps != null ? `${snapshot.progress.speedBps.toFixed(2)} B/s` : '--'}
+            {snapshot.progress.speedBps != null ? formatByteRate(snapshot.progress.speedBps) : '--'}
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.StreamDownloader.fields.error')}>
             {snapshot.errorCode ? `${snapshot.errorCode}: ${snapshot.errorMessage}` : '--'}
@@ -391,38 +415,26 @@ function buildRequestExamples({
     saveStrategy,
   };
 
-  const axiosRequest: StreamDownloadRequest = {
-    transport: 'axios',
-    url: downloadUrl,
-    fileName,
-    saveStrategy,
-    axios: {
-      instance: 'axios.create({ adapter: "fetch" })' as unknown as AxiosLikeInstance,
-      adapter: 'fetch',
-    },
-  };
+  const normalizedFileName = fileName ? `\n  fileName: '${fileName}',` : '';
 
   return {
-    fetchRequest: stringifyExample(fetchRequest),
-    axiosRequest: stringifyExample(axiosRequest),
+    fetchRequest: JSON.stringify(fetchRequest, null, 2),
+    axiosRequest: `const axiosInstance = axios.create({ adapter: 'fetch' });\n\nconst request = {\n  transport: 'axios',\n  url: '${downloadUrl}',${normalizedFileName}\n  saveStrategy: '${saveStrategy}',\n  axios: {\n    instance: axiosInstance,\n    adapter: 'fetch',\n  },\n};`,
   };
-}
-
-function stringifyExample(request: StreamDownloadRequest) {
-  return JSON.stringify(
-    request,
-    (_key, value) => {
-      if (typeof value === 'string' && value.includes('axios.create')) {
-        return value;
-      }
-      return value;
-    },
-    2,
-  );
 }
 
 function formatErrorLog(prefix: string, error: unknown) {
   return `${prefix}: ${error instanceof Error ? error.message : String(error)}`;
+}
+
+function formatByteRate(speedBps: number) {
+  if (speedBps < 1024) {
+    return `${speedBps.toFixed(0)} B/s`;
+  }
+  if (speedBps < 1024 ** 2) {
+    return `${(speedBps / 1024).toFixed(2)} KB/s`;
+  }
+  return `${(speedBps / 1024 ** 2).toFixed(2)} MB/s`;
 }
 
 function getCodeBlockStyle(): CSSProperties {

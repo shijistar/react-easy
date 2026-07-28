@@ -8,15 +8,43 @@ import { useStoryT } from '../../locales';
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
 interface UseStreamDownloaderStoryArgs {
+  /**
+   * - **EN:** Storybook-controlled real download URL.
+   * - **CN:** 由 Storybook 控制的真实下载 URL。
+   */
   downloadUrl: string;
+  /**
+   * - **EN:** Optional explicit file name override.
+   * - **CN:** 可选的显式文件名覆盖。
+   */
   fileName: string;
+  /**
+   * - **EN:** Hook-level progress throttling window in milliseconds.
+   * - **CN:** hook 级进度节流窗口，单位毫秒。
+   */
   progressThrottleMs: number;
+  /**
+   * - **EN:** Whether the hook should dispose the downloader on unmount.
+   * - **CN:** hook 卸载时是否应释放 downloader。
+   */
   autoDispose: boolean;
+  /**
+   * - **EN:** Save strategy forwarded into `start(request)`.
+   * - **CN:** 透传给 `start(request)` 的保存策略。
+   */
   saveStrategy: StreamDownloadSaveStrategy;
 }
 
 interface DemoLogItem {
+  /**
+   * - **EN:** Stable row key for the event log list.
+   * - **CN:** 事件日志列表的稳定行键。
+   */
   id: number;
+  /**
+   * - **EN:** Human-readable event text.
+   * - **CN:** 面向人的事件文本。
+   */
   message: string;
 }
 
@@ -137,9 +165,7 @@ function UseStreamDownloaderStoryDemo({
     autoDispose,
     progressThrottleMs,
   });
-  const axiosInstance = useRef<AxiosLikeInstance>(
-    createAxios({ adapter: 'fetch' }) as unknown as AxiosLikeInstance,
-  ).current;
+  const axiosInstance = useRef<AxiosLikeInstance>(createAxios({ adapter: 'fetch' })).current;
 
   const normalizedFileName = fileName.trim() || undefined;
 
@@ -171,7 +197,7 @@ function UseStreamDownloaderStoryDemo({
         saveStrategy,
         axios: {
           instance: axiosInstance,
-          adapterHint: 'fetch',
+          adapter: 'fetch',
         },
       });
       appendLog(`${t('storybook.stories.useStreamDownloader.logs.success')} (${result.transport})`);
@@ -266,7 +292,7 @@ function UseStreamDownloaderStoryDemo({
             {snapshot.progress.percent != null ? `${snapshot.progress.percent}%` : '--'}
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.speedBps')}>
-            {snapshot.progress.speedBps != null ? `${snapshot.progress.speedBps.toFixed(2)} B/s` : '--'}
+            {snapshot.progress.speedBps != null ? formatByteRate(snapshot.progress.speedBps) : '--'}
           </Descriptions.Item>
           <Descriptions.Item label={t('storybook.stories.useStreamDownloader.fields.error')}>
             {snapshot.errorCode ? `${snapshot.errorCode}: ${snapshot.errorMessage}` : '--'}
@@ -326,4 +352,14 @@ function UseStreamDownloaderStoryDemo({
 
 function formatErrorLog(prefix: string, error: unknown) {
   return `${prefix}: ${error instanceof Error ? error.message : String(error)}`;
+}
+
+function formatByteRate(speedBps: number) {
+  if (speedBps < 1024) {
+    return `${speedBps.toFixed(0)} B/s`;
+  }
+  if (speedBps < 1024 ** 2) {
+    return `${(speedBps / 1024).toFixed(2)} KB/s`;
+  }
+  return `${(speedBps / 1024 ** 2).toFixed(2)} MB/s`;
 }
