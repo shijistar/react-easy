@@ -1,0 +1,16 @@
+src/hooks/useStreamDownloader.ts
+  h_282d460392904f 2-5,8,17,21,28-31,40
+src/utils/StreamDownloader.ts
+  h_282d460392904f 685,691,697,703,720,731,746,757,765,775,785,798,810,816,829,838,844-845,851-852,855-856,859-860,866
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "e3cc37f5be0c4efa7d3c3b92a4155e34073140e2",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
