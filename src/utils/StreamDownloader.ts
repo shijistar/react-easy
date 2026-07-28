@@ -573,6 +573,13 @@ export default class StreamDownloader {
       };
     }
 
+    if (!streamSaver || typeof streamSaver.createWriteStream !== 'function') {
+      throw new StreamDownloadError(
+        'UNSUPPORTED_SAVE_STRATEGY',
+        'StreamSaver is not available in the current environment.',
+      );
+    }
+
     const writable = streamSaver.createWriteStream(fileName, totalBytes != null ? { size: totalBytes } : undefined);
     return {
       saveStrategy,
