@@ -1,0 +1,16 @@
+.storybook/stories/utils/StreamDownloader/introduce.mdx
+  h_3a0b15d296f1fe 1-3
+.storybook/stories/utils/StreamDownloader/index.stories.tsx
+  h_3a0b15d296f1fe 1-375
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "6f0a8888044cd3e5faf585001104e642cc733f31",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
