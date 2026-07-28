@@ -132,21 +132,20 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
             notification.error({ message: t('hooks.useStompSocket.connectError') });
           }
         };
-        if (socketRef.current) {
-          socketRef.current.onclose = (event) => {
-            setConnecting(false);
-            isConnectedRef.current = false;
-            stompClientRef.current?.debug('Socket closed');
-            console.log('event', event);
-            onClose?.();
-          };
-        }
+        socketRef.current!.onclose = (event) => {
+          setConnecting(false);
+          isConnectedRef.current = false;
+          stompClientRef.current?.debug('Socket closed');
+          console.log('event', event);
+          onClose?.();
+        };
       } catch (error: unknown) {
         console.error(error);
         // notification.error({ message: error?.message ?? JSON.stringify(error) });
         reject(error);
       }
     });
+    void promise.catch(() => undefined);
     refresh();
     await new Promise((resolve) => setTimeout(resolve));
     return promise;
