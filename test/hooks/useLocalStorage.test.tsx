@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import useLocalStorage from '../../src/hooks/useLocalStorage';
 
 afterEach(() => {
+  vi.restoreAllMocks();
   window.localStorage.clear();
 });
 

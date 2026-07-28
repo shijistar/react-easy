@@ -1,4 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
+import type { RefObject } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import useMovable from '../../src/hooks/useMovable';
 
@@ -26,7 +27,7 @@ afterEach(() => {
 
 describe('useMovable', () => {
   it('ignores configured selectors and safely handles missing container refs', () => {
-    const containerRef = { current: null } as React.RefObject<HTMLDivElement>;
+    const containerRef = { current: null } as unknown as RefObject<HTMLElement>;
     const { result } = renderHook(() =>
       useMovable({ enabled: true, containerRef, ignoreSelectors: ['button'] }),
     );
@@ -68,7 +69,7 @@ describe('useMovable', () => {
       throw new Error('capture failed');
     });
 
-    const containerRef = { current: container } as React.RefObject<HTMLDivElement>;
+    const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
     const { result } = renderHook(() =>
       useMovable({ enabled: true, containerRef, storageKey: 'movable-pos' }),
     );
@@ -127,7 +128,7 @@ describe('useMovable', () => {
     defineRect(container, { left: 0, top: 0, width: 100, height: 50 });
     container.setPointerCapture = vi.fn();
 
-    const containerRef = { current: container } as React.RefObject<HTMLDivElement>;
+    const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
     const { result } = renderHook(() =>
       useMovable({ enabled: false, containerRef }),
     );
@@ -155,7 +156,7 @@ describe('useMovable', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     defineRect(container, { left: 0, top: 0, width: 100, height: 50 });
-    const containerRef = { current: container } as React.RefObject<HTMLDivElement>;
+    const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
 
     const { result } = renderHook(() =>
       useMovable({ enabled: true, containerRef, storageKey: 'movable-saved' }),
@@ -175,7 +176,7 @@ describe('useMovable', () => {
     document.body.appendChild(container);
     defineRect(container, { left: 0, top: 0, width: 100, height: 50 });
     container.setPointerCapture = vi.fn();
-    const containerRef = { current: container } as React.RefObject<HTMLDivElement>;
+    const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
 
     const { result } = renderHook(() =>
       useMovable({ enabled: true, containerRef }),

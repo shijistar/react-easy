@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react';
+import type { CSSProperties, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
 import ReactEasyContext, { defaultContextValue, type ReactEasyContextProps } from '../../src/components/ConfigProvider/context';
 import useSplitter, { type UseSplitterProps } from '../../src/hooks/useSplitter';
@@ -6,11 +6,16 @@ import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('../../src/hooks/style/useSplitter', () => ({
   default: vi.fn(() => ({
-    wrapCSSVar: (node: React.ReactNode) => node,
+    wrapCSSVar: (node: ReactNode) => node,
     hashId: 'hash-id',
     cssVarCls: 'css-var-cls',
   })),
 }));
+
+type SplitterElementProps = {
+  style: CSSProperties & { '--splitter-width'?: string };
+  onMouseDown: () => void;
+};
 
 function createWrapper(value?: Partial<ReactEasyContextProps>) {
   const contextValue: ReactEasyContextProps = {
@@ -191,7 +196,7 @@ describe('useSplitter', () => {
 
     expect(hookView.result.current.direction).toBe('vertical');
 
-    const element = hookView.result.current.dom as React.ReactElement;
+    const element = hookView.result.current.dom as ReactElement<SplitterElementProps>;
     expect(element.props.style['--splitter-width']).toBe('1px');
 
     act(() => {
@@ -214,7 +219,7 @@ describe('useSplitter', () => {
     const zeroWidthView = renderHook(() => useSplitter({ splitterWidth: 0 }), {
       wrapper: createWrapper(),
     });
-    const zeroElement = zeroWidthView.result.current.dom as React.ReactElement;
+    const zeroElement = zeroWidthView.result.current.dom as ReactElement<SplitterElementProps>;
 
     expect(zeroElement.props.style['--splitter-width']).toBeUndefined();
   });

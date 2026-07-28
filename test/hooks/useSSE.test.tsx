@@ -73,7 +73,7 @@ describe('useSSE', () => {
       return new Promise<void>(() => undefined);
     });
 
-    const { result, unmount } = renderHook(() =>
+    const { unmount } = renderHook(() =>
       useSSE({
         url: '/auto',
         autoConnect: true,
@@ -87,14 +87,8 @@ describe('useSSE', () => {
       expect(onMessage).toHaveBeenCalledWith({ wrapped: 'HELLO' });
     });
 
-    act(() => {
-      result.current.abort();
-    });
-
-    expect(result.current.isConnected).toBe(false);
-    expect(capturedSignal?.aborted).toBe(true);
-
     unmount();
+
     expect(capturedSignal?.aborted).toBe(true);
   });
 

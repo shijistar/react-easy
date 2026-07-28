@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import ReactEasyContext, { defaultContextValue, type ReactEasyContextProps } from '../../src/components/ConfigProvider/context';
 import reactEasyI18n, { resources, t } from '../../src/locales';
-import { act, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import useAudioPlayer from '../../src/hooks/useAudioPlayer';
 import useContextValidator from '../../src/hooks/useContextValidator';
@@ -39,8 +39,8 @@ function createWrapper(value?: Partial<ReactEasyContextProps>) {
 
 describe('basic hooks', () => {
   beforeEach(async () => {
-    reactEasyI18n.changeLanguage('en-US');
     reactEasyI18n.addResourceBundle('en-US', 'translation', resources['en-US'].translation, true, true);
+    await reactEasyI18n.changeLanguage('en-US');
   });
 
   it('useRefValue keeps a stable ref while updating current value', () => {
@@ -88,7 +88,7 @@ describe('basic hooks', () => {
     });
     const instance = result.current as unknown as { dispose: ReturnType<typeof vi.fn>; props: unknown };
 
-    rerender({ value: { source: 'changed.mp3' } });
+    rerender({ value: { source: 'changed.mp3', volume: 0.5 } });
 
     expect(AudioPlayer).toHaveBeenCalledTimes(1);
     expect(AudioPlayer).toHaveBeenCalledWith(props);
