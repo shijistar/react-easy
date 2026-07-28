@@ -1,0 +1,18 @@
+package.json
+  h_282d460392904f 102,108-109
+src/utils/StreamDownloader.ts
+  h_282d460392904f 358,440,771
+.storybook/stories/utils/StreamDownloader.stories.tsx
+  h_282d460392904f 199,401
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "56811089d38548f6d79ebba3f806b210266b61d9",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
