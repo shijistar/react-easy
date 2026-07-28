@@ -356,8 +356,9 @@ export default class StreamDownloader {
     this.listeners.forEach((listener) => {
       try {
         listener(currentSnapshot);
-      } catch {
+      } catch (error) {
         // Ignore listener errors to avoid breaking the download flow.
+        console.error(error);
       }
     });
   }

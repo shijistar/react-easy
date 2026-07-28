@@ -16,17 +16,35 @@ export interface UseStreamDownloaderOptions extends StreamDownloaderInit {
 }
 
 export interface UseStreamDownloaderResult {
-  /** - **EN:** Stable downloader class instance. - **CN:** 稳定的 downloader 类实例。 */
+  /**
+   * - **EN:** Stable downloader class instance.
+   * - **CN:** 稳定的 downloader 类实例。
+   */
   downloader: StreamDownloader;
-  /** - **EN:** Reactive snapshot. - **CN:** 响应式快照。 */
+  /**
+   * - **EN:** Reactive snapshot.
+   * - **CN:** 响应式快照。
+   */
   snapshot: Readonly<StreamDownloadSnapshot>;
-  /** - **EN:** Whether the current downloader is running. - **CN:** 当前是否存在活动下载任务。 */
+  /**
+   * - **EN:** Whether the current downloader is running.
+   * - **CN:** 当前是否存在活动下载任务。
+   */
   isRunning: boolean;
-  /** - **EN:** Start a download task. - **CN:** 启动下载任务。 */
+  /**
+   * - **EN:** Start a download task.
+   * - **CN:** 启动下载任务。
+   */
   start: (request?: StreamDownloadRequest) => Promise<StreamDownloadSuccessResult>;
-  /** - **EN:** Cancel the active task. - **CN:** 取消当前活动任务。 */
+  /**
+   * - **EN:** Cancel the active task.
+   * - **CN:** 取消当前活动任务。
+   */
   cancel: () => void;
-  /** - **EN:** Reset the terminal snapshot back to idle. - **CN:** 将终态快照重置回 idle。 */
+  /**
+   * - **EN:** Reset the terminal snapshot back to idle.
+   * - **CN:** 将终态快照重置回 idle。
+   */
   reset: () => void;
 }
 

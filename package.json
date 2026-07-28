@@ -43,8 +43,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "crypto-js": "^4.2.0",
-    "streamsaver": "^2.0.6"
+    "crypto-js": "^4.2.0"
   },
   "devDependencies": {
     "@ant-design/fast-color": "^3.0.1",
@@ -80,6 +79,7 @@
     "react-resize-detector": "^12.3.0",
     "sockjs-client": "^1.6.1",
     "storybook": "^10.2.12",
+    "streamsaver": "^2.0.6",
     "ts-jest": "^29.3.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.3",
@@ -90,7 +90,8 @@
     "antd": ">=5.1.0",
     "i18next": ">=8.4.0",
     "react": ">=17.0.2",
-    "react-is": ">=17.0.2"
+    "react-is": ">=17.0.2",
+    "streamsaver": "^2.0.6"
   },
   "optionalDependencies": {
     "@ant-design/fast-color": "^3.0.1",
