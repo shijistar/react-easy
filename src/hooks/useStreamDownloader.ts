@@ -1,10 +1,55 @@
 import { useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
-import StreamDownloader, {
-  type StreamDownloaderInit,
-  type StreamDownloadRequest,
-  type StreamDownloadSnapshot,
-  type StreamDownloadSuccessResult,
+import type {
+  StreamDownloaderInit,
+  StreamDownloadRequest,
+  StreamDownloadSnapshot,
+  StreamDownloadSuccessResult,
 } from '../utils/StreamDownloader';
+import StreamDownloader from '../utils/StreamDownloader';
+
+/**
+ * - **EN:** React wrapper around `StreamDownloader` that exposes a stable downloader instance, a
+ *   reactive snapshot, and bound action helpers.
+ * - **CN:** `StreamDownloader` 的 React 包装层，对外提供稳定的 downloader 实例、响应式 快照以及已经绑定好的 action 方法。
+ */
+const useStreamDownloader = (options?: UseStreamDownloaderOptions): UseStreamDownloaderResult => {
+  const ref = useRef<StreamDownloader | null>(null);
+
+  if (!ref.current) {
+    ref.current = new StreamDownloader(options);
+  }
+
+  const downloader = ref.current;
+  const snapshot = useSyncExternalStore(
+    downloader.subscribe.bind(downloader),
+    downloader.getSnapshot.bind(downloader),
+    downloader.getSnapshot.bind(downloader),
+  );
+
+  const autoDisposeRef = useRef(options?.autoDispose);
+  autoDisposeRef.current = options?.autoDispose;
+
+  useEffect(() => {
+    return () => {
+      if (autoDisposeRef.current !== false) {
+        downloader.dispose();
+      }
+      ref.current = null;
+    };
+  }, [downloader]);
+
+  return useMemo(
+    () => ({
+      downloader,
+      snapshot,
+      isRunning: downloader.isRunning,
+      start: downloader.start.bind(downloader),
+      cancel: downloader.cancel.bind(downloader),
+      reset: downloader.reset.bind(downloader),
+    }),
+    [downloader, snapshot],
+  );
+};
 
 /**
  * - **EN:** Hook options for `useStreamDownloader`.
@@ -55,49 +100,5 @@ export interface UseStreamDownloaderResult {
    */
   reset: () => void;
 }
-
-/**
- * - **EN:** React wrapper around `StreamDownloader` that exposes a stable downloader instance, a
- *   reactive snapshot, and bound action helpers.
- * - **CN:** `StreamDownloader` 的 React 包装层，对外提供稳定的 downloader 实例、响应式 快照以及已经绑定好的 action 方法。
- */
-const useStreamDownloader = (options?: UseStreamDownloaderOptions): UseStreamDownloaderResult => {
-  const ref = useRef<StreamDownloader | null>(null);
-
-  if (!ref.current) {
-    ref.current = new StreamDownloader(options);
-  }
-
-  const downloader = ref.current;
-  const snapshot = useSyncExternalStore(
-    downloader.subscribe.bind(downloader),
-    downloader.getSnapshot.bind(downloader),
-    downloader.getSnapshot.bind(downloader),
-  );
-
-  const autoDisposeRef = useRef(options?.autoDispose);
-  autoDisposeRef.current = options?.autoDispose;
-
-  useEffect(() => {
-    return () => {
-      if (autoDisposeRef.current !== false) {
-        downloader.dispose();
-      }
-      ref.current = null;
-    };
-  }, [downloader]);
-
-  return useMemo(
-    () => ({
-      downloader,
-      snapshot,
-      isRunning: downloader.isRunning,
-      start: downloader.start.bind(downloader),
-      cancel: downloader.cancel.bind(downloader),
-      reset: downloader.reset.bind(downloader),
-    }),
-    [downloader, snapshot],
-  );
-};
 
 export default useStreamDownloader;

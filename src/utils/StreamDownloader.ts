@@ -1,148 +1,11 @@
 import streamSaver from 'streamsaver';
 
-/**
- * - **EN:** Supported request transport types.
- * - **CN:** 支持的请求传输类型。
- */
-export type StreamDownloadTransport = 'fetch' | 'axios';
-
-/**
- * - **EN:** Supported streaming save strategies.
- * - **CN:** 支持的流式保存策略。
- */
-export type StreamDownloadSaveStrategy = 'auto' | 'file-system-access' | 'stream-saver';
-
-/**
- * - **EN:** Lifecycle status of a download task.
- * - **CN:** 下载任务的生命周期状态。
- */
-export type StreamDownloadStatus = 'idle' | 'preparing' | 'downloading' | 'success' | 'failed' | 'cancelled';
-
-/**
- * - **EN:** Stable error codes exposed by `StreamDownloader`.
- * - **CN:** `StreamDownloader` 对外暴露的稳定错误码。
- */
-export type StreamDownloadErrorCode =
-  | 'TASK_ALREADY_RUNNING'
-  | 'UNSUPPORTED_TRANSPORT'
-  | 'UNSUPPORTED_SAVE_STRATEGY'
-  | 'INVALID_REQUEST_URL'
-  | 'HTTP_ERROR'
-  | 'EMPTY_RESPONSE_STREAM'
-  | 'INVALID_AXIOS_INSTANCE'
-  | 'AXIOS_ADAPTER_NOT_SUPPORTED'
-  | 'WRITE_ABORTED'
-  | 'WRITE_FAILED'
-  | 'DOWNLOAD_CANCELLED';
-
-/**
- * - **EN:** Progress metrics reported during a streaming download.
- * - **CN:** 流式下载过程中上报的进度指标。
- */
-export interface StreamDownloadProgress {
-  loadedBytes: number;
-  totalBytes?: number;
-  percent?: number;
-  speedBps?: number;
-}
-
-/**
- * - **EN:** Reactive snapshot describing the latest downloader state.
- * - **CN:** 描述下载器最新状态的响应式快照。
- */
-export interface StreamDownloadSnapshot {
-  status: StreamDownloadStatus;
-  requestUrl?: string;
-  fileName?: string;
-  transport?: StreamDownloadTransport;
-  saveStrategy?: Exclude<StreamDownloadSaveStrategy, 'auto'>;
-  progress: StreamDownloadProgress;
-  errorCode?: StreamDownloadErrorCode;
-  errorMessage?: string;
-}
-
-/**
- * - **EN:** Minimal response shape required from an injected axios-like instance.
- * - **CN:** 注入的 axios-like 实例所需满足的最小响应结构。
- */
-export interface AxiosLikeResponse<T = unknown> {
-  status: number;
-  statusText?: string;
-  headers?: Headers | Record<string, unknown>;
-  data: T;
-}
-
-/**
- * - **EN:** Minimal axios-like request contract consumed by `StreamDownloader`.
- * - **CN:** `StreamDownloader` 所消费的最小 axios-like 请求契约。
- */
-export interface AxiosLikeInstance {
-  request<T = unknown>(config: Record<string, unknown>): Promise<AxiosLikeResponse<T>>;
-}
-
-/**
- * - **EN:** Axios-specific options for the `transport: 'axios'` request branch.
- * - **CN:** `transport: 'axios'` 请求分支专用的 axios 选项。
- */
-export interface StreamDownloadAxiosOptions {
-  instance: AxiosLikeInstance;
-  adapterHint: 'fetch';
-  config?: Record<string, unknown>;
-}
-
-/**
- * - **EN:** Shared request fields for all download transports.
- * - **CN:** 所有下载传输方式共享的请求字段。
- */
-export interface StreamDownloadBaseRequest {
-  url: string;
-  fileName?: string;
-  saveStrategy?: StreamDownloadSaveStrategy;
-}
-
-/**
- * - **EN:** Request shape for the native `fetch` transport.
- * - **CN:** 原生 `fetch` 传输方式对应的请求结构。
- */
-export interface FetchStreamDownloadRequest extends StreamDownloadBaseRequest {
-  transport?: 'fetch';
-  method?: string;
-  headers?: Record<string, string>;
-  body?: BodyInit | null;
-  credentials?: RequestCredentials;
-  init?: Omit<RequestInit, 'method' | 'headers' | 'body' | 'credentials' | 'signal'>;
-}
-
-/**
- * - **EN:** Request shape for an injected axios instance using the fetch adapter.
- * - **CN:** 使用 fetch adapter 的外部 axios 实例对应的请求结构。
- */
-export interface AxiosStreamDownloadRequest extends StreamDownloadBaseRequest {
-  transport: 'axios';
-  method?: string;
-  headers?: Record<string, string>;
-  data?: unknown;
-  axios: StreamDownloadAxiosOptions;
-}
-
-/**
- * - **EN:** Public request union accepted by `start()` and `defaultRequest`.
- * - **CN:** `start()` 与 `defaultRequest` 接受的公开请求联合类型。
- */
-export type StreamDownloadRequest = FetchStreamDownloadRequest | AxiosStreamDownloadRequest;
-
-/**
- * - **EN:** Successful terminal result returned by `start()`.
- * - **CN:** `start()` 成功完成时返回的终态结果。
- */
-export interface StreamDownloadSuccessResult {
-  status: 'success';
-  fileName: string;
-  loadedBytes: number;
-  totalBytes?: number;
-  transport: StreamDownloadTransport;
-  saveStrategy: 'file-system-access' | 'stream-saver';
-}
+const INITIAL_SNAPSHOT: Readonly<StreamDownloadSnapshot> = {
+  status: 'idle',
+  progress: {
+    loadedBytes: 0,
+  },
+};
 
 /**
  * - **EN:** Structured error type used by `StreamDownloader`.
@@ -163,56 +26,6 @@ export class StreamDownloadError extends Error {
     this.cause = options?.cause;
   }
 }
-
-/**
- * - **EN:** Constructor options for `StreamDownloader`.
- * - **CN:** `StreamDownloader` 的构造参数。
- */
-export interface StreamDownloaderInit {
-  defaultRequest?: Partial<StreamDownloadRequest>;
-  progressThrottleMs?: number;
-}
-
-/**
- * - **EN:** Listener invoked whenever the public snapshot changes.
- * - **CN:** 每次公开快照变化时触发的监听器。
- */
-export type StreamDownloadListener = (snapshot: Readonly<StreamDownloadSnapshot>) => void;
-
-interface WritableChunkWriter {
-  write: (chunk: Uint8Array) => Promise<unknown> | unknown;
-  close: () => Promise<unknown> | unknown;
-  abort?: (reason?: unknown) => Promise<unknown> | unknown;
-  releaseLock?: () => void;
-}
-
-interface SaveHandleLike {
-  createWritable: () => Promise<unknown>;
-}
-
-interface SaveFilePickerOptionsLike {
-  suggestedName?: string;
-}
-
-interface NormalizedDownloadContext {
-  fileName: string;
-  stream: ReadableStream<Uint8Array>;
-  totalBytes?: number;
-  transport: StreamDownloadTransport;
-}
-
-/**
- * - **EN:** Minimal `showSaveFilePicker` signature used by the downloader.
- * - **CN:** 下载器内部使用的最小 `showSaveFilePicker` 方法签名。
- */
-export type SaveFilePickerFn = (options?: SaveFilePickerOptionsLike) => Promise<SaveHandleLike>;
-
-const INITIAL_SNAPSHOT: Readonly<StreamDownloadSnapshot> = {
-  status: 'idle',
-  progress: {
-    loadedBytes: 0,
-  },
-};
 
 /**
  * - **EN:** Browser-side streaming downloader for large files.
@@ -869,3 +682,190 @@ function toHeaders(headers: Headers | Record<string, unknown> | undefined) {
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
+
+/**
+ * - **EN:** Supported request transport types.
+ * - **CN:** 支持的请求传输类型。
+ */
+export type StreamDownloadTransport = 'fetch' | 'axios';
+
+/**
+ * - **EN:** Supported streaming save strategies.
+ * - **CN:** 支持的流式保存策略。
+ */
+export type StreamDownloadSaveStrategy = 'auto' | 'file-system-access' | 'stream-saver';
+
+/**
+ * - **EN:** Lifecycle status of a download task.
+ * - **CN:** 下载任务的生命周期状态。
+ */
+export type StreamDownloadStatus = 'idle' | 'preparing' | 'downloading' | 'success' | 'failed' | 'cancelled';
+
+/**
+ * - **EN:** Stable error codes exposed by `StreamDownloader`.
+ * - **CN:** `StreamDownloader` 对外暴露的稳定错误码。
+ */
+export type StreamDownloadErrorCode =
+  | 'TASK_ALREADY_RUNNING'
+  | 'UNSUPPORTED_TRANSPORT'
+  | 'UNSUPPORTED_SAVE_STRATEGY'
+  | 'INVALID_REQUEST_URL'
+  | 'HTTP_ERROR'
+  | 'EMPTY_RESPONSE_STREAM'
+  | 'INVALID_AXIOS_INSTANCE'
+  | 'AXIOS_ADAPTER_NOT_SUPPORTED'
+  | 'WRITE_ABORTED'
+  | 'WRITE_FAILED'
+  | 'DOWNLOAD_CANCELLED';
+
+/**
+ * - **EN:** Progress metrics reported during a streaming download.
+ * - **CN:** 流式下载过程中上报的进度指标。
+ */
+export interface StreamDownloadProgress {
+  loadedBytes: number;
+  totalBytes?: number;
+  percent?: number;
+  speedBps?: number;
+}
+
+/**
+ * - **EN:** Reactive snapshot describing the latest downloader state.
+ * - **CN:** 描述下载器最新状态的响应式快照。
+ */
+export interface StreamDownloadSnapshot {
+  status: StreamDownloadStatus;
+  requestUrl?: string;
+  fileName?: string;
+  transport?: StreamDownloadTransport;
+  saveStrategy?: Exclude<StreamDownloadSaveStrategy, 'auto'>;
+  progress: StreamDownloadProgress;
+  errorCode?: StreamDownloadErrorCode;
+  errorMessage?: string;
+}
+
+/**
+ * - **EN:** Minimal response shape required from an injected axios-like instance.
+ * - **CN:** 注入的 axios-like 实例所需满足的最小响应结构。
+ */
+export interface AxiosLikeResponse<T = unknown> {
+  status: number;
+  statusText?: string;
+  headers?: Headers | Record<string, unknown>;
+  data: T;
+}
+
+/**
+ * - **EN:** Minimal axios-like request contract consumed by `StreamDownloader`.
+ * - **CN:** `StreamDownloader` 所消费的最小 axios-like 请求契约。
+ */
+export interface AxiosLikeInstance {
+  request<T = unknown>(config: Record<string, unknown>): Promise<AxiosLikeResponse<T>>;
+}
+
+/**
+ * - **EN:** Axios-specific options for the `transport: 'axios'` request branch.
+ * - **CN:** `transport: 'axios'` 请求分支专用的 axios 选项。
+ */
+export interface StreamDownloadAxiosOptions {
+  instance: AxiosLikeInstance;
+  adapterHint: 'fetch';
+  config?: Record<string, unknown>;
+}
+
+/**
+ * - **EN:** Shared request fields for all download transports.
+ * - **CN:** 所有下载传输方式共享的请求字段。
+ */
+export interface StreamDownloadBaseRequest {
+  url: string;
+  fileName?: string;
+  saveStrategy?: StreamDownloadSaveStrategy;
+}
+
+/**
+ * - **EN:** Request shape for the native `fetch` transport.
+ * - **CN:** 原生 `fetch` 传输方式对应的请求结构。
+ */
+export interface FetchStreamDownloadRequest extends StreamDownloadBaseRequest {
+  transport?: 'fetch';
+  method?: string;
+  headers?: Record<string, string>;
+  body?: BodyInit | null;
+  credentials?: RequestCredentials;
+  init?: Omit<RequestInit, 'method' | 'headers' | 'body' | 'credentials' | 'signal'>;
+}
+
+/**
+ * - **EN:** Request shape for an injected axios instance using the fetch adapter.
+ * - **CN:** 使用 fetch adapter 的外部 axios 实例对应的请求结构。
+ */
+export interface AxiosStreamDownloadRequest extends StreamDownloadBaseRequest {
+  transport: 'axios';
+  method?: string;
+  headers?: Record<string, string>;
+  data?: unknown;
+  axios: StreamDownloadAxiosOptions;
+}
+
+/**
+ * - **EN:** Public request union accepted by `start()` and `defaultRequest`.
+ * - **CN:** `start()` 与 `defaultRequest` 接受的公开请求联合类型。
+ */
+export type StreamDownloadRequest = FetchStreamDownloadRequest | AxiosStreamDownloadRequest;
+
+/**
+ * - **EN:** Successful terminal result returned by `start()`.
+ * - **CN:** `start()` 成功完成时返回的终态结果。
+ */
+export interface StreamDownloadSuccessResult {
+  status: 'success';
+  fileName: string;
+  loadedBytes: number;
+  totalBytes?: number;
+  transport: StreamDownloadTransport;
+  saveStrategy: 'file-system-access' | 'stream-saver';
+}
+
+/**
+ * - **EN:** Constructor options for `StreamDownloader`.
+ * - **CN:** `StreamDownloader` 的构造参数。
+ */
+export interface StreamDownloaderInit {
+  defaultRequest?: Partial<StreamDownloadRequest>;
+  progressThrottleMs?: number;
+}
+
+/**
+ * - **EN:** Listener invoked whenever the public snapshot changes.
+ * - **CN:** 每次公开快照变化时触发的监听器。
+ */
+export type StreamDownloadListener = (snapshot: Readonly<StreamDownloadSnapshot>) => void;
+
+export interface WritableChunkWriter {
+  write: (chunk: Uint8Array) => Promise<unknown> | unknown;
+  close: () => Promise<unknown> | unknown;
+  abort?: (reason?: unknown) => Promise<unknown> | unknown;
+  releaseLock?: () => void;
+}
+
+export interface SaveHandleLike {
+  createWritable: () => Promise<unknown>;
+}
+
+export interface SaveFilePickerOptionsLike {
+  suggestedName?: string;
+}
+
+export interface NormalizedDownloadContext {
+  fileName: string;
+  stream: ReadableStream<Uint8Array>;
+  totalBytes?: number;
+  transport: StreamDownloadTransport;
+}
+
+/**
+ * - **EN:** Minimal `showSaveFilePicker` signature used by the downloader.
+ * - **CN:** 下载器内部使用的最小 `showSaveFilePicker` 方法签名。
+ */
+export type SaveFilePickerFn = (options?: SaveFilePickerOptionsLike) => Promise<SaveHandleLike>;
