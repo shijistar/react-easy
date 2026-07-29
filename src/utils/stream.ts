@@ -16,6 +16,7 @@ export class StreamTimeSlicerClass implements StreamTimeSlicer {
   }
 
   private now() {
+    /* v8 ignore next -- performance is always available in supported test runtimes; Date.now fallback is a legacy-environment guard */
     return typeof performance !== 'undefined' ? performance.now() : Date.now();
   }
 
@@ -53,6 +54,7 @@ export class StreamTimeSlicerClass implements StreamTimeSlicer {
       return out;
     });
 
+    /* v8 ignore next -- startTs is guaranteed non-null after the early return above; kept for defensive clarity */
     const sliceDur = this.startTs != null ? currentTs - this.startTs : 0;
     this.onSlice(merged, sliceDur);
 

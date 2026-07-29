@@ -31,6 +31,7 @@ export function random(min?: number, max?: number): number {
     throw new TypeError('min and max must be integers');
   }
   const globalThat =
+    /* v8 ignore next 7 -- globalThis always exists in supported runtimes; window/global fallbacks are legacy-environment guards */
     typeof globalThis !== 'undefined'
       ? globalThis
       : typeof window !== 'undefined'
@@ -65,6 +66,7 @@ export function random(min?: number, max?: number): number {
 
   if (webCrypto?.getRandomValues) {
     const range = max - min + 1;
+    /* v8 ignore next -- range is always positive after integer validation and min/max normalization; kept as defensive guard */
     if (range <= 0) return min;
 
     // Use rejection sampling to avoid the slight bias caused by (2^32 % range).
@@ -85,6 +87,7 @@ export function random(min?: number, max?: number): number {
 
 function randomLikeMath(): number {
   const globalThat =
+    /* v8 ignore next 7 -- globalThis always exists in supported runtimes; window/global fallbacks are legacy-environment guards */
     typeof globalThis !== 'undefined'
       ? globalThis
       : typeof window !== 'undefined'

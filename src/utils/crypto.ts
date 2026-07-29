@@ -205,6 +205,7 @@ export async function decryptWithCryptoJS(encryptedText: string, key: string) {
     {
       default: {
         mode: { CBC },
+        lib: { CipherParams },
       },
     },
     { default: Pkcs7 },
@@ -224,9 +225,10 @@ export async function decryptWithCryptoJS(encryptedText: string, key: string) {
   try {
     // Convert base64 strings to WordArray objects
     const iv = Base64.parse(ivBase64);
+    const ciphertext = Base64.parse(encryptedBase64);
     // Derive key using SHA-256 (matching native implementation)
     const derivedKey = SHA256(key);
-    const decrypted = decrypt(encryptedBase64, derivedKey, {
+    const decrypted = decrypt(CipherParams.create({ ciphertext }), derivedKey, {
       iv,
       mode: CBC,
       padding: Pkcs7,
