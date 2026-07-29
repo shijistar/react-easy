@@ -1,11 +1,6 @@
 import { Buffer as NodeBuffer } from 'node:buffer';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  base64ToString,
-  stringToBase64,
-} from '../../src/utils/base64';
+import { arrayBufferToBase64, base64ToArrayBuffer, base64ToString, stringToBase64 } from '../../src/utils/base64';
 
 describe('base64 utils', () => {
   it('encodes and decodes standard and url-safe strings in node-like environments', () => {
@@ -68,6 +63,20 @@ describe('base64 utils', () => {
     vi.stubGlobal('Buffer', {
       from: () => {
         throw new Error('boom');
+      },
+    });
+
+    expect(() => base64ToString('QQ==')).toThrow('Failed to decode Base64: boom');
+    expect(() => base64ToArrayBuffer('QQ==')).toThrow('Failed to decode Base64: boom');
+  });
+
+  it('throws on invalid input length and wraps decode string errors', () => {
+    expect(() => base64ToString('a')).toThrow('Invalid Base64 string length');
+    expect(() => base64ToArrayBuffer('a')).toThrow('Invalid Base64 string length');
+
+    vi.stubGlobal('Buffer', {
+      from: () => {
+        throw 'boom';
       },
     });
 

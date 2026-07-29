@@ -7,6 +7,7 @@ let mockAudio: MockAudio;
 
 beforeEach(() => {
   mockAudio = createMockAudio();
+  // eslint-disable-next-line @typescript-eslint/no-extraneous-class
   class MockAudioConstructor {
     constructor() {
       return mockAudio as unknown as HTMLAudioElement;
@@ -24,7 +25,6 @@ afterEach(() => {
 });
 
 describe('AudioPlayer', () => {
-
   it('handles synchronous source factories and exposes playback getters', () => {
     const player = new AudioPlayer({ source: () => 'sync.mp3' });
 
@@ -169,20 +169,22 @@ describe('AudioPlayer', () => {
     const player = new AudioPlayer();
 
     vi.stubGlobal('MediaSource', undefined);
-    await (player as unknown as { initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void> }).initMediaSourceForReader(
-      createReaderFromChunks(['a']),
-      'audio/mpeg',
-    );
+    await (
+      player as unknown as {
+        initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void>;
+      }
+    ).initMediaSourceForReader(createReaderFromChunks(['a']), 'audio/mpeg');
     expect(mockAudio.src).toBe('blob:mock-url');
     expect(warnSpy).toHaveBeenCalledWith('MediaSource is not supported, falling back to one-time buffering.');
 
     const { MockMediaSource } = createMediaSourceHarness();
     vi.stubGlobal('MediaSource', MockMediaSource);
     MockMediaSource.isTypeSupported.mockReturnValue(false);
-    await (player as unknown as { initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void> }).initMediaSourceForReader(
-      createReaderFromChunks(['b']),
-      'audio/ogg',
-    );
+    await (
+      player as unknown as {
+        initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void>;
+      }
+    ).initMediaSourceForReader(createReaderFromChunks(['b']), 'audio/ogg');
     expect(warnSpy).toHaveBeenCalledWith('MIME type is not supported, falling back to one-time buffering.');
   });
 
@@ -195,10 +197,11 @@ describe('AudioPlayer', () => {
     const playSpy = vi.spyOn(player, 'play').mockResolvedValue(undefined);
     const reader = createReaderFromChunks(['hi']);
 
-    await (player as unknown as { initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void> }).initMediaSourceForReader(
-      reader,
-      'audio/mpeg',
-    );
+    await (
+      player as unknown as {
+        initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void>;
+      }
+    ).initMediaSourceForReader(reader, 'audio/mpeg');
 
     mediaSource.dispatchEvent(new Event('sourceopen'));
     await vi.runAllTimersAsync();
@@ -224,10 +227,11 @@ describe('AudioPlayer', () => {
       throw new Error('append failed');
     });
 
-    await (player as unknown as { initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void> }).initMediaSourceForReader(
-      createReaderFromChunks(['z']),
-      'audio/mpeg',
-    );
+    await (
+      player as unknown as {
+        initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void>;
+      }
+    ).initMediaSourceForReader(createReaderFromChunks(['z']), 'audio/mpeg');
     mediaSource.dispatchEvent(new Event('sourceopen'));
     await vi.runAllTimersAsync();
 
@@ -241,7 +245,9 @@ describe('AudioPlayer', () => {
     } as unknown as ReadableStreamDefaultReader<Uint8Array>;
     vi.spyOn(player, 'play').mockResolvedValue(undefined);
 
-    await (player as unknown as { readLoop: (reader: ReadableStreamDefaultReader<Uint8Array>) => Promise<void> }).readLoop(failingReader);
+    await (
+      player as unknown as { readLoop: (reader: ReadableStreamDefaultReader<Uint8Array>) => Promise<void> }
+    ).readLoop(failingReader);
     expect(consoleError).toHaveBeenCalledWith('Error reading stream:', expect.any(Error));
   });
 
@@ -249,10 +255,17 @@ describe('AudioPlayer', () => {
     const player = new AudioPlayer();
     const reader = createReaderFromChunks(['x']);
     const initSpy = vi
-      .spyOn(player as unknown as { initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void> }, 'initMediaSourceForReader')
+      .spyOn(
+        player as unknown as {
+          initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void>;
+        },
+        'initMediaSourceForReader',
+      )
       .mockResolvedValue(undefined);
 
-    const emptyResult = await (player as unknown as { handleStreamSource: (source?: unknown) => Promise<{ stopLoading: () => void }> }).handleStreamSource(undefined);
+    const emptyResult = await (
+      player as unknown as { handleStreamSource: (source?: unknown) => Promise<{ stopLoading: () => void }> }
+    ).handleStreamSource(undefined);
     emptyResult.stopLoading();
     expect(mockAudio.src).toBe('');
 
@@ -282,9 +295,11 @@ describe('AudioPlayer', () => {
     } as unknown as ReadableStreamDefaultReader<Uint8Array>;
 
     await expect(
-      (player as unknown as { fallbackReaderToBlob: (reader: ReadableStreamDefaultReader<Uint8Array>) => Promise<void> }).fallbackReaderToBlob(
-        failingReader,
-      ),
+      (
+        player as unknown as {
+          fallbackReaderToBlob: (reader: ReadableStreamDefaultReader<Uint8Array>) => Promise<void>;
+        }
+      ).fallbackReaderToBlob(failingReader),
     ).rejects.toThrow('blob read failed');
   });
 
@@ -312,10 +327,11 @@ describe('AudioPlayer', () => {
     vi.stubGlobal('MediaSource', MockMediaSource);
     const player = new AudioPlayer();
 
-    await (player as unknown as { initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void> }).initMediaSourceForReader(
-      createReaderFromChunks([]),
-      'audio/mpeg',
-    );
+    await (
+      player as unknown as {
+        initMediaSourceForReader: (reader: ReadableStreamDefaultReader<Uint8Array>, mime: string) => Promise<void>;
+      }
+    ).initMediaSourceForReader(createReaderFromChunks([]), 'audio/mpeg');
     (player as unknown as { mediaSource: MediaSource | null }).mediaSource = null;
     mediaSource.dispatchEvent(new Event('sourceopen'));
 
@@ -323,7 +339,9 @@ describe('AudioPlayer', () => {
     (player as unknown as { sourceBuffer: { appendBuffer: (chunk: BufferSource) => void } | null }).sourceBuffer = {
       appendBuffer: vi.fn(),
     } as unknown as { appendBuffer: (chunk: BufferSource) => void };
-    const readLoopPromise = (player as unknown as { readLoop: (reader: ReadableStreamDefaultReader<Uint8Array>) => Promise<void> }).readLoop({
+    const readLoopPromise = (
+      player as unknown as { readLoop: (reader: ReadableStreamDefaultReader<Uint8Array>) => Promise<void> }
+    ).readLoop({
       read: vi
         .fn()
         .mockResolvedValueOnce({ done: false, value: new Uint8Array(0) })
@@ -333,8 +351,10 @@ describe('AudioPlayer', () => {
     await readLoopPromise;
 
     expect(
-      ((player as unknown as { sourceBuffer: { appendBuffer: ReturnType<typeof vi.fn> } | null }).sourceBuffer?.appendBuffer as ReturnType<typeof vi.fn>).mock
-        .calls.length,
+      (
+        (player as unknown as { sourceBuffer: { appendBuffer: ReturnType<typeof vi.fn> } | null }).sourceBuffer
+          ?.appendBuffer as ReturnType<typeof vi.fn>
+      ).mock.calls.length,
     ).toBe(0);
 
     (player as unknown as { sourceBuffer: null; appending: boolean; chunkQueue: Uint8Array[] }).sourceBuffer = null;
@@ -391,14 +411,14 @@ function createAudioContextHarness(state: 'running' | 'suspended', closeImpl?: (
   const sourceNode = {
     connect: vi.fn(),
   };
-  const instances: Array<{
+  const instances: {
     state: 'running' | 'suspended';
     destination: object;
     resume: ReturnType<typeof vi.fn>;
     close: ReturnType<typeof vi.fn>;
     createMediaElementSource: ReturnType<typeof vi.fn>;
     createGain: ReturnType<typeof vi.fn>;
-  }> = [];
+  }[] = [];
 
   class MockAudioContext {
     state = state;

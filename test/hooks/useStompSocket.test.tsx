@@ -5,11 +5,11 @@ import useStompSocket from '../../src/hooks/useStompSocket';
 const mockState = vi.hoisted(() => {
   const state: {
     notificationError: ReturnType<typeof vi.fn>;
-    latestSocket: any;
-    latestClient: any;
+    latestSocket: unknown;
+    latestClient: unknown;
     throwSockJSError: boolean;
     SockJSMock: ReturnType<typeof vi.fn>;
-    MockClient: new (config: Record<string, unknown>) => any;
+    MockClient: new (config: Record<string, unknown>) => unknown;
   } = {
     notificationError: vi.fn(),
     latestSocket: undefined,
@@ -64,7 +64,7 @@ vi.mock('antd', () => ({
 }));
 
 vi.mock('../../src/hooks/useT', () => ({
-  default: () => ((key: string) => key),
+  default: () => (key: string) => key,
 }));
 
 describe('useStompSocket', () => {

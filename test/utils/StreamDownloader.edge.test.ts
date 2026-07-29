@@ -55,9 +55,14 @@ describe('StreamDownloader edge cases', () => {
   });
 
   it('rejects fetch HTTP errors and empty response bodies', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(null, { status: 500 })));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(null, { status: 500 })),
+    );
     const downloader = new StreamDownloader();
-    await expect(downloader.start({ url: 'https://example.com/error.bin' })).rejects.toMatchObject({ code: 'HTTP_ERROR' });
+    await expect(downloader.start({ url: 'https://example.com/error.bin' })).rejects.toMatchObject({
+      code: 'HTTP_ERROR',
+    });
 
     vi.stubGlobal(
       'fetch',
@@ -121,7 +126,10 @@ describe('StreamDownloader edge cases', () => {
     };
     const createWritable = vi.fn(async () => writer);
 
-    vi.stubGlobal('showSaveFilePicker', vi.fn(async () => ({ createWritable })));
+    vi.stubGlobal(
+      'showSaveFilePicker',
+      vi.fn(async () => ({ createWritable })),
+    );
 
     const downloader = new StreamDownloader();
     const result = await downloader.start({
@@ -155,11 +163,12 @@ describe('StreamDownloader edge cases', () => {
   it('rejects unsupported save strategies and invalid writable targets', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () =>
-        new Response(createByteStream(['bad']), {
-          status: 200,
-          headers: { 'Content-Length': '3' },
-        }),
+      vi.fn(
+        async () =>
+          new Response(createByteStream(['bad']), {
+            status: 200,
+            headers: { 'Content-Length': '3' },
+          }),
       ),
     );
     vi.stubGlobal('showSaveFilePicker', undefined);
@@ -201,17 +210,21 @@ describe('StreamDownloader edge cases', () => {
     };
     const writable = { getWriter: vi.fn(() => writer) } as unknown as WritableStream<Uint8Array>;
 
-    vi.stubGlobal('showSaveFilePicker', vi.fn(async () => ({ createWritable: async () => writable })));
+    vi.stubGlobal(
+      'showSaveFilePicker',
+      vi.fn(async () => ({ createWritable: async () => writable })),
+    );
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () =>
-        new Response(createByteStream(['warn']), {
-          status: 200,
-          headers: {
-            'Content-Length': 'NaN',
-            'Content-Disposition': "attachment; filename*=UTF-8''%E0%A4%A; filename=\"fallback.txt\"",
-          },
-        }),
+      vi.fn(
+        async () =>
+          new Response(createByteStream(['warn']), {
+            status: 200,
+            headers: {
+              'Content-Length': 'NaN',
+              'Content-Disposition': 'attachment; filename*=UTF-8\'\'%E0%A4%A; filename="fallback.txt"',
+            },
+          }),
       ),
     );
 
@@ -238,14 +251,18 @@ describe('StreamDownloader edge cases', () => {
     };
     const writable = { getWriter: vi.fn(() => writer) } as unknown as WritableStream<Uint8Array>;
 
-    vi.stubGlobal('showSaveFilePicker', vi.fn(async () => ({ createWritable: async () => writable })));
+    vi.stubGlobal(
+      'showSaveFilePicker',
+      vi.fn(async () => ({ createWritable: async () => writable })),
+    );
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () =>
-        new Response(createByteStream(['bad']), {
-          status: 200,
-          headers: { 'Content-Length': '3' },
-        }),
+      vi.fn(
+        async () =>
+          new Response(createByteStream(['bad']), {
+            status: 200,
+            headers: { 'Content-Length': '3' },
+          }),
       ),
     );
 
@@ -265,16 +282,19 @@ describe('StreamDownloader edge cases', () => {
       close: vi.fn(async () => undefined),
       abort: vi.fn(async () => undefined),
     };
-    vi.stubGlobal('showSaveFilePicker', vi.fn(async () => ({ createWritable: async () => writer })));
+    vi.stubGlobal(
+      'showSaveFilePicker',
+      vi.fn(async () => ({ createWritable: async () => writer })),
+    );
 
     const downloader = new StreamDownloader();
     const cancelSpy = vi.spyOn(downloader, 'cancel');
     downloader.dispose();
     expect(cancelSpy).toHaveBeenCalledTimes(1);
 
-    const normalized = (downloader as unknown as { normalizeError: (error: unknown) => { code: string } }).normalizeError(
-      new DOMException('aborted', 'AbortError'),
-    );
+    const normalized = (
+      downloader as unknown as { normalizeError: (error: unknown) => { code: string } }
+    ).normalizeError(new DOMException('aborted', 'AbortError'));
     expect(normalized.code).toBe('DOWNLOAD_CANCELLED');
 
     const stream = createByteStream(['direct']);
@@ -308,7 +328,9 @@ describe('StreamDownloader edge cases', () => {
 
     vi.stubGlobal('showSaveFilePicker', vi.fn());
     expect(
-      (downloader as unknown as { resolveSaveStrategy: (strategy: undefined) => string }).resolveSaveStrategy(undefined),
+      (downloader as unknown as { resolveSaveStrategy: (strategy: undefined) => string }).resolveSaveStrategy(
+        undefined,
+      ),
     ).toBe('file-system-access');
 
     (downloader as unknown as { activeWriter: { abort: (error: unknown) => Promise<void> } | null }).activeWriter = {
@@ -316,11 +338,13 @@ describe('StreamDownloader edge cases', () => {
         throw new Error('abort failed');
       }),
     };
-    await (downloader as unknown as { abortCurrentWriter: (error: unknown) => Promise<void> }).abortCurrentWriter(new Error('x'));
-
-    const normalized = (downloader as unknown as { normalizeError: (error: unknown) => { code: string; cause?: unknown } }).normalizeError(
-      new Error('write failed'),
+    await (downloader as unknown as { abortCurrentWriter: (error: unknown) => Promise<void> }).abortCurrentWriter(
+      new Error('x'),
     );
+
+    const normalized = (
+      downloader as unknown as { normalizeError: (error: unknown) => { code: string; cause?: unknown } }
+    ).normalizeError(new Error('write failed'));
     expect(normalized).toMatchObject({ code: 'WRITE_FAILED' });
   });
 
@@ -333,28 +357,30 @@ describe('StreamDownloader edge cases', () => {
     };
 
     downloader.reset();
-    expect((downloader as unknown as { snapshot: { status: string; progress: { loadedBytes: number } } }).snapshot).toMatchObject({
+    expect(
+      (downloader as unknown as { snapshot: { status: string; progress: { loadedBytes: number } } }).snapshot,
+    ).toMatchObject({
       status: 'downloading',
       progress: { loadedBytes: 5 },
     });
 
-    (downloader as unknown as { updateProgress: (loaded: number, total: number | undefined, startedAt: number, force?: boolean) => void }).updateProgress(
-      5,
-      10,
-      Date.now(),
-      false,
-    );
+    (
+      downloader as unknown as {
+        updateProgress: (loaded: number, total: number | undefined, startedAt: number, force?: boolean) => void;
+      }
+    ).updateProgress(5, 10, Date.now(), false);
     expect(emitSpy).not.toHaveBeenCalled();
   });
 
   it('throws when stream-saver strategy is requested without a createWriteStream implementation', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () =>
-        new Response(createByteStream(['bad']), {
-          status: 200,
-          headers: { 'Content-Length': '3' },
-        }),
+      vi.fn(
+        async () =>
+          new Response(createByteStream(['bad']), {
+            status: 200,
+            headers: { 'Content-Length': '3' },
+          }),
       ),
     );
     vi.stubGlobal('showSaveFilePicker', undefined);
@@ -379,25 +405,43 @@ describe('StreamDownloader edge cases', () => {
       abort: vi.fn(async () => undefined),
     };
 
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(createByteStream(['x']), { status: 200, headers: { 'Content-Length': '1' } })));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(createByteStream(['x']), { status: 200, headers: { 'Content-Length': '1' } })),
+    );
 
     const downloaderAfterOpen = new StreamDownloader();
-    vi.spyOn(downloaderAfterOpen as unknown as { openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }> }, 'openWritable').mockImplementation(
-      async () => {
-        downloaderAfterOpen.cancel();
-        return { saveStrategy: 'file-system-access', writer };
+    vi.spyOn(
+      downloaderAfterOpen as unknown as {
+        openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }>;
       },
-    );
+      'openWritable',
+    ).mockImplementation(async () => {
+      downloaderAfterOpen.cancel();
+      return { saveStrategy: 'file-system-access', writer };
+    });
     await expect(downloaderAfterOpen.start({ url: 'https://example.com/after-open.bin' })).rejects.toMatchObject({
       code: 'DOWNLOAD_CANCELLED',
     });
 
     const downloaderDuringLoop = new StreamDownloader();
-    vi.spyOn(downloaderDuringLoop as unknown as { openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }> }, 'openWritable').mockResolvedValue({
+    vi.spyOn(
+      downloaderDuringLoop as unknown as {
+        openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }>;
+      },
+      'openWritable',
+    ).mockResolvedValue({
       saveStrategy: 'file-system-access',
       writer,
     });
-    vi.spyOn(downloaderDuringLoop as unknown as { createDownloadContext: (...args: unknown[]) => Promise<{ fileName: string; stream: ReadableStream<Uint8Array>; totalBytes?: number; transport: 'fetch' }> }, 'createDownloadContext').mockResolvedValue({
+    vi.spyOn(
+      downloaderDuringLoop as unknown as {
+        createDownloadContext: (
+          ...args: unknown[]
+        ) => Promise<{ fileName: string; stream: ReadableStream<Uint8Array>; totalBytes?: number; transport: 'fetch' }>;
+      },
+      'createDownloadContext',
+    ).mockResolvedValue({
       fileName: 'loop.bin',
       totalBytes: 1,
       transport: 'fetch',
@@ -417,11 +461,26 @@ describe('StreamDownloader edge cases', () => {
     });
 
     const downloaderOnDone = new StreamDownloader();
-    vi.spyOn(downloaderOnDone as unknown as { openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }> }, 'openWritable').mockResolvedValue({
+    vi.spyOn(
+      downloaderOnDone as unknown as {
+        openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }>;
+      },
+      'openWritable',
+    ).mockResolvedValue({
       saveStrategy: 'file-system-access',
       writer,
     });
-    vi.spyOn(downloaderOnDone as unknown as { createDownloadContext: (...args: unknown[]) => Promise<{ fileName: string; stream: { getReader: () => { read: () => Promise<{ done: boolean; value?: Uint8Array }> } }; totalBytes?: number; transport: 'fetch' }> }, 'createDownloadContext').mockResolvedValue({
+    vi.spyOn(
+      downloaderOnDone as unknown as {
+        createDownloadContext: (...args: unknown[]) => Promise<{
+          fileName: string;
+          stream: { getReader: () => { read: () => Promise<{ done: boolean; value?: Uint8Array }> } };
+          totalBytes?: number;
+          transport: 'fetch';
+        }>;
+      },
+      'createDownloadContext',
+    ).mockResolvedValue({
       fileName: 'done.bin',
       totalBytes: 0,
       transport: 'fetch',
@@ -439,11 +498,26 @@ describe('StreamDownloader edge cases', () => {
     });
 
     const downloaderWithEmptyChunk = new StreamDownloader();
-    vi.spyOn(downloaderWithEmptyChunk as unknown as { openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }> }, 'openWritable').mockResolvedValue({
+    vi.spyOn(
+      downloaderWithEmptyChunk as unknown as {
+        openWritable: (...args: unknown[]) => Promise<{ saveStrategy: string; writer: typeof writer }>;
+      },
+      'openWritable',
+    ).mockResolvedValue({
       saveStrategy: 'file-system-access',
       writer,
     });
-    vi.spyOn(downloaderWithEmptyChunk as unknown as { createDownloadContext: (...args: unknown[]) => Promise<{ fileName: string; stream: { getReader: () => { read: ReturnType<typeof vi.fn> } }; totalBytes?: number; transport: 'fetch' }> }, 'createDownloadContext').mockResolvedValue({
+    vi.spyOn(
+      downloaderWithEmptyChunk as unknown as {
+        createDownloadContext: (...args: unknown[]) => Promise<{
+          fileName: string;
+          stream: { getReader: () => { read: ReturnType<typeof vi.fn> } };
+          totalBytes?: number;
+          transport: 'fetch';
+        }>;
+      },
+      'createDownloadContext',
+    ).mockResolvedValue({
       fileName: 'empty.bin',
       totalBytes: 1,
       transport: 'fetch',

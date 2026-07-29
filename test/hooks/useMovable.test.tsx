@@ -1,12 +1,9 @@
-import { act, renderHook, waitFor } from '@testing-library/react';
 import type { RefObject } from 'react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import useMovable from '../../src/hooks/useMovable';
 
-function defineRect(
-  element: HTMLDivElement,
-  rect: { left: number; top: number; width: number; height: number },
-) {
+function defineRect(element: HTMLDivElement, rect: { left: number; top: number; width: number; height: number }) {
   Object.defineProperty(element, 'getBoundingClientRect', {
     configurable: true,
     value: () => ({
@@ -28,9 +25,7 @@ afterEach(() => {
 describe('useMovable', () => {
   it('ignores configured selectors and safely handles missing container refs', () => {
     const containerRef = { current: null } as unknown as RefObject<HTMLElement>;
-    const { result } = renderHook(() =>
-      useMovable({ enabled: true, containerRef, ignoreSelectors: ['button'] }),
-    );
+    const { result } = renderHook(() => useMovable({ enabled: true, containerRef, ignoreSelectors: ['button'] }));
     const button = document.createElement('button');
     const div = document.createElement('div');
     const preventDefault = vi.fn();
@@ -70,9 +65,7 @@ describe('useMovable', () => {
     });
 
     const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
-    const { result } = renderHook(() =>
-      useMovable({ enabled: true, containerRef, storageKey: 'movable-pos' }),
-    );
+    const { result } = renderHook(() => useMovable({ enabled: true, containerRef, storageKey: 'movable-pos' }));
     const preventDefault = vi.fn();
 
     act(() => {
@@ -129,9 +122,7 @@ describe('useMovable', () => {
     container.setPointerCapture = vi.fn();
 
     const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
-    const { result } = renderHook(() =>
-      useMovable({ enabled: false, containerRef }),
-    );
+    const { result } = renderHook(() => useMovable({ enabled: false, containerRef }));
 
     act(() => {
       result.current.onPointerDown({
@@ -158,9 +149,7 @@ describe('useMovable', () => {
     defineRect(container, { left: 0, top: 0, width: 100, height: 50 });
     const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
 
-    const { result } = renderHook(() =>
-      useMovable({ enabled: true, containerRef, storageKey: 'movable-saved' }),
-    );
+    const { result } = renderHook(() => useMovable({ enabled: true, containerRef, storageKey: 'movable-saved' }));
 
     await waitFor(() => {
       expect(result.current.position).toEqual({ left: 20, top: 40 });
@@ -178,9 +167,7 @@ describe('useMovable', () => {
     container.setPointerCapture = vi.fn();
     const containerRef = { current: container } as unknown as RefObject<HTMLElement>;
 
-    const { result } = renderHook(() =>
-      useMovable({ enabled: true, containerRef }),
-    );
+    const { result } = renderHook(() => useMovable({ enabled: true, containerRef }));
 
     act(() => {
       result.current.onPointerDown({

@@ -20,8 +20,12 @@ describe('string utils', () => {
     });
     vi.stubGlobal('TextDecoder', textDecoderMock);
 
-    await expect(readTextAnyEncoding(new Blob([Uint8Array.from([0xef, 0xbb, 0xbf, 0x61])]))).resolves.toBe('decoded:utf-8');
-    await expect(readTextAnyEncoding(Uint8Array.from([0xff, 0xfe, 0x61, 0x00]).buffer)).resolves.toBe('decoded:utf-16le');
+    await expect(readTextAnyEncoding(new Blob([Uint8Array.from([0xef, 0xbb, 0xbf, 0x61])]))).resolves.toBe(
+      'decoded:utf-8',
+    );
+    await expect(readTextAnyEncoding(Uint8Array.from([0xff, 0xfe, 0x61, 0x00]).buffer)).resolves.toBe(
+      'decoded:utf-16le',
+    );
     await expect(readTextAnyEncoding(Uint8Array.from([0xfe, 0xff, 0x00, 0x61]))).resolves.toBe('decoded:utf-16be');
   });
 
