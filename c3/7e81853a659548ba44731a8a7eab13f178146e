@@ -1,0 +1,14 @@
+test/hooks/useStompSocket.test.tsx
+  h_282d460392904f 1,3,9-11,14,38,40-41,49,106-109,112,126,129-130,139,145-146,169,177-181,184,186,210,213-215,221,238,273,279
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "c37e81853a659548ba44731a8a7eab13f178146e",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
