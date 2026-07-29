@@ -1,0 +1,16 @@
+package.json
+  h_282d460392904f 38,40-41,48
+.gitignore
+  h_282d460392904f 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "9a09c640df9c7e75e1c516e15580e9709a8106b8",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
