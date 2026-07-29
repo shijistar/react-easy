@@ -109,9 +109,10 @@ function randomLikeMath(): number {
 
   // Old Node fallback (No webcrypto)
   // Use eval('require') to avoid "require is not defined" error during browser bundling
-  const req = (typeof process !== 'undefined' &&
-    process.versions?.node &&
-    (globalThat as unknown as { require?: unknown }).require) as NodeJS.Require | undefined;
+  const req =
+    typeof process !== 'undefined' && !!process.versions?.node
+      ? (globalThat as unknown as { require?: NodeJS.Require }).require
+      : undefined;
 
   if (!req) {
     throw new Error('require function is not available in this environment');

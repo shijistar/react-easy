@@ -54,8 +54,7 @@ export class StreamTimeSlicerClass implements StreamTimeSlicer {
       return out;
     });
 
-    /* v8 ignore next -- startTs is guaranteed non-null after the early return above; kept for defensive clarity */
-    const sliceDur = this.startTs != null ? currentTs - this.startTs : 0;
+    const sliceDur = currentTs - this.startTs;
     this.onSlice(merged, sliceDur);
 
     // Reset start time
