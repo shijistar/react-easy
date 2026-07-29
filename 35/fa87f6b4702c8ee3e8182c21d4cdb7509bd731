@@ -1,0 +1,16 @@
+src/utils/stream.ts
+  h_282d460392904f 57
+src/utils/math.ts
+  h_282d460392904f 113-115
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "35fa87f6b4702c8ee3e8182c21d4cdb7509bd731",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
