@@ -42,49 +42,37 @@ describe('random', () => {
   it('uses randomBytes fallback when no web crypto is available', () => {
     vi.stubGlobal('crypto', undefined);
     const randomBytes = vi.fn(() => NodeBuffer.from([0x1f, 0, 0, 0, 0, 0, 0]));
-    vi.stubGlobal(
-      'require',
-      ((moduleName: string) => {
-        if (moduleName === 'crypto') {
-          return { randomBytes };
-        }
-        throw new Error(`Unexpected module: ${moduleName}`);
-      }) as unknown,
-    );
+    vi.stubGlobal('require', ((moduleName: string) => {
+      if (moduleName === 'crypto') {
+        return { randomBytes };
+      }
+      throw new Error(`Unexpected module: ${moduleName}`);
+    }) as unknown);
 
     expect(random()).toBe(0.96875);
     expect(randomBytes).toHaveBeenCalledWith(7);
   });
 
-  it('falls back to randomLikeMath for ranged calls when neither randomInt nor web crypto is available', () => {
+  it('throws for ranged calls when neither node crypto nor web crypto is available', () => {
     vi.stubGlobal('process', undefined);
     vi.stubGlobal('crypto', undefined);
-    vi.stubGlobal(
-      'eval',
-      (() =>
-        ((moduleName: string) =>
-          moduleName === 'crypto' ? { randomBytes: () => NodeBuffer.from([0x1f, 0, 0, 0, 0, 0, 0]) } : {}) as never) as unknown,
-    );
+    vi.stubGlobal('require', undefined);
 
-    expect(random(10, 12)).toBe(0.96875);
+    expect(() => random(10, 12)).toThrow('require function is not available in this environment');
   });
 
-  it('throws when no secure random source is available', () => {
-    vi.stubGlobal('process', undefined);
+  it('throws when no require function is available for the fallback path', () => {
     vi.stubGlobal('crypto', undefined);
-    vi.stubGlobal('eval', () => {
-      throw new Error('blocked');
-    });
+    vi.stubGlobal('require', undefined);
 
-    expect(() => random()).toThrow('No secure random source available in this environment');
+    expect(() => random()).toThrow('require function is not available in this environment');
   });
 
   it('throws when the fallback crypto module does not provide randomBytes', () => {
-    vi.stubGlobal('process', undefined);
     vi.stubGlobal('crypto', undefined);
-    vi.stubGlobal('eval', (() => ((moduleName: string) => (moduleName === 'crypto' ? {} : {})) as never) as unknown);
+    vi.stubGlobal('require', ((moduleName: string) => (moduleName === 'crypto' ? {} : {})) as unknown);
 
-    expect(() => random()).toThrow('No secure random source available in this environment');
+    expect(() => random()).toThrow('crypto.randomBytes is not a function. Please check the crypto version.');
   });
 
   it('validates range inputs', () => {
