@@ -30,15 +30,6 @@ export function random(min?: number, max?: number): number {
   if (Math.floor(min) !== min || Math.floor(max) !== max) {
     throw new TypeError('min and max must be integers');
   }
-  const globalThat =
-    /* v8 ignore next 7 -- globalThis always exists in supported runtimes; window/global fallbacks are legacy-environment guards */
-    typeof globalThis !== 'undefined'
-      ? globalThis
-      : typeof window !== 'undefined'
-        ? window
-        : typeof global !== 'undefined'
-          ? global
-          : ({} as typeof globalThis);
   if (min > max) {
     [min, max] = [max, min];
   }
@@ -61,6 +52,15 @@ export function random(min?: number, max?: number): number {
   }
 
   // 2. Web Crypto (Browsers or Node 19+ webcrypto)
+  const globalThat =
+    /* v8 ignore next 7 -- globalThis always exists in supported runtimes; window/global fallbacks are legacy-environment guards */
+    typeof globalThis !== 'undefined'
+      ? globalThis
+      : typeof window !== 'undefined'
+        ? window
+        : typeof global !== 'undefined'
+          ? global
+          : ({} as typeof globalThis);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const webCrypto: Crypto | undefined = globalThat.crypto || nodeCrypto?.webcrypto;
 
@@ -107,10 +107,7 @@ function randomLikeMath(): number {
 
   // Old Node fallback (No webcrypto)
   // Use eval('require') to avoid "require is not defined" error during browser bundling
-  const req =
-    typeof process !== 'undefined' && !!process.versions?.node
-      ? (globalThat as unknown as { require?: NodeJS.Require }).require
-      : undefined;
+  const req = typeof require === 'function' ? require : undefined;
 
   if (!req) {
     throw new Error('require function is not available in this environment');
