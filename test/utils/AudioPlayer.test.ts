@@ -136,10 +136,12 @@ describe('AudioPlayer', () => {
 
     await player.play();
     player.dispose();
-
     expect(instances[0].close).toHaveBeenCalledTimes(1);
     expect(consoleError).toHaveBeenCalledWith('Error closing AudioContext:', expect.any(Error));
     expect(mockAudio.removeEventListener).toHaveBeenCalledWith('ended', expect.any(Function));
+
+    const playerWithoutContext = new AudioPlayer({ source: 'plain.mp3' });
+    expect(() => playerWithoutContext.dispose()).not.toThrow();
   });
 
   it('handles string, blob, array buffer, and Uint8Array sources', async () => {
@@ -175,6 +177,8 @@ describe('AudioPlayer', () => {
       }
     ).initMediaSourceForReader(createReaderFromChunks(['a']), 'audio/mpeg');
     expect(mockAudio.src).toBe('blob:mock-url');
+    mockAudio.onloadeddata?.(new Event('loadeddata'));
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url');
     expect(warnSpy).toHaveBeenCalledWith('MediaSource is not supported, falling back to one-time buffering.');
 
     const { MockMediaSource } = createMediaSourceHarness();

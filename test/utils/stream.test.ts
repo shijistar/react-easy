@@ -37,6 +37,8 @@ describe('StreamTimeSlicerClass', () => {
       onSlice,
     });
 
+    expect((slicer as unknown as { shouldEmit: (currentTs: number) => boolean }).shouldEmit(0)).toBe(false);
+
     slicer.push([new Float32Array([1])]);
     expect(onSlice).not.toHaveBeenCalled();
 
@@ -119,5 +121,22 @@ describe('StreamTimeSlicerClass', () => {
 
     expect(onSlice).not.toHaveBeenCalled();
     expect(slicer.duration()).toBe(0);
+  });
+
+  it('falls back to Date.now when performance is unavailable', () => {
+    const originalPerformance = globalThis.performance;
+    const dateNowSpy = vi.spyOn(Date, 'now').mockReturnValue(1234);
+    vi.stubGlobal('performance', undefined);
+
+    const slicer = new StreamTimeSlicerClass({
+      sliceMode: 'time',
+      value: 1,
+      onSlice: vi.fn(),
+    });
+
+    expect((slicer as unknown as { now: () => number }).now()).toBe(1234);
+
+    vi.stubGlobal('performance', originalPerformance);
+    dateNowSpy.mockRestore();
   });
 });

@@ -398,6 +398,67 @@ describe('StreamDownloader edge cases', () => {
     (streamSaver as unknown as { createWriteStream?: unknown }).createWriteStream = originalCreateWriteStream;
   });
 
+  it('swallows activeReader.cancel cleanup rejections', async () => {
+    const downloader = new StreamDownloader();
+    const cancel = vi.fn(async () => {
+      throw new Error('cancel failed');
+    });
+    const abortCurrentWriter = vi
+      .spyOn(downloader as unknown as { abortCurrentWriter: (error: unknown) => Promise<void> }, 'abortCurrentWriter')
+      .mockResolvedValue(undefined);
+
+    (downloader as unknown as { snapshot: { status: 'downloading'; progress: { loadedBytes: number } } }).snapshot = {
+      status: 'downloading',
+      progress: { loadedBytes: 0 },
+    };
+    (downloader as unknown as { abortController: AbortController }).abortController = new AbortController();
+    (downloader as unknown as { activeReader: { cancel: typeof cancel } }).activeReader = { cancel };
+
+    expect(() => downloader.cancel()).not.toThrow();
+    await Promise.resolve();
+
+    expect(cancel).toHaveBeenCalledTimes(1);
+    expect(abortCurrentWriter).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports stream-saver downloads without content-length and falls back to Date.now timing', async () => {
+    const originalPerformance = globalThis.performance;
+    vi.stubGlobal('performance', undefined);
+    const dateNowSpy = vi.spyOn(Date, 'now').mockReturnValue(1000);
+
+    const writer = {
+      write: vi.fn(async (_chunk?: Uint8Array) => undefined),
+      close: vi.fn(async () => undefined),
+      abort: vi.fn(async () => undefined),
+    };
+    vi.mocked(streamSaver.createWriteStream).mockReturnValue({
+      getWriter: vi.fn(() => writer),
+    } as unknown as WritableStream<Uint8Array>);
+    vi.stubGlobal('showSaveFilePicker', undefined);
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(createByteStream(['xy']), { status: 200, headers: {} })),
+    );
+
+    const downloader = new StreamDownloader();
+    const result = await downloader.start({
+      url: 'https://example.com/files/no-size.bin',
+      saveStrategy: 'stream-saver',
+    });
+
+    expect(result).toMatchObject({
+      status: 'success',
+      fileName: 'no-size.bin',
+      totalBytes: undefined,
+      saveStrategy: 'stream-saver',
+      loadedBytes: 2,
+    });
+    expect(streamSaver.createWriteStream).toHaveBeenCalledWith('no-size.bin', undefined);
+
+    vi.stubGlobal('performance', originalPerformance);
+    dateNowSpy.mockRestore();
+  });
+
   it('handles cancellation windows and skips empty chunks', async () => {
     const writer = {
       write: vi.fn(async (_chunk?: Uint8Array) => undefined),
