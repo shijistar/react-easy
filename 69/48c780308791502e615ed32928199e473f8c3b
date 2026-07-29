@@ -1,0 +1,16 @@
+src/utils/math.ts
+  h_3a0b15d296f1fe 110
+tsconfig.json
+  h_3a0b15d296f1fe 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "6948c780308791502e615ed32928199e473f8c3b",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
