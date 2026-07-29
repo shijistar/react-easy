@@ -10,7 +10,7 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/hooks/use*.ts', 'src/hooks/use*.tsx', 'src/hooks/style/useSplitter.ts'],
       exclude: ['src/hooks/useUserMedia.tsx'],
-      reporter: ['text', 'html', 'json-summary'],
+      reporter: ['text', 'html', 'json-summary', 'clover', 'json', 'lcov'],
       thresholds: {
         statements: 100,
         branches: 100,
