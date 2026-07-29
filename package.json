@@ -39,7 +39,7 @@
     "prepare": "husky",
     "prepublishOnly": "npm run build",
     "storybook": "storybook dev -p 6006",
-    "test": "vitest run",
+    "test": "vitest run --coverage",
     "test:watch": "vitest"
   },
   "dependencies": {
@@ -63,6 +63,7 @@
     "@types/react-dom": "^19.0.4",
     "@types/react-is": "^19.0.0",
     "@types/sockjs-client": "^1.5.4",
+    "@vitest/coverage-v8": "^4.1.10",
     "antd": "^6.5.0",
     "axios": "^1.18.1",
     "classnames": "^2.5.1",

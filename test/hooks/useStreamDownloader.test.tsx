@@ -78,4 +78,13 @@ describe('useStreamDownloader', () => {
 
     expect(disposeSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('does not dispose on unmount when autoDispose is false', () => {
+    const { result, unmount } = renderHook(() => useStreamDownloader({ autoDispose: false }));
+    const disposeSpy = vi.spyOn(result.current.downloader, 'dispose');
+
+    unmount();
+
+    expect(disposeSpy).not.toHaveBeenCalled();
+  });
 });
