@@ -1,0 +1,16 @@
+test/utils/base64.test.ts
+  h_282d460392904f 3,72-79
+test/utils/AudioPlayer.test.ts
+  h_282d460392904f 10,174,185,202,232,260,262,300,332,421
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "80ddebcad465aa24f33d93e5e0afcad907480133",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
