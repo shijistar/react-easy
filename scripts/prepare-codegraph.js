@@ -45,9 +45,10 @@ function runCodegraph(args) {
   return 'ok';
 }
 
-const initResult = runCodegraph(['init']);
-if (initResult === 'missing') {
+const hasCodegraphIndex = existsSync(path.join(repoRoot, '.codegraph'));
+const action = hasCodegraphIndex ? 'sync' : 'init';
+const result = runCodegraph([action]);
+
+if (result === 'missing') {
   process.exit(0);
 }
-
-runCodegraph(['sync']);
