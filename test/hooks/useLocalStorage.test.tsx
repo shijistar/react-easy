@@ -7,7 +7,11 @@ afterEach(() => {
   window.localStorage.clear();
 });
 
-function createStorageEvent(key: string | null, newValue: string | null, storageArea: Storage | object = window.localStorage) {
+function createStorageEvent(
+  key: string | null,
+  newValue: string | null,
+  storageArea: Storage | object = window.localStorage,
+) {
   const event = new Event('storage') as StorageEvent;
   Object.defineProperties(event, {
     key: { value: key },
@@ -117,9 +121,7 @@ describe('useLocalStorage', () => {
       return JSON.parse(raw) as { value: number };
     });
 
-    const { result } = renderHook(() =>
-      useLocalStorage<{ value: number }>('sync-key', { value: 0 }, { deserialize }),
-    );
+    const { result } = renderHook(() => useLocalStorage<{ value: number }>('sync-key', { value: 0 }, { deserialize }));
 
     act(() => {
       window.dispatchEvent(createStorageEvent('other-key', JSON.stringify({ value: 2 })));

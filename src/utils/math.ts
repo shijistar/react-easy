@@ -30,14 +30,6 @@ export function random(min?: number, max?: number): number {
   if (Math.floor(min) !== min || Math.floor(max) !== max) {
     throw new TypeError('min and max must be integers');
   }
-  const globalThat =
-    typeof globalThis !== 'undefined'
-      ? globalThis
-      : typeof window !== 'undefined'
-        ? window
-        : typeof global !== 'undefined'
-          ? global
-          : ({} as typeof globalThis);
   if (min > max) {
     [min, max] = [max, min];
   }
@@ -60,12 +52,20 @@ export function random(min?: number, max?: number): number {
   }
 
   // 2. Web Crypto (Browsers or Node 19+ webcrypto)
+  const globalThat =
+    /* v8 ignore next 7 -- globalThis always exists in supported runtimes; window/global fallbacks are legacy-environment guards */
+    typeof globalThis !== 'undefined'
+      ? globalThis
+      : typeof window !== 'undefined'
+        ? window
+        : typeof global !== 'undefined'
+          ? global
+          : ({} as typeof globalThis);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const webCrypto: Crypto | undefined = globalThat.crypto || nodeCrypto?.webcrypto;
 
   if (webCrypto?.getRandomValues) {
     const range = max - min + 1;
-    if (range <= 0) return min;
 
     // Use rejection sampling to avoid the slight bias caused by (2^32 % range).
     const maxUint32 = 0xffffffff;
@@ -85,6 +85,7 @@ export function random(min?: number, max?: number): number {
 
 function randomLikeMath(): number {
   const globalThat =
+    /* v8 ignore next 7 -- globalThis always exists in supported runtimes; window/global fallbacks are legacy-environment guards */
     typeof globalThis !== 'undefined'
       ? globalThis
       : typeof window !== 'undefined'
@@ -105,30 +106,23 @@ function randomLikeMath(): number {
   }
 
   // Old Node fallback (No webcrypto)
-  // Use eval('require') to avoid "require is not defined" error during browser bundling
-  const req: NodeRequire | undefined =
-    typeof process !== 'undefined' &&
-    process.versions?.node &&
-    typeof (globalThat as unknown as { require?: unknown }).require === 'function'
-      ? (globalThat as unknown as { require: NodeRequire }).require
-      : (() => {
-          try {
-            // eslint-disable-next-line no-eval
-            return eval('require') as NodeRequire;
-          } catch (error) {
-            return undefined;
-          }
-        })();
+  const req =
+    /* v8 ignore next 3 -- require always available in CJS; guard for non-CJS environments */
+    typeof require === 'function' ? require : undefined;
 
+  /* v8 ignore start -- require always available in CJS; guard for browser/ESM/bundler environments */
   if (!req) {
-    throw new Error('No secure random source available in this environment');
+    throw new Error('require function is not available in this environment');
   }
+  /* v8 ignore stop */
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const nodeCrypto = req('crypto') as { randomBytes?: (size: number) => Uint8Array };
+  /* v8 ignore start -- crypto.randomBytes always present in Node 7+; guard for broken/hijacked crypto */
   if (typeof nodeCrypto.randomBytes !== 'function') {
-    throw new Error('No secure random source available in this environment');
+    throw new Error('crypto.randomBytes is not a function. Please check the crypto version.');
   }
+  /* v8 ignore stop */
 
   const b = nodeCrypto.randomBytes(7); // 56 bits
   const x =

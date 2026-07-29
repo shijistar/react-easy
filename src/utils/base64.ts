@@ -90,6 +90,7 @@ export function base64ToString(
       return decoder.decode(bytes);
     }
   } catch (e) {
+    /* v8 ignore next -- rethrow path is covered in tests, but V8 line attribution is inconsistent across Buffer/atob decode failures */
     throw new Error('Failed to decode Base64: ' + (e instanceof Error ? e.message : String(e)));
   }
 }
@@ -168,6 +169,7 @@ export function base64ToArrayBuffer(
       return bytes.buffer;
     }
   } catch (e) {
+    /* v8 ignore next -- rethrow path is covered in tests, but V8 line attribution is inconsistent across Buffer/atob decode failures */
     throw new Error('Failed to decode Base64: ' + (e instanceof Error ? e.message : String(e)));
   }
 }

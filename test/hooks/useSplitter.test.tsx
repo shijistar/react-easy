@@ -1,8 +1,11 @@
 import type { CSSProperties, PropsWithChildren, ReactElement, ReactNode } from 'react';
 import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
-import ReactEasyContext, { defaultContextValue, type ReactEasyContextProps } from '../../src/components/ConfigProvider/context';
-import useSplitter, { type UseSplitterProps } from '../../src/hooks/useSplitter';
 import { describe, expect, it, vi } from 'vitest';
+import ReactEasyContext, {
+  defaultContextValue,
+  type ReactEasyContextProps,
+} from '../../src/components/ConfigProvider/context';
+import useSplitter, { type UseSplitterProps } from '../../src/hooks/useSplitter';
 
 vi.mock('../../src/hooks/style/useSplitter', () => ({
   default: vi.fn(() => ({
@@ -12,10 +15,10 @@ vi.mock('../../src/hooks/style/useSplitter', () => ({
   })),
 }));
 
-type SplitterElementProps = {
+interface SplitterElementProps {
   style: CSSProperties & { '--splitter-width'?: string };
   onMouseDown: () => void;
-};
+}
 
 function createWrapper(value?: Partial<ReactEasyContextProps>) {
   const contextValue: ReactEasyContextProps = {
@@ -29,10 +32,7 @@ function createWrapper(value?: Partial<ReactEasyContextProps>) {
   };
 }
 
-function defineRect(
-  element: HTMLDivElement,
-  rect: { left: number; top: number; width: number; height: number },
-) {
+function defineRect(element: HTMLDivElement, rect: { left: number; top: number; width: number; height: number }) {
   Object.defineProperty(element, 'getBoundingClientRect', {
     configurable: true,
     value: () => ({
@@ -67,19 +67,22 @@ describe('useSplitter', () => {
     defineRect(container, { left: 0, top: 0, width: 200, height: 100 });
     const onChange = vi.fn();
 
-    render(<SplitterHarness
-      container={container}
-      defaultRatio={0.25}
-      minRatio={0.2}
-      maxRatio={0.6}
-      splitterWidth={4}
-      className="custom-root"
-      classNames={{ hover: 'hovered', dragging: 'dragging-extra', handle: 'handle-extra' }}
-      styles={{ handle: { color: 'red' } }}
-      onChange={onChange}
-    />, {
-      wrapper: createWrapper(),
-    });
+    render(
+      <SplitterHarness
+        container={container}
+        defaultRatio={0.25}
+        minRatio={0.2}
+        maxRatio={0.6}
+        splitterWidth={4}
+        className="custom-root"
+        classNames={{ hover: 'hovered', dragging: 'dragging-extra', handle: 'handle-extra' }}
+        styles={{ handle: { color: 'red' } }}
+        onChange={onChange}
+      />,
+      {
+        wrapper: createWrapper(),
+      },
+    );
 
     const separator = screen.getByRole('separator', { name: 'Resize' });
 
@@ -163,7 +166,9 @@ describe('useSplitter', () => {
       wrapper: createWrapper(),
     });
 
-    verticalView.rerender(<SplitterHarness container={verticalContainer} defaultRatio={0.4} onChange={verticalOnChange} />);
+    verticalView.rerender(
+      <SplitterHarness container={verticalContainer} defaultRatio={0.4} onChange={verticalOnChange} />,
+    );
 
     await waitFor(() => {
       expect(screen.getByTestId('width').textContent).toBe('80');
@@ -175,12 +180,20 @@ describe('useSplitter', () => {
     const horizontalContainer = document.createElement('div');
     defineRect(horizontalContainer, { left: 0, top: 0, width: 300, height: 180 });
     const horizontalOnChange = vi.fn();
-    const horizontalView = render(<SplitterHarness container={horizontalContainer} direction="horizontal" onChange={horizontalOnChange} />, {
-      wrapper: createWrapper(),
-    });
+    const horizontalView = render(
+      <SplitterHarness container={horizontalContainer} direction="horizontal" onChange={horizontalOnChange} />,
+      {
+        wrapper: createWrapper(),
+      },
+    );
 
     horizontalView.rerender(
-      <SplitterHarness container={horizontalContainer} direction="horizontal" defaultRatio={0.5} onChange={horizontalOnChange} />,
+      <SplitterHarness
+        container={horizontalContainer}
+        direction="horizontal"
+        defaultRatio={0.5}
+        onChange={horizontalOnChange}
+      />,
     );
 
     await waitFor(() => {
