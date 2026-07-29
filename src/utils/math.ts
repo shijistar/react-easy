@@ -109,28 +109,18 @@ function randomLikeMath(): number {
 
   // Old Node fallback (No webcrypto)
   // Use eval('require') to avoid "require is not defined" error during browser bundling
-  const req: NodeRequire | undefined =
-    typeof process !== 'undefined' &&
+  const req = (typeof process !== 'undefined' &&
     process.versions?.node &&
-    typeof (globalThat as unknown as { require?: unknown }).require === 'function'
-      ? (globalThat as unknown as { require: NodeRequire }).require
-      : (() => {
-          try {
-            // eslint-disable-next-line no-eval
-            return eval('require') as NodeRequire;
-          } catch (error) {
-            return undefined;
-          }
-        })();
+    (globalThat as unknown as { require?: unknown }).require) as NodeJS.Require | undefined;
 
   if (!req) {
-    throw new Error('No secure random source available in this environment');
+    throw new Error('require function is not available in this environment');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const nodeCrypto = req('crypto') as { randomBytes?: (size: number) => Uint8Array };
   if (typeof nodeCrypto.randomBytes !== 'function') {
-    throw new Error('No secure random source available in this environment');
+    throw new Error('crypto.randomBytes is not a function. Please check the crypto version.');
   }
 
   const b = nodeCrypto.randomBytes(7); // 56 bits
