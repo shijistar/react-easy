@@ -35,14 +35,17 @@
     "build": "run-s build-core correct-sourcemap",
     "build-core": "father build",
     "build-storybook": "storybook build",
+    "codegraph-init": "command -v codegraph && codegraph init && codegraph sync || true",
     "correct-sourcemap": "tsx scripts/correct-sourcemap.ts",
-    "prepare": "husky",
+    "init-husky": "husky",
+    "prepare": "run-s init-husky codegraph-init",
     "prepublishOnly": "npm run build",
     "storybook": "storybook dev -p 6006",
     "test": "vitest run --coverage",
     "test:watch": "vitest"
   },
   "dependencies": {
+    "codegraph": "^1.0.0",
     "crypto-js": "^4.2.0"
   },
   "devDependencies": {
