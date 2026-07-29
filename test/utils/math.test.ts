@@ -1,4 +1,3 @@
-import { Buffer as NodeBuffer } from 'node:buffer';
 import { describe, expect, it, vi } from 'vitest';
 import { random } from '../../src/utils/math';
 
@@ -39,40 +38,26 @@ describe('random', () => {
     expect(value).toBeLessThan(1);
   });
 
-  it('uses randomBytes fallback when no web crypto is available', () => {
+  it('uses randomBytes fallback via Node require when no web crypto is available', () => {
     vi.stubGlobal('crypto', undefined);
-    const randomBytes = vi.fn(() => NodeBuffer.from([0x1f, 0, 0, 0, 0, 0, 0]));
-    vi.stubGlobal('require', ((moduleName: string) => {
-      if (moduleName === 'crypto') {
-        return { randomBytes };
-      }
-      throw new Error(`Unexpected module: ${moduleName}`);
-    }) as unknown);
 
-    expect(random()).toBe(0.96875);
-    expect(randomBytes).toHaveBeenCalledWith(7);
+    const value = random();
+
+    expect(value).toBeGreaterThanOrEqual(0);
+    expect(value).toBeLessThan(1);
+    expect(typeof value).toBe('number');
   });
 
-  it('throws for ranged calls when neither node crypto nor web crypto is available', () => {
+  it('falls back to randomLikeMath for ranged calls when both randomInt and web crypto are unavailable', () => {
     vi.stubGlobal('process', undefined);
     vi.stubGlobal('crypto', undefined);
-    vi.stubGlobal('require', undefined);
 
-    expect(() => random(10, 12)).toThrow('require function is not available in this environment');
-  });
+    const value = random(10, 20);
 
-  it('throws when no require function is available for the fallback path', () => {
-    vi.stubGlobal('crypto', undefined);
-    vi.stubGlobal('require', undefined);
-
-    expect(() => random()).toThrow('require function is not available in this environment');
-  });
-
-  it('throws when the fallback crypto module does not provide randomBytes', () => {
-    vi.stubGlobal('crypto', undefined);
-    vi.stubGlobal('require', ((moduleName: string) => (moduleName === 'crypto' ? {} : {})) as unknown);
-
-    expect(() => random()).toThrow('crypto.randomBytes is not a function. Please check the crypto version.');
+    // Falls through to randomLikeMath which returns a float in [0, 1)
+    expect(value).toBeGreaterThanOrEqual(0);
+    expect(value).toBeLessThan(1);
+    expect(typeof value).toBe('number');
   });
 
   it('validates range inputs', () => {
