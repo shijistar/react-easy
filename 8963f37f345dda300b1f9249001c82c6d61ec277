@@ -1,0 +1,14 @@
+.github/workflows/test-on-commit.yml
+  h_282d460392904f 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "8963f37f345dda300b1f9249001c82c6d61ec277",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}

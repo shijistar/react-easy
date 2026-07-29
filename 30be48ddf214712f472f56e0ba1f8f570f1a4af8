@@ -1,0 +1,16 @@
+.github/workflows/test-on-commit.yml
+  h_282d460392904f 1-21
+.github/workflows/reusable-test.yml
+  h_282d460392904f 1-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "30be48ddf214712f472f56e0ba1f8f570f1a4af8",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}

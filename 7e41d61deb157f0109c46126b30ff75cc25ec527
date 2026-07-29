@@ -1,0 +1,26 @@
+vitest.config.ts
+  h_282d460392904f 13
+package.json
+  s_f67f61d1df175e::t_af7625b2106df1 42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "7e41d61deb157f0109c46126b30ff75cc25ec527",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  },
+  "sessions": {
+    "s_f67f61d1df175e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "81d32618-8e29-43d5-857c-0b6427803026",
+        "model": "GLM-5.2-FP8"
+      },
+      "human_author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
