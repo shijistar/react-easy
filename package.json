@@ -35,7 +35,7 @@
     "build": "run-s build-core correct-sourcemap",
     "build-core": "father build",
     "build-storybook": "storybook build",
-    "codegraph-init": "command -v codegraph && codegraph init && codegraph sync || true",
+    "codegraph-init": "node scripts/prepare-codegraph.js",
     "correct-sourcemap": "tsx scripts/correct-sourcemap.ts",
     "init-husky": "husky",
     "prepare": "run-s init-husky codegraph-init",
@@ -45,7 +45,6 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "codegraph": "^1.0.0",
     "crypto-js": "^4.2.0"
   },
   "devDependencies": {
@@ -70,6 +69,7 @@
     "antd": "^6.5.0",
     "axios": "^1.18.1",
     "classnames": "^2.5.1",
+    "codegraph": "^1.0.0",
     "eslint-plugin-storybook": "10.2.19",
     "father": "^4.6.2",
     "jest": "^29.7.0",
