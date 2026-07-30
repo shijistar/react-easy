@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import type { ItemProps, MenuProps, SeparatorProps, ShowContextMenuParams, SubMenuProps } from 'react-contexify';
 import { Item, Menu, RightSlot, Separator, Submenu, useContextMenu } from 'react-contexify';
 import { ConfigProvider as AntConfigProvider, theme as AntdTheme, Typography } from 'antd';
-import { useRefFunction } from '../../hooks';
+import useRefFunction from '../../hooks/useRefFunction';
 import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
 import 'react-contexify/dist/ReactContexify.css';

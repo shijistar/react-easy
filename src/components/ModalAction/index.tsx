@@ -4,8 +4,8 @@ import { isForwardRef } from 'react-is';
 import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
-import { useRefValue } from '../../hooks';
 import useContextValidator from '../../hooks/useContextValidator';
+import useRefValue from '../../hooks/useRefValue';
 import ReactEasyContext from '../ConfigProvider/context';
 
 /**
