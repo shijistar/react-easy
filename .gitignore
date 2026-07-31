@@ -17,3 +17,4 @@ debug-storybook.log
 
 # vitest browser auto-screenshots
 test/browser/__screenshots__/
+test/utils/__screenshots__/
