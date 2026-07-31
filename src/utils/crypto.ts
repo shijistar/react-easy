@@ -167,6 +167,7 @@ export async function encryptWithCryptoJS(text: string, key: string) {
     {
       default: { encrypt },
     },
+    /* v8 ignore start -- Vite browser-mode CJS/ESM interop branches (unreachable) */
   ] = await Promise.all([
     import('crypto-js/core.js'),
     import('crypto-js/pad-pkcs7.js'),
@@ -175,6 +176,7 @@ export async function encryptWithCryptoJS(text: string, key: string) {
     import('crypto-js/sha256.js'),
     import('crypto-js/aes.js'),
   ]);
+  /* v8 ignore stop */
 
   try {
     // Convert text and key to WordArray objects
@@ -213,6 +215,7 @@ export async function decryptWithCryptoJS(encryptedText: string, key: string) {
     {
       default: { decrypt },
     },
+    /* v8 ignore start -- Vite browser-mode CJS/ESM interop branches (unreachable) */
   ] = await Promise.all([
     import('crypto-js/enc-base64.js'),
     import('crypto-js/enc-utf8.js'),
@@ -221,6 +224,7 @@ export async function decryptWithCryptoJS(encryptedText: string, key: string) {
     import('crypto-js/sha256.js'),
     import('crypto-js/aes.js'),
   ]);
+  /* v8 ignore stop */
 
   try {
     // Convert base64 strings to WordArray objects
