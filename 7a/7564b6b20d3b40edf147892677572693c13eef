@@ -1,0 +1,14 @@
+vitest.config.ts
+  h_282d460392904f 21,37-38,46-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "7a7564b6b20d3b40edf147892677572693c13eef",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
