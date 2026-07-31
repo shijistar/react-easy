@@ -7,7 +7,8 @@ import type { EllipsisConfig } from 'antd/es/typography/Base';
 import type { ParagraphProps } from 'antd/es/typography/Paragraph';
 import type { TextProps } from 'antd/es/typography/Text';
 import type { TitleProps } from 'antd/es/typography/Title';
-import { useRefFunction, useRefValue } from '../../hooks';
+import useRefFunction from '../../hooks/useRefFunction';
+import useRefValue from '../../hooks/useRefValue';
 
 function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProps>(
   Component: ComponentType<MakeEllipsisTypographyProps<T>>,

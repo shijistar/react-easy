@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import type { LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
 import { theme } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { randomChars } from '../../../utils';
+import { randomChars } from '../../../utils/string';
 import { updateDomProps } from '../helpers';
 import type { BaseDecoratorNodeProps, BaseNodeProps } from './base';
 import { BaseDecoratorNode } from './base';

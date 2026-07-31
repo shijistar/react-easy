@@ -2,7 +2,7 @@ import type { AliasToken, GenerateStyle } from 'antd/es/theme/interface';
 import type { CSSObject } from '@ant-design/cssinjs';
 import type { FullToken } from '@ant-design/cssinjs-utils';
 import { FastColor } from '@ant-design/fast-color';
-import { getColorLuminance } from '../../../utils';
+import { getColorLuminance } from '../../../utils/color';
 import { genStyleHooksCompitible } from '../../../utils/internal';
 
 type FloatDrawerToken = FullToken<{ ''?: object }, AliasToken, ''>;

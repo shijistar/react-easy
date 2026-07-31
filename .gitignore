@@ -12,6 +12,7 @@ run
 .DS_Store
 .cache
 .eslintcache
+.codegraph
 debug-storybook.log
 
 # vitest browser auto-screenshots

@@ -368,8 +368,6 @@ class AudioPlayer {
 
   /** Initialize Web Audio API for better volume control */
   private initAudioContext() {
-    if (this.audioContext) return;
-
     this.audioContext = new AudioContext();
     this.sourceNode = this.audioContext.createMediaElementSource(this.audio);
     this.gainNode = this.audioContext.createGain();

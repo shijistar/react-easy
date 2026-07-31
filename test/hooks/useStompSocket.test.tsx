@@ -1,15 +1,17 @@
+import type { Client, IFrame } from '@stomp/stompjs';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 import useStompSocket from '../../src/hooks/useStompSocket';
 
 const mockState = vi.hoisted(() => {
   const state: {
     notificationError: ReturnType<typeof vi.fn>;
-    latestSocket: any;
-    latestClient: any;
+    latestSocket?: WebSocket;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    latestClient?: Client & { config: Record<string, any> };
     throwSockJSError: boolean;
     SockJSMock: ReturnType<typeof vi.fn>;
-    MockClient: new (config: Record<string, unknown>) => any;
+    MockClient: new (config: Record<string, unknown>) => Client;
   } = {
     notificationError: vi.fn(),
     latestSocket: undefined,
@@ -33,9 +35,10 @@ const mockState = vi.hoisted(() => {
 
     constructor(config: Record<string, unknown>) {
       this.config = config;
-      state.latestClient = this;
+      state.latestClient = this as unknown as Client & { config: Record<string, unknown> };
     }
-  };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as unknown as new (config: Record<string, any>) => Client;
 
   state.SockJSMock = vi.fn(function MockSockJS(this: Record<string, unknown>, url: string) {
     if (state.throwSockJSError) {
@@ -43,7 +46,7 @@ const mockState = vi.hoisted(() => {
     }
     this.url = url;
     this.close = vi.fn();
-    state.latestSocket = this;
+    state.latestSocket = this as unknown as WebSocket;
   });
 
   return state;
@@ -64,7 +67,7 @@ vi.mock('antd', () => ({
 }));
 
 vi.mock('../../src/hooks/useT', () => ({
-  default: () => ((key: string) => key),
+  default: () => (key: string) => key,
 }));
 
 describe('useStompSocket', () => {
@@ -100,13 +103,13 @@ describe('useStompSocket', () => {
 
     expect(result.current.connecting).toBe(true);
     expect(mockState.SockJSMock).toHaveBeenCalledWith('/socket');
-    expect(mockState.latestClient.activate).toHaveBeenCalledTimes(1);
-    expect(typeof mockState.latestClient.config.webSocketFactory).toBe('function');
-    expect(mockState.latestClient.config.heartbeatIncoming).toBe(5000);
-    expect(mockState.latestClient.config.heartbeatOutgoing).toBe(5000);
+    expect(mockState.latestClient?.activate).toHaveBeenCalledTimes(1);
+    expect(typeof mockState.latestClient?.config.webSocketFactory).toBe('function');
+    expect(mockState.latestClient?.config.heartbeatIncoming).toBe(5000);
+    expect(mockState.latestClient?.config.heartbeatOutgoing).toBe(5000);
 
     act(() => {
-      mockState.latestClient.onConnect?.();
+      mockState.latestClient?.onConnect?.({} as IFrame);
     });
 
     await act(async () => {
@@ -120,10 +123,11 @@ describe('useStompSocket', () => {
     });
 
     expect(onConnected).toHaveBeenCalledTimes(1);
-    expect(mockState.latestClient.subscribe).toHaveBeenCalledWith('/topic', expect.any(Function));
+    expect(mockState.latestClient?.subscribe).toHaveBeenCalledWith('/topic', expect.any(Function));
 
     act(() => {
-      mockState.latestClient.subscribe.mock.calls[0][1]({ body: '{"value":1}' });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (mockState.latestClient?.subscribe as any).mock.calls[0]?.[1]?.({ body: '{"value":1}' });
     });
 
     expect(onMessage).toHaveBeenCalledWith({ value: 1 });
@@ -132,14 +136,14 @@ describe('useStompSocket', () => {
       result.current.send('hello');
     });
 
-    expect(mockState.latestClient.publish).toHaveBeenCalledWith({ destination: '/send', body: 'hello' });
+    expect(mockState.latestClient?.publish).toHaveBeenCalledWith({ destination: '/send', body: 'hello' });
 
     act(() => {
       result.current.close();
     });
 
-    expect(mockState.latestClient.deactivate).toHaveBeenCalledTimes(1);
-    expect(mockState.latestSocket.close).toHaveBeenCalledTimes(1);
+    expect(mockState.latestClient?.deactivate).toHaveBeenCalledTimes(1);
+    expect(mockState.latestSocket?.close).toHaveBeenCalledTimes(1);
     expect(onClose).not.toHaveBeenCalled();
   });
 
@@ -162,7 +166,7 @@ describe('useStompSocket', () => {
     });
 
     act(() => {
-      mockState.latestClient.onConnect?.();
+      mockState.latestClient?.onConnect?.({} as IFrame);
     });
 
     await act(async () => {
@@ -170,16 +174,16 @@ describe('useStompSocket', () => {
     });
 
     act(() => {
-      mockState.latestClient.onStompError?.('stomp-error');
-      mockState.latestClient.onWebSocketError?.('ws-error');
-      mockState.latestSocket.onerror?.('sock-error');
-      mockState.latestClient.onWebSocketClose?.({ type: 'close', code: 4001 });
-      mockState.latestSocket.onclose?.({ type: 'close' });
+      mockState.latestClient?.onStompError?.({} as IFrame);
+      mockState.latestClient?.onWebSocketError?.('ws-error');
+      mockState.latestSocket?.onerror?.({ type: 'sock-error' } as Event);
+      mockState.latestClient?.onWebSocketClose?.({ type: 'close', code: 4001 });
+      mockState.latestSocket?.onclose?.({ type: 'close' } as CloseEvent);
     });
 
-    expect(errorSpy).toHaveBeenCalledWith('STOMP Error:', 'stomp-error');
+    expect(errorSpy).toHaveBeenCalledWith('STOMP Error:', {});
     expect(errorSpy).toHaveBeenCalledWith('WebSocket Error:', 'ws-error');
-    expect(errorSpy).toHaveBeenCalledWith('sock-error');
+    expect(errorSpy).toHaveBeenCalledWith({ type: 'sock-error' });
     expect(mockState.notificationError).toHaveBeenCalledWith({
       message: undefined,
       description: 'hooks.useStompSocket.serverDisconnected',
@@ -203,17 +207,18 @@ describe('useStompSocket', () => {
       await Promise.resolve();
     });
 
-    expect(mockState.latestClient.config.webSocketFactory()).toBe(mockState.latestSocket);
+    expect(mockState.latestClient?.config.webSocketFactory()).toBe(mockState.latestSocket);
 
     act(() => {
-      mockState.latestClient.onConnect?.();
-      mockState.latestClient.subscribe.mock.calls[0][1]({ body: 'raw-body' });
+      mockState.latestClient?.onConnect?.({} as IFrame);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (mockState.latestClient?.subscribe as any).mock.calls[0]?.[1]?.({ body: 'raw-body' });
     });
 
     expect(onMessage).toHaveBeenCalledWith('raw-body');
 
     act(() => {
-      mockState.latestClient.onWebSocketClose?.({ type: 'close', code: 1000 });
+      mockState.latestClient?.onWebSocketClose?.({ type: 'close', code: 1000 });
     });
 
     expect(mockState.notificationError).not.toHaveBeenCalled();
@@ -230,7 +235,7 @@ describe('useStompSocket', () => {
     });
 
     act(() => {
-      mockState.latestClient.onWebSocketClose?.({ type: 'close', code: 4000 });
+      mockState.latestClient?.onWebSocketClose?.({ type: 'close', code: 4000 });
     });
 
     expect(mockState.notificationError).toHaveBeenLastCalledWith({
@@ -265,13 +270,13 @@ describe('useStompSocket', () => {
       await Promise.resolve();
     });
     act(() => {
-      mockState.latestClient.onConnect?.();
+      mockState.latestClient?.onConnect?.({} as IFrame);
     });
     await act(async () => {
       await promise;
     });
 
-    mockState.latestClient.deactivate.mockImplementation(() => {
+    (mockState.latestClient?.deactivate as unknown as Mock<() => void>)?.mockImplementation(() => {
       throw new Error('deactivate failed');
     });
 

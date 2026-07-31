@@ -1,8 +1,10 @@
 import type { PropsWithChildren } from 'react';
-import ReactEasyContext, { defaultContextValue, type ReactEasyContextProps } from '../../src/components/ConfigProvider/context';
-import reactEasyI18n, { resources, t } from '../../src/locales';
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import ReactEasyContext, {
+  defaultContextValue,
+  type ReactEasyContextProps,
+} from '../../src/components/ConfigProvider/context';
 import useAudioPlayer from '../../src/hooks/useAudioPlayer';
 import useContextValidator from '../../src/hooks/useContextValidator';
 import useLocalizedText from '../../src/hooks/useLocalizedText';
@@ -12,6 +14,7 @@ import useT from '../../src/hooks/useT';
 import useValidator from '../../src/hooks/useValidator';
 import useValidatorBuilder from '../../src/hooks/useValidatorBuilder';
 import useValidators from '../../src/hooks/useValidators';
+import reactEasyI18n, { resources, t } from '../../src/locales';
 import AudioPlayer from '../../src/utils/AudioPlayer';
 
 vi.mock('../../src/utils/AudioPlayer', () => {
@@ -118,7 +121,9 @@ describe('basic hooks', () => {
   });
 
   it('useLocalizedText delegates to localize when provided', () => {
-    const localize = vi.fn((content: unknown, args?: Record<string, unknown>) => `${String(content)}:${String(args?.value)}`);
+    const localize = vi.fn(
+      (content: unknown, args?: Record<string, unknown>) => `${String(content)}:${String(args?.value)}`,
+    );
     const wrapper = createWrapper({ localize });
     const { result } = renderHook(() => useLocalizedText('token', { value: 'x' }), { wrapper });
 
@@ -159,7 +164,9 @@ describe('basic hooks', () => {
     const wrapper = createWrapper();
     const { result } = renderHook(() => useValidatorBuilder(), { wrapper });
 
-    expect(() => result.current({ allowed: { special: ['!'] } })).toThrow('At least one field in the include option is true');
+    expect(() => result.current({ allowed: { special: ['!'] } })).toThrow(
+      'At least one field in the include option is true',
+    );
   });
 
   it('useValidatorBuilder covers startsWith, range length, single and multiple token branches', () => {

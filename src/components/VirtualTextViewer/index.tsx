@@ -2,7 +2,7 @@ import type { CSSProperties, FC, HTMLAttributes, ReactNode } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LayoutCursor, PreparedTextWithSegments, WordBreakMode } from '@chenglou/pretext';
 import { layoutNextLineRange, materializeLineRange, measureLineStats, prepareWithSegments } from '@chenglou/pretext';
-import { useRefFunction } from '../../hooks';
+import useRefFunction from '../../hooks/useRefFunction';
 import type { CursorCheckpointCache, VisibleLine } from './types';
 
 const DEFAULT_HEIGHT = '100%';
