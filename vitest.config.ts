@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
@@ -11,7 +11,15 @@ export default defineConfig({
           environment: 'jsdom',
           globals: true,
           setupFiles: ['./test/setup.ts'],
-          include: ['test/components/**/*.test.ts', 'test/components/**/*.test.tsx', 'test/hooks/**/*.test.ts', 'test/hooks/**/*.test.tsx', 'test/utils/**/*.test.ts', 'test/utils/**/*.test.tsx'],
+          include: [
+            'test/components/**/*.test.ts',
+            'test/components/**/*.test.tsx',
+            'test/hooks/**/*.test.ts',
+            'test/hooks/**/*.test.tsx',
+            'test/utils/**/*.test.ts',
+            'test/utils/**/*.test.tsx',
+          ],
+          exclude: ['**/*.browser.test.ts', '**/*.browser.test.tsx'],
           coverage: {
             provider: 'v8',
             include: [
@@ -81,7 +89,12 @@ export default defineConfig({
             instances: [{ browser: 'chromium' }],
           },
           globals: true,
-          include: ['test/browser/**/*.test.ts', 'test/browser/**/*.test.tsx'],
+          include: [
+            'test/browser/**/*.test.ts',
+            'test/browser/**/*.test.tsx',
+            'test/utils/*.browser.test.ts',
+            'test/utils/*.browser.test.tsx',
+          ],
           coverage: {
             provider: 'v8',
             include: [
