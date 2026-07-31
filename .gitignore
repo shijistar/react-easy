@@ -4,8 +4,15 @@ es
 storybook-static
 npm-debug.log
 coverage/
+.vitest-attachments/
+test-results/
+playwright-report/
+blob-report/
 run
 .DS_Store
 .cache
 .eslintcache
 debug-storybook.log
+
+# vitest browser auto-screenshots
+test/browser/__screenshots__/
