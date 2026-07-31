@@ -18,7 +18,7 @@ export default defineConfig({
             'test/utils/**/*.test.ts',
             'test/utils/**/*.test.tsx',
           ],
-          exclude: ['**/*.browser.test.ts', '**/*.browser.test.tsx'],
+          exclude: ['test/**/*.browser.test.ts', 'test/**/*.browser.test.tsx'],
         },
       },
       {
@@ -34,15 +34,19 @@ export default defineConfig({
           include: [
             'test/browser/**/*.test.ts',
             'test/browser/**/*.test.tsx',
-            'test/utils/*.browser.test.ts',
-            'test/utils/*.browser.test.tsx',
+            'test/utils/**/*.browser.test.ts',
+            'test/utils/**/*.browser.test.tsx',
           ],
         },
       },
     ],
     coverage: {
       provider: 'v8',
-      include: ['src/components/**/*.ts*', 'src/hooks/**/use*.ts*', 'src/utils/**/*.ts*'],
+      include: [
+        // 'src/components/**/*.ts*',
+        // 'src/hooks/**/use*.ts*',
+        'src/utils/**/*.ts*',
+      ],
       exclude: [
         'src/components/index.tsx',
         'src/components/Iconfont/index.tsx',
