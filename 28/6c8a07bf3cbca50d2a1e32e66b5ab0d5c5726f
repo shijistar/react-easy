@@ -25,7 +25,7 @@ src/utils/internal.ts
 test/components/FormItemControl.test.tsx
   h_282d460392904f 1,4,15,50
 vitest.config.ts
-  h_282d460392904f 9,14-19,37-55,57-58,60
+  h_282d460392904f 9,14-19,33,37-55,57-58,60
 test/components/ConfigProvider.test.tsx
   h_282d460392904f 2-3,5,73
 test/components/EllipsisTypography.test.tsx
