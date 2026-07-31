@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import type { ComponentType } from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';

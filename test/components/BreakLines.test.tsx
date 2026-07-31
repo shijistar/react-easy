@@ -1,6 +1,5 @@
+import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import React from 'react';
 import BreakLines from '../../src/components/BreakLines';
 
 describe('BreakLines', () => {

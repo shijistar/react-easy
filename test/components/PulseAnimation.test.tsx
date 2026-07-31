@@ -1,11 +1,11 @@
-import { describe, expect, it, type PropsWithChildren } from 'vitest';
+import type { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
-import React from 'react';
+import { describe, expect, it } from 'vitest';
+import PulseAnimation from '../../src/components/Animation/Pulse';
 import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
 } from '../../src/components/ConfigProvider/context';
-import PulseAnimation from '../../src/components/Animation/Pulse';
 
 function createWrapper(value?: Partial<ReactEasyContextProps>) {
   const contextValue: ReactEasyContextProps = {

@@ -1,7 +1,7 @@
-import { describe, expect, it, vi } from 'vitest';
+import React from 'react';
 import { screen } from '@testing-library/dom';
 import { render } from '@testing-library/react';
-import React from 'react';
+import { describe, expect, it, vi } from 'vitest';
 import FormItemControl from '../../src/components/FormItemControl';
 
 describe('FormItemControl', () => {
@@ -11,7 +11,9 @@ describe('FormItemControl', () => {
     render(
       (React.createElement as unknown as typeof React.createElement)(FormItemControl as never, {
         value: 'test-value',
-        onChange: () => {},
+        onChange: () => {
+          // stub method
+        },
         children: renderFn,
       }),
     );
@@ -44,7 +46,9 @@ describe('FormItemControl', () => {
     const { container } = render(
       (React.createElement as unknown as typeof React.createElement)(FormItemControl as never, {
         value: 'a',
-        onChange: () => {},
+        onChange: () => {
+          // stub method
+        },
         children: () => React.createElement('span', { 'data-testid': 'rendered' }, 'child'),
       }),
     );

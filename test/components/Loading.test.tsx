@@ -1,6 +1,6 @@
-import { describe, expect, it, type PropsWithChildren } from 'vitest';
+import type { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
-import React from 'react';
+import { describe, expect, it } from 'vitest';
 import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
@@ -21,7 +21,12 @@ function createWrapper(value?: Partial<ReactEasyContextProps>) {
 
 describe('Loading', () => {
   it('renders Spin wrapper when children provided', () => {
-    const { container } = render(<Loading><div>content</div></Loading>, { wrapper: createWrapper() });
+    const { container } = render(
+      <Loading>
+        <div>content</div>
+      </Loading>,
+      { wrapper: createWrapper() },
+    );
     expect(container.querySelector('.ant-spin')).toBeTruthy();
     expect(container.textContent).toContain('content');
   });
@@ -37,7 +42,12 @@ describe('Loading', () => {
   });
 
   it('renders children with spinning=false', () => {
-    const { container } = render(<Loading spinning={false}><span>visible</span></Loading>, { wrapper: createWrapper() });
+    const { container } = render(
+      <Loading spinning={false}>
+        <span>visible</span>
+      </Loading>,
+      { wrapper: createWrapper() },
+    );
     expect(container.textContent).toContain('visible');
   });
 
@@ -50,10 +60,9 @@ describe('Loading', () => {
   });
 
   it('applies rootClassName and rootStyle', () => {
-    const { container } = render(
-      <Loading rootClassName="my-root" rootStyle={{ color: 'red' }} spinning={true} />,
-      { wrapper: createWrapper() },
-    );
+    const { container } = render(<Loading rootClassName="my-root" rootStyle={{ color: 'red' }} spinning={true} />, {
+      wrapper: createWrapper(),
+    });
     const root = container.querySelector('.my-root');
     expect(root).toBeTruthy();
   });

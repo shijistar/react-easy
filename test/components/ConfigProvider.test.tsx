@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest';
-import { render } from '@testing-library/react';
 import React from 'react';
-import ConfigProvider from '../../src/components/ConfigProvider/index';
+import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import ReactEasyContext from '../../src/components/ConfigProvider/context';
+import ConfigProvider from '../../src/components/ConfigProvider/index';
 
 describe('ConfigProvider', () => {
   it('renders children', () => {
@@ -70,7 +70,7 @@ describe('ConfigProvider', () => {
 
   it('accepts locales prop for an unknown language', () => {
     const { container } = render(
-      // @ts-expect-error - testing with custom lang
+      // @ts-expect-error: because of testing with custom lang
       <ConfigProvider lang="fr-FR" locales={{ key: 'value' }}>
         <span>test</span>
       </ConfigProvider>,

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import EllipsisLink from '../../src/components/EllipsisTypography/EllipsisLink';
@@ -9,11 +8,16 @@ import EllipsisTitle from '../../src/components/EllipsisTypography/EllipsisTitle
 // Global polyfills for jsdom
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    observe() {
+      // stub method
+    }
+    unobserve() {
+      // stub method
+    }
+    disconnect() {
+      // stub method
+    }
   }
-  // @ts-expect-error - global polyfill
   globalThis.ResizeObserver = ResizeObserverMock;
 }
 

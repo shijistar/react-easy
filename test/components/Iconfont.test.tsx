@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'vitest';
-import React from 'react';
-
 // Just verify the barrel re-exports from createIconfont
 import * as IconfontExports from '../../src/components/Iconfont/index';
 import { createIconfont } from '../../src/components/Iconfont/createIconfont';

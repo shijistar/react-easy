@@ -1,8 +1,8 @@
-import { afterEach, describe, expect, it } from 'vitest';
-import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import type { ReactElement } from 'react';
-import VirtualTextViewer from '../../src/components/VirtualTextViewer/index';
+import { act, cleanup, render, waitFor } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
 import ConfigProvider from '../../src/components/ConfigProvider';
+import VirtualTextViewer from '../../src/components/VirtualTextViewer/index';
 
 afterEach(() => {
   cleanup();
@@ -12,7 +12,10 @@ function renderWithProvider(ui: ReactElement) {
   return render(<ConfigProvider>{ui}</ConfigProvider>);
 }
 
-const LONG_TEXT = Array.from({ length: 200 }, (_, i) => `line ${i} of a fairly long virtualized plain text document used to trigger wrapping and scrolling`).join('\n');
+const LONG_TEXT = Array.from(
+  { length: 200 },
+  (_, i) => `line ${i} of a fairly long virtualized plain text document used to trigger wrapping and scrolling`,
+).join('\n');
 const WIDE_LINE_TEXT = 'X'.repeat(500);
 
 describe('VirtualTextViewer (browser, real Pretext)', () => {
@@ -23,7 +26,6 @@ describe('VirtualTextViewer (browser, real Pretext)', () => {
       </div>,
     );
     await waitFor(() => {
-      const lines = container.querySelectorAll('.virtual-text-line, [data-line]');
       // at least the component rendered without crashing
       expect(container.textContent).toContain('hello world');
     });
@@ -57,7 +59,6 @@ describe('VirtualTextViewer (browser, real Pretext)', () => {
   });
 
   it('updates visible window on scroll', async () => {
-    const outer = document.createElement('div');
     const { container } = renderWithProvider(
       <div style={{ width: 400, height: 300, overflow: 'hidden' }}>
         <VirtualTextViewer value={LONG_TEXT} height={300} lineHeight={22} overscan={2} />

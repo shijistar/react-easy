@@ -1,10 +1,11 @@
-import { describe, expect, it, vi, type PropsWithChildren } from 'vitest';
+import type { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
-import React from 'react';
+import { describe, expect, it, vi } from 'vitest';
 import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
 } from '../../src/components/ConfigProvider/context';
+import { createIconfont } from '../../src/components/Iconfont/createIconfont';
 
 // Mock @ant-design/icons to avoid script URL fetch in tests
 vi.mock('@ant-design/icons', () => ({
@@ -18,8 +19,6 @@ vi.mock('@ant-design/icons', () => ({
     return MockIconfont;
   },
 }));
-
-import { createIconfont } from '../../src/components/Iconfont/createIconfont';
 
 function createWrapper(value?: Partial<ReactEasyContextProps>) {
   const contextValue: ReactEasyContextProps = {

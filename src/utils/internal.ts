@@ -20,11 +20,13 @@ export const genStyleHooksCompitible = (
   return (prefixCls, rootCls) => {
     // @ts-expect-error: because need be compitible with v5 and v6
     let [wrapCSSVar, hashId, cssVarCls] = useStyle(prefixCls, rootCls) as unknown;
+    /* v8 ignore start -- this branch is for compatibility with antd v5 */
     if (typeof wrapCSSVar === 'string') {
       cssVarCls = hashId;
       hashId = wrapCSSVar;
       wrapCSSVar = (node: ReactNode) => node;
     }
+    /* v8 ignore stop */
     return { wrapCSSVar, hashId, cssVarCls } as never;
   };
 };

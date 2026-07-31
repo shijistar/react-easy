@@ -1,4 +1,5 @@
-import React, { type PropsWithChildren } from 'react';
+import type React from 'react';
+import { type PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import ReactEasyContext, {
@@ -10,11 +11,16 @@ import OverflowTags from '../../src/components/OverflowTags';
 // Global polyfills for jsdom (needed by antd css-in-js / @rc-component/resize-observer)
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    observe() {
+      // stub method
+    }
+    unobserve() {
+      // stub method
+    }
+    disconnect() {
+      // stub method
+    }
   }
-  // @ts-expect-error - global polyfill
   globalThis.ResizeObserver = ResizeObserverMock;
 }
 
@@ -32,7 +38,7 @@ vi.mock('rc-overflow', () => {
       <div className={className} data-testid="mock-overflow">
         {renderItem &&
           data?.map((item, i) => (
-            <div key={i} data-testid={`item-${i}`}>
+            <div key={item.value} data-testid={`item-${i}`}>
               {renderItem(item)}
             </div>
           ))}

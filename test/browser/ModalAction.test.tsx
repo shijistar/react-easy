@@ -1,9 +1,8 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import type { ComponentType, ReactElement } from 'react';
+import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Form, type FormInstance } from 'antd';
-import ModalAction from '../../src/components/ModalAction/index';
-import { SubmitWithoutClosingSymbol } from '../../src/components/ModalAction/index';
+import ModalAction, { SubmitWithoutClosingSymbol } from '../../src/components/ModalAction/index';
 import type { ModalActionRef } from '../../src/components/ModalAction/index';
 import { BrowserTestWrapper } from './helpers';
 
@@ -21,7 +20,9 @@ function bodyHasText(text: string): boolean {
 }
 
 function findOkButton(): HTMLButtonElement {
-  return Array.from(document.body.querySelectorAll('.ant-btn')).find((b) => b.textContent === 'OK') as HTMLButtonElement;
+  return Array.from(document.body.querySelectorAll('.ant-btn')).find(
+    (b) => b.textContent === 'OK',
+  ) as HTMLButtonElement;
 }
 
 interface SimpleFormData {
@@ -48,7 +49,7 @@ function makeModalAction(props: Record<string, unknown>, ref: { current: unknown
     <ModalAction
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
-      ref={ref as any}
+      ref={ref as unknown}
     />
   );
 }
@@ -57,10 +58,7 @@ describe('ModalAction (browser, real AntD)', () => {
   it('opens modal via ref.show()', async () => {
     const ref = { current: null as ModalActionRef<unknown, SimpleFormData> | null };
     renderInBrowser(
-      makeModalAction(
-        { title: 'Edit', formComp: SimpleForm as never, triggerProps: { children: 'Open' } },
-        ref,
-      ),
+      makeModalAction({ title: 'Edit', formComp: SimpleForm as never, triggerProps: { children: 'Open' } }, ref),
     );
     await act(async () => {
       ref.current?.show();
@@ -95,7 +93,10 @@ describe('ModalAction (browser, real AntD)', () => {
     const afterOk = vi.fn();
     const ref = { current: null as ModalActionRef<unknown, SimpleFormData> | null };
     renderInBrowser(
-      makeModalAction({ title: 'Edit', formComp: SimpleForm as never, onOk, afterOk, triggerProps: { children: 'Open' } }, ref),
+      makeModalAction(
+        { title: 'Edit', formComp: SimpleForm as never, onOk, afterOk, triggerProps: { children: 'Open' } },
+        ref,
+      ),
     );
     await act(async () => {
       ref.current?.show();
@@ -145,11 +146,14 @@ describe('ModalAction (browser, real AntD)', () => {
   });
 
   it('shows loading state during async onOk', async () => {
-    let resolveOnOk: (v: unknown) => void = () => {};
+    let resolveOnOk: (v: unknown) => void = () => {
+      // stub method
+    };
     const onOk = vi.fn().mockImplementation(
-      () => new Promise((res) => {
-        resolveOnOk = res;
-      }),
+      () =>
+        new Promise((res) => {
+          resolveOnOk = res;
+        }),
     );
     const ref = { current: null as ModalActionRef<unknown, SimpleFormData> | null };
     renderInBrowser(
@@ -184,7 +188,10 @@ describe('ModalAction (browser, real AntD)', () => {
   it('respects custom okText from props (mergeProps outer layer)', async () => {
     const ref = { current: null as ModalActionRef<unknown, SimpleFormData> | null };
     renderInBrowser(
-      makeModalAction({ title: 'Edit', okText: '保存', formComp: SimpleForm as never, triggerProps: { children: 'Open' } }, ref),
+      makeModalAction(
+        { title: 'Edit', okText: '保存', formComp: SimpleForm as never, triggerProps: { children: 'Open' } },
+        ref,
+      ),
     );
     await act(async () => {
       ref.current?.show();
@@ -193,7 +200,9 @@ describe('ModalAction (browser, real AntD)', () => {
     // e.g., "保存" becomes "保 存" in the rendered button text
     await waitFor(() => {
       // Ant Design inserts inter-character spacing for CJK: "保存" renders as "保 存"
-      const okBtn = Array.from(document.body.querySelectorAll('.ant-btn-primary')).find((b) => b.textContent?.includes('保'));
+      const okBtn = Array.from(document.body.querySelectorAll('.ant-btn-primary')).find((b) =>
+        b.textContent?.includes('保'),
+      );
       expect(okBtn).toBeTruthy();
     });
   });

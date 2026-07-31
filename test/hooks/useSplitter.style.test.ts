@@ -4,6 +4,7 @@ describe('useSplitter style hook', () => {
   it('registers splitter styles and generates directional/state styles', async () => {
     vi.resetModules();
     let capturedPrefix = '';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let capturedStyleFn: ((token: any, info: any) => Record<string, any>) | undefined;
     const returnedHook = vi.fn(() => ({
       wrapCSSVar: (node: unknown) => node,
@@ -12,6 +13,7 @@ describe('useSplitter style hook', () => {
     }));
 
     vi.doMock('../../src/utils/internal', () => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       genStyleHooksCompitible: vi.fn((prefix: string, styleFn: (token: any, info: any) => Record<string, any>) => {
         capturedPrefix = prefix;
         capturedStyleFn = styleFn;
@@ -52,9 +54,11 @@ describe('useSplitter style hook', () => {
 
   it('falls back to default splitter width when no component token is provided', async () => {
     vi.resetModules();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let capturedStyleFn: ((token: any, info: any) => Record<string, any>) | undefined;
 
     vi.doMock('../../src/utils/internal', () => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       genStyleHooksCompitible: vi.fn((_prefix: string, styleFn: (token: any, info: any) => Record<string, any>) => {
         capturedStyleFn = styleFn;
         return vi.fn();

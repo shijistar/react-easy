@@ -329,6 +329,7 @@ export const genRenderer = (
                   }
                 } catch (error) {
                   // Handle error if needed
+                  console.error(error);
                 }
               },
             }

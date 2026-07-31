@@ -1,6 +1,7 @@
-import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
-import { describe, expect, it, type PropsWithChildren, vi } from 'vitest';
+import type React from 'react';
+import type { PropsWithChildren } from 'react';
+import { render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
@@ -10,11 +11,16 @@ import ContextMenu from '../../src/components/ContextMenu';
 // Global polyfills for jsdom
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    observe() {
+      // stub method
+    }
+    unobserve() {
+      // stub method
+    }
+    disconnect() {
+      // stub method
+    }
   }
-  // @ts-expect-error - global polyfill
   globalThis.ResizeObserver = ResizeObserverMock;
 }
 
@@ -111,7 +117,14 @@ describe('ContextMenu', () => {
   });
 
   it('renders without children (triggerless)', () => {
-    const { container } = render(<ContextMenu id="test-menu-2" items={sampleItems} />, { wrapper: createWrapper() });
+    const { container } = render(
+      <ContextMenu id="test-menu-2" items={sampleItems}>
+        <></>
+      </ContextMenu>,
+      {
+        wrapper: createWrapper(),
+      },
+    );
     // Should still render the Menu
     expect(container.querySelector('[data-testid="context-menu"]')).toBeTruthy();
   });

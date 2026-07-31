@@ -1,15 +1,14 @@
+import type React from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import React from 'react';
+import DeleteConfirmAction from '../../src/components/DeleteConfirmAction/index';
+import withDeleteConfirmAction from '../../src/components/DeleteConfirmAction/withDeleteConfirmAction';
 
 // Mock ConfirmAction (Phase C, high-cost) to avoid its dependency chain in Phase A tests
 vi.mock('../../src/components/ConfirmAction/index', () => {
-  const MockForwarded = {
-    displayName: 'MockDeleteConfirmAction',
-  } as Record<string, unknown>;
   return {
     __esModule: true,
     genRenderer: () => {
-      const Comp = (props: Record<string, unknown>, ref: React.Ref<unknown>) => null;
+      const Comp = () => null;
       Comp.displayName = 'MockRender';
       return Comp;
     },
@@ -23,14 +22,10 @@ vi.mock('../../src/components/ConfirmAction/index', () => {
 vi.mock('../../src/components/ConfirmAction/withConfirmAction', () => ({
   __esModule: true,
   withConfirmActionInternal: () => {
-    const HOC = <P,>(Component: React.ComponentType<P>) =>
-      Component;
+    const HOC = <P,>(Component: React.ComponentType<P>) => Component;
     return HOC;
   },
 }));
-
-import DeleteConfirmAction from '../../src/components/DeleteConfirmAction/index';
-import withDeleteConfirmAction from '../../src/components/DeleteConfirmAction/withDeleteConfirmAction';
 
 describe('DeleteConfirmAction', () => {
   it('exports the default component', () => {

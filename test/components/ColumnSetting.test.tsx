@@ -1,6 +1,6 @@
-import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, type PropsWithChildren, vi } from 'vitest';
+import type { PropsWithChildren } from 'react';
+import { fireEvent, render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import ColumnSetting from '../../src/components/ColumnSetting';
 import ReactEasyContext, {
   defaultContextValue,
@@ -10,11 +10,16 @@ import ReactEasyContext, {
 // Global polyfills for jsdom (needed by antd css-in-js)
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    observe() {
+      // stub method
+    }
+    unobserve() {
+      // stub method
+    }
+    disconnect() {
+      // stub method
+    }
   }
-  // @ts-expect-error - global polyfill
   globalThis.ResizeObserver = ResizeObserverMock;
 }
 
