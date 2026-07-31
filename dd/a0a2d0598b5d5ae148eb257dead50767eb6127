@@ -1,0 +1,52 @@
+test/browser/VirtualTextViewer.test.tsx
+  h_282d460392904f 2-3,5,17
+test/components/ContextMenu.test.tsx
+  h_282d460392904f 1-2,15,18,21,121-123,125-126
+test/hooks/useSplitter.style.test.ts
+  h_282d460392904f 7,16,57,61
+test/components/barrel.test.tsx
+  h_282d460392904f 2-3,13,17,21,27,32,43
+test/components/ColumnSetting.test.tsx
+  h_282d460392904f 1,14,17,20
+test/components/OverflowTags.test.tsx
+  h_282d460392904f 1-2,15,18,21,41
+test/components/withEllipsisTypography.test.tsx
+  h_282d460392904f 1
+test/components/Loading.test.tsx
+  h_282d460392904f 1,3,28,49,64-65
+src/components/ConfirmAction/index.tsx
+  h_282d460392904f 332
+test/components/BreakLines.test.tsx
+  h_282d460392904f 1
+test/components/PulseAnimation.test.tsx
+  h_282d460392904f 1,3-4
+src/utils/internal.ts
+  h_282d460392904f 23,29
+test/components/FormItemControl.test.tsx
+  h_282d460392904f 1,4,15,50
+vitest.config.ts
+  h_282d460392904f 9,14-19,21,36-38,43-46,47-54,55-59,61-62,64
+test/components/ConfigProvider.test.tsx
+  h_282d460392904f 2-3,5,73
+test/components/EllipsisTypography.test.tsx
+  h_282d460392904f 12,15,18
+test/browser/helpers.tsx
+  h_282d460392904f 2,6-7
+test/browser/ModalAction.test.tsx
+  h_282d460392904f 2-3,5,24,52,98,150,193,204
+test/components/DeleteConfirmAction.test.tsx
+  h_282d460392904f 1,3-4,11
+test/components/createIconfont.test.tsx
+  h_282d460392904f 1,3,8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "dda0a2d0598b5d5ae148eb257dead50767eb6127",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}
