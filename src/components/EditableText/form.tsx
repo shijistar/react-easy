@@ -225,9 +225,12 @@ const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterf
         setForceBlock(false);
       }
     });
+    /* v8 ignore start -- wrapperRef.current is always set when this effect runs
+       (mount + supportAutoScale change); the null guard is a defensive invariant. */
     if (wrapperRef.current) {
       observer.observe(wrapperRef.current);
     }
+    /* v8 ignore stop */
     return () => observer.disconnect();
   }, [supportAutoScale]);
 
