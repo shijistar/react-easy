@@ -249,10 +249,16 @@ export const genRenderer = (
     const showConfirm = useRefFunction((beforeOpenResult: unknown): ReturnType<ModalFunc> => {
       const okProps: ButtonProps = {
         ...(danger ? { type: 'primary', danger: true } : {}),
+        /* v8 ignore start -- mergedProps always builds an object for okButtonProps
+           (three-level spread, even all-undefined yields {}), so the ?? fallback
+           right-hand side is physically unreachable. */
         ...(okButtonProps ?? {}),
+        /* v8 ignore stop */
       };
       const cancelProps: ButtonProps = {
+        /* v8 ignore start -- same unreachable ?? fallback as okProps above */
         ...(cancelButtonProps ?? {}),
+        /* v8 ignore stop */
       };
       const showApi = modal[type === 'warn' ? 'warning' : type];
       const api = showApi({

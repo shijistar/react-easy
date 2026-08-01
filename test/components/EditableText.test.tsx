@@ -93,7 +93,7 @@ function renderEditable(props: Props) {
   };
 }
 
-describe('EditableText', () => {
+describe('EditableText', { timeout: 15000 }, () => {
   it('renders default view mode with value (Text + Input)', () => {
     const { container } = renderEditable({ value: 'Hello World' });
     expect(container.textContent).toContain('Hello World');

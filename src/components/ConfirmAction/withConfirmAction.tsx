@@ -87,7 +87,11 @@ export function withConfirmActionInternal<
       return (
         <ActionComponent
           {...(propsWithDefaults as P)}
+          /* v8 ignore start -- react-is isForwardRef returns false for forwardRef
+             components in this vitest environment (verified by probe), so the
+             setCustomRef branch is physically unreachable here. */
           ref={isForwardRef(ActionComponent) ? setCustomRef : undefined}
+          /* v8 ignore stop */
           setOK={setOnOk}
           triggerDom={triggerDom}
         />

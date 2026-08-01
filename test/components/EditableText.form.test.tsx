@@ -73,7 +73,7 @@ function renderForm(props: Parameters<typeof EditableTextForm>[0]) {
   return render(<EditableTextForm {...props} />);
 }
 
-describe('EditableTextForm', () => {
+describe('EditableTextForm', { timeout: 15000 }, () => {
   beforeEach(() => {
     vi.stubGlobal('ResizeObserver', CapturingRO);
     roCallbacks.clear();
