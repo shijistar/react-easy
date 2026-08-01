@@ -133,7 +133,11 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
       next.add(key);
     } else {
       // Keep at least one visible column
+      /* v8 ignore start -- UI-guarded by disableUncheck below: when only one column
+         remains selected the checkbox is disabled, so onChange never fires here with
+         selectedKeys.length <= 1; kept as a defensive invariant. */
       if (selectedKeys.length <= 1) return;
+      /* v8 ignore stop */
       next.delete(key);
     }
     const nextArr = Array.from(next);
