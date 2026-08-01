@@ -1,0 +1,26 @@
+test/components/OverflowTags.test.tsx
+  h_3a0b15d296f1fe 11-12,31
+test/components/ContextMenu.test.tsx
+  h_3a0b15d296f1fe 12-13
+test/components/EllipsisTypography.test.tsx
+  h_3a0b15d296f1fe 8-9
+test/components/withEllipsisTypography.test.tsx
+  h_3a0b15d296f1fe 7-8
+test/components/EditableText.form.test.tsx
+  h_3a0b15d296f1fe 180
+test/components/EditableText.test.tsx
+  h_3a0b15d296f1fe 4,89,301
+test/components/ColumnSetting.test.tsx
+  h_3a0b15d296f1fe 10-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "eae3f5ca02b1e34abaa8dbca581053fc414e6bb2",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
