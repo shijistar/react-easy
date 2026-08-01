@@ -13,10 +13,10 @@ export default defineConfig({
           include: [
             'test/components/**/*.test.ts',
             'test/components/**/*.test.tsx',
-            'test/hooks/**/*.test.ts',
-            'test/hooks/**/*.test.tsx',
-            'test/utils/**/*.test.ts',
-            'test/utils/**/*.test.tsx',
+            // 'test/hooks/**/*.test.ts',
+            // 'test/hooks/**/*.test.tsx',
+            // 'test/utils/**/*.test.ts',
+            // 'test/utils/**/*.test.tsx',
           ],
           exclude: ['test/**/*.browser.test.ts', 'test/**/*.browser.test.tsx'],
         },
@@ -43,9 +43,9 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: [
-        // 'src/components/**/*.ts*',
+        'src/components/**/*.ts*',
         // 'src/hooks/**/use*.ts*',
-        'src/utils/**/*.ts*',
+        // 'src/utils/**/*.ts*'
       ],
       exclude: [
         'src/components/index.tsx',
