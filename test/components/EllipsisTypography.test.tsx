@@ -5,6 +5,8 @@ import EllipsisParagraph from '../../src/components/EllipsisTypography/EllipsisP
 import EllipsisText from '../../src/components/EllipsisTypography/EllipsisText';
 import EllipsisTitle from '../../src/components/EllipsisTypography/EllipsisTitle';
 
+// ResizeObserver is not part of this component's functionality, but a dependency of the underlying library.
+// Therefore, no callback is needed, just mock the type to avoid errors.
 // Global polyfills for jsdom
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {

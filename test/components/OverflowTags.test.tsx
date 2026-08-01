@@ -8,6 +8,8 @@ import ReactEasyContext, {
 } from '../../src/components/ConfigProvider/context';
 import OverflowTags from '../../src/components/OverflowTags';
 
+// ResizeObserver is not part of this component's functionality, but a dependency of the underlying library.
+// Therefore, no callback is needed, just mock the type to avoid errors.
 // Global polyfills for jsdom (needed by antd css-in-js / @rc-component/resize-observer)
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {
@@ -26,7 +28,7 @@ if (typeof ResizeObserver === 'undefined') {
 
 // Mock rc-overflow to avoid ResizeObserver and layout dependency in jsdom
 vi.mock('rc-overflow', () => {
-  const MockOverflow = <T,>(props: {
+  const MockOverflow = <T extends { value: string }>(props: {
     data?: T[];
     renderItem?: (item: T) => React.ReactNode;
     renderRest?: (omittedItems: T[]) => React.ReactNode;

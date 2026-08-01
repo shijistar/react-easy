@@ -9,6 +9,8 @@ import ReactEasyContext, {
 } from '../../src/components/ConfigProvider/context';
 import ContextMenu, { type ContextMenuRef } from '../../src/components/ContextMenu';
 
+// ResizeObserver is not part of this component's functionality, but a dependency of the underlying library.
+// Therefore, no callback is needed, just mock the type to avoid errors.
 // Global polyfills for jsdom, needed by antd dropdown component
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {

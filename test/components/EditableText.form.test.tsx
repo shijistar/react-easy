@@ -177,7 +177,7 @@ describe('EditableTextForm', () => {
   });
 
   it('shows loading on save button while async onOk is pending', async () => {
-    let resolveOk: (v: void) => void = () => undefined;
+    let resolveOk: (v: void | PromiseLike<void>) => void = () => undefined;
     const onOk = vi.fn(
       () =>
         new Promise<void>((resolve) => {

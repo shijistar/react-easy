@@ -4,6 +4,8 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import withEllipsisTypography from '../../src/components/EllipsisTypography/withEllipsisTypography';
 
+// ResizeObserver is not part of this component's functionality, but a dependency of the underlying library.
+// Therefore, no callback is needed, just mock the type to avoid errors.
 // Global polyfills for jsdom (needed by antd css-in-js / rc-component resize observer)
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {

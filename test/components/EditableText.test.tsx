@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import type { TooltipProps } from 'antd';
 import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
@@ -85,6 +86,7 @@ function renderEditable(props: Props) {
     ...utils,
     rerender(next: Props) {
       const nextOnOk = next.onOk ?? onOk;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { onOk: _nextOnOk, ...nextRest } = next;
       utils.rerender(<EditableText onOk={nextOnOk} {...nextRest} />);
     },
@@ -296,6 +298,6 @@ describe('EditableText', () => {
     });
     // undefined content also works
     const empty = EditableText.getEllipsisConfig(undefined);
-    expect(empty.tooltip.title).toBeUndefined();
+    expect((empty.tooltip as TooltipProps | undefined)?.title).toBeUndefined();
   });
 });
