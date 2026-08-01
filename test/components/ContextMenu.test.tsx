@@ -9,7 +9,7 @@ import ReactEasyContext, {
 } from '../../src/components/ConfigProvider/context';
 import ContextMenu, { type ContextMenuRef } from '../../src/components/ContextMenu';
 
-// Global polyfills for jsdom
+// Global polyfills for jsdom, needed by antd dropdown component
 if (typeof ResizeObserver === 'undefined') {
   class ResizeObserverMock {
     observe() {
@@ -31,7 +31,7 @@ const { contexifyStore } = vi.hoisted(() => ({
   contexifyStore: {
     show: vi.fn(),
     hideAll: vi.fn(),
-    keyMatchers: [] as Array<(event: Partial<KeyboardEvent>) => boolean>,
+    keyMatchers: [] as ((event: Partial<KeyboardEvent>) => boolean)[],
   },
 }));
 

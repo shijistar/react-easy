@@ -136,7 +136,7 @@ describe('ColumnSetting', () => {
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled();
     });
-    const next = onChange.mock.calls[0][0] as Array<{ key: string; hidden?: boolean }>;
+    const next = onChange.mock.calls[0][0] as { key: string; hidden?: boolean }[];
     expect(next.find((c) => c.key === 'col3')?.hidden).toBeFalsy();
   });
 
@@ -154,7 +154,7 @@ describe('ColumnSetting', () => {
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled();
     });
-    const next = onChange.mock.calls[0][0] as Array<{ key: string; hidden?: boolean }>;
+    const next = onChange.mock.calls[0][0] as { key: string; hidden?: boolean }[];
     expect(next.find((c) => c.key === 'col3')?.hidden).toBeTruthy();
   });
 
@@ -193,7 +193,7 @@ describe('ColumnSetting', () => {
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled();
     });
-    const next = onChange.mock.calls[0][0] as Array<{ key: string; hidden?: boolean }>;
+    const next = onChange.mock.calls[0][0] as { key: string; hidden?: boolean }[];
     expect(next.every((c) => !c.hidden)).toBe(true);
   });
 
@@ -211,7 +211,7 @@ describe('ColumnSetting', () => {
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled();
     });
-    const next = onChange.mock.calls[0][0] as Array<{ key: string; hidden?: boolean }>;
+    const next = onChange.mock.calls[0][0] as { key: string; hidden?: boolean }[];
     // At least one column stays visible (fallback).
     expect(next.filter((c) => !c.hidden).length).toBeGreaterThanOrEqual(1);
   });
@@ -236,7 +236,7 @@ describe('ColumnSetting', () => {
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled();
     });
-    const next = onChange.mock.calls[0][0] as Array<{ key: string; hidden?: boolean }>;
+    const next = onChange.mock.calls[0][0] as { key: string; hidden?: boolean }[];
     const visibleKeys = next.filter((c) => !c.hidden).map((c) => c.key);
     expect(visibleKeys).toContain('col1');
   });
@@ -263,7 +263,7 @@ describe('ColumnSetting', () => {
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled();
     });
-    const next = onChange.mock.calls[0][0] as Array<{ key: string; hidden?: boolean }>;
+    const next = onChange.mock.calls[0][0] as { key: string; hidden?: boolean }[];
     expect(next.every((c) => !c.hidden)).toBe(true); // back to all visible
   });
 
@@ -295,7 +295,7 @@ describe('ColumnSetting', () => {
     await waitFor(() => {
       expect(onChange).toHaveBeenCalled();
     });
-    const next = onChange.mock.calls[0][0] as Array<{ key: string; hidden?: boolean }>;
+    const next = onChange.mock.calls[0][0] as { key: string; hidden?: boolean }[];
     const visibleKeys = next.filter((c) => !c.hidden).map((c) => c.key);
     expect(visibleKeys).toContain('col1');
   });

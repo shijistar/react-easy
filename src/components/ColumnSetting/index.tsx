@@ -195,7 +195,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
       }}
     >
       <Typography.Text className={`${prefixCls}-popup-title`}>{t('components.ColumnSetting.title')}</Typography.Text>
-      <Space direction="vertical" className={`${prefixCls}-column-list`} size={12}>
+      <Space direction="vertical" orientation="vertical" className={`${prefixCls}-column-list`} size={12}>
         {columns.map((col, idx) => {
           const k = String(getColKey(col, idx));
           const label = col.title ?? col.dataIndex ?? k;
