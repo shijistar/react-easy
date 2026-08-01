@@ -1,0 +1,18 @@
+test/components/ContextMenu.test.tsx
+  h_3a0b15d296f1fe 12,34
+src/components/ColumnSetting/index.tsx
+  h_3a0b15d296f1fe 198
+test/components/ColumnSetting.test.tsx
+  h_3a0b15d296f1fe 139,157,196,214,239,266,298
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "49997c67a7b8030474bbdfa6950ab1bca27f1e15",
+  "prompts": {},
+  "humans": {
+    "h_3a0b15d296f1fe": {
+      "author": "Sage Starr (李凤宝) <shijistar@gmail.com>"
+    }
+  }
+}
