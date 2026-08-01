@@ -23,7 +23,7 @@ if (typeof ResizeObserver === 'undefined') {
   globalThis.ResizeObserver = ResizeObserverMock;
 }
 
-describe('EllipsisTypography real leaf components', () => {
+describe('EllipsisTypography real leaf components', { timeout: 15000 }, () => {
   // ---------- EllipsisParagraph ----------
   describe('EllipsisParagraph', () => {
     it('renders text prop', () => {

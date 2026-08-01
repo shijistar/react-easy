@@ -122,7 +122,10 @@ function getCheckpointCursor(
   cache: CursorCheckpointCache,
 ): LayoutCursor {
   let closestLineIndex = 0;
+  /* v8 ignore start -- createCheckpointCache always seeds key 0, so the ?? fallback
+     right-hand side is physically unreachable. */
   let closestCursor = cache.checkpoints.get(0) ?? { segmentIndex: 0, graphemeIndex: 0 };
+  /* v8 ignore stop */
 
   cache.checkpoints.forEach((cursor, lineIndex) => {
     if (lineIndex <= targetLineIndex && lineIndex >= closestLineIndex) {
@@ -257,9 +260,11 @@ const VirtualTextViewer: FC<VirtualTextViewerProps> = (props) => {
 
   useEffect(() => {
     const container = containerRef.current;
+    /* v8 ignore start -- containerRef is always attached when effects run */
     if (!container) {
       return;
     }
+    /* v8 ignore stop */
 
     const metrics = getViewportMetrics(container);
     setViewportWidth(metrics.width);
@@ -298,9 +303,11 @@ const VirtualTextViewer: FC<VirtualTextViewerProps> = (props) => {
 
   useEffect(() => {
     const container = containerRef.current;
+    /* v8 ignore start -- containerRef is always attached when effects run */
     if (!container) {
       return;
     }
+    /* v8 ignore stop */
 
     const maxScrollTop = Math.max(0, totalHeight - container.clientHeight);
     if (container.scrollTop > maxScrollTop) {

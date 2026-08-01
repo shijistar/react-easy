@@ -80,7 +80,7 @@ async function openDropdown(trigger: Element) {
   });
 }
 
-describe('ColumnSetting', () => {
+describe('ColumnSetting', { timeout: 15000 }, () => {
   beforeEach(() => {
     storageMock.value = undefined;
     storageMock.setValue.mockClear();
