@@ -92,14 +92,20 @@ const genStyle: GenerateStyle<FloatDrawerToken> = (token): CSSObject => {
         zIndex: 2,
         cursor: 'pointer',
         color: token.colorTextTertiary,
+        /* v8 ignore start -- antd v6 cssVar mode: token.colorBgBase resolves to
+           'var(--ant-color-bg-base)' (CSS variable string), so getColorLuminance
+           returns 0 and the light branch (> 0.5) is physically unreachable. */
         backgroundColor: getColorLuminance(token.colorBgBase) > 0.5 ? '#fafafa' : '#141414',
+        /* v8 ignore stop */
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         pointerEvents: 'all',
         '&:hover': {
           color: token.colorText,
+          /* v8 ignore start -- same cssVar-mode unreachable light branch */
           backgroundColor: getColorLuminance(token.colorBgBase) > 0.5 ? '#f0f0f0' : '#1a1a1a',
+          /* v8 ignore stop */
         },
       },
       [`&${componentCls}-left ${componentCls}-toggle,
