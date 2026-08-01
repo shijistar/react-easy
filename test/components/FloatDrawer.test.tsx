@@ -261,19 +261,17 @@ describe('FloatDrawer', () => {
   });
 
   it('measures initial size from getBoundingClientRect when size is undefined', async () => {
-    const rectSpy = vi
-      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
-      .mockReturnValue({
-        width: 360,
-        height: 240,
-        top: 0,
-        left: 0,
-        right: 360,
-        bottom: 240,
-        x: 0,
-        y: 0,
-        toJSON: () => ({}),
-      } as DOMRect);
+    const rectSpy = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      width: 360,
+      height: 240,
+      top: 0,
+      left: 0,
+      right: 360,
+      bottom: 240,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    } as DOMRect);
     const { container } = renderDrawer({ position: 'right' });
     await waitFor(() => {
       const drawer = container.querySelector('.easy-float-drawer-drawer') as HTMLElement;
