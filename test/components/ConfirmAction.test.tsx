@@ -2,6 +2,7 @@ import type { ComponentType, PropsWithChildren, ReactNode } from 'react';
 import { createRef, forwardRef, useEffect } from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type * as AntdModule from 'antd';
 import { Button } from 'antd';
 import ReactEasyContext from '../../src/components/ConfigProvider/context';
 import ConfirmAction, {
@@ -70,7 +71,7 @@ const appStore = vi.hoisted(() => ({
 }));
 
 vi.mock('antd', async (importOriginal) => {
-  const antd = await importOriginal<typeof import('antd')>();
+  const antd = await importOriginal<typeof AntdModule>();
   return {
     ...antd,
     App: {
@@ -90,7 +91,7 @@ vi.mock('antd', async (importOriginal) => {
 
 // --- test wrapper with ReactEasyContext defaults ---
 const createWrapper = (contextOverrides: Record<string, unknown> = {}) => {
-  return ({ children }: PropsWithChildren) => (
+  const Wrapper = ({ children }: PropsWithChildren) => (
     <ReactEasyContext.Provider
       value={
         {
@@ -101,6 +102,8 @@ const createWrapper = (contextOverrides: Record<string, unknown> = {}) => {
       {children}
     </ReactEasyContext.Provider>
   );
+  Wrapper.displayName = 'ConfirmActionTestWrapper';
+  return Wrapper;
 };
 
 beforeEach(() => {
@@ -143,6 +146,19 @@ describe('ConfirmAction', () => {
     expect(config.okText).toBe('Yes');
     expect(config.autoFocusButton).toBeNull();
     expect(config.closable).toBe(true);
+  });
+
+  it('merges focusable config over the default autoFocusButton null', async () => {
+    const { container } = render(
+      <ConfirmAction focusable={{ autoFocusButton: 'ok' }} title="F">
+        <span>Go</span>
+      </ConfirmAction>,
+      { wrapper: createWrapper() },
+    );
+    fireEvent.click(container.querySelector('button')!);
+    await waitFor(() => expect(modalStore.confirm).toHaveBeenCalledTimes(1));
+    const config = modalStore.store.calls[0];
+    expect(config.focusable).toEqual({ autoFocusButton: 'ok' });
   });
 
   it('uses default title/content from ReactEasyContext when props omit them', async () => {
@@ -258,7 +274,7 @@ describe('ConfirmAction', () => {
   });
 
   it('does not open the modal when onBeforeOpen throws', async () => {
-    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const onBeforeOpen = vi.fn(async () => {
       throw new Error('blocked');
     });
@@ -312,7 +328,7 @@ describe('ConfirmAction', () => {
   });
 
   it('skips afterOk when onOk throws and still restores loading state', async () => {
-    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const onOk = vi.fn(async () => {
       throw new Error('boom');
     });
@@ -514,7 +530,7 @@ describe('ConfirmAction', () => {
   });
 
   it('warns when ReactEasyContext is missing', () => {
-    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     render(
       <ConfirmAction title="NoCtx">
         <span>Go</span>
@@ -541,6 +557,7 @@ describe('withConfirmAction', () => {
       </div>
     );
   });
+  CustomAction.displayName = 'CustomAction';
 
   it('renders action component with triggerDom and opens via setOK-registered handler', async () => {
     const handler = vi.fn(async () => 'handled');
@@ -555,6 +572,7 @@ describe('withConfirmAction', () => {
         </div>
       );
     });
+    RegisteringAction.displayName = 'RegisteringAction';
     const Wrapped = withConfirmAction<
       CustomActionProps & ActionCompConstraint,
       Record<string, unknown>,
