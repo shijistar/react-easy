@@ -405,7 +405,14 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
           <FormCreator<FormData> onCreate={setForm} />
           {form && (
             <FormComp
-              ref={isForwardRef(FormComp) ? setFormCompRef : undefined}
+              // v8 ignore start -- isForwardRef(formComp) is always false under
+              // React 19 + react-is 19 (verified in Chromium probe): react-is
+              // typeOf only matches REACT_ELEMENT_TYPE / REACT_PORTAL_TYPE at
+              // the top level, so a forwardRef component object
+              // ({ $$typeof: react.forward_ref }) never satisfies isForwardRef.
+              // The setFormCompRef branch is therefore physically unreachable;
+              // formCompRef stays null and ref output degrades to { form, show }.
+              ref={/* v8 ignore next 3 */ isForwardRef(FormComp) ? setFormCompRef : undefined}
               {...formProps}
               form={form}
               onOpenChange={setOpenListener}
