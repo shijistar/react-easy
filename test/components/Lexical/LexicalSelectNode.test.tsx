@@ -11,17 +11,17 @@ import {
   SelectNode,
 } from '../../../src/components/Lexical/nodes/SelectNode';
 
-// Lexical 0.33.1 测试规则（spike 实证）+ SelectComponent 渲染依赖：
-// - decorate → SelectComponent 使用 useLexicalComposerContext → mock 注入真实 editor
-// - mock editor 必须是创建 node 的同一 editor（否则 node.setValue 跨 editor 报错）
+// Lexical 0.33.1 Test Rules (spike empirical) SelectComponent rendering dependencies:
+// - decorate → SelectComponent uses useLexicalComposerContext → mock inject real editor
+// - mock editor must be the same editor that created the node (otherwise node.setValue across editors will throw an error)
 const { mockEditorRef } = vi.hoisted(() => ({ mockEditorRef: { current: null as LexicalEditor | null } }));
 
 vi.mock('@lexical/react/LexicalComposerContext', () => ({
   useLexicalComposerContext: () => [mockEditorRef.current, null],
 }));
 
-// SelectNode 泛型默认值即 any（源码 SelectNode.tsx 同判据），
-// 类型别名避免在多个类型位置重复书写 any。
+// The default generic value for SelectNode is any (same criterion as in the source code SelectNode.tsx),
+// using a type alias avoids repeatedly writing any in multiple type positions.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnySelectNode = SelectNode<any, any>;
 
@@ -98,7 +98,7 @@ describe('Lexical SelectNode — class methods', () => {
     let nodeChanged!: AnySelectNode;
     let nodeSame!: AnySelectNode;
     editor.update(() => {
-      // 同一 props 引用 → shallowEqual 浅比较相等
+      // Same props reference → shallowEqual shallow comparison equal
       const sharedProps = { defaultValue: 'a', options: [{ value: 'a', label: 'A' }] };
       node = $createSelectNode(sharedProps);
       nodeChanged = $createSelectNode({ defaultValue: 'b', options: [{ value: 'b', label: 'B' }] });
@@ -148,7 +148,7 @@ describe('Lexical SelectNode — class methods', () => {
     const editor = makeEditor([SelectNode]);
     let text!: string;
     editor.update(() => {
-      // textContentMode='label' 但 value='missing' 不在 options → option?.label falsy → 回退 valueContent
+      // textContentMode='label' but value='missing' is not in options → option?.label falsy → fallback to valueContent
       text = $createSelectNode({
         options: [{ value: 'a', label: 'Alpha' }],
         defaultValue: 'missing',
@@ -217,8 +217,12 @@ describe('Lexical SelectNode — class methods', () => {
 describe('Lexical SelectNode — decorate render chain', () => {
   beforeEach(() => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
-    // antd v6 Select 内部 @rc-component/resize-observer 需要全局 ResizeObserver（jsdom 无）
-    // 参照 EditableText.form.test.tsx 既有模式：no-op stub 即可（antd 只需 observe 不抛错）
+    /* 
+      antd v6 Select internally uses @rc-component/resize-observer which 
+      requires a global ResizeObserver (not available in jsdom). 
+      Refer to the existing pattern in EditableText.form.test.tsx: 
+      a no-op stub is sufficient (antd only needs to observe without throwing errors). 
+    */
     vi.stubGlobal(
       'ResizeObserver',
       class {
@@ -251,7 +255,7 @@ describe('Lexical SelectNode — decorate render chain', () => {
     });
     mockEditorRef.current = editor;
     const { container } = render(node.decorate() as never);
-    // antd Select 渲染到容器
+    // antd Select rendered to container
     expect(container.querySelector('.ant-select')).toBeTruthy();
     expect(container.textContent).toContain('Alpha');
   });
@@ -271,14 +275,14 @@ describe('Lexical SelectNode — decorate render chain', () => {
           changedValue = v;
         },
       });
-      // 必须挂载到 editor 树：SelectComponent.handleChange 的 editor.update 内
-      // node.setValue() 需要 node 存在于 active editor state
+      // Must be mounted to the editor tree: inside editor.update of SelectComponent.handleChange
+      // node.setValue() requires the node to exist in the active editor state
       $getRoot().append(node);
     });
     await flush();
     mockEditorRef.current = editor;
     const { container } = render(node.decorate() as never);
-    // antd v6 Select 无 .ant-select-selector，用 .ant-select-content 打开下拉（探针实证）
+    // antd v6 Select has no .ant-select-selector, use .ant-select-content to open the dropdown (probed and verified)
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.ant-select-content')!);
     });
@@ -293,8 +297,8 @@ describe('Lexical SelectNode — decorate render chain', () => {
     });
     await flush();
     expect(changedValue).toBe('b');
-    // node.setValue 经 getWritable() 修改的是按 key 克隆的最新节点；
-    // 外层捕获的 node 引用是旧副本 → read 回调内按 key 取最新节点读值
+    // node.setValue modifies the latest cloned node by key via getWritable();
+    // the outer captured node reference is the old copy → read the latest node by key inside the read callback
     const currentValue = readRoot(editor, () => {
       const latest = $getNodeByKey(node.getKey());
       return latest ? (latest as AnySelectNode).getValue() : undefined;
@@ -315,20 +319,20 @@ describe('Lexical SelectNode — decorate render chain', () => {
           cleared += 1;
         },
       });
-      // 挂载到 editor 树（handleClear 内 node.setValue 需要 active state）
+      // Must be mounted to the editor tree: inside handleClear node.setValue requires the active state
       $getRoot().append(node);
     });
     await flush();
     mockEditorRef.current = editor;
     const { container } = render(node.decorate() as never);
-    // 探针实证：antd v6 clear 按钮必须 mouseDown + click 组合触发（纯 click/原生 click 不触发）
+    // Probed and verified: antd v6 clear button must be triggered with a combination of mouseDown + click (pure click/native click does not trigger)
     await act(async () => {
       fireEvent.mouseDown(container.querySelector('.ant-select-clear')!);
       fireEvent.click(container.querySelector('.ant-select-clear')!);
     });
     await flush();
     expect(cleared).toBe(1);
-    // 与 onChange 用例同因：setValue 经 getWritable() 改克隆节点，须按 key 取最新节点读值
+    // Same reason as the onChange test case: setValue modifies the latest cloned node via getWritable(), must read the latest node by key
     const currentValue = readRoot(editor, () => {
       const latest = $getNodeByKey(node.getKey());
       return latest ? (latest as AnySelectNode).getValue() : undefined;

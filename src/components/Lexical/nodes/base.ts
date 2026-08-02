@@ -129,8 +129,8 @@ export class BaseElementNode<P extends BaseElementProps> extends ElementNode {
     return this.__props?.[propName] as P[typeof propName];
   }
 
-  /* v8 ignore start -- BaseElementNode.updateProps 被 DivNode.updateProps override（DivNode L100-110），
-     无调用方（探针 P4 实证：DivNode 实例 updateProps 走 DivNode 版本） */
+  /* v8 ignore start -- BaseElementNode.updateProps is overridden by DivNode.updateProps (DivNode L100-110), 
+  no caller (Probe P4 evidence: DivNode instance updateProps uses the DivNode version) */
   updateProps(props: Partial<P>): void {
     const writable = this.getWritable();
     writable.__props = {
@@ -174,7 +174,7 @@ export class BaseDecoratorNode<T, P extends BaseDecoratorNodeProps> extends Deco
     });
     Object.keys(this.__base.hooks).forEach((key) => {
       const method = this.__base.hooks[key as keyof typeof this.__base.hooks];
-      /* v8 ignore start -- hooks 键仅 remove/replace 且恒为函数，false 分支物理不可达 */
+      /* v8 ignore start -- hooks key can only remove/replace and is always a function, the false branch is physically unreachable */
       if (typeof method === 'function') {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this[key as keyof this] = method.bind(this.__base) as any;

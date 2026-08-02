@@ -24,16 +24,19 @@ export function insertNodeAtCursor(editor: LexicalEditor, node: LexicalNode): vo
     const selection = $getSelection();
     if (selection) {
       if ($isRangeSelection(selection)) {
-        // 如果没有选取，则直接在根节点末尾插入
+        // If nothing is selected, insert directly at the end of the root node
         const lastNode = selection.focus.getNode();
-        /* v8 ignore start -- 实证物理不可达：jsdom 中 focus 节点移除后自动重定位到 root，
-           nonexistent key 抛错中断，空 selection focus=root，均无法使 getNode() 返回 null */
+        /* 
+          v8 ignore start -- Empirical physics unreachable: after a focus node is removed in jsdom, 
+          it automatically relocates to the root, nonexistent key throws an error and interrupts, 
+          empty selection focus=root, none of these can make getNode() return null 
+        */
         if (lastNode) {
           /* v8 ignore stop */
           if ($isParagraphNode(lastNode)) {
             lastNode.append(node);
           } else if ($isTextNode(lastNode)) {
-            // 如果最后一个节点是文本节点，则在其后插入 SelectNode
+            // If the last node is a text node, insert the node after it
             lastNode.insertAfter(node);
           } else if ($isDivNode(lastNode)) {
             lastNode.append(node);
@@ -77,10 +80,10 @@ export function insertTextAtCursor(editor: LexicalEditor, text: string): void {
     const root = $getRoot();
     const selection = $getSelection();
     if (selection) {
-      // 插入光标位置
+      // Insert at cursor position
       selection.insertText(text);
     } else {
-      // 如果没有选取，则直接在根节点末尾插入
+      // If nothing is selected, insert directly at the end of the root node
       const lastNode = root.getLastChild();
       if (lastNode && $isParagraphNode(lastNode)) {
         lastNode.append(textNode);
@@ -104,7 +107,7 @@ export function insertTextAtCursor(editor: LexicalEditor, text: string): void {
 export function clearEditorContent(editor: LexicalEditor) {
   const state = editor.getEditorState();
   const stateJson = state.toJSON();
-  // 默认创建一个ParagraphNode
+  // Create a paragraph node by default
   const newJson = {
     ...stateJson,
     root: {

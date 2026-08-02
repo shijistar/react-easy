@@ -685,7 +685,11 @@ function fallbackScriptProcessor(options: {
     streamSlicer.push(channels);
   };
   sourceNode.connect(processor);
-  // 可不输出：processor.connect(ctx!.destination)；不连接 destination 在部分浏览器会被自动 GC，可连到 destination 或 gain(0)
+  /* 
+    You can choose not to output: processor.connect(ctx!.destination); 
+    if it is not connected to the destination, it may be automatically garbage collected in some browsers. 
+    You can connect it to the destination or gain(0). 
+  */
   const gain = ctx.createGain();
   gain.gain.value = 0;
   processor.connect(gain).connect(ctx.destination);

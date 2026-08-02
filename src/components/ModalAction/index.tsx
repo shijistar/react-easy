@@ -1,5 +1,15 @@
 import type { ComponentType, FC, ForwardedRef, ReactNode, RefAttributes } from 'react';
-import { forwardRef, useCallback, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+  version,
+} from 'react';
 import { isForwardRef } from 'react-is';
 import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
@@ -221,6 +231,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       ...restProps
     } = mergedProps;
     useContextValidator();
+    const REACT_MAJOR = parseInt(version.split('.')[0], 10);
     const FormComp = formComp as ComponentType<FormCompPropsConstraint<FormData> & RefAttributes<Ref>>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const triggerEventArgsRef = useRef<any[]>(undefined);
@@ -405,14 +416,12 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
           <FormCreator<FormData> onCreate={setForm} />
           {form && (
             <FormComp
-              // v8 ignore start -- isForwardRef(formComp) is always false under
-              // React 19 + react-is 19 (verified in Chromium probe): react-is
-              // typeOf only matches REACT_ELEMENT_TYPE / REACT_PORTAL_TYPE at
-              // the top level, so a forwardRef component object
-              // ({ $$typeof: react.forward_ref }) never satisfies isForwardRef.
+              // v8 ignore start -- REACT_MAJOR >= 19 || isForwardRef(FormComp) is always false under
+              // React 19 + react-is 19 (verified in Chromium probe).
               // The setFormCompRef branch is therefore physically unreachable;
               // formCompRef stays null and ref output degrades to { form, show }.
-              ref={/* v8 ignore next 3 */ isForwardRef(FormComp) ? setFormCompRef : undefined}
+              ref={REACT_MAJOR >= 19 || isForwardRef(FormComp) ? setFormCompRef : undefined}
+              // v8 ignore stop
               {...formProps}
               form={form}
               onOpenChange={setOpenListener}

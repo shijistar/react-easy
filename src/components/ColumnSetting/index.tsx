@@ -201,7 +201,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
           const label = col.title ?? col.dataIndex ?? k;
           const checked = selectedKeys.includes(k);
           const disabled = !!col.disabled;
-          const disableUncheck = !disabled && checked && selectedKeys.length <= 1; // 禁止取消最后一个
+          const disableUncheck = !disabled && checked && selectedKeys.length <= 1; // Prohibit canceling the last one
           return (
             <Checkbox
               key={k}

@@ -36,7 +36,7 @@ export class DivNode extends BaseElementNode<DivNodeProps> {
     return new DivNode({ ...node.__props, key: node.getKey() });
   }
 
-  /* v8 ignore start -- getForceDisplay 无调用点（探针 P5 实证：全文件仅 1 次出现 = 定义处） */
+  /* v8 ignore start -- getForceDisplay has no call site (Probe P5 evidence: appears only once in the entire file = at the definition) */
   protected getForceDisplay(): CSSProperties['display'] {
     return undefined;
   }
@@ -45,7 +45,7 @@ export class DivNode extends BaseElementNode<DivNodeProps> {
   createDOM(): HTMLElement {
     const div = document.createElement('div');
     const domProps = this.getUnderlyingProps(this.__props);
-    /* v8 ignore start -- getUnderlyingProps 恒返回对象（base L145 `props ?? {}`），false 分支不可达 */
+    /* v8 ignore start -- getUnderlyingProps always returns an object (base L145 `props ?? {}`), the false branch is unreachable */
     if (domProps) {
       /* v8 ignore stop */
       updateDomProps(div, domProps);

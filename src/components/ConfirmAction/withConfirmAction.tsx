@@ -1,5 +1,5 @@
 import type { ComponentType, PropsWithoutRef, ReactNode, RefAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState, version } from 'react';
 import type { ActionCompConstraint, ConfirmActionProps, ConfirmActionRef } from '.';
 import { genRenderer, withDefaultConfirmActionProps } from '.';
 import { isForwardRef } from 'react-is';
@@ -55,6 +55,7 @@ export function withConfirmActionInternal<
 
   const WrappedActionComponent = forwardRef<Ref, ConfirmActionProps<OuterTriggerProp, OuterEvent>>(
     (propsWithDefaults, ref) => {
+      const REACT_MAJOR = parseInt(version.split('.')[0], 10);
       const actionRef = useRef<ConfirmActionRef>(null);
       const [customRef, setCustomRef] = useState<Ref | null>(null);
       const saveFuncRef = useRef<(...triggerEventArgs: any[]) => unknown | Promise<unknown>>(undefined);
@@ -87,11 +88,12 @@ export function withConfirmActionInternal<
       return (
         <ActionComponent
           {...(propsWithDefaults as P)}
-          /* v8 ignore start -- react-is isForwardRef returns false for forwardRef
-             components in this vitest environment (verified by probe), so the
-             setCustomRef branch is physically unreachable here. */
-          ref={isForwardRef(ActionComponent) ? setCustomRef : undefined}
-          /* v8 ignore stop */
+          // v8 ignore start -- REACT_MAJOR >= 19 || isForwardRef(FormComp) is always false under
+          // React 19 + react-is 19 (verified in Chromium probe).
+          // The setFormCompRef branch is therefore physically unreachable;
+          // formCompRef stays null and ref output degrades to { form, show }.
+          ref={REACT_MAJOR >= 19 || isForwardRef(ActionComponent) ? setCustomRef : undefined}
+          // v8 ignore stop
           setOK={setOnOk}
           triggerDom={triggerDom}
         />

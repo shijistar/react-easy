@@ -26,11 +26,11 @@ import { $createDivNode, $isDivNode, DivNode } from '../../../src/components/Lex
 import { $createExtendTextNode, ExtendTextNode } from '../../../src/components/Lexical/nodes/ExtendTextNode';
 import { SelectNode } from '../../../src/components/Lexical/nodes/SelectNode';
 
-// Lexical 0.33.1 测试规则（spike + 嵌套探针实证）：
-// 1. 自定义节点类必须注册 createEditor({ nodes: [...] })
-// 2. 断言绝不能放在 update() 回调内（抛错被 onError 吞）→ flush 后 read() 收集值，回调外断言
-// 3. 节点引用不能跨 update/read 闭包；read 回调内取的节点必须立即在回调内读值
-// 4. update() 内抛错被 onError 吞掉 → 前置 expect(result).toBeTruthy()
+// Lexical 0.33.1 Test Rules (spike nested probe demonstration):
+// 1. Custom node classes must be registered with createEditor({ nodes: [...] })
+// 2. Assertions must never be placed inside the update() callback (errors are swallowed by onError) → collect values with read() after flush, assert outside the callback
+// 3. Node references cannot cross update/read closures; nodes obtained inside a read callback must have their values read immediately within the callback
+// 4. Errors thrown inside update() are swallowed by onError → use a prior expect(result).toBeTruthy()
 const ALL_NODES = [DivNode, ExtendTextNode, CloseIconNode, SelectNode];
 
 function makeEditor(nodes: (typeof ALL_NODES)[number][] = ALL_NODES): LexicalEditor {
@@ -166,7 +166,8 @@ describe('Lexical helpers — insertNodeAtCursor', () => {
       insertNodeAtCursor(editor, div);
     });
     await flush();
-    // 探针实证：NodeSelection.insertNodes 是替换语义（p 被 div 替换，root 仍 1 子）
+    // Probe Verification: NodeSelection.insertNodes is
+    // replacement semantics (p is replaced by div, root still has 1 child)
     const { count, types } = readRoot(editor, () => {
       const children = $getRoot().getChildren();
       return { count: children.length, types: children.map((c) => c.getType()) };
@@ -181,7 +182,7 @@ describe('Lexical helpers — insertNodeAtCursor', () => {
       const root = $getRoot();
       const p = $createParagraphNode();
       root.append(p);
-      // focus 指向 root 自身 → 既非 Paragraph/Text/Div → insertNodes 分支
+      // focus points to the root itself → neither Paragraph/Text/Div → insertNodes branch
       root.select(0, 0);
       const div = $createDivNode({ className: 'root-focus' });
       insertNodeAtCursor(editor, div);
@@ -198,13 +199,13 @@ describe('Lexical helpers — insertNodeAtCursor', () => {
       const p = $createParagraphNode();
       root.append(p);
       p.select(0, 0);
-      // 移除 focus 节点 → selection.focus.getNode() 返回 null → L29 false 分支
+      // Remove focus node → selection.focus.getNode() returns null → L29 false branch
       p.remove();
       const div = $createDivNode({ className: 'no-focus' });
       insertNodeAtCursor(editor, div);
     });
     await flush();
-    // 不抛错即通过（L29-41 整体跳过）
+    // Passes if no error is thrown (L29-41 skipped overall)
     const count = readRoot(editor, () => $getRoot().getChildren().length);
     expect(count).toBeGreaterThanOrEqual(1);
   });
@@ -402,12 +403,12 @@ describe('Lexical helpers — DOM prop utilities', () => {
     const attrs = getDomAttributes(div) as Record<string, string | object> | undefined;
     expect(attrs?.['data-b']).toBe('2');
     expect(attrs?.className).toBeUndefined();
-    // 探针实证：jsdom 中 div.style 恒为 truthy CSSStyleDeclaration → 返回 {} 而非 undefined
+    // Probe verification: In jsdom, div.style is always a truthy CSSStyleDeclaration → returns {} instead of undefined
     expect(attrs?.style).toEqual({});
   });
 
   it('getDomAttributes returns empty object for style-less fake dom (L270 false branch)', () => {
-    // 探针实证：jsdom 中真实 HTMLElement.style 恒 truthy；用无 style 的伪对象走 false 分支
+    // Probe verification: In jsdom, real HTMLElement.style is always truthy; use a fake object without style to hit the false branch
     const fakeDom = {
       attributes: [],
       className: '',

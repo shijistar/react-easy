@@ -243,23 +243,23 @@ const EditableText = <
     return displayTextInProps ?? value?.toString();
   }, [displayTextInProps, value]);
 
-  // value受控
+  // Controlled value props
   useEffect(() => {
     setValue(valueInProps);
   }, [valueInProps]);
-  // editing受控
+  // Controlled editing props
   useEffect(() => {
     if (editableRef.current) {
       setIsEditing(editing);
     }
   }, [editing]);
 
-  // 编辑状态改变
+  // Edit state change
   const handleEditingChange = (editing: boolean) => {
     setIsEditing(editing);
     onEditingChange?.(editing);
   };
-  // 提交编辑
+  // Submit edit
   const handleOk = async (val: V | undefined) => {
     try {
       await onOk?.(val);
@@ -270,7 +270,7 @@ const EditableText = <
       console.error(error);
     }
   };
-  // 取消编辑
+  // Cancel edit
   const handleCancel = async () => {
     handleEditingChange(false);
     await onCancel?.();
@@ -323,7 +323,7 @@ const EditableText = <
               </TypographyComponent>
             )}
           </div>
-          {/* 编辑按钮 */}
+          {/* Edit button */}
           {editable && (
             <div
               className={names(`${prefixCls}-edit-icon`, classNames?.editIcon)}

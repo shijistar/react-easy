@@ -43,9 +43,9 @@ const genStyle: GenerateStyle<ConfigProviderToken> = (token): CSSObject => {
 
                 [`& > ${token.antCls}-table-content`]: {
                   maxHeight: '100%',
-                  // 把容器再多撑高1px，否则会始终显示纵向滚动条
+                  // Raise the container by 1px more, otherwise a vertical scrollbar will always be displayed.
                   paddingBottom: 1,
-                  // 自动显示纵向滚动条
+                  // Automatically show vertical scroll bar
                   // stylelint-disable-next-line declaration-no-important
                   overflow: 'auto !important',
 
@@ -59,7 +59,7 @@ const genStyle: GenerateStyle<ConfigProviderToken> = (token): CSSObject => {
                     },
 
                     td: {
-                      // 当嵌套表格时，还原所有full-height样式，防止子表格受影响
+                      // When nesting tables, restore all full height styles to prevent the child table from being affected
                       '.easy-full-height-table': {
                         height: 'auto',
                       },

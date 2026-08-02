@@ -124,7 +124,7 @@ const useSSE = <T = any>(props: UseSSEProps<T>) => {
     return abort;
   }, []);
 
-  // 清理函数
+  // Cleanup function
   return {
     connect,
     abort,
