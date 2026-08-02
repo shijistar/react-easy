@@ -1,15 +1,15 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { $createParagraphNode, $getNodeByKey, $getRoot, createEditor, type LexicalEditor } from 'lexical';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { CloseIconNode } from '../../src/components/Lexical/nodes/CloseIcon';
-import { DivNode } from '../../src/components/Lexical/nodes/DivNode';
-import { ExtendTextNode } from '../../src/components/Lexical/nodes/ExtendTextNode';
+import { CloseIconNode } from '../../../src/components/Lexical/nodes/CloseIcon';
+import { DivNode } from '../../../src/components/Lexical/nodes/DivNode';
+import { ExtendTextNode } from '../../../src/components/Lexical/nodes/ExtendTextNode';
 import {
   $createSelectNode,
   $insertSelectNode,
   $isSelectNode,
   SelectNode,
-} from '../../src/components/Lexical/nodes/SelectNode';
+} from '../../../src/components/Lexical/nodes/SelectNode';
 
 // Lexical 0.33.1 测试规则（spike 实证）+ SelectComponent 渲染依赖：
 // - decorate → SelectComponent 使用 useLexicalComposerContext → mock 注入真实 editor
@@ -185,11 +185,11 @@ describe('Lexical SelectNode — class methods', () => {
 
   it('getProp / updateProps', async () => {
     const editor = makeEditor([SelectNode]);
-    let prop!: string | undefined;
+    let prop: unknown;
     editor.update(() => {
       const node = $createSelectNode({ options: [{ value: 'a', label: 'A' }], defaultValue: 'a' });
       node.updateProps({ textContentMode: 'label' });
-      prop = node.getProp('textContentMode');
+      prop = node.getProp('textContentMode') ?? undefined;
     });
     await flush();
     expect(prop).toBe('label');

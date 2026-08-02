@@ -1,14 +1,14 @@
 import { render } from '@testing-library/react';
 import { $createParagraphNode, $getRoot, createEditor, type LexicalEditor } from 'lexical';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { $createCloseIconNode, $isCloseIconNode, CloseIconNode } from '../../src/components/Lexical/nodes/CloseIcon';
-import { $createDivNode, $isDivNode, DivNode } from '../../src/components/Lexical/nodes/DivNode';
+import { $createCloseIconNode, $isCloseIconNode, CloseIconNode } from '../../../src/components/Lexical/nodes/CloseIcon';
+import { $createDivNode, $isDivNode, DivNode } from '../../../src/components/Lexical/nodes/DivNode';
 import {
   $createExtendTextNode,
   $isExtendTextNode,
   ExtendTextNode,
-} from '../../src/components/Lexical/nodes/ExtendTextNode';
-import { SelectNode } from '../../src/components/Lexical/nodes/SelectNode';
+} from '../../../src/components/Lexical/nodes/ExtendTextNode';
+import { SelectNode } from '../../../src/components/Lexical/nodes/SelectNode';
 
 // Lexical 0.33.1 测试规则（spike 实证）：
 // 1. 自定义节点类必须注册 createEditor({ nodes: [...] })

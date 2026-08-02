@@ -212,6 +212,7 @@ export const genRenderer = (
       iconColor,
       okButtonProps,
       cancelButtonProps,
+      focusable,
       onOk,
       afterOk,
       onBeforeOpen,
@@ -271,6 +272,10 @@ export const genRenderer = (
         content: coloredText(content, contentColor),
         icon,
         autoFocusButton: null,
+        focusable: {
+          autoFocusButton: null,
+          ...focusable,
+        },
         closable: true,
         okButtonProps: okProps,
         cancelButtonProps: cancelProps,

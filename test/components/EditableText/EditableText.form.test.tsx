@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import EditableTextForm, {
   type RenderInputInterface,
   type RenderInputProps,
-} from '../../src/components/EditableText/form';
+} from '../../../src/components/EditableText/form';
 
 // antd v6 responsiveObserver / useBreakpoint require matchMedia in jsdom
 if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {

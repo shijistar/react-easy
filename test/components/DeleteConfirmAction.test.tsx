@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { FC } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import DeleteConfirmAction from '../../src/components/DeleteConfirmAction/index';
 import withDeleteConfirmAction from '../../src/components/DeleteConfirmAction/withDeleteConfirmAction';
@@ -52,7 +53,7 @@ describe('withDeleteConfirmAction', () => {
   });
 
   it('returns a HOC when called with a component', () => {
-    const Dummy = vi.fn(() => null);
+    const Dummy: FC = vi.fn(() => null);
     Dummy.displayName = 'Dummy';
     const result = withDeleteConfirmAction(Dummy);
     expect(typeof result).toBe('function');

@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { ConfigProvider } from 'antd';
 import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
@@ -168,7 +167,11 @@ describe('FloatDrawer', () => {
     await waitFor(() => {
       expect(container.textContent).toContain('Secret');
     });
-    rerender(<FloatDrawer destroyOnClose open={false} children={<span>Secret</span>} />);
+    rerender(
+      <FloatDrawer destroyOnClose open={false}>
+        <span>Secret</span>
+      </FloatDrawer>,
+    );
     await waitFor(() => {
       expect(container.textContent).not.toContain('Secret');
     });

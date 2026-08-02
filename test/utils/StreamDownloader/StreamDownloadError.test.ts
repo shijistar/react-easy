@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { StreamDownloadError } from '../../src/utils/StreamDownloader';
+import { StreamDownloadError } from '../../../src/utils/StreamDownloader';
 
 describe('StreamDownloadError', () => {
   it('preserves code, message, cause, and Error inheritance', () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { random } from '../../src/utils/math';
+import { random } from '../../../src/utils/math';
 
 describe('random', () => {
   it('uses the node randomInt path and swaps reversed bounds into an inclusive range', () => {

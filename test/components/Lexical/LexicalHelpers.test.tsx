@@ -5,6 +5,7 @@ import {
   $getRoot,
   $setSelection,
   createEditor,
+  type ElementNode,
   type LexicalEditor,
 } from 'lexical';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -18,12 +19,12 @@ import {
   shallowEqual,
   updateDomProps,
   updateDomStyle,
-} from '../../src/components/Lexical/helpers';
-import { BaseNodeHelper } from '../../src/components/Lexical/nodes/base';
-import { CloseIconNode } from '../../src/components/Lexical/nodes/CloseIcon';
-import { $createDivNode, $isDivNode, DivNode } from '../../src/components/Lexical/nodes/DivNode';
-import { $createExtendTextNode, ExtendTextNode } from '../../src/components/Lexical/nodes/ExtendTextNode';
-import { SelectNode } from '../../src/components/Lexical/nodes/SelectNode';
+} from '../../../src/components/Lexical/helpers';
+import { BaseNodeHelper } from '../../../src/components/Lexical/nodes/base';
+import { CloseIconNode } from '../../../src/components/Lexical/nodes/CloseIcon';
+import { $createDivNode, $isDivNode, DivNode } from '../../../src/components/Lexical/nodes/DivNode';
+import { $createExtendTextNode, ExtendTextNode } from '../../../src/components/Lexical/nodes/ExtendTextNode';
+import { SelectNode } from '../../../src/components/Lexical/nodes/SelectNode';
 
 // Lexical 0.33.1 测试规则（spike + 嵌套探针实证）：
 // 1. 自定义节点类必须注册 createEditor({ nodes: [...] })
@@ -104,7 +105,7 @@ describe('Lexical helpers — insertNodeAtCursor', () => {
     });
     await flush();
     const paraChildCount = readRoot(editor, () => {
-      const children = $getRoot().getChildren();
+      const children: ElementNode[] = $getRoot().getChildren();
       return children.length > 0 ? children[0].getChildren().length : -1;
     });
     expect(paraChildCount).toBe(1);
@@ -125,7 +126,7 @@ describe('Lexical helpers — insertNodeAtCursor', () => {
     await flush();
     const afterTextIsDiv = readRoot(editor, () => {
       const root = $getRoot();
-      const p = root.getFirstChild();
+      const p: ElementNode | null = root.getFirstChild();
       const text = p?.getFirstChild();
       const next = text?.getNextSibling();
       return next !== null && next !== undefined && $isDivNode(next);
@@ -146,7 +147,7 @@ describe('Lexical helpers — insertNodeAtCursor', () => {
     await flush();
     const div1ChildCount = readRoot(editor, () => {
       const root = $getRoot();
-      const first = root.getFirstChild();
+      const first: ElementNode | null = root.getFirstChild();
       return first ? first.getChildren().length : -1;
     });
     expect(div1ChildCount).toBe(1);
@@ -388,7 +389,7 @@ describe('Lexical helpers — DOM prop utilities', () => {
     div.setAttribute('style', 'ignored');
     div.className = 'real-cls';
     div.style.color = 'red';
-    const attrs = getDomAttributes(div);
+    const attrs = getDomAttributes(div) as Record<string, unknown>;
     expect(attrs?.['data-a']).toBe('1');
     expect(attrs?.className).toBe('real-cls');
     expect((attrs?.style as Record<string, string> | undefined)?.color).toBe('red');

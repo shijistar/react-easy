@@ -9,7 +9,7 @@ import {
   decryptWithCryptoJS,
   encryptAES,
   encryptWithCryptoJS,
-} from '../../src/utils/crypto';
+} from '../../../src/utils/crypto';
 
 // NOTE: this file MUST NOT call vi.stubGlobal('crypto', ...) or switch
 // process.versions — we want the real browser implementation to run.

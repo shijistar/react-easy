@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios';
 import streamSaver from 'streamsaver';
 import { describe, expect, it, vi } from 'vitest';
-import StreamDownloader from '../../src/utils/StreamDownloader';
+import StreamDownloader from '../../../src/utils/StreamDownloader';
 
 vi.mock('streamsaver', () => ({
   default: {

@@ -1,6 +1,5 @@
 import type { ComponentType, PropsWithChildren, ReactNode } from 'react';
-import { useEffect } from 'react';
-import { createRef, forwardRef } from 'react';
+import { createRef, forwardRef, useEffect } from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Button } from 'antd';
@@ -27,8 +26,8 @@ const textOf = (node: unknown): unknown => {
 // --- hoisted stores for antd imperative Modal API ---
 const modalStore = vi.hoisted(() => {
   const store: {
-    calls: Array<Record<string, unknown>>;
-    updateCalls: Array<Record<string, unknown>>;
+    calls: Record<string, unknown>[];
+    updateCalls: Record<string, unknown>[];
     destroyCalls: number;
   } = { calls: [], updateCalls: [], destroyCalls: 0 };
   const makeApi = () => ({

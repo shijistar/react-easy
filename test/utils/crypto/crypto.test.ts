@@ -7,7 +7,7 @@ import {
   decryptWithCryptoJS,
   encryptAES,
   encryptWithCryptoJS,
-} from '../../src/utils/crypto';
+} from '../../../src/utils/crypto';
 
 describe('crypto utils', () => {
   it('encrypts and decrypts with the node crypto implementation', async () => {

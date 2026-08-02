@@ -2,7 +2,7 @@
 // Verifies the Web Crypto getRandomValues paths (browser branch of `random`
 // and `randomLikeMath`) that the jsdom unit test only simulates.
 import { describe, expect, it } from 'vitest';
-import { random } from '../../src/utils/math';
+import { random } from '../../../src/utils/math';
 
 // NOTE: this file MUST NOT stub `process` / `crypto` — we want the real
 // browser implementation (crypto.getRandomValues) to run.

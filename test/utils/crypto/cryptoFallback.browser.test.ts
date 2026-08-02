@@ -3,7 +3,7 @@
 // 独立文件，顶层 vi.mock 始终让 crypto-js/aes 的 encrypt/decrypt 抛错，
 // 不影响 crypto.browser.test.ts 的无 stub 真验证用例。
 import { describe, expect, it, vi } from 'vitest';
-import { decryptWithCryptoJS, encryptWithCryptoJS } from '../../src/utils/crypto';
+import { decryptWithCryptoJS, encryptWithCryptoJS } from '../../../src/utils/crypto';
 
 const throwFn = () => {
   throw new Error('forced crypto-js failure');
@@ -18,14 +18,18 @@ vi.mock('crypto-js/aes.js', () => ({
 
 describe('crypto utils — CryptoJS fallback catch branch (forced in real browser)', () => {
   it('encryptWithCryptoJS surfaces error when crypto-js aes encrypt throws', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+      // stub method
+    });
     await expect(encryptWithCryptoJS('x', 'k')).rejects.toThrow('forced crypto-js failure');
     expect(errorSpy).toHaveBeenCalled();
     errorSpy.mockRestore();
   });
 
   it('decryptWithCryptoJS surfaces error when crypto-js aes decrypt throws', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+      // stub method
+    });
     await expect(decryptWithCryptoJS('a:b', 'k')).rejects.toThrow('forced crypto-js failure');
     expect(errorSpy).toHaveBeenCalled();
     errorSpy.mockRestore();

@@ -1,17 +1,15 @@
-import type { PropsWithChildren } from 'react';
-import type { LayoutCursor, PreparedTextWithSegments } from '@chenglou/pretext';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import type { LayoutCursor } from '@chenglou/pretext';
+import { act, fireEvent, render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import VirtualTextViewer from '../../src/components/VirtualTextViewer';
-import type { CursorCheckpointCache, VisibleLine } from '../../src/components/VirtualTextViewer/types';
 
 // --- hoisted deterministic layout engine ---
 const pretextStore = vi.hoisted(() => {
   const state: {
     lineCount: number;
     maxLineWidth: number;
-    rangeQueue: Array<{ end: LayoutCursor } | null>;
-    materialQueue: Array<{ text: string; width: number }>;
+    rangeQueue: ({ end: LayoutCursor } | null)[];
+    materialQueue: { text: string; width: number }[];
   } = {
     lineCount: 0,
     maxLineWidth: 0,
@@ -314,7 +312,7 @@ describe('VirtualTextViewer', () => {
     pretextStore.state.rangeQueue = (
       Array.from({ length: 10 }, () => ({
         end: { segmentIndex: 0, graphemeIndex: 0 },
-      })) as Array<{ end: LayoutCursor } | null>
+      })) as ({ end: LayoutCursor } | null)[]
     ).concat([null]);
     pretextStore.state.materialQueue = Array.from({ length: 11 }, (_, i) => ({ text: `x${i}`, width: 5 }));
     const { container } = render(<VirtualTextViewer value="x" lineClassName="vtv-line" />);
@@ -380,7 +378,7 @@ describe('VirtualTextViewer', () => {
     if (fontsDescriptor) {
       Object.defineProperty(document, 'fonts', fontsDescriptor);
     } else {
-      delete (document as Document & { fonts?: unknown }).fonts;
+      delete (document as Omit<Document, 'fonts'> & { fonts?: unknown }).fonts;
     }
   });
 

@@ -5,9 +5,9 @@ import type { TooltipProps } from 'antd';
 import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
-} from '../../src/components/ConfigProvider/context';
-import EditableText from '../../src/components/EditableText';
-import type { EditableTextProps } from '../../src/components/EditableText';
+} from '../../../src/components/ConfigProvider/context';
+import EditableText from '../../../src/components/EditableText';
+import type { EditableTextProps } from '../../../src/components/EditableText';
 
 // Global polyfills for jsdom (needed by antd css-in-js)
 if (typeof ResizeObserver === 'undefined') {
@@ -295,6 +295,9 @@ describe('EditableText', { timeout: 15000 }, () => {
     expect(config.tooltip).toEqual({
       title: 'some content',
       overlayStyle: { maxWidth: 500 },
+      styles: {
+        root: { maxWidth: 500 },
+      },
     });
     // undefined content also works
     const empty = EditableText.getEllipsisConfig(undefined);

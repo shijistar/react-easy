@@ -93,8 +93,8 @@ describe('OverflowTags', () => {
 
   it('uses getTagName to extract display name', () => {
     const items = [
-      { id: 1, display: 'First' },
-      { id: 2, display: 'Second' },
+      { key: 1, id: 1, display: 'First' },
+      { key: 2, id: 2, display: 'Second' },
     ];
     const { container } = render(<OverflowTags tags={items} getTagName={(t) => (t as { display: string }).display} />, {
       wrapper: createWrapper(),

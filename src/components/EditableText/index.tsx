@@ -17,6 +17,9 @@ const getEllipsisConfig = (content: ReactNode | undefined): EllipsisConfig => ({
   tooltip: {
     title: content,
     overlayStyle: { maxWidth: 500 },
+    styles: {
+      root: { maxWidth: 500 },
+    },
   },
 });
 
