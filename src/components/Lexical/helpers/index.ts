@@ -26,7 +26,10 @@ export function insertNodeAtCursor(editor: LexicalEditor, node: LexicalNode): vo
       if ($isRangeSelection(selection)) {
         // 如果没有选取，则直接在根节点末尾插入
         const lastNode = selection.focus.getNode();
+        /* v8 ignore start -- 实证物理不可达：jsdom 中 focus 节点移除后自动重定位到 root，
+           nonexistent key 抛错中断，空 selection focus=root，均无法使 getNode() 返回 null */
         if (lastNode) {
+          /* v8 ignore stop */
           if ($isParagraphNode(lastNode)) {
             lastNode.append(node);
           } else if ($isTextNode(lastNode)) {

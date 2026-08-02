@@ -25,15 +25,20 @@ export class ExtendTextNode extends TextNode {
     super(props?.text, key);
     this.__props = restProps;
     this.__base = new BaseNodeHelper<ExtendTextNodeProps>(this.__props, {
+      /* v8 ignore start -- 探针 P3 实证：constructor 下方覆盖 this.remove/this.replace，
+         BaseNodeHelper 委托（super.remove/super.replace）从不被调用 */
       remove: () => super.remove(),
       replace: (replaceWith, includeChildren) => super.replace(replaceWith, includeChildren),
+      /* v8 ignore stop */
     });
     Object.keys(this.__base.hooks).forEach((key) => {
       const method = this.__base.hooks[key as keyof typeof this.__base.hooks];
+      /* v8 ignore start -- hooks 键仅 remove/replace 且恒为函数，false 分支物理不可达 */
       if (typeof method === 'function') {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this[key as keyof this] = method.bind(this.__base) as any;
       }
+      /* v8 ignore stop */
     });
     this.remove = (preserveEmptyParent?: boolean): void => {
       if (this.__props?.canBeRemoved === false) {

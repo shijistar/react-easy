@@ -36,14 +36,18 @@ export class DivNode extends BaseElementNode<DivNodeProps> {
     return new DivNode({ ...node.__props, key: node.getKey() });
   }
 
+  /* v8 ignore start -- getForceDisplay 无调用点（探针 P5 实证：全文件仅 1 次出现 = 定义处） */
   protected getForceDisplay(): CSSProperties['display'] {
     return undefined;
   }
+  /* v8 ignore stop */
 
   createDOM(): HTMLElement {
     const div = document.createElement('div');
     const domProps = this.getUnderlyingProps(this.__props);
+    /* v8 ignore start -- getUnderlyingProps 恒返回对象（base L145 `props ?? {}`），false 分支不可达 */
     if (domProps) {
+      /* v8 ignore stop */
       updateDomProps(div, domProps);
     }
     return div;

@@ -131,7 +131,10 @@ export class CloseIconNode extends BaseDecoratorNode<ReactNode, CloseIconNodePro
   getUnderlyingProps(props: CloseIconNodeProps | undefined): Omit<CloseIconNodeProps, keyof BaseNodeProps> {
     const excludeProps = super.getUnderlyingProps(props);
     /* eslint-disable @typescript-eslint/no-unused-vars */
+    /* v8 ignore start -- super.getUnderlyingProps 恒返回对象（base L196-202 恒 `props ?? {}`），
+       右侧恒不执行（探针 P6 实证 getUnderlyingProps(undefined) 返回 {}） */
     const { icon, iconClassName, iconStyle, onClick, ...rest } = excludeProps || {};
+    /* v8 ignore stop */
     /* eslint-enable @typescript-eslint/no-unused-vars */
     return rest;
   }
@@ -144,7 +147,10 @@ export class CloseIconNode extends BaseDecoratorNode<ReactNode, CloseIconNodePro
  * @param node The bound CloseIconNode instance | 关联的 CloseIconNode 实例
  */
 function CloseIconComponent({ node }: CloseIconComponentProps): ReactNode {
+  /* v8 ignore start -- constructor 恒设 __props（base L164 `this.__props = restProps`），
+     `|| {}` 右侧物理不可达 */
   const { icon, iconClassName, iconStyle, onClick } = node.__props || {};
+  /* v8 ignore stop */
 
   const closeIcon = icon ?? (
     <CloseCircleOutlined className={classNames(node.__hashId, iconClassName)} style={iconStyle} onClick={onClick} />

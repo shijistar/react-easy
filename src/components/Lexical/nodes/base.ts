@@ -104,10 +104,12 @@ export class BaseElementNode<P extends BaseElementProps> extends ElementNode {
     });
     Object.keys(this.__base.hooks).forEach((key) => {
       const method = this.__base.hooks[key as keyof typeof this.__base.hooks];
+      /* v8 ignore start -- hooks 键仅 remove/replace 且恒为函数，false 分支物理不可达 */
       if (typeof method === 'function') {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this[key as keyof this] = method.bind(this.__base) as any;
       }
+      /* v8 ignore stop */
     });
   }
 
@@ -127,6 +129,8 @@ export class BaseElementNode<P extends BaseElementProps> extends ElementNode {
     return this.__props?.[propName] as P[typeof propName];
   }
 
+  /* v8 ignore start -- BaseElementNode.updateProps 被 DivNode.updateProps override（DivNode L100-110），
+     无调用方（探针 P4 实证：DivNode 实例 updateProps 走 DivNode 版本） */
   updateProps(props: Partial<P>): void {
     const writable = this.getWritable();
     writable.__props = {
@@ -134,6 +138,7 @@ export class BaseElementNode<P extends BaseElementProps> extends ElementNode {
       ...props,
     };
   }
+  /* v8 ignore stop */
 
   /**
    * - EN: Strip element-specific flags and return DOM props.
@@ -169,10 +174,12 @@ export class BaseDecoratorNode<T, P extends BaseDecoratorNodeProps> extends Deco
     });
     Object.keys(this.__base.hooks).forEach((key) => {
       const method = this.__base.hooks[key as keyof typeof this.__base.hooks];
+      /* v8 ignore start -- hooks 键仅 remove/replace 且恒为函数，false 分支物理不可达 */
       if (typeof method === 'function') {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         this[key as keyof this] = method.bind(this.__base) as any;
       }
+      /* v8 ignore stop */
     });
   }
   getProp(propName: keyof P): P[typeof propName] {
