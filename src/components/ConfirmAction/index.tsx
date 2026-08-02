@@ -506,9 +506,9 @@ export type TypedConfirmActionInterface<TriggerProp extends object, Event extend
  * - **EN:** Props definition of specific type component
  * - **CN:** 具体类型组件的Props定义
  */
-type TypedConfirmActionProps<TriggerProp extends object, Event extends keyof TriggerProp> = Omit<
-  ConfirmActionProps<TriggerProp, Event>,
-  'triggerComponent' | 'triggerEvent'
+type TypedConfirmActionProps<TriggerProp extends object, Event extends keyof TriggerProp> = ConfirmActionProps<
+  TriggerProp,
+  Event
 >;
 export type ConfirmActionWithStatic = GenericConfirmActionInterface & {
   /**

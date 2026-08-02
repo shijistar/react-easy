@@ -420,7 +420,7 @@ describe('ConfirmAction', () => {
 
   it('merges object defaults in withDefaultConfirmActionProps (props win for scalars)', () => {
     const Composed = withDefaultConfirmActionProps(
-      (props: { title?: string; okText?: string; triggerProps?: { children?: ReactNode } }) => {
+      (props) => {
         return <div data-title={props.title} data-oktext={props.okText} />;
       },
       { title: 'DefaultTitle', okText: 'DefaultOk' },
@@ -432,17 +432,17 @@ describe('ConfirmAction', () => {
 
   it('supports function defaults in withDefaultConfirmActionProps', () => {
     const Composed = withDefaultConfirmActionProps(
-      (props: { title?: string; okText?: string }) => {
+      (props) => {
         return <div data-title={props.title} data-oktext={props.okText} />;
       },
-      (actualProps: { title?: string }) => ({ title: actualProps.title ?? 'FuncDefault' }),
+      (actualProps) => ({ title: actualProps.title ?? 'FuncDefault' }),
     );
     const { container } = render(<Composed />, { wrapper: createWrapper() });
     expect(container.querySelector('div')?.getAttribute('data-title')).toBe('FuncDefault');
   });
 
   it('uses delete defaults for confirmType=delete via genRenderer', async () => {
-    const DeleteConfirm = genRenderer({ confirmType: 'delete' });
+    const DeleteConfirm = forwardRef(genRenderer({ confirmType: 'delete' }));
     const { container } = render(
       <DeleteConfirm title="Delete?" content="Really?">
         <span>Delete</span>
