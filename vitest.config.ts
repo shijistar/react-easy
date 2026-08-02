@@ -49,6 +49,7 @@ export default defineConfig({
       ],
       exclude: [
         'src/components/index.tsx',
+        'src/components/Lexical/index.ts',
         'src/components/Iconfont/index.tsx',
         'src/components/VirtualTextViewer/types.ts',
         'src/components/tmp/*.tsx',
