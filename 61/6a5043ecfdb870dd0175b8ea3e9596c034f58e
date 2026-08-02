@@ -1,0 +1,60 @@
+test/components/VirtualTextViewer.test.tsx
+  h_a36dd9fce17841 11-12,315,381
+  h_a36dd9fce17841 1-2
+src/components/EditableText/index.tsx
+  h_a36dd9fce17841 20-22
+test/components/Lexical/LexicalNodes.test.tsx
+  h_a36dd9fce17841 1-546
+src/components/ConfirmAction/index.tsx
+  h_a36dd9fce17841 215,275-278
+test/utils/StreamDownloader/StreamDownloader.test.ts
+  h_a36dd9fce17841 1-342
+test/utils/crypto/crypto.browser.test.ts
+  h_a36dd9fce17841 1-52
+test/components/FloatDrawer.test.tsx
+  h_a36dd9fce17841 171,173
+  h_a36dd9fce17841 170,172,174
+test/utils/crypto/cryptoFallback.browser.test.ts
+  h_a36dd9fce17841 1-37
+test/utils/crypto/crypto.test.ts
+  h_a36dd9fce17841 1-145
+test/components/Lexical/LexicalHelpers.test.tsx
+  h_a36dd9fce17841 1-458
+vitest.config.ts
+  h_a36dd9fce17841 13-14,27
+  h_a36dd9fce17841 33-34
+test/components/DeleteConfirmAction.test.tsx
+  h_a36dd9fce17841 2,56
+test/utils/math/math.test.ts
+  h_a36dd9fce17841 1-68
+test/utils/math/math.browser.test.ts
+  h_a36dd9fce17841 1-44
+test/utils/StreamDownloader/StreamDownloader.edge.test.ts
+  h_a36dd9fce17841 4
+test/utils/StreamDownloader/StreamDownloadError.test.ts
+  h_a36dd9fce17841 1-16
+test/components/EditableText/EditableText.form.test.tsx
+  h_a36dd9fce17841 1-378
+test/components/OverflowTags.test.tsx
+  h_a36dd9fce17841 96-97
+test/components/EditableText/EditableText.test.tsx
+  h_a36dd9fce17841 1-306
+test/components/barrel.test.tsx
+  h_a36dd9fce17841 2-4,7-34,36-54,56-76
+  h_a36dd9fce17841 1
+test/components/Lexical/LexicalSelectNode.test.tsx
+  h_a36dd9fce17841 1-353
+test/components/.ConfirmAction.test1.tsx
+  h_a36dd9fce17841 2,29-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "616a5043ecfdb870dd0175b8ea3e9596c034f58e",
+  "prompts": {},
+  "humans": {
+    "h_a36dd9fce17841": {
+      "author": "Sage Starr <shijistar@gmail.com>"
+    }
+  }
+}
