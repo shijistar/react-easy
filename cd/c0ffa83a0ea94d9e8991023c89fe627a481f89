@@ -1,0 +1,42 @@
+src/components/ConfirmAction/withConfirmAction.tsx
+  h_a36dd9fce17841 2,58,91-96
+src/components/ModalAction/index.tsx
+  h_a36dd9fce17841 10-11,234,419-420,423-424
+  h_a36dd9fce17841 2-9,12
+src/components/ColumnSetting/index.tsx
+  h_a36dd9fce17841 204
+src/components/ConfigProvider/style/index.ts
+  h_a36dd9fce17841 46,48,62
+src/hooks/useSSE.ts
+  h_a36dd9fce17841 127
+src/components/EditableText/index.tsx
+  h_a36dd9fce17841 246,250,257,262,273,326
+src/components/Lexical/nodes/ExtendTextNode.tsx
+  h_a36dd9fce17841 28-29,36
+src/hooks/useUserMedia.tsx
+  h_a36dd9fce17841 688-692
+test/components/Lexical/LexicalHelpers.test.tsx
+  h_a36dd9fce17841 29-33,169-170,185,202,208,406,411
+test/components/Lexical/LexicalSelectNode.test.tsx
+  h_a36dd9fce17841 14-16,23-24,101,151,220-225,258,278-279,285,300-301,322,328,335
+src/components/Lexical/nodes/CloseIcon.tsx
+  h_a36dd9fce17841 134-135,150-151
+src/components/Lexical/helpers/index.ts
+  h_a36dd9fce17841 27,30-32,39,83,86,110
+  h_a36dd9fce17841 29,33
+src/components/Lexical/nodes/base.ts
+  h_a36dd9fce17841 132-133,177
+src/components/Lexical/nodes/DivNode.tsx
+  h_a36dd9fce17841 39,48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "cdc0ffa83a0ea94d9e8991023c89fe627a481f89",
+  "prompts": {},
+  "humans": {
+    "h_a36dd9fce17841": {
+      "author": "Sage Starr <shijistar@gmail.com>"
+    }
+  }
+}
