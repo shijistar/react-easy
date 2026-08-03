@@ -1,0 +1,14 @@
+vitest.config.ts
+  h_a36dd9fce17841 37-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "38083aa4fb7c18d873ae5fd67fe3a66d3bf711ee",
+  "prompts": {},
+  "humans": {
+    "h_a36dd9fce17841": {
+      "author": "Sage Starr <shijistar@gmail.com>"
+    }
+  }
+}
