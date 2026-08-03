@@ -1,0 +1,16 @@
+src/utils/math.ts
+  h_282d460392904f 112,114,117,123
+src/utils/crypto.ts
+  h_282d460392904f 228,231
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "84a7ea4b9f207d26aecbbc2182472a07422f751e",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}

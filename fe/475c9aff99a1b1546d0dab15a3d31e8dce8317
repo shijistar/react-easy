@@ -1,0 +1,14 @@
+.storybook/main.ts
+  h_282d460392904f 2-3,18-30,35-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "fe475c9aff99a1b1546d0dab15a3d31e8dce8317",
+  "prompts": {},
+  "humans": {
+    "h_282d460392904f": {
+      "author": "lifb2 <lifb2@lenovo.com>"
+    }
+  }
+}

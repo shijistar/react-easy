@@ -1,0 +1,18 @@
+src/components/ConfirmAction/index.tsx
+  h_a36dd9fce17841 509,511
+  h_a36dd9fce17841 510
+test/components/ConfirmAction.test.tsx
+  h_a36dd9fce17841 445
+  h_a36dd9fce17841 423,435,438
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "e747a3831805be70d2286a9c69dfbd6c48f329bc",
+  "prompts": {},
+  "humans": {
+    "h_a36dd9fce17841": {
+      "author": "Sage Starr <shijistar@gmail.com>"
+    }
+  }
+}
