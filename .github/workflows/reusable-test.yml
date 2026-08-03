@@ -35,6 +35,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Install Playwright browsers
+        run: npx playwright install
+
       - name: Install Playwright dependencies
         run: npx playwright install-deps webkit
 
