@@ -1,0 +1,14 @@
+.storybook/stories/components/Iconfont.stories.tsx
+  h_99cad05bea77d1 39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "2f761d90477f44a80a19c6bdb6ab5c686fa0fc3b",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
