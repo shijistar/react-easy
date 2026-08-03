@@ -26,6 +26,7 @@ test/components/FormItemControl.test.tsx
   h_282d460392904f 1,4,15,50
 vitest.config.ts
   h_282d460392904f 9,14-19,35-37,42-45,46-53,54-58,60-61,63
+  h_a36dd9fce17841 59,62
 test/components/ConfigProvider.test.tsx
   h_282d460392904f 2-3,5,73
 test/components/EllipsisTypography.test.tsx
@@ -47,6 +48,9 @@ test/components/createIconfont.test.tsx
   "humans": {
     "h_282d460392904f": {
       "author": "lifb2 <lifb2@lenovo.com>"
+    },
+    "h_a36dd9fce17841": {
+      "author": "Sage Starr <shijistar@gmail.com>"
     }
   }
 }
