@@ -1,0 +1,14 @@
+src/components/ModalAction/index.tsx
+  h_a36dd9fce17841 1,507-509,511,559,562,567,572-575,810,813,823,834-837
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "ff54fe30c4c155e5a9d03b99ac191a82b816317f",
+  "prompts": {},
+  "humans": {
+    "h_a36dd9fce17841": {
+      "author": "Sage Starr <shijistar@gmail.com>"
+    }
+  }
+}
