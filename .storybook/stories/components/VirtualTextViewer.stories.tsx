@@ -4,6 +4,7 @@ import type { ThemeVars } from 'storybook/theming';
 import VirtualTextViewer from '../../../src/components/VirtualTextViewer';
 import { storyT, useStoryT } from '../../locales';
 import { getGlobalValueFromUrl } from '../../utils/global';
+import apidoc from './VirtualTextViewer.apidoc.md?raw';
 
 const demoText = buildLargeText(120, 60);
 const background = getGlobalValueFromUrl('backgrounds.value');
@@ -63,7 +64,7 @@ const meta: Meta<typeof VirtualTextViewer> = {
   parameters: {
     docs: {
       description: {
-        component: storyT('storybook.stories.VirtualTextViewer.docs.component'),
+        component: apidoc,
       },
     },
   },
@@ -155,7 +156,7 @@ function buildLargeText(sectionCount: number, rowsPerSection: number): string {
           storyT('storybook.stories.VirtualTextViewer.demo.viewerLine'),
           storyT('storybook.stories.VirtualTextViewer.demo.wrappingLine'),
           `https://example.com/reports/${section + 1}/${row + 1}?lang=zh-CN&mode=full&virtualization=on`,
-        ].join(' ')
+        ].join(' '),
       );
     }
 

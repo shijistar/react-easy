@@ -2,10 +2,18 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import FloatDrawer from '../../../src/components/FloatDrawer';
 import { storyT, useStoryT } from '../../locales';
+import apidoc from './FloatDrawer.apidoc.md?raw';
 
 const meta: Meta<typeof FloatDrawer> = {
   title: 'Components/FloatDrawer',
   component: FloatDrawer,
+  parameters: {
+    docs: {
+      description: {
+        component: apidoc,
+      },
+    },
+  },
   args: {
     open: true,
     position: 'right',

@@ -1,17 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { action } from 'storybook/actions';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { action } from 'storybook/actions';
 import ColumnSetting from '../../../src/components/ColumnSetting';
 import type { ColumnSettingItem, ColumnSettingProps } from '../../../src/components/ColumnSetting';
 import { storyT, useStoryT } from '../../locales';
+import apidoc from './ColumnSetting.apidoc.md?raw';
 
 const meta: Meta<ColumnSettingProps> = {
   title: 'Components/ColumnSetting',
   component: ColumnSetting,
   parameters: {
-    docs: {},
+    docs: {
+      description: {
+        component: apidoc,
+      },
+    },
   },
   args: {
     storageKey: 'storybook:column-setting',
@@ -51,7 +56,7 @@ export const Playground: Story = {
           role: t('storybook.stories.ColumnSetting.data.viewer'),
         },
       ],
-      [t]
+      [t],
     );
 
     useEffect(() => {
@@ -62,7 +67,7 @@ export const Playground: Story = {
 
     const tableColumns = useMemo<ColumnsType<User>>(
       () => columns.filter((col) => !col.hidden) as ColumnsType<User>,
-      [columns]
+      [columns],
     );
 
     return (

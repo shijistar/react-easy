@@ -79,8 +79,6 @@ const zhCN = {
   'storybook.stories.PulseAnimation.audioTrack': '星光 — 录音室现场',
   'storybook.stories.PulseAnimation.audioPlaying': '音频活动',
   'storybook.stories.PulseAnimation.loadingTip': '加载中...',
-  'storybook.stories.VirtualTextViewer.docs.component':
-    '- **EN:** A simplified large-text virtualization component built on top of Pretext. It predicts wrapped line geometry without DOM text measurement and only materializes the visible line window.\n- **CN:** 一个基于 Pretext 的简化版大文本虚拟查看组件。它不依赖 DOM 文本测量来预测换行几何，并且只物化可见行窗口。',
   'storybook.stories.VirtualTextViewer.header.title': 'Pretext 虚拟文本查看器',
   'storybook.stories.VirtualTextViewer.header.subtitle': '滚动浏览超大纯文本字符串，同时只渲染当前可见行。',
   'storybook.stories.VirtualTextViewer.metrics.chars': '字符数：{{value}}',

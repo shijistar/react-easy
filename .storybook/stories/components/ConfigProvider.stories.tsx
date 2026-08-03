@@ -3,6 +3,7 @@ import { App as AntdApp, Space, Typography } from 'antd';
 import ConfigProvider, { type ConfigProviderProps } from '../../../src/components/ConfigProvider';
 import ConfirmAction from '../../../src/components/ConfirmAction';
 import { storyT, useStoryT } from '../../locales';
+import apidoc from './ConfigProvider.apidoc.md?raw';
 
 type ConfigProviderStoryArgs = ConfigProviderProps;
 
@@ -12,8 +13,7 @@ const meta: Meta<ConfigProviderStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** Provides shared configuration such as locale-aware copy and default action text for components in ReactEasy.
-- **CN:** 为ReactEasy提供共享配置，例如本地化文案和确认类组件的默认文本。`,
+        component: apidoc,
       },
     },
   },

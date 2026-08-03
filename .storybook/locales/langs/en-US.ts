@@ -80,8 +80,6 @@ const enUS = {
   'storybook.stories.PulseAnimation.audioTrack': 'Starlight — Studio Session',
   'storybook.stories.PulseAnimation.audioPlaying': 'Audio activity',
   'storybook.stories.PulseAnimation.loadingTip': 'Loading...',
-  'storybook.stories.VirtualTextViewer.docs.component':
-    '- **EN:** A simplified large-text virtualization component built on top of Pretext. It predicts wrapped line geometry without DOM text measurement and only materializes the visible line window.\n- **CN:** 一个基于 Pretext 的简化版大文本虚拟查看组件。它不依赖 DOM 文本测量来预测换行几何，并且只物化可见行窗口。',
   'storybook.stories.VirtualTextViewer.header.title': 'Pretext Virtual Text Viewer',
   'storybook.stories.VirtualTextViewer.header.subtitle':
     'Scroll through a very large plain string while only rendering the visible lines.',

@@ -1,12 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import BreakLines, { type BreakLinesProps } from '../../../src/components/BreakLines';
 import { storyT } from '../../locales';
+import apidoc from './BreakLines.apidoc.md?raw';
 
 const meta: Meta<typeof BreakLines> = {
   title: 'Components/BreakLines',
   component: BreakLines,
   parameters: {
-    docs: {},
+    docs: {
+      description: {
+        component: apidoc,
+      },
+    },
   },
   args: {
     value: storyT('storybook.stories.BreakLines.args.value'),

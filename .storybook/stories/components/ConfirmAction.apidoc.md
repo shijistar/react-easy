@@ -1,0 +1,2 @@
+- **EN:** Wraps a trigger component and opens a confirm-style modal before executing the action. Can switch between Button, Switch, and Link trigger types.
+- **CN:** 对触发器组件进行封装，在真正执行操作前弹出确认对话框，可切换 Button、Switch、Link 三种触发方式。

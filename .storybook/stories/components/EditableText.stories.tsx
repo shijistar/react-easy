@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import EditableText, { type EditableTextProps } from '../../../src/components/EditableText';
 import { storyT } from '../../locales';
+import apidoc from './EditableText.apidoc.md?raw';
 
 const meta: Meta<EditableTextProps> = {
   title: 'Components/EditableText',
@@ -9,9 +10,7 @@ const meta: Meta<EditableTextProps> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** Editable text component, providing a read-only display and an edit mode, supporting
-inline text editing, with edit state, validation-related switches, and edit lifecycle callbacks.
-- **CN:** 可编辑文本组件，提供只读显示和编辑模式，支持行内文本编辑，提供编辑态、校验相关开关和编辑生命周期回调。`,
+        component: apidoc,
       },
     },
   },

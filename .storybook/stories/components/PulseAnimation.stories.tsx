@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Card, Space, Typography } from 'antd';
 import PulseAnimation from '../../../src/components/Animation/Pulse';
 import { useStoryT } from '../../locales';
+import apidoc from './PulseAnimation.apidoc.md?raw';
 
 const meta: Meta<typeof PulseAnimation> = {
   title: 'Components/PulseAnimation',
@@ -9,8 +10,7 @@ const meta: Meta<typeof PulseAnimation> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** An animated pulse-bar indicator suitable for audio-style activity or lightweight loading feedback.
-- **CN:** 一个脉冲柱状动画组件，适合音频活动态或轻量加载反馈场景。`,
+        component: apidoc,
       },
     },
   },

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Typography } from 'antd';
 import OverflowTags from '../../../src/components/OverflowTags';
 import { storyT } from '../../locales';
+import apidoc from './OverflowTags.apidoc.md?raw';
 
 interface TagItem {
   id: number;
@@ -28,6 +29,13 @@ const tags: TagItem[] = [
 const meta: Meta<typeof OverflowTags<TagItem>> = {
   title: 'Components/OverflowTags',
   component: OverflowTags<TagItem>,
+  parameters: {
+    docs: {
+      description: {
+        component: apidoc,
+      },
+    },
+  },
   args: {
     tags,
     maxCount: 'responsive',

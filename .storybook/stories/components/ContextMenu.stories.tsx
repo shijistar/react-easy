@@ -1,12 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button } from 'antd';
 import { fn } from 'storybook/test';
+import { Button } from 'antd';
 import ContextMenu from '../../../src/components/ContextMenu';
 import { storyT, useStoryT } from '../../locales';
+import apidoc from './ContextMenu.apidoc.md?raw';
 
 const meta: Meta<typeof ContextMenu> = {
   title: 'Components/ContextMenu',
   component: ContextMenu,
+  parameters: {
+    docs: {
+      description: {
+        component: apidoc,
+      },
+    },
+  },
   args: {
     trigger: ['contextMenu'],
     items: [

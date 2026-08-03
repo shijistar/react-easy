@@ -2,10 +2,18 @@ import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Loading from '../../../src/components/Loading';
 import { storyT, useStoryT } from '../../locales';
+import apidoc from './Loading.apidoc.md?raw';
 
 const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',
   component: Loading,
+  parameters: {
+    docs: {
+      description: {
+        component: apidoc,
+      },
+    },
+  },
   args: {
     mode: 'absolute',
     spinning: true,

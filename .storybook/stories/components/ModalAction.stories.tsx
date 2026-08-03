@@ -1,11 +1,12 @@
 import { type ComponentType, type FC, type RefAttributes, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import { type ButtonProps, Form, Input, message, Space, type SwitchProps } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
-import { fn } from 'storybook/test';
 import type { FormCompPropsConstraint, ModalActionProps } from '../../../src/components/ModalAction';
 import { withModalAction } from '../../../src/components/ModalAction';
 import { storyT, useStoryT } from '../../locales';
+import apidoc from './ModalAction.apidoc.md?raw';
 
 type ModalActionStoryArgs = ModalActionProps<
   UserForm,
@@ -46,7 +47,7 @@ const UserFormComp: FC<UserFormProps> = ({ data, form, onSave }) => {
 };
 
 const UserModalAction = withModalAction<UserForm, UserFormProps, ButtonProps, 'onClick', object>(
-  UserFormComp as ComponentType<UserFormProps & RefAttributes<object>>
+  UserFormComp as ComponentType<UserFormProps & RefAttributes<object>>,
 );
 
 const meta: Meta<ModalActionStoryArgs> = {
@@ -54,8 +55,7 @@ const meta: Meta<ModalActionStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** A dynamic form modal component that supports multiple trigger variants. It is ideal for reusing the same form component in create and edit flows.
-- **CN:** 一个动态表单的弹窗组件，并支持多种触发器形态。非常适合在创建和编辑流程中复用同一个表单组件。`,
+        component: apidoc,
       },
     },
   },

@@ -2,10 +2,18 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Form, Slider, Typography } from 'antd';
 import FormItemControl from '../../../src/components/FormItemControl';
 import { useStoryT } from '../../locales';
+import apidoc from './FormItemControl.apidoc.md?raw';
 
 const meta: Meta<typeof FormItemControl> = {
   title: 'Components/FormItemControl',
   component: FormItemControl,
+  parameters: {
+    docs: {
+      description: {
+        component: apidoc,
+      },
+    },
+  },
   argTypes: {},
 };
 
