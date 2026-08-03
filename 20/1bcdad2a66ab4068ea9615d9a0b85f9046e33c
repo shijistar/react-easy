@@ -1,0 +1,21 @@
+.storybook/stories/components/Iconfont/api-doc.md
+  h_99cad05bea77d1 1-39
+.storybook/stories/components/Iconfont/index.stories.tsx
+  h_99cad05bea77d1 4-7,15-16,20,22,24,26,28,36,41,50-54,107-111,114-128,148
+.storybook/stories/components/Iconfont/introduce.md
+  h_99cad05bea77d1 1-7
+tsconfig.json
+  h_99cad05bea77d1 23
+  h_99cad05bea77d1 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "201bcdad2a66ab4068ea9615d9a0b85f9046e33c",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
