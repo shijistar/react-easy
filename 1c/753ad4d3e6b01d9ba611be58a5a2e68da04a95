@@ -1,0 +1,15 @@
+tsconfig.json
+  h_99cad05bea77d1 23
+  h_99cad05bea77d1 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "1c753ad4d3e6b01d9ba611be58a5a2e68da04a95",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
