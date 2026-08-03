@@ -1,7 +1,7 @@
 import type { ComponentType, PropsWithChildren, ReactElement } from 'react';
 import { createElement, useEffect } from 'react';
 import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { App as AntdApp, ConfigProvider as AntdConfigProvider, Form, type FormInstance } from 'antd';
 import ConfigProvider from '../../src/components/ConfigProvider';
 import ModalAction, {
@@ -761,7 +761,7 @@ describe('ModalAction (advanced browser paths)', () => {
   it('withModalAction supports function defaultProps', async () => {
     const WrappedSave = withModalAction(
       SaveForm as never,
-      (() => ({ title: 'Func Title', triggerProps: { children: 'Open Func' } })) as never,
+      (() => ({ title: 'Func Title', triggerProps: { children: 'Open Func', style: { opacity: 1 } } })) as never,
     );
     const ref = { current: null as ModalActionRef<unknown, SimpleFormData> | null };
     renderInBrowser(createElement(WrappedSave as never, { ref } as never));
