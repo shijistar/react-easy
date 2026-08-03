@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Space, Typography } from 'antd';
-import { createIconfont } from '../../../src/components/Iconfont';
-import { useStoryT } from '../../locales';
+import { createIconfont } from '../../../../src/components/Iconfont';
+import { useStoryT } from '../../../locales';
+import apiDoc from './api-doc.md?raw';
+import introduce from './introduce.md?raw';
 
 // Ant Design official iconfont demo URL, also used by the repo tests.
 const SCRIPT_URL = '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js';
@@ -10,18 +12,20 @@ const SCRIPT_URL = '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js';
 const ICON_TYPES = ['icon-tuichu', 'icon-facebook', 'icon-twitter'] as const;
 
 interface IconfontStoryArgs {
+  /** URL of the iconfont script | iconfont 脚本的 URL */
+  scriptUrl: string;
   /** Icon name from the iconfont project | iconfont 项目中的图标名称 */
   type: string;
   /** Icon size in px | 图标尺寸（像素） */
-  size: number;
+  size?: number;
   /** Icon color | 图标颜色 */
-  color: string;
+  color?: string;
   /** Whether the icon spins continuously | 图标是否持续旋转 */
-  spin: boolean;
+  spin?: boolean;
   /** Fixed clockwise rotation angle | 顺时针固定旋转角度 */
-  rotate: number;
+  rotate?: number;
   /** Demo-only: prefix auto-prepended to `type` | 示例专用：自动拼接到 `type` 的前缀 */
-  iconPrefix: string;
+  iconPrefix?: string;
 }
 
 const meta: Meta<IconfontStoryArgs> = {
@@ -29,45 +33,12 @@ const meta: Meta<IconfontStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** \`createIconfont\` is a factory that turns an iconfont script URL into a ready-to-use icon component. It wraps Ant Design's \`createFromIconfontCN\` and adds an \`iconPrefix\` option plus a \`size\` alias for \`style.fontSize\`.
-
-**Factory API**
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| \`scriptUrl\` | \`string\` | - | iconfont script URL generated from iconfont.cn |
-| \`options.iconPrefix\` | \`string\` | \`''\` | Prefix (no trailing '-') prepended to \`type\` as \`<iconPrefix>-<type>\` unless \`type\` already starts with the prefix |
-
-**Component props**
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| \`type\` | \`T\` | - | Icon name. Find it in iconfont and click \`Copy Code\` |
-| \`size\` | \`CSSProperties['fontSize']\` | - | Alias of \`style.fontSize\` |
-| \`spin\` | \`boolean\` | \`false\` | Whether the icon spins continuously |
-| \`rotate\` | \`number\` | \`0\` | Fixed clockwise rotation angle |
-
-- **CN:** \`createIconfont\` 是一个工厂函数：传入 iconfont 脚本地址，返回一个可直接使用的图标组件。它封装了 Ant Design 的 \`createFromIconfontCN\`，额外提供 \`iconPrefix\` 选项与 \`size\`（\`style.fontSize\` 的别名）属性。
-
-**工厂 API**
-
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| \`scriptUrl\` | \`string\` | - | 在 iconfont.cn 上生成的脚本地址 |
-| \`options.iconPrefix\` | \`string\` | \`''\` | 自动拼接到 \`type\` 的前缀，若 \`type\` 已包含该前缀则不再拼接 |
-
-**组件 props**
-
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| \`type\` | \`T\` | - | 图标名称。在 iconfont 中找到某个图标，点击\`复制代码\` |
-| \`size\` | \`CSSProperties['fontSize']\` | - | \`style.fontSize\` 的别名 |
-| \`spin\` | \`boolean\` | \`false\` | 图标是否持续旋转 |
-| \`rotate\` | \`number\` | \`0\` | 图标顺时针旋转一个固定角度 |`,
+        component: introduce + apiDoc,
       },
     },
   },
   args: {
+    scriptUrl: SCRIPT_URL,
     type: 'icon-tuichu',
     size: 32,
     color: '#1677ff',
@@ -76,6 +47,11 @@ const meta: Meta<IconfontStoryArgs> = {
     iconPrefix: '',
   },
   argTypes: {
+    scriptUrl: {
+      control: 'text',
+      description: `- **EN:** URL of the iconfont script.
+- **CN:** iconfont 脚本的 URL。`,
+    },
     type: {
       control: 'select',
       options: [...ICON_TYPES],
@@ -128,21 +104,28 @@ export const Playground: Story = {
   },
   render: function Render(args: IconfontStoryArgs) {
     const t = useStoryT();
-    const IconFont = useMemo(() => createIconfont(SCRIPT_URL, { iconPrefix: args.iconPrefix }), [args.iconPrefix]);
-    const renderedType = args.type.startsWith(args.iconPrefix) ? args.type : `${args.iconPrefix}-${args.type}`;
+    const IconFont = useMemo(
+      () => createIconfont(args.scriptUrl, { iconPrefix: args.iconPrefix }),
+      [args.scriptUrl, args.iconPrefix],
+    );
+    const renderedType = args.type?.startsWith(args?.iconPrefix ?? '') ? args.type : `${args.iconPrefix}-${args.type}`;
 
     return (
-      <Space direction="vertical" size={16}>
-        <IconFont
-          type={args.type}
-          size={args.size}
-          spin={args.spin}
-          rotate={args.rotate}
-          style={{ color: args.color }}
-        />
-        <Typography.Text type="secondary">
-          {t('storybook.stories.Iconfont.renderedType')}: <Typography.Text code>{renderedType}</Typography.Text>
-        </Typography.Text>
+      <Space orientation="vertical" size={16}>
+        {args.type && (
+          <IconFont
+            type={args.type}
+            size={args.size}
+            spin={args.spin}
+            rotate={args.rotate}
+            style={{ color: args.color }}
+          />
+        )}
+        {args.type && (
+          <Typography.Text type="secondary">
+            {t('storybook.stories.Iconfont.renderedType')}: <Typography.Text code>{renderedType}</Typography.Text>
+          </Typography.Text>
+        )}
       </Space>
     );
   },
@@ -162,7 +145,7 @@ export const IconGallery: Story = {
     return (
       <Space size={24} wrap>
         {ICON_TYPES.map((type) => (
-          <Space direction="vertical" align="center" key={type} size={8}>
+          <Space orientation="vertical" align="center" key={type} size={8}>
             <IconFont type={type} size={32} />
             <Typography.Text type="secondary">{type}</Typography.Text>
           </Space>
