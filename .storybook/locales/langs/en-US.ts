@@ -44,6 +44,7 @@ const enUS = {
   'storybook.stories.FloatDrawer.content': 'You can place filters, operation panel, or preview content here.',
   'storybook.stories.FormItemControl.scoreLabel': 'Score',
   'storybook.stories.FormItemControl.currentValue': 'Current value: {{value}}',
+  'storybook.stories.Iconfont.renderedType': 'Rendered type',
   'storybook.stories.Loading.args.tip': 'Loading...',
   'storybook.stories.Loading.content': 'Business content area',
   'storybook.stories.ModalAction.saved': 'Saved: {{name}}',
@@ -75,6 +76,10 @@ const enUS = {
   'storybook.stories.OverflowTags.tags.yetAnotherTag': 'Yet Another Tag',
   'storybook.stories.OverflowTags.tags.finalTag': 'Final Tag',
   'storybook.stories.OverflowTags.tags.extraTag': 'Extra Tag',
+  'storybook.stories.PulseAnimation.audioCardTitle': 'Now Playing',
+  'storybook.stories.PulseAnimation.audioTrack': 'Starlight — Studio Session',
+  'storybook.stories.PulseAnimation.audioPlaying': 'Audio activity',
+  'storybook.stories.PulseAnimation.loadingTip': 'Loading...',
   'storybook.stories.VirtualTextViewer.docs.component':
     '- **EN:** A simplified large-text virtualization component built on top of Pretext. It predicts wrapped line geometry without DOM text measurement and only materializes the visible line window.\n- **CN:** 一个基于 Pretext 的简化版大文本虚拟查看组件。它不依赖 DOM 文本测量来预测换行几何，并且只物化可见行窗口。',
   'storybook.stories.VirtualTextViewer.header.title': 'Pretext Virtual Text Viewer',
