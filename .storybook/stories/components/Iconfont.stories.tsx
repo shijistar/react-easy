@@ -36,7 +36,7 @@ const meta: Meta<IconfontStoryArgs> = {
 | Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
 | \`scriptUrl\` | \`string\` | - | iconfont script URL generated from iconfont.cn |
-| `options.iconPrefix` | `string` | `''` | Prefix (no trailing '-') prepended to `type` as `<iconPrefix>-<type>` unless `type` already starts with the prefix |
+| \`options.iconPrefix\` | \`string\` | \`''\` | Prefix (no trailing '-') prepended to \`type\` as \`<iconPrefix>-<type>\` unless \`type\` already starts with the prefix |
 
 **Component props**
 
