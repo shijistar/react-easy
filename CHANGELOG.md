@@ -2,6 +2,25 @@
 
 # Changelog
 
+## 2.1.0
+
+2026-8-3
+
+### Features
+
+#### Hooks
+
+- ✨ Added `useStreamDownloader`, supports streaming downloads of large files without using memory.
+
+#### Utils
+
+- ✨ Added`StreamDownloader` class, with the same functionality as`useStreamDownloader`, supports usage outside of component context, used for streaming downloads of large files without occupying memory.
+
+#### Misc
+
+- 🛠️ Eliminate a false security warning about usage of `eval` in `utils/math`
+- 🛠️ Unit test coverage 100%
+
 ## 2.0.0
 
 2026-7-5
