@@ -1,0 +1,14 @@
+test/browser/ModalAction.test.tsx
+  h_a36dd9fce17841 4,764
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "715910a7d86f1d79561a57ff44092f8b996268aa",
+  "prompts": {},
+  "humans": {
+    "h_a36dd9fce17841": {
+      "author": "Sage Starr <shijistar@gmail.com>"
+    }
+  }
+}
