@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Card, Space, Typography } from 'antd';
 import PulseAnimation from '../../../../src/components/Animation/Pulse';
-import storyI18n, { useStoryT } from '../../../locales';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
 import introduceEN from './introduce.en-US.md?raw';
 import introduceCN from './introduce.zh-CN.md?raw';
 

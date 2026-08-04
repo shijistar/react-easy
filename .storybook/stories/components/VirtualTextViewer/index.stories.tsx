@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ThemeVars } from 'storybook/theming';
 import VirtualTextViewer from '../../../../src/components/VirtualTextViewer';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
+import { getGlobalValueFromUrl } from '../../../utils/global';
 import introduceEN from './introduce.en-US.md?raw';
 import introduceCN from './introduce.zh-CN.md?raw';
-import { getGlobalValueFromUrl } from '../../../utils/global';
 
 const demoText = buildLargeText(120, 60);
 const background = getGlobalValueFromUrl('backgrounds.value');

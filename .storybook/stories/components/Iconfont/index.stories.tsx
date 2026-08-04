@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Space, Typography } from 'antd';
 import { createIconfont } from '../../../../src/components/Iconfont';
-import storyI18n, { useStoryT } from '../../../locales';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
 import apiDocCN from './api-doc.zh-CN.md?raw';
 import introduceEN from './introduce.en-US.md?raw';
