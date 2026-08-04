@@ -1,8 +1,8 @@
 ## API
 
-| Prop       | Type                                                                     | Description                                                       |
-| ---------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| `children` | `(options: { value: any; onChange: (value: any) => void }) => ReactNode` | Render prop receiving the current `value` and a setter `onChange` |
+| Prop       | Description                                                       | Type                                                                     |
+| ---------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `children` | Render prop receiving the current `value` and a setter `onChange` | `(options: { value: any; onChange: (value: any) => void }) => ReactNode` |
 
 ## 用法
 

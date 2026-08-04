@@ -1,12 +1,12 @@
 ## API
 
-| Prop        | Type                                                        | Default | Description                                                                                |
-| ----------- | ----------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------ |
-| `value`     | `string \| undefined`                                       | -       | Text content to render                                                                     |
-| `enabled`   | `boolean`                                                   | `true`  | Whether line-break conversion is enabled                                                   |
-| `EOL`       | `string`                                                    | `'\n'`  | The end-of-line character used to split lines                                              |
-| `tagName`   | `false \| 'span' \| 'div' \| 'i' \| 'pre' \| (string & {})` | `false` | HTML tag used to render the content. When `false`, content is rendered as a React fragment |
-| `className` | `string`                                                    | -       | CSS class of the DOM node. Ignored when `tagName` is `false`                               |
+| Prop        | Description                                                                                | Type                                                        | Default |
+| ----------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------- | ------- |
+| `value`     | Text content to render                                                                     | `string \| undefined`                                       | -       |
+| `enabled`   | Whether line-break conversion is enabled                                                   | `boolean`                                                   | `true`  |
+| `EOL`       | The end-of-line character used to split lines                                              | `string`                                                    | `'\n'`  |
+| `tagName`   | HTML tag used to render the content. When `false`, content is rendered as a React fragment | `false \| 'span' \| 'div' \| 'i' \| 'pre' \| (string & {})` | `false` |
+| `className` | CSS class of the DOM node. Ignored when `tagName` is `false`                               | `string`                                                    | -       |
 
 ## Notes
 

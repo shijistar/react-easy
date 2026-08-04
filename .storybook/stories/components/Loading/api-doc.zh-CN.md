@@ -2,11 +2,11 @@
 
 Extends Ant Design `SpinProps` and adds:
 
-| Prop            | Type                   | Default  | Description                                                                                                                |
-| --------------- | ---------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `mode`          | `'absolute' \| 'flex'` | `'flex'` | Positioning of the standalone animation. `absolute` centers via absolute positioning; `flex` fills the parent with flexbox |
-| `rootClassName` | `string`               | -        | Class name for the mask parent container (standalone mode)                                                                 |
-| `rootStyle`     | `CSSProperties`        | -        | Style for the mask parent container (standalone mode)                                                                      |
+| Prop            | Description                                                                                                                | Type                   | Default  |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------- | -------- |
+| `mode`          | Positioning of the standalone animation. `absolute` centers via absolute positioning; `flex` fills the parent with flexbox | `'absolute' \| 'flex'` | `'flex'` |
+| `rootClassName` | Class name for the mask parent container (standalone mode)                                                                 | `string`               | -        |
+| `rootStyle`     | Style for the mask parent container (standalone mode)                                                                      | `CSSProperties`        | -        |
 
 ## 说明
 
