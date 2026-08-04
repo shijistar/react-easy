@@ -1,29 +1,21 @@
 import type { ComponentType, PropsWithChildren } from 'react';
 import { useMemo, useState } from 'react';
 import type { Control, DocsContainerProps } from '@storybook/addon-docs/blocks';
-import {
-  Controls,
-  DocsContainer,
-  Markdown,
-  Primary,
-  Stories,
-  Subtitle,
-  Title,
-  useOf,
-} from '@storybook/addon-docs/blocks';
+import { Controls, DocsContainer, Markdown, Primary, Subtitle, Title, useOf } from '@storybook/addon-docs/blocks';
 import type { Preview, ReactRenderer } from '@storybook/react-vite';
-import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme as antThemes } from 'antd';
-import enUS from 'antd/es/locale/en_US';
-import zhCN from 'antd/es/locale/zh_CN';
 import { FORCE_RE_RENDER } from 'storybook/internal/core-events';
 import type { StoryContext, StoryContextForEnhancers } from 'storybook/internal/csf';
 import type { ResolvedModuleExportFromType } from 'storybook/internal/types';
 import { addons, useStoryContext } from 'storybook/preview-api';
 import { themes } from 'storybook/theming';
+import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme as antThemes } from 'antd';
+import enUS from 'antd/es/locale/en_US';
+import zhCN from 'antd/es/locale/zh_CN';
 import ConfigProvider from '../src/components/ConfigProvider';
 import { useRefValue } from '../src/hooks';
 import type { Langs } from '../src/locales';
 import storyI18n, { storyT } from './locales';
+import { pickLangDoc } from './utils/doc';
 import { getGlobalValueFromUrl } from './utils/global';
 import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
 
@@ -35,7 +27,7 @@ const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const preview: Preview = {
   initialGlobals: {
-    lang: 'en-US',
+    lang: '',
     backgrounds: {
       value: themeFromUrl ?? (isPreferDark ? 'dark' : 'light'),
       grid: false,
@@ -85,23 +77,27 @@ const preview: Preview = {
       extractComponentDescription: (
         component: ComponentType & {
           __docgenInfo?: { description?: string };
-        }
+        },
       ) => {
         const raw = component?.__docgenInfo?.description ?? '';
         let result = stripExampleBlock(raw);
-        result = removeOtherLang(result);
+        result = pickLangDoc(result);
         return result;
       },
-      page: () => (
-        <>
-          <Title />
-          <Subtitle />
-          <CustomComponentDescription />
-          <Primary />
-          <Controls />
-          <Stories />
-        </>
-      ),
+      page: () => {
+        const langFromUrl = getGlobalValueFromUrl('lang');
+        return (
+          <>
+            <Title />
+            <Subtitle />
+            <CustomComponentDescription />
+            <h2>{langFromUrl === 'zh-CN' ? '演示' : 'Demo'}</h2>
+            <Primary />
+            <Controls />
+            {/* <Stories /> */}
+          </>
+        );
+      },
     },
   },
   tags: ['autodocs'],
@@ -152,74 +148,6 @@ const preview: Preview = {
   ],
   argTypesEnhancers: [jsdocArgTypesEnhancer],
 };
-
-function removeOtherLang(input = '') {
-  const langFromUrl = getGlobalValueFromUrl('lang');
-  const currentLang = langFromUrl === 'zh-CN' ? 'zh-CN' : 'en-US';
-  return keepCurrentLangContent(input, currentLang);
-}
-
-function keepCurrentLangContent(input = '', lang: Langs = 'en-US') {
-  const targetLang = lang === 'zh-CN' ? 'CN' : 'EN';
-
-  // Compatible with JSDoc original text (with *) and plain text extracted by docgen
-  const lines = input.split(/\r?\n/).map((line) => line.replace(/^\s*\*\s?/, ''));
-
-  const result: string[] = [];
-  let blockLang: 'EN' | 'CN' | null = null;
-  let blockLines: string[] = [];
-
-  // Language block: - **EN:** xxx or - **CN:** xxx
-  const langHeaderReg = /^-\s*\*\*(EN|CN):\*\*\s*(.*)$/;
-  // JSDoc 标签：@param @returns ...
-  const jsdocTagReg = /^@\w+/;
-
-  const flushBlock = () => {
-    if (blockLang === targetLang) {
-      result.push(...blockLines);
-    }
-    blockLang = null;
-    blockLines = [];
-  };
-
-  for (const line of lines) {
-    const headerMatch = line.match(langHeaderReg);
-
-    if (headerMatch) {
-      if (blockLang) {
-        flushBlock();
-      }
-      const [, langFlag, firstContent = ''] = headerMatch;
-      blockLang = langFlag as 'EN' | 'CN';
-      blockLines = firstContent ? [firstContent] : [];
-      continue;
-    }
-
-    if (blockLang) {
-      // Encounter @param/@returns indicating the end of the language block, tag content should be retained
-      if (jsdocTagReg.test(line)) {
-        flushBlock();
-        result.push(line);
-      } else {
-        blockLines.push(line);
-      }
-      continue;
-    }
-
-    // Non-internationalized content remains unchanged.
-    result.push(line);
-  }
-
-  if (blockLang) {
-    flushBlock();
-  }
-
-  // 压缩多余空行
-  return result
-    .join('\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-}
 
 function stripExampleBlock(input = '') {
   return (
@@ -285,7 +213,7 @@ function CustomComponentDescription() {
 function processDescription(content: string | undefined) {
   const raw = content ?? '';
   let result = stripExampleBlock(raw);
-  result = removeOtherLang(result);
+  result = pickLangDoc(result);
   return result;
 }
 
