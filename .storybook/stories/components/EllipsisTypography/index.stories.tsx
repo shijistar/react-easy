@@ -38,8 +38,7 @@ export const EllipsisText: EllipsisTextStory = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Single-line text ellipsis example.
-- **CN:** 单行文本省略示例。`,
+        story: storyT('storybook.stories.EllipsisTypography.stories.EllipsisText.description'),
       },
     },
   },
@@ -50,8 +49,7 @@ export const EllipsisText: EllipsisTextStory = {
   argTypes: {
     text: {
       control: 'text',
-      description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
-- **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      description: storyT('storybook.stories.EllipsisTypography.argTypes.text.description'),
       table: { defaultValue: { summary: '-' } },
     },
   },
@@ -62,8 +60,7 @@ export const EllipsisParagraph: EllipsisParagraphStory = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Multi-line paragraph ellipsis with tooltip support.
-- **CN:** 支持 tooltip 的多行段落省略示例。`,
+        story: storyT('storybook.stories.EllipsisTypography.stories.EllipsisParagraph.description'),
       },
     },
   },
@@ -74,14 +71,14 @@ export const EllipsisParagraph: EllipsisParagraphStory = {
   argTypes: {
     text: {
       control: 'text',
-      description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
-- **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      description: storyT('storybook.stories.EllipsisTypography.argTypes.text.description'),
       table: { defaultValue: { summary: '-' } },
     },
     ellipsis: {
       control: 'object',
-      description: `- **EN:** Ellipsis configuration with optional rows and tooltip settings.
-- **CN:** 省略配置，支持行数和 tooltip 设置。`,
+      description: storyT(
+        'storybook.stories.EllipsisTypography.stories.EllipsisParagraph.argTypes.ellipsis.description',
+      ),
       table: { defaultValue: { summary: '-' } },
     },
   },
@@ -92,8 +89,7 @@ export const EllipsisTitle: EllipsisTitleStory = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Heading ellipsis example with configurable title level.
-- **CN:** 支持标题层级配置的标题省略示例。`,
+        story: storyT('storybook.stories.EllipsisTypography.stories.EllipsisTitle.description'),
       },
     },
   },
@@ -106,21 +102,18 @@ export const EllipsisTitle: EllipsisTitleStory = {
   argTypes: {
     text: {
       control: 'text',
-      description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
-- **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      description: storyT('storybook.stories.EllipsisTypography.argTypes.text.description'),
       table: { defaultValue: { summary: '-' } },
     },
     level: {
       control: 'select',
       options: [1, 2, 3, 4, 5],
-      description: `- **EN:** Title level.
-    - **CN:** 标题层级。`,
+      description: storyT('storybook.stories.EllipsisTypography.stories.EllipsisTitle.argTypes.level.description'),
       table: { defaultValue: { summary: '1' } },
     },
     ellipsis: {
       control: 'object',
-      description: `- **EN:** Ellipsis configuration. Supports automatic tooltip title behavior.
-    - **CN:** 省略配置，支持自动 tooltip title 行为。`,
+      description: storyT('storybook.stories.EllipsisTypography.stories.EllipsisTitle.argTypes.ellipsis.description'),
       table: { defaultValue: { summary: '-' } },
     },
   },
@@ -131,8 +124,7 @@ export const EllipsisLink: EllipsisLinkStory = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Link ellipsis example for long URLs or labels.
-- **CN:** 适用于长链接文本或长链接标签的省略示例。`,
+        story: storyT('storybook.stories.EllipsisTypography.stories.EllipsisLink.description'),
       },
     },
   },
@@ -144,20 +136,17 @@ export const EllipsisLink: EllipsisLinkStory = {
   argTypes: {
     text: {
       control: 'text',
-      description: `- **EN:** Text content. If omitted, \`children\` can be used as fallback.
-- **CN:** 文本内容；未传时可由 \`children\` 兜底。`,
+      description: storyT('storybook.stories.EllipsisTypography.argTypes.text.description'),
       table: { defaultValue: { summary: '-' } },
     },
     ellipsis: {
       control: 'object',
-      description: `- **EN:** Ellipsis configuration. Set \`true\` for automatic ellipsis and tooltip behavior.
-- **CN:** 省略配置。设为 \`true\` 可启用自动省略与 tooltip 行为。`,
+      description: storyT('storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.ellipsis.description'),
       table: { defaultValue: { summary: '-' } },
     },
     href: {
       control: 'text',
-      description: `- **EN:** Link target URL.
-- **CN:** 链接跳转地址。`,
+      description: storyT('storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.href.description'),
       table: { defaultValue: { summary: '-' } },
     },
   },

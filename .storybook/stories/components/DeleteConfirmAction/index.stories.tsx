@@ -60,33 +60,28 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
     triggerType: {
       control: 'radio',
       options: ['Button', 'Switch', 'Link'],
-      description: `- **EN:** Demo-only option to switch trigger component type.
-- **CN:** 示例专用：切换触发器组件类型。`,
+      description: storyT('storybook.stories.DeleteConfirmAction.argTypes.triggerType.description'),
       table: { defaultValue: { summary: '"Button"' } },
     },
     autoFocusButton: {
       control: 'select',
       options: ['ok', 'cancel'],
-      description: `- **EN:** The button to auto focus when the confirm action is opened.
-- **CN:** 确认操作打开时自动获取焦点的按钮。`,
+      description: storyT('storybook.stories.DeleteConfirmAction.argTypes.autoFocusButton.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
     iconColor: {
       options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
-      description: `- **EN:** The color of the icon.
-- **CN:** 图标的颜色。`,
+      description: storyT('storybook.stories.DeleteConfirmAction.argTypes.iconColor.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
     titleColor: {
       options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
-      description: `- **EN:** The color of the title text.
-- **CN:** 标题文本的颜色。`,
+      description: storyT('storybook.stories.DeleteConfirmAction.argTypes.titleColor.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
     contentColor: {
       options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
-      description: `- **EN:** The color of the content text.
-- **CN:** 内容文本的颜色。`,
+      description: storyT('storybook.stories.DeleteConfirmAction.argTypes.contentColor.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
   },

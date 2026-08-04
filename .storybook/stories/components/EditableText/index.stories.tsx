@@ -29,32 +29,27 @@ const meta: Meta<EditableTextProps> = {
   argTypes: {
     value: {
       control: 'text',
-      description: `- **EN:** Current text value displayed and edited by the component.
-- **CN:** 组件当前展示和编辑的文本值。`,
+      description: storyT('storybook.stories.EditableText.argTypes.value.description'),
       table: { defaultValue: { summary: '-' } },
     },
     editable: {
       control: 'boolean',
-      description: `- **EN:** Controls whether the edit affordance is available.
-- **CN:** 控制是否允许进入编辑状态。`,
+      description: storyT('storybook.stories.EditableText.argTypes.editable.description'),
       table: { defaultValue: { summary: 'true' } },
     },
     editing: {
       control: 'boolean',
-      description: `- **EN:** Forces the component into editing mode when controlled externally.
-- **CN:** 外部受控地将组件切换到编辑状态。`,
+      description: storyT('storybook.stories.EditableText.argTypes.editing.description'),
       table: { defaultValue: { summary: 'false' } },
     },
     required: {
       control: 'boolean',
-      description: `- **EN:** Marks the editor as required when confirming changes.
-- **CN:** 在确认修改时将输入视为必填。`,
+      description: storyT('storybook.stories.EditableText.argTypes.required.description'),
       table: { defaultValue: { summary: 'false' } },
     },
     textComp: {
       control: 'text',
-      description: `- **EN:** Typography component type used to render the read-only text state.
-- **CN:** 只读文本态所使用的排版组件类型。`,
+      description: storyT('storybook.stories.EditableText.argTypes.textComp.description'),
       table: { defaultValue: { summary: "'Text'" } },
     },
   },
@@ -67,8 +62,7 @@ export const Playground: Story = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Try toggling editable and editing state to inspect the inline editing experience.
-- **CN:** 可切换 editable 和 editing 状态，观察行内编辑体验。`,
+        story: storyT('storybook.stories.EditableText.stories.Playground.description'),
       },
     },
   },

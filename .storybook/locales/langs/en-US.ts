@@ -203,5 +203,82 @@ const enUS = {
   'storybook.stories.useStreamDownloader.logs.cancel': 'Cancel requested',
   'storybook.stories.useStreamDownloader.logs.reset': 'Snapshot reset to idle',
   'storybook.stories.useStreamDownloader.logs.error': 'Download failed',
+  'storybook.stories.ConfirmAction.argTypes.autoFocusButton.description':
+    'The button to auto focus when the confirm action is opened.',
+  'storybook.stories.ConfirmAction.argTypes.contentColor.description': 'The color of the content text.',
+  'storybook.stories.ConfirmAction.argTypes.iconColor.description': 'The color of the icon.',
+  'storybook.stories.ConfirmAction.argTypes.titleColor.description': 'The color of the title text.',
+  'storybook.stories.ConfirmAction.argTypes.triggerProps.description':
+    'Props of the trigger component, will change according to the trigger type.',
+  'storybook.stories.ConfirmAction.argTypes.triggerType.description':
+    'Demo-only option to switch trigger component type, \`triggerProps\` will change according to the type',
+  'storybook.stories.ConfirmAction.argTypes.type.description': 'Type of the confirm action.',
+  'storybook.stories.ConfirmAction.stories.Playground.description':
+    'Switch between Button, Switch, and Link triggers to compare how the same confirm flow is exposed.',
+  'storybook.stories.DeleteConfirmAction.argTypes.autoFocusButton.description':
+    'The button to auto focus when the confirm action is opened.',
+  'storybook.stories.DeleteConfirmAction.argTypes.contentColor.description': 'The color of the content text.',
+  'storybook.stories.DeleteConfirmAction.argTypes.iconColor.description': 'The color of the icon.',
+  'storybook.stories.DeleteConfirmAction.argTypes.titleColor.description': 'The color of the title text.',
+  'storybook.stories.DeleteConfirmAction.argTypes.triggerType.description':
+    'Demo-only option to switch trigger component type.',
+  'storybook.stories.EditableText.argTypes.editable.description': 'Controls whether the edit affordance is available.',
+  'storybook.stories.EditableText.argTypes.editing.description':
+    'Forces the component into editing mode when controlled externally.',
+  'storybook.stories.EditableText.argTypes.required.description':
+    'Marks the editor as required when confirming changes.',
+  'storybook.stories.EditableText.argTypes.textComp.description':
+    'Typography component type used to render the read-only text state.',
+  'storybook.stories.EditableText.argTypes.value.description':
+    'Current text value displayed and edited by the component.',
+  'storybook.stories.EditableText.stories.Playground.description':
+    'Try toggling editable and editing state to inspect the inline editing experience.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.ellipsis.description':
+    'Ellipsis configuration. Set \`true\` for automatic ellipsis and tooltip behavior.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.href.description': 'Link target URL.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisLink.description':
+    'Link ellipsis example for long URLs or labels.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisParagraph.argTypes.ellipsis.description':
+    'Ellipsis configuration with optional rows and tooltip settings.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisParagraph.description':
+    'Multi-line paragraph ellipsis with tooltip support.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisText.description': 'Single-line text ellipsis example.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisTitle.argTypes.ellipsis.description':
+    'Ellipsis configuration. Supports automatic tooltip title behavior.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisTitle.argTypes.level.description': 'Title level.',
+  'storybook.stories.EllipsisTypography.stories.EllipsisTitle.description':
+    'Heading ellipsis example with configurable title level.',
+  'storybook.stories.Iconfont.argTypes.color.description': 'Icon color.',
+  'storybook.stories.Iconfont.argTypes.iconPrefix.description':
+    'Demo-only prefix. The factory prepends it to \`type\` unless the type already starts with it.',
+  'storybook.stories.Iconfont.argTypes.rotate.description': 'Fixed clockwise rotation angle.',
+  'storybook.stories.Iconfont.argTypes.scriptUrl.description': 'URL of the iconfont script.',
+  'storybook.stories.Iconfont.argTypes.size.description': 'Icon size in pixels.',
+  'storybook.stories.Iconfont.argTypes.spin.description': 'Whether the icon spins continuously.',
+  'storybook.stories.Iconfont.argTypes.type.description': 'Icon name provided by the loaded iconfont script.',
+  'storybook.stories.Iconfont.stories.IconGallery.description':
+    'All icons shipped by the official demo iconfont script.',
+  'storybook.stories.Iconfont.stories.Playground.description':
+    'Pick an icon and tune size, color, spin, rotation, or the demo prefix. The resolved \`type\` is shown below the icon.',
+  'storybook.stories.ModalAction.argTypes.triggerType.description':
+    'Demo-only option to switch trigger component type.',
+  'storybook.stories.ModalAction.stories.Playground.description':
+    'Demonstrates create and edit flows backed by the same form component and different trigger variants.',
+  'storybook.stories.PulseAnimation.argTypes.barColor.description': 'Base color of the animation bars.',
+  'storybook.stories.PulseAnimation.argTypes.barGap.description': 'Horizontal gap between bars.',
+  'storybook.stories.PulseAnimation.argTypes.barStyle.description': 'Extra styles applied to each bar.',
+  'storybook.stories.PulseAnimation.argTypes.bars.description': 'Number of animated bars.',
+  'storybook.stories.PulseAnimation.argTypes.delayRate.description':
+    'Delay offset rate used to stagger each bar animation.',
+  'storybook.stories.PulseAnimation.argTypes.duration.description': 'Animation duration in seconds.',
+  'storybook.stories.PulseAnimation.argTypes.prefixCls.description': 'Custom CSS class prefix for the component.',
+  'storybook.stories.PulseAnimation.stories.AudioActivity.description':
+    'A typical audio-activity indicator: many thin bars with a tight gap and a short stagger delay, rendered inside a player card.',
+  'storybook.stories.PulseAnimation.stories.LightLoading.description':
+    'Use pulse bars as a lightweight loading indicator next to text content.',
+  'storybook.stories.PulseAnimation.stories.Playground.description':
+    'Adjust bar count, gap, and timing controls to explore different motion rhythms.',
+  'storybook.stories.EllipsisTypography.argTypes.text.description':
+    'Text content. If omitted, \`children\` can be used as fallback.',
 } as const;
 export default enUS;

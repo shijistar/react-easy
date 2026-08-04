@@ -88,8 +88,7 @@ const meta: Meta<ModalActionStoryArgs> = {
     triggerType: {
       control: 'radio',
       options: ['Button', 'Switch', 'Link'],
-      description: `- **EN:** Demo-only option to switch trigger component type.
-- **CN:** 示例专用：切换触发器组件类型。`,
+      description: storyT('storybook.stories.ModalAction.argTypes.triggerType.description'),
       table: { defaultValue: { summary: '"Button"' } },
     },
   },
@@ -102,8 +101,7 @@ export const Playground: Story = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Demonstrates create and edit flows backed by the same form component and different trigger variants.
-- **CN:** 演示同一个表单组件在创建、编辑流程以及不同触发器形态下的复用方式。`,
+        story: storyT('storybook.stories.ModalAction.stories.Playground.description'),
       },
     },
   },

@@ -200,5 +200,68 @@ const zhCN = {
   'storybook.stories.useStreamDownloader.logs.cancel': '已请求取消',
   'storybook.stories.useStreamDownloader.logs.reset': '快照已重置为 idle',
   'storybook.stories.useStreamDownloader.logs.error': '下载失败',
+  'storybook.stories.ConfirmAction.argTypes.autoFocusButton.description': '确认操作打开时自动获取焦点的按钮。',
+  'storybook.stories.ConfirmAction.argTypes.contentColor.description': '内容文本的颜色。',
+  'storybook.stories.ConfirmAction.argTypes.iconColor.description': '图标的颜色。',
+  'storybook.stories.ConfirmAction.argTypes.titleColor.description': '标题文本的颜色。',
+  'storybook.stories.ConfirmAction.argTypes.triggerProps.description':
+    '触发器组件的Props属性，随触发器类型变化进行调整类型定义。',
+  'storybook.stories.ConfirmAction.argTypes.triggerType.description':
+    '示例专用：切换触发器组件类型，\`triggerProps\`会根据类型而变化类型定义。',
+  'storybook.stories.ConfirmAction.argTypes.type.description': '确认操作的类型。',
+  'storybook.stories.ConfirmAction.stories.Playground.description':
+    '可切换 Button、Switch、Link 三种触发方式，对比相同确认流程的接入形式。',
+  'storybook.stories.DeleteConfirmAction.argTypes.autoFocusButton.description': '确认操作打开时自动获取焦点的按钮。',
+  'storybook.stories.DeleteConfirmAction.argTypes.contentColor.description': '内容文本的颜色。',
+  'storybook.stories.DeleteConfirmAction.argTypes.iconColor.description': '图标的颜色。',
+  'storybook.stories.DeleteConfirmAction.argTypes.titleColor.description': '标题文本的颜色。',
+  'storybook.stories.DeleteConfirmAction.argTypes.triggerType.description': '示例专用：切换触发器组件类型。',
+  'storybook.stories.EditableText.argTypes.editable.description': '控制是否允许进入编辑状态。',
+  'storybook.stories.EditableText.argTypes.editing.description': '外部受控地将组件切换到编辑状态。',
+  'storybook.stories.EditableText.argTypes.required.description': '在确认修改时将输入视为必填。',
+  'storybook.stories.EditableText.argTypes.textComp.description': '只读文本态所使用的排版组件类型。',
+  'storybook.stories.EditableText.argTypes.value.description': '组件当前展示和编辑的文本值。',
+  'storybook.stories.EditableText.stories.Playground.description':
+    '可切换 editable 和 editing 状态，观察行内编辑体验。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.ellipsis.description':
+    '省略配置。设为 \`true\` 可启用自动省略与 tooltip 行为。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.href.description': '链接跳转地址。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisLink.description': '适用于长链接文本或长链接标签的省略示例。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisParagraph.argTypes.ellipsis.description':
+    '省略配置，支持行数和 tooltip 设置。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisParagraph.description': '支持 tooltip 的多行段落省略示例。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisText.description': '单行文本省略示例。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisTitle.argTypes.ellipsis.description':
+    '省略配置，支持自动 tooltip title 行为。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisTitle.argTypes.level.description': '标题层级。',
+  'storybook.stories.EllipsisTypography.stories.EllipsisTitle.description': '支持标题层级配置的标题省略示例。',
+  'storybook.stories.Iconfont.argTypes.color.description': '图标颜色。',
+  'storybook.stories.Iconfont.argTypes.iconPrefix.description':
+    '示例专用前缀。工厂会将其拼接到 \`type\` 前，除非 \`type\` 已包含该前缀。',
+  'storybook.stories.Iconfont.argTypes.rotate.description': '图标顺时针旋转的固定角度。',
+  'storybook.stories.Iconfont.argTypes.scriptUrl.description': 'iconfont 脚本的 URL。',
+  'storybook.stories.Iconfont.argTypes.size.description': '图标尺寸（像素）。',
+  'storybook.stories.Iconfont.argTypes.spin.description': '图标是否持续旋转。',
+  'storybook.stories.Iconfont.argTypes.type.description': '已加载的 iconfont 脚本提供的图标名称。',
+  'storybook.stories.Iconfont.stories.IconGallery.description': '官方示例 iconfont 脚本内置的全部图标。',
+  'storybook.stories.Iconfont.stories.Playground.description':
+    '选择图标并调整尺寸、颜色、旋转、spin 或示例前缀。图标下方会展示最终解析出的 \`type\`。',
+  'storybook.stories.ModalAction.argTypes.triggerType.description': '示例专用：切换触发器组件类型。',
+  'storybook.stories.ModalAction.stories.Playground.description':
+    '演示同一个表单组件在创建、编辑流程以及不同触发器形态下的复用方式。',
+  'storybook.stories.PulseAnimation.argTypes.barColor.description': '动画柱条的基础颜色。',
+  'storybook.stories.PulseAnimation.argTypes.barGap.description': '柱条之间的水平间距。',
+  'storybook.stories.PulseAnimation.argTypes.barStyle.description': '应用于每根柱条的额外样式。',
+  'storybook.stories.PulseAnimation.argTypes.bars.description': '动画柱条数量。',
+  'storybook.stories.PulseAnimation.argTypes.delayRate.description': '每根柱条的错峰延迟系数。',
+  'storybook.stories.PulseAnimation.argTypes.duration.description': '动画总时长，单位为秒。',
+  'storybook.stories.PulseAnimation.argTypes.prefixCls.description': '组件的自定义 CSS 类前缀。',
+  'storybook.stories.PulseAnimation.stories.AudioActivity.description':
+    '典型的音频活动指示器：细密柱条 + 小间距 + 短错峰延迟，放在播放器卡片中演示。',
+  'storybook.stories.PulseAnimation.stories.LightLoading.description':
+    '将脉冲柱条作为轻量加载指示器，与文本内容并排展示。',
+  'storybook.stories.PulseAnimation.stories.Playground.description':
+    '可调整柱子数量、间距和节奏参数，观察不同的动画律动效果。',
+  'storybook.stories.EllipsisTypography.argTypes.text.description': '文本内容；未传时可由 \`children\` 兜底。',
 } as const;
 export default zhCN;

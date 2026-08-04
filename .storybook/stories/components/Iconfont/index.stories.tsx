@@ -51,42 +51,35 @@ const meta: Meta<IconfontStoryArgs> = {
   argTypes: {
     scriptUrl: {
       control: 'text',
-      description: `- **EN:** URL of the iconfont script.
-- **CN:** iconfont 脚本的 URL。`,
+      description: storyT('storybook.stories.Iconfont.argTypes.scriptUrl.description'),
     },
     type: {
       control: 'select',
       options: [...ICON_TYPES],
-      description: `- **EN:** Icon name provided by the loaded iconfont script.
-- **CN:** 已加载的 iconfont 脚本提供的图标名称。`,
+      description: storyT('storybook.stories.Iconfont.argTypes.type.description'),
     },
     size: {
       control: { type: 'number', min: 12, max: 64, step: 4 },
-      description: `- **EN:** Icon size in pixels.
-- **CN:** 图标尺寸（像素）。`,
+      description: storyT('storybook.stories.Iconfont.argTypes.size.description'),
       table: { defaultValue: { summary: '32' } },
     },
     color: {
       control: 'color',
-      description: `- **EN:** Icon color.
-- **CN:** 图标颜色。`,
+      description: storyT('storybook.stories.Iconfont.argTypes.color.description'),
     },
     spin: {
       control: 'boolean',
-      description: `- **EN:** Whether the icon spins continuously.
-- **CN:** 图标是否持续旋转。`,
+      description: storyT('storybook.stories.Iconfont.argTypes.spin.description'),
       table: { defaultValue: { summary: 'false' } },
     },
     rotate: {
       control: { type: 'number', min: 0, max: 360, step: 15 },
-      description: `- **EN:** Fixed clockwise rotation angle.
-- **CN:** 图标顺时针旋转的固定角度。`,
+      description: storyT('storybook.stories.Iconfont.argTypes.rotate.description'),
       table: { defaultValue: { summary: '0' } },
     },
     iconPrefix: {
       control: 'text',
-      description: `- **EN:** Demo-only prefix. The factory prepends it to \`type\` unless the type already starts with it.
-- **CN:** 示例专用前缀。工厂会将其拼接到 \`type\` 前，除非 \`type\` 已包含该前缀。`,
+      description: storyT('storybook.stories.Iconfont.argTypes.iconPrefix.description'),
       table: { defaultValue: { summary: "''" } },
     },
   },
@@ -99,8 +92,7 @@ export const Playground: Story = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Pick an icon and tune size, color, spin, rotation, or the demo prefix. The resolved \`type\` is shown below the icon.
-- **CN:** 选择图标并调整尺寸、颜色、旋转、spin 或示例前缀。图标下方会展示最终解析出的 \`type\`。`,
+        story: storyT('storybook.stories.Iconfont.stories.Playground.description'),
       },
     },
   },
@@ -137,8 +129,7 @@ export const IconGallery: Story = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** All icons shipped by the official demo iconfont script.
-- **CN:** 官方示例 iconfont 脚本内置的全部图标。`,
+        story: storyT('storybook.stories.Iconfont.stories.IconGallery.description'),
       },
     },
   },

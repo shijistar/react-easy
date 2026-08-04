@@ -61,44 +61,37 @@ const meta: Meta<ConfirmActionStoryArgs> = {
     triggerType: {
       control: 'radio',
       options: ['Button', 'Switch', 'Link'],
-      description: `- **EN:** Demo-only option to switch trigger component type, \`triggerProps\` will change according to the type
-- **CN:** 示例专用：切换触发器组件类型，\`triggerProps\`会根据类型而变化类型定义。`,
+      description: storyT('storybook.stories.ConfirmAction.argTypes.triggerType.description'),
       table: { defaultValue: { summary: '"Button"' } },
     },
     type: {
       control: 'select',
       options: ['info', 'success', 'error', 'warn', 'warning', 'confirm'],
-      description: `- **EN:** Type of the confirm action.
-- **CN:** 确认操作的类型。`,
+      description: storyT('storybook.stories.ConfirmAction.argTypes.type.description'),
       table: { defaultValue: { summary: '"confirm"' } },
     },
     triggerProps: {
-      description: `- **EN:** Props of the trigger component, will change according to the trigger type.
-- **CN:** 触发器组件的Props属性，随触发器类型变化进行调整类型定义。`,
+      description: storyT('storybook.stories.ConfirmAction.argTypes.triggerProps.description'),
     },
     autoFocusButton: {
       control: 'select',
       options: ['ok', 'cancel'],
-      description: `- **EN:** The button to auto focus when the confirm action is opened.
-- **CN:** 确认操作打开时自动获取焦点的按钮。`,
+      description: storyT('storybook.stories.ConfirmAction.argTypes.autoFocusButton.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
     iconColor: {
       options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
-      description: `- **EN:** The color of the icon.
-- **CN:** 图标的颜色。`,
+      description: storyT('storybook.stories.ConfirmAction.argTypes.iconColor.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
     titleColor: {
       options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
-      description: `- **EN:** The color of the title text.
-- **CN:** 标题文本的颜色。`,
+      description: storyT('storybook.stories.ConfirmAction.argTypes.titleColor.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
     contentColor: {
       options: ['info', 'success', 'error', 'warn', 'warning', 'secondary'],
-      description: `- **EN:** The color of the content text.
-- **CN:** 内容文本的颜色。`,
+      description: storyT('storybook.stories.ConfirmAction.argTypes.contentColor.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
   },
@@ -116,8 +109,7 @@ export const Playground: Story = {
   parameters: {
     docs: {
       description: {
-        story: `- **EN:** Switch between Button, Switch, and Link triggers to compare how the same confirm flow is exposed.
-- **CN:** 可切换 Button、Switch、Link 三种触发方式，对比相同确认流程的接入形式。`,
+        story: storyT('storybook.stories.ConfirmAction.stories.Playground.description'),
       },
     },
   },
