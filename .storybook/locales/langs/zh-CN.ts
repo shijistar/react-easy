@@ -207,7 +207,7 @@ const zhCN = {
   'storybook.stories.ConfirmAction.argTypes.triggerProps.description':
     '触发器组件的Props属性，随触发器类型变化进行调整类型定义。',
   'storybook.stories.ConfirmAction.argTypes.triggerType.description':
-    '示例专用：切换触发器组件类型，\`triggerProps\`会根据类型而变化类型定义。',
+    '示例专用：切换触发器组件类型，`triggerProps`会根据类型而变化类型定义。',
   'storybook.stories.ConfirmAction.argTypes.type.description': '确认操作的类型。',
   'storybook.stories.ConfirmAction.stories.Playground.description':
     '可切换 Button、Switch、Link 三种触发方式，对比相同确认流程的接入形式。',
@@ -224,7 +224,7 @@ const zhCN = {
   'storybook.stories.EditableText.stories.Playground.description':
     '可切换 editable 和 editing 状态，观察行内编辑体验。',
   'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.ellipsis.description':
-    '省略配置。设为 \`true\` 可启用自动省略与 tooltip 行为。',
+    '省略配置。设为 `true` 可启用自动省略与 tooltip 行为。',
   'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.href.description': '链接跳转地址。',
   'storybook.stories.EllipsisTypography.stories.EllipsisLink.description': '适用于长链接文本或长链接标签的省略示例。',
   'storybook.stories.EllipsisTypography.stories.EllipsisParagraph.argTypes.ellipsis.description':
@@ -237,7 +237,7 @@ const zhCN = {
   'storybook.stories.EllipsisTypography.stories.EllipsisTitle.description': '支持标题层级配置的标题省略示例。',
   'storybook.stories.Iconfont.argTypes.color.description': '图标颜色。',
   'storybook.stories.Iconfont.argTypes.iconPrefix.description':
-    '示例专用前缀。工厂会将其拼接到 \`type\` 前，除非 \`type\` 已包含该前缀。',
+    '示例专用前缀。工厂会将其拼接到 `type` 前，除非 `type` 已包含该前缀。',
   'storybook.stories.Iconfont.argTypes.rotate.description': '图标顺时针旋转的固定角度。',
   'storybook.stories.Iconfont.argTypes.scriptUrl.description': 'iconfont 脚本的 URL。',
   'storybook.stories.Iconfont.argTypes.size.description': '图标尺寸（像素）。',
@@ -245,7 +245,7 @@ const zhCN = {
   'storybook.stories.Iconfont.argTypes.type.description': '已加载的 iconfont 脚本提供的图标名称。',
   'storybook.stories.Iconfont.stories.IconGallery.description': '官方示例 iconfont 脚本内置的全部图标。',
   'storybook.stories.Iconfont.stories.Playground.description':
-    '选择图标并调整尺寸、颜色、旋转、spin 或示例前缀。图标下方会展示最终解析出的 \`type\`。',
+    '选择图标并调整尺寸、颜色、旋转、spin 或示例前缀。图标下方会展示最终解析出的 `type`。',
   'storybook.stories.ModalAction.argTypes.triggerType.description': '示例专用：切换触发器组件类型。',
   'storybook.stories.ModalAction.stories.Playground.description':
     '演示同一个表单组件在创建、编辑流程以及不同触发器形态下的复用方式。',
@@ -262,6 +262,25 @@ const zhCN = {
     '将脉冲柱条作为轻量加载指示器，与文本内容并排展示。',
   'storybook.stories.PulseAnimation.stories.Playground.description':
     '可调整柱子数量、间距和节奏参数，观察不同的动画律动效果。',
-  'storybook.stories.EllipsisTypography.argTypes.text.description': '文本内容；未传时可由 \`children\` 兜底。',
+  'storybook.stories.EllipsisTypography.argTypes.text.description': '文本内容；未传时可由 `children` 兜底。',
+  'storybook.stories.OverflowTags.argTypes.maxCount.description': '超出前最多显示的标签数量。',
+  'storybook.stories.useAudioPlayer.argTypes.source.description':
+    '示例初始使用的音频地址。为保证播放更稳定，建议优先使用由 Storybook 提供的本地静态资源。',
+  'storybook.stories.useAudioPlayer.argTypes.initialVolume.description': 'Hook 实例创建时使用的初始音量。',
+  'storybook.stories.useAudioPlayer.argTypes.seekStep.description':
+    '示例专用参数，用于控制前进/后退按钮每次跳转的秒数。',
+  'storybook.stories.useDebounce.argTypes.wait.description': '防抖延迟（毫秒）。',
+  'storybook.stories.useDebounce.argTypes.leading.description': '是否在首次调用时立即执行。',
+  'storybook.stories.useDebounce.argTypes.maxWait.description': '强制执行的最大等待时间，设为 `0` 表示关闭。',
+  'storybook.stories.useStreamDownloader.argTypes.url.description': 'hook demo 使用的真实公开文件 URL。',
+  'storybook.stories.useStreamDownloader.argTypes.fileName.description': '可选的显式文件名覆盖。',
+  'storybook.stories.useStreamDownloader.argTypes.progressThrottleMs.description': '透传给底层 class 构造参数。',
+  'storybook.stories.useStreamDownloader.argTypes.autoDispose.description': 'hook 卸载时是否自动释放 downloader。',
+  'storybook.stories.useStreamDownloader.argTypes.saveStrategy.description': '传给 `start(request)` 的保存策略。',
+  'storybook.stories.StreamDownloader.argTypes.url.description': 'fetch 与 axios demo 共用的真实公开文件 URL。',
+  'storybook.stories.StreamDownloader.argTypes.fileName.description': '可选显式文件名覆盖；留空时从响应头 / URL 推导。',
+  'storybook.stories.StreamDownloader.argTypes.progressThrottleMs.description':
+    '构造参数级别的进度节流窗口，单位毫秒。',
+  'storybook.stories.StreamDownloader.argTypes.saveStrategy.description': '传给 `start(request)` 的保存策略。',
 } as const;
 export default zhCN;

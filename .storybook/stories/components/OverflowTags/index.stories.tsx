@@ -48,8 +48,7 @@ const meta: Meta<typeof OverflowTags<TagItem>> = {
     maxCount: {
       control: 'select',
       options: [2, 3, 4, 5, 'responsive', 'invalidate'],
-      description: `- **EN:** Maximum number of tags to display before overflow.
-- **CN:** 超出前最多显示的标签数量。`,
+      description: storyT('storybook.stories.OverflowTags.argTypes.maxCount.description'),
       table: { defaultValue: { summary: storyT('storybook.stories.OverflowTags.maxCountSummary') } },
     },
   },

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert, Button, Card, Divider, Input, List, Space, Typography } from 'antd';
 import useDebounce from '../../../src/hooks/useDebounce';
-import { useStoryT } from '../../locales';
+import { storyT, useStoryT } from '../../locales';
 
 interface UseDebounceStoryArgs {
   wait: number;
@@ -35,18 +35,15 @@ const meta: Meta<UseDebounceStoryArgs> = {
   argTypes: {
     wait: {
       control: { type: 'range', min: 0, max: 3000, step: 100 },
-      description: `- **EN:** The debounce delay in milliseconds.
-- **CN:** 防抖延迟（毫秒）。`,
+      description: storyT('storybook.stories.useDebounce.argTypes.wait.description'),
     },
     leading: {
       control: 'boolean',
-      description: `- **EN:** Whether the first call executes immediately.
-- **CN:** 是否在首次调用时立即执行。`,
+      description: storyT('storybook.stories.useDebounce.argTypes.leading.description'),
     },
     maxWait: {
       control: { type: 'range', min: 0, max: 5000, step: 100 },
-      description: `- **EN:** Maximum time to wait before forcing execution. Use \`0\` to disable.
-- **CN:** 强制执行的最大等待时间，设为 \`0\` 表示关闭。`,
+      description: storyT('storybook.stories.useDebounce.argTypes.maxWait.description'),
     },
   },
 };
@@ -87,7 +84,7 @@ function UseDebounceStoryDemo({ wait, leading, maxWait }: UseDebounceStoryArgs) 
       wait,
       leading,
       maxWait,
-    }
+    },
   );
 
   function appendEventLog(type: string, value: string) {
@@ -140,14 +137,14 @@ function UseDebounceStoryDemo({ wait, leading, maxWait }: UseDebounceStoryArgs) 
         : t('storybook.stories.useDebounce.enabledStatus');
 
   return (
-    <Card bordered style={{ maxWidth: 920 }} title={t('storybook.stories.useDebounce.cardTitle')}>
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Card variant="outlined" style={{ maxWidth: 920 }} title={t('storybook.stories.useDebounce.cardTitle')}>
+      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
         <Typography.Paragraph style={{ marginBottom: 0 }}>
           {t('storybook.stories.useDebounce.description')}
         </Typography.Paragraph>
 
         <Space align="start" wrap style={{ width: '100%', justifyContent: 'space-between' }}>
-          <Space direction="vertical" size="small" style={{ minWidth: 280, flex: 1 }}>
+          <Space orientation="vertical" size="small" style={{ minWidth: 280, flex: 1 }}>
             <Typography.Text strong>{t('storybook.stories.useDebounce.currentValue')}</Typography.Text>
             <Input
               value={query}
@@ -172,7 +169,7 @@ function UseDebounceStoryDemo({ wait, leading, maxWait }: UseDebounceStoryArgs) 
             </Space>
           </Space>
 
-          <Space direction="vertical" size="small" style={{ minWidth: 260 }}>
+          <Space orientation="vertical" size="small" style={{ minWidth: 260 }}>
             <Typography.Text strong>{t('storybook.stories.useDebounce.waitLabel')}</Typography.Text>
             <Typography.Text>{`${wait} ms`}</Typography.Text>
             <Typography.Text strong>{t('storybook.stories.useDebounce.leadingLabel')}</Typography.Text>

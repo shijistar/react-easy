@@ -6,7 +6,7 @@ import StreamDownloader, {
   type StreamDownloadRequest,
   type StreamDownloadSaveStrategy,
 } from '../../../../src/utils/StreamDownloader';
-import { useStoryT } from '../../../locales';
+import { storyT, useStoryT } from '../../../locales';
 import StreamDownloaderDemoCard, {
   formatErrorLog,
   getCodeBlockStyle,
@@ -117,24 +117,20 @@ const meta: Meta<StreamDownloaderStoryArgs> = {
   argTypes: {
     url: {
       control: 'text',
-      description:
-        '- **EN:** Real public file URL used by both fetch and axios demos.\n- **CN:** fetch 与 axios demo 共用的真实公开文件 URL。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.url.description'),
     },
     fileName: {
       control: 'text',
-      description:
-        '- **EN:** Optional explicit file name override. Leave empty to derive it from response headers / URL.\n- **CN:** 可选显式文件名覆盖；留空时从响应头 / URL 推导。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.fileName.description'),
     },
     progressThrottleMs: {
       control: { type: 'number', min: 0, max: 2000, step: 20 },
-      description:
-        '- **EN:** Constructor-level progress throttling window in milliseconds.\n- **CN:** 构造参数级别的进度节流窗口，单位毫秒。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.progressThrottleMs.description'),
     },
     saveStrategy: {
       control: 'radio',
       options: ['auto', 'file-system-access', 'stream-saver'],
-      description:
-        '- **EN:** Save strategy passed into `start(request)`.\n- **CN:** 传给 `start(request)` 的保存策略。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.saveStrategy.description'),
     },
   },
 };

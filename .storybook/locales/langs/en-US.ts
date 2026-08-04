@@ -211,7 +211,7 @@ const enUS = {
   'storybook.stories.ConfirmAction.argTypes.triggerProps.description':
     'Props of the trigger component, will change according to the trigger type.',
   'storybook.stories.ConfirmAction.argTypes.triggerType.description':
-    'Demo-only option to switch trigger component type, \`triggerProps\` will change according to the type',
+    'Demo-only option to switch trigger component type, `triggerProps` will change according to the type',
   'storybook.stories.ConfirmAction.argTypes.type.description': 'Type of the confirm action.',
   'storybook.stories.ConfirmAction.stories.Playground.description':
     'Switch between Button, Switch, and Link triggers to compare how the same confirm flow is exposed.',
@@ -234,7 +234,7 @@ const enUS = {
   'storybook.stories.EditableText.stories.Playground.description':
     'Try toggling editable and editing state to inspect the inline editing experience.',
   'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.ellipsis.description':
-    'Ellipsis configuration. Set \`true\` for automatic ellipsis and tooltip behavior.',
+    'Ellipsis configuration. Set `true` for automatic ellipsis and tooltip behavior.',
   'storybook.stories.EllipsisTypography.stories.EllipsisLink.argTypes.href.description': 'Link target URL.',
   'storybook.stories.EllipsisTypography.stories.EllipsisLink.description':
     'Link ellipsis example for long URLs or labels.',
@@ -250,7 +250,7 @@ const enUS = {
     'Heading ellipsis example with configurable title level.',
   'storybook.stories.Iconfont.argTypes.color.description': 'Icon color.',
   'storybook.stories.Iconfont.argTypes.iconPrefix.description':
-    'Demo-only prefix. The factory prepends it to \`type\` unless the type already starts with it.',
+    'Demo-only prefix. The factory prepends it to `type` unless the type already starts with it.',
   'storybook.stories.Iconfont.argTypes.rotate.description': 'Fixed clockwise rotation angle.',
   'storybook.stories.Iconfont.argTypes.scriptUrl.description': 'URL of the iconfont script.',
   'storybook.stories.Iconfont.argTypes.size.description': 'Icon size in pixels.',
@@ -259,7 +259,7 @@ const enUS = {
   'storybook.stories.Iconfont.stories.IconGallery.description':
     'All icons shipped by the official demo iconfont script.',
   'storybook.stories.Iconfont.stories.Playground.description':
-    'Pick an icon and tune size, color, spin, rotation, or the demo prefix. The resolved \`type\` is shown below the icon.',
+    'Pick an icon and tune size, color, spin, rotation, or the demo prefix. The resolved `type` is shown below the icon.',
   'storybook.stories.ModalAction.argTypes.triggerType.description':
     'Demo-only option to switch trigger component type.',
   'storybook.stories.ModalAction.stories.Playground.description':
@@ -279,6 +279,32 @@ const enUS = {
   'storybook.stories.PulseAnimation.stories.Playground.description':
     'Adjust bar count, gap, and timing controls to explore different motion rhythms.',
   'storybook.stories.EllipsisTypography.argTypes.text.description':
-    'Text content. If omitted, \`children\` can be used as fallback.',
+    'Text content. If omitted, `children` can be used as fallback.',
+  'storybook.stories.OverflowTags.argTypes.maxCount.description': 'Maximum number of tags to display before overflow.',
+  'storybook.stories.useAudioPlayer.argTypes.source.description':
+    'Initial audio source URL used by the demo. Prefer local static assets served by Storybook for reliable playback.',
+  'storybook.stories.useAudioPlayer.argTypes.initialVolume.description':
+    'Initial player volume used when the hook instance is created.',
+  'storybook.stories.useAudioPlayer.argTypes.seekStep.description':
+    'Demo-only option that controls how many seconds the forward/backward buttons seek.',
+  'storybook.stories.useDebounce.argTypes.wait.description': 'The debounce delay in milliseconds.',
+  'storybook.stories.useDebounce.argTypes.leading.description': 'Whether the first call executes immediately.',
+  'storybook.stories.useDebounce.argTypes.maxWait.description':
+    'Maximum time to wait before forcing execution. Use `0` to disable.',
+  'storybook.stories.useStreamDownloader.argTypes.url.description': 'Real public file URL used by the hook demo.',
+  'storybook.stories.useStreamDownloader.argTypes.fileName.description': 'Optional explicit file name override.',
+  'storybook.stories.useStreamDownloader.argTypes.progressThrottleMs.description':
+    'Forwarded into the underlying class constructor.',
+  'storybook.stories.useStreamDownloader.argTypes.autoDispose.description':
+    'Whether the hook disposes the downloader on unmount.',
+  'storybook.stories.useStreamDownloader.argTypes.saveStrategy.description':
+    'Save strategy passed into `start(request)`.',
+  'storybook.stories.StreamDownloader.argTypes.url.description':
+    'Real public file URL used by both fetch and axios demos.',
+  'storybook.stories.StreamDownloader.argTypes.fileName.description':
+    'Optional explicit file name override. Leave empty to derive it from response headers / URL.',
+  'storybook.stories.StreamDownloader.argTypes.progressThrottleMs.description':
+    'Constructor-level progress throttling window in milliseconds.',
+  'storybook.stories.StreamDownloader.argTypes.saveStrategy.description': 'Save strategy passed into `start(request)`.',
 } as const;
 export default enUS;

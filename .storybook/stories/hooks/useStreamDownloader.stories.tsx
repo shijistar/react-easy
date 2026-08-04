@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { create as createAxios } from 'axios';
 import { List, Space, Tag, Typography } from 'antd';
 import { type StreamDownloadSaveStrategy, useStreamDownloader } from '../../../src';
-import { useStoryT } from '../../locales';
+import { storyT, useStoryT } from '../../locales';
 import StreamDownloaderDemoCard, { formatErrorLog, useStreamDownloaderDemoLogs } from '../shared/streamDownloaderDemo';
 
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
@@ -97,27 +97,24 @@ const meta: Meta<UseStreamDownloaderStoryArgs> = {
   argTypes: {
     url: {
       control: 'text',
-      description:
-        '- **EN:** Real public file URL used by the hook demo.\n- **CN:** hook demo 使用的真实公开文件 URL。',
+      description: storyT('storybook.stories.useStreamDownloader.argTypes.url.description'),
     },
     fileName: {
       control: 'text',
-      description: '- **EN:** Optional explicit file name override.\n- **CN:** 可选的显式文件名覆盖。',
+      description: storyT('storybook.stories.useStreamDownloader.argTypes.fileName.description'),
     },
     progressThrottleMs: {
       control: { type: 'number', min: 0, max: 2000, step: 20 },
-      description: '- **EN:** Forwarded into the underlying class constructor.\n- **CN:** 透传给底层 class 构造参数。',
+      description: storyT('storybook.stories.useStreamDownloader.argTypes.progressThrottleMs.description'),
     },
     autoDispose: {
       control: 'boolean',
-      description:
-        '- **EN:** Whether the hook disposes the downloader on unmount.\n- **CN:** hook 卸载时是否自动释放 downloader。',
+      description: storyT('storybook.stories.useStreamDownloader.argTypes.autoDispose.description'),
     },
     saveStrategy: {
       control: 'radio',
       options: ['auto', 'file-system-access', 'stream-saver'],
-      description:
-        '- **EN:** Save strategy passed into `start(request)`.\n- **CN:** 传给 `start(request)` 的保存策略。',
+      description: storyT('storybook.stories.useStreamDownloader.argTypes.saveStrategy.description'),
     },
   },
 };

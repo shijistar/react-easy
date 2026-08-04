@@ -5,7 +5,7 @@ import { useRefFunction } from '../../../src/hooks';
 import useAudioPlayer from '../../../src/hooks/useAudioPlayer';
 // @ts-expect-error: because Vite handles mp3 imports natively
 import musicUrl from '../../assets/sample.mp3';
-import { useStoryT } from '../../locales';
+import { storyT, useStoryT } from '../../locales';
 
 interface UseAudioPlayerStoryArgs {
   source: string;
@@ -23,10 +23,7 @@ const meta: Meta<UseAudioPlayerStoryArgs> = {
   title: 'Hooks/useAudioPlayer',
   parameters: {
     docs: {
-      description: {
-        component: `- **EN:** Demonstrates how to use the \`useAudioPlayer\` hook to create a stable \`AudioPlayer\` instance, control playback, switch sources, and observe player state in a React view. \n\n Note that AudioPlayer is an audio playback API object and does not provide a user interface, only playback control and state management functionality.
-- **CN:** 演示如何使用 \`useAudioPlayer\` 钩子创建稳定的 \`AudioPlayer\` 实例，完成播放控制、音源切换，并在 React 视图中观察播放器状态。\n\n 注意 AudioPlayer 是一个音频播放API对象，不提供用户界面，仅提供播放控制和状态管理功能。`,
-      },
+      description: {},
     },
   },
   args: {
@@ -37,18 +34,15 @@ const meta: Meta<UseAudioPlayerStoryArgs> = {
   argTypes: {
     source: {
       control: 'text',
-      description: `- **EN:** Initial audio source URL used by the demo. Prefer local static assets served by Storybook for reliable playback.
-- **CN:** 示例初始使用的音频地址。为保证播放更稳定，建议优先使用由 Storybook 提供的本地静态资源。`,
+      description: storyT('storybook.stories.useAudioPlayer.argTypes.source.description'),
     },
     initialVolume: {
       control: { type: 'range', min: 0, max: 1, step: 0.1 },
-      description: `- **EN:** Initial player volume used when the hook instance is created.
-- **CN:** Hook 实例创建时使用的初始音量。`,
+      description: storyT('storybook.stories.useAudioPlayer.argTypes.initialVolume.description'),
     },
     seekStep: {
       control: { type: 'number', min: 1, max: 60, step: 1 },
-      description: `- **EN:** Demo-only option that controls how many seconds the forward/backward buttons seek.
-- **CN:** 示例专用参数，用于控制前进/后退按钮每次跳转的秒数。`,
+      description: storyT('storybook.stories.useAudioPlayer.argTypes.seekStep.description'),
     },
   },
 };
@@ -59,10 +53,7 @@ type Story = StoryObj<UseAudioPlayerStoryArgs>;
 export const Playground: Story = {
   parameters: {
     docs: {
-      description: {
-        story: `- **EN:** Includes source switching, transport controls, progress/volume synchronization, and an event log so you can inspect how the player behaves over time.
-- **CN:** 提供音源切换、播放控制、进度与音量同步，以及事件日志，便于观察播放器在不同交互下的行为。`,
-      },
+      description: {},
     },
   },
   render: function Render(args: UseAudioPlayerStoryArgs) {
