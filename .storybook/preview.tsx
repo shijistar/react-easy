@@ -176,7 +176,7 @@ function jsdocArgTypesEnhancer(context: StoryContextForEnhancers) {
       control: { type: argType?.control ?? inferred.control } as Control,
       options: argType?.options ?? inferred.options,
       // The handwritten description will not be overwritten.
-      description: argType?.description ?? docProp?.description ?? '',
+      description: pickLangDoc(argType?.description ?? docProp?.description ?? ''),
       table: {
         ...(argType?.table || {}),
         defaultValue: {
