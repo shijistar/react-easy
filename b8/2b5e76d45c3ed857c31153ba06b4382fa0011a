@@ -1,0 +1,14 @@
+.storybook/preview.tsx
+  h_99cad05bea77d1 179
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "b82b5e76d45c3ed857c31153ba06b4382fa0011a",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
