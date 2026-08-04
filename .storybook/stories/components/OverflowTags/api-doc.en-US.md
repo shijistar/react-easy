@@ -13,9 +13,8 @@
 | `ellipsisDropdownProps` | `DropdownProps`                                              | -                         | Props for the overflow dropdown                                       |
 | `randomColors`          | `boolean`                                                    | `false`                   | Use random preset colors. A `color` field on the tag takes precedence |
 
-## Notes | 说明
+## Notes
 
-- **EN:** The overflow threshold is controlled by `maxCount` (from `rc-overflow`, default `'responsive'`), which you can pass through the base props.
-- **CN:** 溢出阈值由 `maxCount`（来自 `rc-overflow`，默认 `'responsive'`）控制，可通过基础属性透传。
-- **EN:** If a tag carries its own `color`, that color wins over `randomColors`.
-- **CN:** 若 tag 自身带 `color` 字段，则其优先级高于 `randomColors`。
+The overflow threshold is controlled by `maxCount` (from `rc-overflow`, default `'responsive'`), which you can pass through the base props.
+
+If a tag carries its own `color`, that color wins over `randomColors`.

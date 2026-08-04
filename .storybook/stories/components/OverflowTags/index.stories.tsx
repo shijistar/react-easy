@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Typography } from 'antd';
 import OverflowTags from '../../../../src/components/OverflowTags';
-import { storyT } from '../../../locales';
-import apiDoc from './api-doc.md?raw';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEn from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 interface TagItem {
   id: number;
@@ -33,7 +35,7 @@ const meta: Meta<typeof OverflowTags<TagItem>> = {
   parameters: {
     docs: {
       description: {
-        component: introduce + apiDoc,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEn + apiDocEN,
       },
     },
   },

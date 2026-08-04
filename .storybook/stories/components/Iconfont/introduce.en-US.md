@@ -1,0 +1,1 @@
+`createIconfont` is a factory that turns an iconfont script URL into a ready-to-use icon component. It wraps Ant Design's `createFromIconfontCN` and adds an `iconPrefix` option plus a `size` alias for `style.fontSize`.
