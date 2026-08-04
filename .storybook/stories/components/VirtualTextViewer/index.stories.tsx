@@ -4,6 +4,8 @@ import type { ThemeVars } from 'storybook/theming';
 import VirtualTextViewer from '../../../../src/components/VirtualTextViewer';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import { getGlobalValueFromUrl } from '../../../utils/global';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
 import introduceEN from './introduce.en-US.md?raw';
 import introduceCN from './introduce.zh-CN.md?raw';
 
@@ -65,7 +67,7 @@ const meta: Meta<typeof VirtualTextViewer> = {
   parameters: {
     docs: {
       description: {
-        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

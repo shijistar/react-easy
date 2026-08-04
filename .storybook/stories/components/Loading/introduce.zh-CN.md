@@ -1,10 +1,19 @@
-用于展示加载状态，可作为覆盖层（包裹 children），也可单独作为视觉占位：自动撑满父容器并居中显示。
+展示加载状态，既可作为覆盖层（在子内容外包裹 spinner），也可作为独立视觉占位填充父容器。
 
 ## 适用场景
 
-在已有内容上叠加 spinner，或在相对定位的容器内渲染一个独立、居中、撑满的加载占位。
+当需要表达"进行中"状态时：用覆盖模式为某区域包裹旋转 spinner，或以独立动画作为数据加载时的居中占位，使用 `Loading`。
 
-## 两种用法
+## 核心特性
 
-1. **Spin (overlay)** — pass `children`; the component wraps them with Ant Design `Spin` and toggles the animation via `spinning`.
-2. **Standalone** — no children; renders a self-filled, centered loading animation. Hidden automatically when `spinning` is `false`.
+- **两种使用方式**
+  1. **Spin** —— 当组件包裹 `children` 时，在它们之上叠加 Ant Design 的 `Spin`。
+  2. **独立** —— 无 children 时，渲染一个自动填满并居中于父容器的加载动画。
+- **继承 Spin** —— 扩展 Ant Design `SpinProps`，因此 `tip`、`size`、`indicator`、`spinning` 等均可用。
+- **独立模式增强** —— `mode`（`absolute` | `flex`）控制独立定位；`rootClassName` / `rootStyle` 设置遮罩容器样式。
+
+## 使用注意
+
+- Spin 模式下子内容仍保留在 DOM 中，只是被覆盖；独立模式下没有 children。
+- `mode` 仅对独立变体有意义：`absolute` 通过绝对定位居中，`flex` 填满父容器。
+- 由于扩展自 `SpinProps`，多数样式与行为都与 Ant Design 的 `Spin` 一致。

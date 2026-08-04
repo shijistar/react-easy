@@ -1,5 +1,19 @@
-Helps users manage table columns such as visibility and ordering, and can persist preferences with a storage key.
+Helps users manage table columns — visibility, ordering, and a "check all" / reset flow — and can persist preferences with a storage key. It renders a dropdown triggered by a button.
 
 ## When to use
 
-You have an Ant Design `Table` and want to let users toggle column visibility / reorder columns, optionally remembering their choice across sessions.
+Use `ColumnSetting` wherever a table exposes column customization: data grids, admin lists, report builders — anywhere users benefit from hiding, reordering, or re-showing columns and having that choice remembered.
+
+## Key features
+
+- **Visibility & order** — `columns` carries each column's display state, order, and `disabled` flag; the component emits the updated array via `onChange`.
+- **Persistence** — `storageKey` saves the selection to `localStorage` so preferences survive reloads.
+- **Custom titles** — `renderColumnTitle` overrides how each column header is labeled in the panel.
+- **Composable triggers** — `triggerProps` / `dropdownProps` / `popupProps` / `checkAllProps` / `resetProps` customize the button, dropdown, popup, and action buttons.
+- **Inherits Ant Design** — column items follow `ColumnType`, so your existing column definitions drop in directly.
+
+## Usage notes
+
+- At least one column always stays visible (the last visible checkbox is disabled) to prevent hiding everything.
+- When `storageKey` is set, the selection is read on mount and written on every `onChange`.
+- Mark a column `disabled` to lock it visible while still listing it.

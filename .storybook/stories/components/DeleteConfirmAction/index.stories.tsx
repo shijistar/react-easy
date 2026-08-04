@@ -6,6 +6,8 @@ import type { LinkProps } from 'antd/es/typography/Link';
 import type { ConfirmActionProps } from '../../../../src/components/ConfirmAction';
 import DeleteConfirmAction from '../../../../src/components/DeleteConfirmAction';
 import storyI18n, { storyT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
 import introduceEN from './introduce.en-US.md?raw';
 import introduceCN from './introduce.zh-CN.md?raw';
 
@@ -20,7 +22,7 @@ const meta: Meta<DeleteConfirmActionStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

@@ -6,6 +6,8 @@ import type { LinkProps } from 'antd/es/typography/Link';
 import type { FormCompPropsConstraint, ModalActionProps } from '../../../../src/components/ModalAction';
 import { withModalAction } from '../../../../src/components/ModalAction';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
 import introduceEN from './introduce.en-US.md?raw';
 import introduceCN from './introduce.zh-CN.md?raw';
 
@@ -56,7 +58,7 @@ const meta: Meta<ModalActionStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },
