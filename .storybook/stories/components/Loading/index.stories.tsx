@@ -1,9 +1,11 @@
 import type { ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Loading from '../../../../src/components/Loading';
-import { storyT, useStoryT } from '../../../locales';
-import apiDoc from './api-doc.md?raw';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',
@@ -11,7 +13,7 @@ const meta: Meta<typeof Loading> = {
   parameters: {
     docs: {
       description: {
-        component: introduce + apiDoc,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

@@ -2,9 +2,10 @@ import { type CSSProperties, useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ThemeVars } from 'storybook/theming';
 import VirtualTextViewer from '../../../../src/components/VirtualTextViewer';
-import { storyT, useStoryT } from '../../../locales';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 import { getGlobalValueFromUrl } from '../../../utils/global';
-import introduce from './introduce.md?raw';
 
 const demoText = buildLargeText(120, 60);
 const background = getGlobalValueFromUrl('backgrounds.value');
@@ -64,7 +65,7 @@ const meta: Meta<typeof VirtualTextViewer> = {
   parameters: {
     docs: {
       description: {
-        component: introduce,
+        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
       },
     },
   },

@@ -21,9 +21,7 @@
 | `onClick`             | `(e: React.MouseEvent) => void`                               | -          | Click handler for the drawer container                                               |
 | `children`            | `ReactNode`                                                   | -          | Drawer content                                                                       |
 
-## Notes | 说明
+## 说明
 
-- **EN:** Size is applied as `width` for left/right and `height` for top/bottom. Use `edgeOffset` to fully hide the drawer behind the parent's padding/border.
-- **CN:** 尺寸对左右为 `width`、上下为 `height`。若抽屉未完全隐藏在父容器外，可用 `edgeOffset` 调整偏移。
-- **EN:** When `cacheKey` is set, the size is stored in `localStorage` and restored on next mount.
-- **CN:** 设置 `cacheKey` 后，抽屉尺寸会存入 `localStorage`，下次挂载时恢复。
+尺寸对左右为 `width`、上下为 `height`。若抽屉未完全隐藏在父容器外，可用 `edgeOffset` 调整偏移。
+设置 `cacheKey` 后，抽屉尺寸会存入 `localStorage`，下次挂载时恢复。

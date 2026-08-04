@@ -2,9 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { Button } from 'antd';
 import ContextMenu from '../../../../src/components/ContextMenu';
-import { storyT, useStoryT } from '../../../locales';
-import apiDoc from './api-doc.md?raw';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const meta: Meta<typeof ContextMenu> = {
   title: 'Components/ContextMenu',
@@ -12,7 +14,7 @@ const meta: Meta<typeof ContextMenu> = {
   parameters: {
     docs: {
       description: {
-        component: introduce + apiDoc,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

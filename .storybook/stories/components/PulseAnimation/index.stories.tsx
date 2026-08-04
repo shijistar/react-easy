@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Card, Space, Typography } from 'antd';
 import PulseAnimation from '../../../../src/components/Animation/Pulse';
-import { useStoryT } from '../../../locales';
-import introduce from './introduce.md?raw';
+import storyI18n, { useStoryT } from '../../../locales';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const meta: Meta<typeof PulseAnimation> = {
   title: 'Components/PulseAnimation',
@@ -10,7 +11,7 @@ const meta: Meta<typeof PulseAnimation> = {
   parameters: {
     docs: {
       description: {
-        component: introduce,
+        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
       },
     },
   },

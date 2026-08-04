@@ -1,0 +1,1 @@
+A modal-based action component that wraps a trigger and opens a form dialog before executing the action. The editing form is provided by the caller via `formComp`; the parent automatically creates the form instance and wires save/close lifecycle. Can switch between Button, Switch, and Link trigger types.

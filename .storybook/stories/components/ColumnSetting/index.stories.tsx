@@ -5,9 +5,11 @@ import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import ColumnSetting from '../../../../src/components/ColumnSetting';
 import type { ColumnSettingItem, ColumnSettingProps } from '../../../../src/components/ColumnSetting';
-import { storyT, useStoryT } from '../../../locales';
-import apiDoc from './api-doc.md?raw';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const meta: Meta<ColumnSettingProps> = {
   title: 'Components/ColumnSetting',
@@ -15,7 +17,7 @@ const meta: Meta<ColumnSettingProps> = {
   parameters: {
     docs: {
       description: {
-        component: introduce + apiDoc,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

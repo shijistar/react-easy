@@ -5,8 +5,9 @@ import { App as AntdApp } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { ConfirmActionProps } from '../../../../src/components/ConfirmAction';
 import ConfirmAction from '../../../../src/components/ConfirmAction';
-import { storyT } from '../../../locales';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT } from '../../../locales';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 type TriggerType = 'Button' | 'Switch' | 'Link';
 
@@ -19,7 +20,7 @@ const meta: Meta<ConfirmActionStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: introduce,
+        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
       },
     },
   },

@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { App as AntdApp, Space, Typography } from 'antd';
 import ConfigProvider, { type ConfigProviderProps } from '../../../../src/components/ConfigProvider';
 import ConfirmAction from '../../../../src/components/ConfirmAction';
-import { storyT, useStoryT } from '../../../locales';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 type ConfigProviderStoryArgs = ConfigProviderProps;
 
@@ -13,7 +14,7 @@ const meta: Meta<ConfigProviderStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: introduce,
+        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
       },
     },
   },

@@ -3,8 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Space, Typography } from 'antd';
 import { createIconfont } from '../../../../src/components/Iconfont';
 import storyI18n, { useStoryT } from '../../../locales';
-import apiDoc from './api-doc.md?raw';
-import introduceEn from './introduce.en-US.md?raw';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
 import introduceCN from './introduce.zh-CN.md?raw';
 
 // Ant Design official iconfont demo URL, also used by the repo tests.
@@ -34,7 +35,7 @@ const meta: Meta<IconfontStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDoc : introduceEn + apiDoc,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

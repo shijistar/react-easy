@@ -3,8 +3,9 @@ import EllipsisLinkComponent from '../../../../src/components/EllipsisTypography
 import EllipsisParagraphComponent from '../../../../src/components/EllipsisTypography/EllipsisParagraph';
 import EllipsisTextComponent from '../../../../src/components/EllipsisTypography/EllipsisText';
 import EllipsisTitleComponent from '../../../../src/components/EllipsisTypography/EllipsisTitle';
-import { storyT } from '../../../locales';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT } from '../../../locales';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const longText = storyT('storybook.stories.EllipsisTypography.longText');
 
@@ -13,7 +14,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: introduce,
+        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
       },
     },
   },

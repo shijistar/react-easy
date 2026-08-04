@@ -1,2 +1,0 @@
-- **EN:** A simplified large-text virtualization component built on top of Pretext. It predicts wrapped line geometry without DOM text measurement and only materializes the visible line window.
-- **CN:** 一个基于 Pretext 的简化版大文本虚拟查看组件。它不依赖 DOM 文本测量来预测换行几何，并且只物化可见行窗口。

@@ -40,7 +40,6 @@
 | `show`    | `(event: React.MouseEvent) => void` | Open the menu at the event position |
 | `hideAll` | `() => void`                        | Close all context menus             |
 
-## Notes | 说明
+## Notes
 
-- **EN:** The `show`/`hideAll` methods are exposed via `ref`, useful for programmatic control.
-- **CN:** `show` / `hideAll` 通过 `ref` 暴露，便于以编程方式控制菜单。
+The `show`/`hideAll` methods are exposed via `ref`, useful for programmatic control.

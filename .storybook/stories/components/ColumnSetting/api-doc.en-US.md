@@ -21,9 +21,7 @@ Extends Ant Design `ColumnType<T>` and adds:
 | ---------- | --------- | ------------------------------------------- |
 | `disabled` | `boolean` | Disable toggling visibility for this column |
 
-## Notes | 说明
+## Notes
 
-- **EN:** At least one column always remains visible — the last visible column's checkbox is disabled to prevent hiding everything.
-- **CN:** 至少会保留一列可见：最后一列可见项的勾选框会被禁用，避免把所有列都隐藏掉。
-- **EN:** When `storageKey` is set, the selection is read from `localStorage` on mount and written back on every change.
-- **CN:** 设置 `storageKey` 后，挂载时会从 `localStorage` 读取选择，并在每次变更时写回。
+At least one column always remains visible — the last visible column's checkbox is disabled to prevent hiding everything.
+When `storageKey` is set, the selection is read from `localStorage` on mount and written back on every change.

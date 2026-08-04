@@ -5,8 +5,9 @@ import { type ButtonProps, Form, Input, message, Space, type SwitchProps } from 
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { FormCompPropsConstraint, ModalActionProps } from '../../../../src/components/ModalAction';
 import { withModalAction } from '../../../../src/components/ModalAction';
-import { storyT, useStoryT } from '../../../locales';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 type ModalActionStoryArgs = ModalActionProps<
   UserForm,
@@ -55,7 +56,7 @@ const meta: Meta<ModalActionStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: introduce,
+        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
       },
     },
   },

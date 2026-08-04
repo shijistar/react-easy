@@ -8,7 +8,6 @@ Extends Ant Design `SpinProps` and adds:
 | `rootClassName` | `string`               | -        | Class name for the mask parent container (standalone mode)                                                                 |
 | `rootStyle`     | `CSSProperties`        | -        | Style for the mask parent container (standalone mode)                                                                      |
 
-## Notes | 说明
+## Notes
 
-- **EN:** In standalone mode the component fills its parent, so the parent should be `position: relative` (or otherwise sized) for correct layout.
-- **CN:** 独立使用时组件会撑满父容器，因此父容器应为 `position: relative`（或具备确定尺寸）才能正确布局。
+In standalone mode the component fills its parent, so the parent should be `position: relative` (or otherwise sized) for correct layout.

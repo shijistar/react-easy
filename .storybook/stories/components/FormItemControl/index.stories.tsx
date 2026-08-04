@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Form, Slider, Typography } from 'antd';
 import FormItemControl from '../../../../src/components/FormItemControl';
-import { useStoryT } from '../../../locales';
-import apiDoc from './api-doc.md?raw';
-import introduce from './introduce.md?raw';
+import storyI18n, { useStoryT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const meta: Meta<typeof FormItemControl> = {
   title: 'Components/FormItemControl',
@@ -11,7 +13,7 @@ const meta: Meta<typeof FormItemControl> = {
   parameters: {
     docs: {
       description: {
-        component: introduce + apiDoc,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import BreakLines, { type BreakLinesProps } from '../../../../src/components/BreakLines';
-import { storyT } from '../../../locales';
-import apiDoc from './api-doc.md?raw';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const meta: Meta<typeof BreakLines> = {
   title: 'Components/BreakLines',
@@ -10,7 +12,7 @@ const meta: Meta<typeof BreakLines> = {
   parameters: {
     docs: {
       description: {
-        component: introduce + apiDoc,
+        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
       },
     },
   },

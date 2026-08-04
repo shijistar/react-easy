@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import EditableText, { type EditableTextProps } from '../../../../src/components/EditableText';
-import { storyT } from '../../../locales';
-import introduce from './introduce.md?raw';
+import storyI18n, { storyT } from '../../../locales';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const meta: Meta<EditableTextProps> = {
   title: 'Components/EditableText',
@@ -10,7 +11,7 @@ const meta: Meta<EditableTextProps> = {
   parameters: {
     docs: {
       description: {
-        component: introduce,
+        component: storyI18n.language === 'zh-CN' ? introduceCN : introduceEN,
       },
     },
   },

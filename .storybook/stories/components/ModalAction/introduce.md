@@ -1,2 +1,0 @@
-- **EN:** A modal-based action component that wraps a trigger and opens a form dialog before executing the action. The editing form is provided by the caller via `formComp`; the parent automatically creates the form instance and wires save/close lifecycle. Can switch between Button, Switch, and Link trigger types.
-- **CN:** 基于弹框的动作组件，封装触发器并在真正执行操作前打开表单对话框。编辑表单由调用方通过 `formComp` 提供，父组件自动创建表单实例并接管保存/关闭生命周期。可切换 Button、Switch、Link 三种触发方式。
