@@ -17,7 +17,7 @@ vi.mock('../../src/hooks/style/useSplitter', () => ({
 
 interface SplitterElementProps {
   style: CSSProperties & { '--splitter-width'?: string };
-  onMouseDown: () => void;
+  onPointerDown: (e: { pointerId: number }) => void;
 }
 
 function createWrapper(value?: Partial<ReactEasyContextProps>) {
@@ -100,11 +100,14 @@ describe('useSplitter', () => {
     fireEvent.mouseMove(window, { clientX: 10, clientY: 10 });
     expect(screen.getByTestId('percent').textContent).toBe('0.25');
 
-    fireEvent.mouseEnter(separator);
+    fireEvent.pointerEnter(separator);
     expect(separator.className).toContain('easy-splitter-hover');
     expect(separator.className).toContain('hovered');
 
-    fireEvent.mouseDown(separator);
+    separator.setPointerCapture = vi.fn(() => {
+      throw new Error('capture failed');
+    });
+    fireEvent.pointerDown(separator, { pointerId: 1 });
 
     await waitFor(() => {
       expect(screen.getByTestId('dragging').textContent).toBe('true');
@@ -125,7 +128,7 @@ describe('useSplitter', () => {
       expect(screen.getByTestId('dragging').textContent).toBe('false');
     });
 
-    fireEvent.mouseLeave(separator);
+    fireEvent.pointerLeave(separator);
     expect(separator.className).not.toContain('easy-splitter-hover');
     const handle = separator.querySelector('.easy-splitter-handle.handle-extra') as HTMLDivElement;
     expect(handle.style.color).toBe('red');
@@ -149,7 +152,7 @@ describe('useSplitter', () => {
     expect(separator.className).toContain('ctx-splitter-horizontal');
     expect(separator.getAttribute('aria-orientation')).toBe('horizontal');
 
-    fireEvent.mouseDown(separator);
+    fireEvent.pointerDown(separator, { pointerId: 2 });
     fireEvent.mouseMove(window, { clientX: 0, clientY: 400 });
 
     await waitFor(() => {
@@ -213,7 +216,7 @@ describe('useSplitter', () => {
     expect(element.props.style['--splitter-width']).toBe('1px');
 
     act(() => {
-      element.props.onMouseDown();
+      element.props.onPointerDown({ pointerId: 1 });
     });
 
     act(() => {
