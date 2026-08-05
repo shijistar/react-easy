@@ -90,7 +90,7 @@ function UseProcessingTextStoryDemo({ enabled, maxDots }: UseProcessingTextStory
           {text}
         </Typography.Title>
 
-        <Alert type="info" message={t('storybook.stories.useProcessingText.tip')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useProcessingText.tip')} showIcon />
       </Space>
     </Card>
   );

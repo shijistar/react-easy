@@ -61,7 +61,6 @@ function UseRefValueStoryDemo({ showSync }: UseRefValueStoryArgs) {
       setCaptured(countRef.current);
     }, 500);
     return () => window.clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -91,7 +90,7 @@ function UseRefValueStoryDemo({ showSync }: UseRefValueStoryArgs) {
           )}
         </Space>
 
-        <Alert type="info" message={t('storybook.stories.useRefValue.tip')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useRefValue.tip')} showIcon />
       </Space>
     </Card>
   );

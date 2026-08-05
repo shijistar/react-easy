@@ -372,10 +372,12 @@ const zhCN = {
   'storybook.stories.useLocalStorage.save': '保存',
   'storybook.stories.useLocalStorage.syncLabel': '跨标签页同步',
   'storybook.stories.useLocalStorage.tip':
-    '每次更新都会将值写入 localStorage。开启\"同步\"后会监听跨标签页的 storage 事件。',
+    '每次更新都会将值写入 localStorage。开启"同步"后会监听跨标签页的 storage 事件。',
   'storybook.stories.useLocalStorage.valueLabel': '当前值',
   'storybook.stories.useMovable.argTypes.enabled.description': '是否启用拖拽',
   'storybook.stories.useMovable.argTypes.persist.description': '是否将最终位置持久化到 localStorage',
+  'storybook.stories.useMovable.argTypes.positionType.description':
+    '选择元素位置的应用方式：`absolute` 使用 CSS `top/left`，`transform` 使用 CSS `transform: translate`。',
   'storybook.stories.useMovable.cardTitle': '可拖拽元素',
   'storybook.stories.useMovable.description': '通过拖动使元素可移动，并可选地将位置持久化到 localStorage。',
   'storybook.stories.useMovable.dragHint': '拖动下方卡片可移动它。',
@@ -387,7 +389,7 @@ const zhCN = {
   'storybook.stories.useProcessingText.argTypes.enabled.description': '是否运行动画',
   'storybook.stories.useProcessingText.argTypes.maxDots.description': '点的最大数量',
   'storybook.stories.useProcessingText.cardTitle': '处理中动画文本',
-  'storybook.stories.useProcessingText.description': '创建循环显示点的\"处理中\"动画文本。',
+  'storybook.stories.useProcessingText.description': '创建循环显示点的"处理中"动画文本。',
   'storybook.stories.useProcessingText.intervalLabel': '间隔（毫秒）',
   'storybook.stories.useProcessingText.prefixLabel': '前缀',
   'storybook.stories.useProcessingText.prefixPlaceholder': '例如：处理中',

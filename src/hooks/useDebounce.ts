@@ -3,18 +3,24 @@ import useRefFunction from './useRefFunction';
 
 export interface UseDebounceOptions {
   /**
-   * - **EN:** Whether to execute at the start of the wait period. Default is `false`.
-   * - **CN:** 是否在等待周期开始时执行，默认值为 `false`
+   * - **EN:** Whether to execute at the start of the wait period
+   * - **CN:** 是否在等待周期开始时执行
+   *
+   * @default false
    */
   leading?: boolean;
   /**
    * - **EN:** Regular debounce interval in milliseconds. Default is `0`, meaning no debounce.
    * - **CN:** 常规防抖间隔 (ms)，默认值为 `0`, 表示不进行防抖
+   *
+   * @default 0
    */
   wait?: number;
   /**
    * - **EN:** Maximum wait time in milliseconds. Default is `0`, meaning no maximum wait.
    * - **CN:** 最大等待时间 (ms)，默认值为 `0`, 表示不限制最大等待时间
+   *
+   * @default 0
    */
   maxWait?: number;
 }
@@ -38,7 +44,7 @@ export interface UseDebounceOptions {
 function useDebounce<T extends (...args: any[]) => unknown>(
   fn: T,
   deps: React.DependencyList,
-  options: UseDebounceOptions = {}
+  options: UseDebounceOptions = {},
 ): DebouncedFunc<T> {
   const { wait = 0, maxWait = 0, leading = false } = options;
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);

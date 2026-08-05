@@ -1,4 +1,4 @@
-Make an element **movable by dragging**, with optional position persistence in `localStorage`. The hook tracks the element's position during `pointermove`, clamps it to the visible area, and keeps it in bounds on window resize.
+Make an element **movable by dragging**, with optional position persistence in `localStorage`. The hook tracks the element's position during `pointermove`. You can choose a free movement mode or restrict it to the visible area, keeping it in bounds on window resize. If you choose container-bound movement, make sure to add `position: relative` to the parent container.
 
 ## When to use
 

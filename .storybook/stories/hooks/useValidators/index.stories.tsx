@@ -141,7 +141,7 @@ function UseValidatorsStoryDemo({ rule, value }: UseValidatorsStoryArgs) {
         </Typography.Text>
         <Typography.Text type="secondary">{selected.message}</Typography.Text>
 
-        <Alert type="info" message={t('storybook.stories.useValidators.tip')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useValidators.tip')} showIcon />
       </Space>
     </Card>
   );

@@ -2,28 +2,38 @@ import { useEffect, useRef, useState } from 'react';
 
 export interface UseProcessingTextProps {
   /**
-   * - **EN:** Whether the animation is enabled, default is `true`
-   * - **CN:** 是否启用，默认`true`
+   * - **EN:** Whether the animation is enabled
+   * - **CN:** 是否启用
+   *
+   * @default true
    */
   enabled?: boolean;
   /**
-   * - **EN:** Prefix text (e.g., "Processing"), default is `""`
-   * - **CN:** 前缀文本（例如 "处理中"），默认`""`
+   * - **EN:** Prefix text (e.g., "Processing")
+   * - **CN:** 前缀文本（例如 "处理中"）
+   *
+   * @default ''
    */
   prefixText?: string;
   /**
-   * - **EN:** Dot text (e.g., "."), default is `"."`
-   * - **CN:** 点文本（例如 "."），默认`"."`
+   * - **EN:** Dot text (e.g., ".")
+   * - **CN:** 点文本（例如 "."）
+   *
+   * @default '.'
    */
   dotText?: string;
   /**
-   * - **EN:** Animation interval (milliseconds), default is `300`
-   * - **CN:** 动画间隔（毫秒），默认`300`
+   * - **EN:** Animation interval (milliseconds)
+   * - **CN:** 动画间隔（毫秒）
+   *
+   * @default 300
    */
   interval?: number;
   /**
-   * - **EN:** Maximum number of dots, default is `3`
-   * - **CN:** 最大点数，默认`3`
+   * - **EN:** Maximum number of dots
+   * - **CN:** 最大点数
+   *
+   * @default 3
    */
   maxDots?: number;
 }

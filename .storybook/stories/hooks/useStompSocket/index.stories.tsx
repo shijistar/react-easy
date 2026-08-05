@@ -112,7 +112,7 @@ function UseStompSocketStoryDemo({ url: initialUrl, sendEndpoint, subscribeEndpo
           {t('storybook.stories.useStompSocket.description')}
         </Typography.Paragraph>
 
-        <Alert type="info" message={t('storybook.stories.useStompSocket.serverHint')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useStompSocket.serverHint')} showIcon />
 
         <Space wrap style={{ width: '100%' }}>
           <Input
@@ -156,6 +156,7 @@ function UseStompSocketStoryDemo({ url: initialUrl, sendEndpoint, subscribeEndpo
           <Typography.Text type="secondary">{t('storybook.stories.useStompSocket.emptyLog')}</Typography.Text>
         ) : (
           log.map((item, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <Typography.Text key={`${item}-${index}`} code>
               {item}
             </Typography.Text>

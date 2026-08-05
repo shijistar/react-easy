@@ -85,7 +85,7 @@ function UseLocalStorageStoryDemo({ sync }: UseLocalStorageStoryArgs) {
           <Typography.Text code>{value || '—'}</Typography.Text>
         </Space>
 
-        <Alert type="info" message={t('storybook.stories.useLocalStorage.tip')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useLocalStorage.tip')} showIcon />
       </Space>
     </Card>
   );

@@ -150,7 +150,7 @@ function UseValidatorBuilderStoryDemo({
           </Typography.Text>
         </Space>
 
-        <Alert type="info" message={t('storybook.stories.useValidatorBuilder.tip')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useValidatorBuilder.tip')} showIcon />
       </Space>
     </Card>
   );

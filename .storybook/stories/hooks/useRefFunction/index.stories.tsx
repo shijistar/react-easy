@@ -99,7 +99,7 @@ function UseRefFunctionStoryDemo({ showIdentity }: UseRefFunctionStoryArgs) {
           )}
         </Space>
 
-        <Alert type="info" message={t('storybook.stories.useRefFunction.tip')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useRefFunction.tip')} showIcon />
       </Space>
     </Card>
   );

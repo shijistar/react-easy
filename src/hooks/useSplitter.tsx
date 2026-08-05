@@ -199,9 +199,16 @@ const useSplitter = (props: UseSplitterProps) => {
         [`--splitter-width` as any]: splitterWidth ? `${splitterWidth}px` : undefined,
         ...style,
       }}
-      onMouseDown={() => setDragging(true)}
-      onMouseEnter={() => setIsOver(true)}
-      onMouseLeave={() => setIsOver(false)}
+      onPointerDown={(e) => {
+        try {
+          splitterRef?.setPointerCapture?.(e.pointerId);
+        } catch {
+          // do nothing
+        }
+        setDragging(true);
+      }}
+      onPointerEnter={() => setIsOver(true)}
+      onPointerLeave={() => setIsOver(false)}
       role="separator"
       aria-orientation={vertical ? 'vertical' : 'horizontal'}
       aria-label="Resize"

@@ -63,8 +63,8 @@ export interface FloatDrawerProps {
    */
   edgeOffset?: CSSProperties['width'];
   /**
-   * - **EN:** Whether to show the toggle button, default is `true`.
-   * - **CN:** 是否显示展开/收起按钮，默认`true`。
+   * - **EN:** Whether to show the toggle button
+   * - **CN:** 是否显示展开/收起按钮
    *
    * @default true
    */
@@ -77,8 +77,8 @@ export interface FloatDrawerProps {
    */
   resizable?: boolean;
   /**
-   * - **EN:** Whether to destroy the drawer content when closed, default is `false`.
-   * - **CN:** 抽屉关闭时是否销毁内容，默认`false`。
+   * - **EN:** Whether to destroy the drawer content when closed
+   * - **CN:** 抽屉关闭时是否销毁内容
    *
    * @default false
    */

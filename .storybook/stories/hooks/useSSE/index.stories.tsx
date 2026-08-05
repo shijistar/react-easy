@@ -101,7 +101,7 @@ function UseSSEStoryDemo({ url }: UseSSEStoryArgs) {
           {t('storybook.stories.useSSE.description')}
         </Typography.Paragraph>
 
-        <Alert type="info" message={t('storybook.stories.useSSE.serverHint')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useSSE.serverHint')} showIcon />
 
         <Space wrap style={{ width: '100%' }}>
           <Input

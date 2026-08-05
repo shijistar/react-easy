@@ -135,7 +135,7 @@ function UseValidatorStoryDemo({
           </Typography.Text>
         </Space>
 
-        <Alert type="info" message={t('storybook.stories.useValidator.tip')} showIcon />
+        <Alert type="info" title={t('storybook.stories.useValidator.tip')} showIcon />
       </Space>
     </Card>
   );

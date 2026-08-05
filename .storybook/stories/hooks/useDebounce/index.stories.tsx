@@ -182,7 +182,7 @@ function UseDebounceStoryDemo({ wait, leading, maxWait }: UseDebounceStoryArgs) 
             <Divider style={{ margin: '8px 0' }} />
             <Alert
               type={isDisabled ? 'warning' : pendingHint ? 'info' : appliedQuery ? 'success' : undefined}
-              message={statusMessage}
+              title={statusMessage}
               description={
                 <Space orientation="vertical" size={0}>
                   <Typography.Text>

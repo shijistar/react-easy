@@ -7,13 +7,17 @@ import { DecoratorNode, ElementNode } from 'lexical';
  */
 export interface BaseNodeProps {
   /**
-   * - EN: Whether the node can be removed. Default `true`.
-   * - CN: 是否可被删除，默认 `true`。
+   * - EN: Whether the node can be removed
+   * - CN: 是否可被删除
+   *
+   * @default true
    */
   canBeRemoved?: boolean;
   /**
-   * - EN: Whether the node can be replaced. Default `true`.
-   * - CN: 是否可被替换，默认 `true`。
+   * - EN: Whether the node can be replaced
+   * - CN: 是否可被替换
+   *
+   * @default true
    */
   canBeReplaced?: boolean;
 }
@@ -23,18 +27,24 @@ export interface BaseNodeProps {
  */
 export interface BaseElementProps extends BaseNodeProps {
   /**
-   * - EN: Whether an element is allowed to be empty. Default `false`.
-   * - CN: 是否允许节点为空，默认 `false`。
+   * - EN: Whether an element is allowed to be empty
+   * - CN: 是否允许节点为空
+   *
+   * @default false
    */
   canBeEmpty?: boolean;
   /**
-   * - EN: Allow inserting text at the start of the element. Default `true`.
-   * - CN: 是否允许在节点内的起始位置插入文本，默认 `true`。
+   * - EN: Allow inserting text at the start of the element
+   * - CN: 是否允许在节点内的起始位置插入文本
+   *
+   * @default true
    */
   canInsertTextBefore?: boolean;
   /**
-   * - EN: Allow inserting text at the end of the element. Default `true`.
-   * - CN: 是否允许在节点内的结束位置插入文本，默认 `true`。
+   * - EN: Allow inserting text at the end of the element
+   * - CN: 是否允许在节点内的结束位置插入文本
+   *
+   * @default true
    */
   canInsertTextAfter?: boolean;
 }

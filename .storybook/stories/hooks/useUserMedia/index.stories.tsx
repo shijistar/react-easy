@@ -99,8 +99,8 @@ function UseUserMediaStoryDemo({ audio }: UseUserMediaStoryArgs) {
           </Tag>
         </Space>
 
-        {error && <Alert type="error" message={error} showIcon />}
-        <Alert type="info" message={t('storybook.stories.useUserMedia.tip')} showIcon />
+        {error && <Alert type="error" title={error} showIcon />}
+        <Alert type="info" title={t('storybook.stories.useUserMedia.tip')} showIcon />
       </Space>
     </Card>
   );

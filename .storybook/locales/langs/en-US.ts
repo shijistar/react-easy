@@ -404,10 +404,12 @@ const enUS = {
   'storybook.stories.useLocalStorage.save': 'Save',
   'storybook.stories.useLocalStorage.syncLabel': 'Sync across tabs',
   'storybook.stories.useLocalStorage.tip':
-    'The value is written to localStorage on every update. Toggle \"Sync\" to listen for the storage event across tabs.',
+    'The value is written to localStorage on every update. Toggle "Sync" to listen for the storage event across tabs.',
   'storybook.stories.useLocalStorage.valueLabel': 'Current value',
   'storybook.stories.useMovable.argTypes.enabled.description': 'Whether dragging is enabled.',
   'storybook.stories.useMovable.argTypes.persist.description': 'Persist the final position to localStorage.',
+  'storybook.stories.useMovable.argTypes.positionType.description':
+    "Choose how the element's position is applied: `absolute` for CSS `top/left`, `transform` for CSS `transform: translate`.",
   'storybook.stories.useMovable.cardTitle': 'Draggable element',
   'storybook.stories.useMovable.description':
     'Make an element movable by dragging, with optional position persistence in localStorage.',
@@ -421,7 +423,7 @@ const enUS = {
   'storybook.stories.useProcessingText.argTypes.enabled.description': 'Whether the animation is running.',
   'storybook.stories.useProcessingText.argTypes.maxDots.description': 'Maximum number of dots.',
   'storybook.stories.useProcessingText.cardTitle': 'Animated processing text',
-  'storybook.stories.useProcessingText.description': 'Create an animated \"processing\" text that cycles through dots.',
+  'storybook.stories.useProcessingText.description': 'Create an animated "processing" text that cycles through dots.',
   'storybook.stories.useProcessingText.intervalLabel': 'Interval (ms)',
   'storybook.stories.useProcessingText.prefixLabel': 'Prefix',
   'storybook.stories.useProcessingText.prefixPlaceholder': 'e.g. Processing',
