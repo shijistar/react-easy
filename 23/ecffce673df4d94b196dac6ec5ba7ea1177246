@@ -1,0 +1,44 @@
+.storybook/stories/components/PulseAnimation/index.stories.tsx
+  h_99cad05bea77d1 16
+.storybook/stories/components/EllipsisTypography/index.stories.tsx
+  h_99cad05bea77d1 19
+.storybook/stories/components/ConfigProvider/index.stories.tsx
+  h_99cad05bea77d1 19
+.storybook/stories/components/DeleteConfirmAction/index.stories.tsx
+  h_99cad05bea77d1 25
+.storybook/stories/components/OverflowTags/index.stories.tsx
+  h_99cad05bea77d1 38
+.storybook/stories/components/ContextMenu/index.stories.tsx
+  h_99cad05bea77d1 17
+.storybook/stories/components/FormItemControl/index.stories.tsx
+  h_99cad05bea77d1 16
+.storybook/stories/components/BreakLines/index.stories.tsx
+  h_99cad05bea77d1 15
+.storybook/stories/components/ColumnSetting/index.stories.tsx
+  h_99cad05bea77d1 20
+.storybook/stories/components/Iconfont/index.stories.tsx
+  h_99cad05bea77d1 38
+.storybook/stories/components/FloatDrawer/index.stories.tsx
+  h_99cad05bea77d1 16
+.storybook/stories/components/Loading/index.stories.tsx
+  h_99cad05bea77d1 16
+.storybook/stories/components/ConfirmAction/index.stories.tsx
+  h_99cad05bea77d1 25
+.storybook/stories/components/ModalAction/index.stories.tsx
+  h_99cad05bea77d1 61
+.storybook/stories/components/EditableText/index.stories.tsx
+  h_99cad05bea77d1 16
+.storybook/stories/components/VirtualTextViewer/index.stories.tsx
+  h_99cad05bea77d1 70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "23ecffce673df4d94b196dac6ec5ba7ea1177246",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
