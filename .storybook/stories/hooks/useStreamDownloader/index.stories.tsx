@@ -46,42 +46,39 @@ interface UseStreamDownloaderStoryArgs {
 const HOOK_API_ITEMS = [
   {
     signature: 'useStreamDownloader(options?)',
-    description:
-      'EN: Create a stable downloader instance and subscribe React to snapshot updates. CN: 创建稳定的 downloader 实例，并让 React 订阅快照更新。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.useStreamDownloader.description'),
   },
   {
     signature: 'options.progressThrottleMs?: number',
-    description: 'EN: Forwarded into the underlying class constructor. CN: 透传给底层 class 构造参数。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.progressThrottleMs.description'),
   },
   {
     signature: 'options.autoDispose?: boolean',
-    description: 'EN: Control whether unmount disposes the downloader. CN: 控制组件卸载时是否自动释放 downloader。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.autoDispose.description'),
   },
   {
     signature: 'result.downloader',
-    description:
-      'EN: Stable class instance for advanced imperative control. CN: 供高级命令式控制使用的稳定 class 实例。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.downloader.description'),
   },
   {
     signature: 'result.snapshot',
-    description: 'EN: Reactive snapshot mirrored from the class. CN: 从 class 同步过来的响应式快照。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.snapshot.description'),
   },
   {
     signature: 'result.isRunning',
-    description: 'EN: React-friendly running flag. CN: 面向 React 场景的运行态标志。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.isRunning.description'),
   },
   {
     signature: 'result.start(request?)',
-    description:
-      'EN: Bound start helper that returns the same success result as the class. CN: 已绑定的启动方法，返回值与 class 一致。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.start.description'),
   },
   {
     signature: 'result.cancel()',
-    description: 'EN: Bound cancel helper. CN: 已绑定的取消方法。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.cancel.description'),
   },
   {
     signature: 'result.reset()',
-    description: 'EN: Bound terminal-reset helper. CN: 已绑定的终态重置方法。',
+    description: storyT('storybook.stories.useStreamDownloader.hookApi.reset.description'),
   },
 ] as const;
 
@@ -245,7 +242,7 @@ function UseStreamDownloaderStoryDemo({
           dataSource={[...HOOK_API_ITEMS]}
           renderItem={(item: (typeof HOOK_API_ITEMS)[number]) => (
             <List.Item>
-              <Space direction="vertical" size={0}>
+              <Space orientation="vertical" size={0}>
                 <Typography.Text code>{item.signature}</Typography.Text>
                 <Typography.Text>{item.description}</Typography.Text>
               </Space>

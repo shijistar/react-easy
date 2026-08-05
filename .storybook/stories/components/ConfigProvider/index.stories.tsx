@@ -38,7 +38,7 @@ export const Playground: Story = {
     return (
       <AntdApp>
         <ConfigProvider {...args}>
-          <Space direction="vertical" size={12}>
+          <Space orientation="vertical" size={12}>
             <Typography.Text>{t('storybook.stories.ConfigProvider.hint')}</Typography.Text>
             <ConfirmAction.Button onOk={async () => Promise.resolve()}>
               {t('storybook.stories.ConfigProvider.openButton')}

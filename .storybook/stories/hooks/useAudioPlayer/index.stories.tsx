@@ -180,7 +180,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
       title={t('storybook.stories.useAudioPlayer.cardTitle')}
       extra={statusTag}
     >
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
         <Space.Compact style={{ width: '100%' }}>
           <Input
             value={draftSource}

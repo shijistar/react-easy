@@ -163,7 +163,7 @@ const zhCN = {
   'storybook.stories.StreamDownloader.logs.error': '下载失败',
   'storybook.stories.useStreamDownloader.cardTitle': 'useStreamDownloader 演示面板',
   'storybook.stories.useStreamDownloader.realHint':
-    '本 hook 示例同样使用真实的、支持 CORS 的大文件，以及真实的 axios fetch-adapter 实例',
+    '本 hook 示例使用真实的、支持 CORS 的大文件，以及真实的 axios fetch-adapter 实例',
   'storybook.stories.useStreamDownloader.description':
     '观察 hook 如何在浏览器执行真实流式下载的同时，对外暴露稳定 downloader 实例、响应式 snapshot 与 action 方法。',
   'storybook.stories.useStreamDownloader.actions.startFetch': '用 fetch 方式下载',
@@ -200,6 +200,16 @@ const zhCN = {
   'storybook.stories.useStreamDownloader.logs.cancel': '已请求取消',
   'storybook.stories.useStreamDownloader.logs.reset': '快照已重置为 idle',
   'storybook.stories.useStreamDownloader.logs.error': '下载失败',
+  'storybook.stories.useStreamDownloader.hookApi.useStreamDownloader.description':
+    '创建稳定的 downloader 实例，并让 React 订阅快照更新。',
+  'storybook.stories.useStreamDownloader.hookApi.progressThrottleMs.description': '透传给底层 class 构造参数。',
+  'storybook.stories.useStreamDownloader.hookApi.autoDispose.description': '控制组件卸载时是否自动释放 downloader。',
+  'storybook.stories.useStreamDownloader.hookApi.downloader.description': '供高级命令式控制使用的稳定 class 实例。',
+  'storybook.stories.useStreamDownloader.hookApi.snapshot.description': '从 class 同步过来的响应式快照。',
+  'storybook.stories.useStreamDownloader.hookApi.isRunning.description': '面向 React 场景的运行态标志。',
+  'storybook.stories.useStreamDownloader.hookApi.start.description': '已绑定的启动方法，返回值与 class 一致。',
+  'storybook.stories.useStreamDownloader.hookApi.cancel.description': '已绑定的取消方法。',
+  'storybook.stories.useStreamDownloader.hookApi.reset.description': '已绑定的终态重置方法。',
   'storybook.stories.ConfirmAction.argTypes.autoFocusButton.description': '确认操作打开时自动获取焦点的按钮。',
   'storybook.stories.ConfirmAction.argTypes.contentColor.description': '内容文本的颜色。',
   'storybook.stories.ConfirmAction.argTypes.iconColor.description': '图标的颜色。',

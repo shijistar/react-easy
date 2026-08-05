@@ -86,7 +86,7 @@ export const AudioActivity: Story = {
     const t = useStoryT();
     return (
       <Card style={{ width: 360 }} title={t('storybook.stories.PulseAnimation.audioCardTitle')}>
-        <Space direction="vertical" style={{ width: '100%' }} size={12}>
+        <Space orientation="vertical" style={{ width: '100%' }} size={12}>
           <Space>
             <Typography.Text strong>{t('storybook.stories.PulseAnimation.audioTrack')}</Typography.Text>
             <Typography.Text type="secondary">{t('storybook.stories.PulseAnimation.audioPlaying')}</Typography.Text>

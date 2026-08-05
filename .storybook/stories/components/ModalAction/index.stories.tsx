@@ -118,7 +118,7 @@ export const Playground: Story = {
 
     return (
       <div>
-        <Space direction="vertical">
+        <Space orientation="vertical">
           <Space>
             {triggerType === 'Switch' && (
               <UserModalAction.Switch

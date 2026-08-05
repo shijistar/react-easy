@@ -184,7 +184,7 @@ function UseDebounceStoryDemo({ wait, leading, maxWait }: UseDebounceStoryArgs) 
               type={isDisabled ? 'warning' : pendingHint ? 'info' : appliedQuery ? 'success' : undefined}
               message={statusMessage}
               description={
-                <Space direction="vertical" size={0}>
+                <Space orientation="vertical" size={0}>
                   <Typography.Text>
                     {t('storybook.stories.useDebounce.debouncedValue')}: {appliedQuery || '--'}
                   </Typography.Text>

@@ -166,7 +166,7 @@ const enUS = {
   'storybook.stories.StreamDownloader.logs.error': 'Download failed',
   'storybook.stories.useStreamDownloader.cardTitle': 'useStreamDownloader playground',
   'storybook.stories.useStreamDownloader.realHint':
-    'This hook demo also uses a real CORS-enabled large file and a real axios fetch-adapter instance',
+    'This hook demo uses a real CORS-enabled large file and a real axios fetch-adapter instance',
   'storybook.stories.useStreamDownloader.description':
     'Observe how the hook exposes a stable downloader instance, reactive snapshot, and action helpers while the browser performs a real streaming download.',
   'storybook.stories.useStreamDownloader.actions.startFetch': 'Download with <fetch>',
@@ -203,6 +203,20 @@ const enUS = {
   'storybook.stories.useStreamDownloader.logs.cancel': 'Cancel requested',
   'storybook.stories.useStreamDownloader.logs.reset': 'Snapshot reset to idle',
   'storybook.stories.useStreamDownloader.logs.error': 'Download failed',
+  'storybook.stories.useStreamDownloader.hookApi.useStreamDownloader.description':
+    'Create a stable downloader instance and subscribe React to snapshot updates.',
+  'storybook.stories.useStreamDownloader.hookApi.progressThrottleMs.description':
+    'Forwarded into the underlying class constructor.',
+  'storybook.stories.useStreamDownloader.hookApi.autoDispose.description':
+    'Control whether unmount disposes the downloader.',
+  'storybook.stories.useStreamDownloader.hookApi.downloader.description':
+    'Stable class instance for advanced imperative control.',
+  'storybook.stories.useStreamDownloader.hookApi.snapshot.description': 'Reactive snapshot mirrored from the class.',
+  'storybook.stories.useStreamDownloader.hookApi.isRunning.description': 'React-friendly running flag.',
+  'storybook.stories.useStreamDownloader.hookApi.start.description':
+    'Bound start helper that returns the same success result as the class.',
+  'storybook.stories.useStreamDownloader.hookApi.cancel.description': 'Bound cancel helper.',
+  'storybook.stories.useStreamDownloader.hookApi.reset.description': 'Bound terminal-reset helper.',
   'storybook.stories.ConfirmAction.argTypes.autoFocusButton.description':
     'The button to auto focus when the confirm action is opened.',
   'storybook.stories.ConfirmAction.argTypes.contentColor.description': 'The color of the content text.',
