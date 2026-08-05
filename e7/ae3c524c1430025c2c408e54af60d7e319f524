@@ -1,0 +1,45 @@
+.storybook/stories/components/PulseAnimation/index.stories.tsx
+  h_99cad05bea77d1 89
+.storybook/stories/hooks/useAudioPlayer/index.stories.tsx
+  h_99cad05bea77d1 183
+.storybook/stories/hooks/useDebounce/index.stories.tsx
+  h_99cad05bea77d1 187
+.storybook/stories/components/ModalAction/index.stories.tsx
+  h_99cad05bea77d1 121
+.storybook/locales/langs/zh-CN.ts
+  s_28127d22f55f61::t_bf63b47cec878e 203-212
+  h_99cad05bea77d1 166
+.storybook/locales/langs/en-US.ts
+  h_99cad05bea77d1 169
+  s_28127d22f55f61::t_0cdb0a9f72981b 214
+  s_28127d22f55f61::t_531530700aba3c 206-213,215-219
+.storybook/stories/components/ConfigProvider/index.stories.tsx
+  h_99cad05bea77d1 41
+.storybook/stories/hooks/useStreamDownloader/index.stories.tsx
+  s_28127d22f55f61::t_99c41ca8158f1b 61
+  h_99cad05bea77d1 53,57,65,69,73,77,81
+  s_28127d22f55f61::t_1689d5c1d9ae63 49,245
+.storybook/stories/shared/streamDownloaderDemo.tsx
+  h_99cad05bea77d1 285
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "e7ae3c524c1430025c2c408e54af60d7e319f524",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_28127d22f55f61": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "63b79ef1-78df-4218-8b13-65b340d8e72a",
+        "model": "hy3"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
