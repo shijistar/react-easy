@@ -1,0 +1,83 @@
+.storybook/stories/hooks/useMovable/introduce.zh-CN.md
+  h_99cad05bea77d1 1
+.storybook/stories/hooks/useValidators/index.stories.tsx
+  h_99cad05bea77d1 144
+src/components/OverflowTags/index.tsx
+  h_99cad05bea77d1 15-16,20-21,23,27-28,30,35-36,40-41,45,47,51-52,56,58
+  h_99cad05bea77d1 46,57
+src/hooks/useSplitter.tsx
+  h_99cad05bea77d1 202-211
+src/components/ConfirmAction/index.tsx
+  h_99cad05bea77d1 36-37,48-49
+  h_99cad05bea77d1 34-35
+src/components/FloatDrawer/index.tsx
+  h_99cad05bea77d1 80-81
+  h_99cad05bea77d1 66-67
+.storybook/stories/hooks/useDebounce/index.stories.tsx
+  h_99cad05bea77d1 185
+.storybook/stories/hooks/useValidator/index.stories.tsx
+  h_99cad05bea77d1 138
+.storybook/stories/hooks/useStompSocket/index.stories.tsx
+  h_99cad05bea77d1 115,159
+.storybook/stories/hooks/useMovable/api-doc.en-US.md
+  h_99cad05bea77d1 6,8-9,11-12
+  h_99cad05bea77d1 5,7,10
+src/components/Lexical/nodes/base.ts
+  h_99cad05bea77d1 12-13,19-20,32-33,39-40,44,46-47
+  h_99cad05bea77d1 10-11,17-18,30-31,37-38,45
+src/components/ContextMenu/index.tsx
+  h_99cad05bea77d1 19,21-22
+  h_99cad05bea77d1 20
+.storybook/stories/hooks/useMovable/index.stories.tsx
+  h_99cad05bea77d1 1,4,11,26,31,36,45,55,58-66,72,74-75,78-79,84-90,98,101,104,112,114,137
+  h_99cad05bea77d1 3,54,56-57,76
+.storybook/stories/hooks/useValidatorBuilder/index.stories.tsx
+  h_99cad05bea77d1 153
+src/hooks/useMovable.ts
+  h_99cad05bea77d1 1-2,7,9-13,15,17-20,33-42,45-46,48-51,64-65,67-69,78,80-96,103-105,107,109,123-126,133-136,140,143-146,152,155,157,159-168,171-185,189-190,193,195,197,200,203,206,209,211
+  h_99cad05bea77d1 22,43-44,47,52-53,61-63,66,79,156,158,169-170,186-188,196
+.storybook/stories/hooks/useMovable/api-doc.zh-CN.md
+  h_99cad05bea77d1 6,9,12
+  h_99cad05bea77d1 5,7-8,10-11
+src/components/Lexical/nodes/SelectNode.tsx
+  h_99cad05bea77d1 29,31-32
+  h_99cad05bea77d1 30
+.storybook/stories/hooks/useRefFunction/index.stories.tsx
+  h_99cad05bea77d1 102
+.storybook/locales/langs/en-US.ts
+  h_99cad05bea77d1 407,411-412,426
+.storybook/locales/langs/zh-CN.ts
+  h_99cad05bea77d1 375,379-380,392
+src/hooks/useDebounce.ts
+  h_99cad05bea77d1 8-9,15-16,22-23,47
+  h_99cad05bea77d1 6-7
+.storybook/stories/hooks/useRefValue/index.stories.tsx
+  h_99cad05bea77d1 93
+.storybook/stories/hooks/useProcessingText/index.stories.tsx
+  h_99cad05bea77d1 93
+.storybook/stories/hooks/useSSE/index.stories.tsx
+  h_99cad05bea77d1 104
+src/components/Animation/Pulse/index.tsx
+  h_99cad05bea77d1 31-32,39-40,51-52,56,58-59,65-66
+  h_99cad05bea77d1 29-30,37-38,49-50,57,63-64
+.storybook/stories/hooks/useMovable/introduce.en-US.md
+  h_99cad05bea77d1 1
+.storybook/stories/hooks/useUserMedia/index.stories.tsx
+  h_99cad05bea77d1 102-103
+src/hooks/useProcessingText.ts
+  h_99cad05bea77d1 7-8,14-15,19-22,26-29,33-36
+  h_99cad05bea77d1 5-6,12-13
+.storybook/stories/hooks/useLocalStorage/index.stories.tsx
+  h_99cad05bea77d1 88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "048e0fb86f9ecb17db56f83eddbc8b8c452f40a4",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
