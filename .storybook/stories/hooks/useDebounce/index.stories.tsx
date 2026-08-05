@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert, Button, Card, Divider, Input, List, Space, Typography } from 'antd';
-import useDebounce from '../../../src/hooks/useDebounce';
-import { storyT, useStoryT } from '../../locales';
+import useDebounce from '../../../../src/hooks/useDebounce';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 interface UseDebounceStoryArgs {
   wait: number;
@@ -22,8 +26,7 @@ const meta: Meta<UseDebounceStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** Demonstrates how to use \`useDebounce\` to debounce a search-like action with configurable \`wait\`, \`leading\`, and \`maxWait\` behavior, plus runtime controls for canceling, disabling, and re-enabling execution.
-- **CN:** 演示如何使用 \`useDebounce\` 对类似搜索的动作进行防抖，并支持 \`wait\`、\`leading\`、\`maxWait\` 配置，同时提供取消、禁用与重新启用等运行时控制。`,
+        component: storyI18n.language === 'zh-CN' ? `${introduceCN}\n${apiDocCN}` : `${introduceEN}\n${apiDocEN}`,
       },
     },
   },

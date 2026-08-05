@@ -2,9 +2,16 @@ import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { create as createAxios } from 'axios';
 import { List, Space, Tag, Typography } from 'antd';
-import { type StreamDownloadSaveStrategy, useStreamDownloader } from '../../../src';
-import { storyT, useStoryT } from '../../locales';
-import StreamDownloaderDemoCard, { formatErrorLog, useStreamDownloaderDemoLogs } from '../shared/streamDownloaderDemo';
+import { type StreamDownloadSaveStrategy, useStreamDownloader } from '../../../../src';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import StreamDownloaderDemoCard, {
+  formatErrorLog,
+  useStreamDownloaderDemoLogs,
+} from '../../shared/streamDownloaderDemo';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
@@ -83,7 +90,7 @@ const meta: Meta<UseStreamDownloaderStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** \`useStreamDownloader\` is the React adapter over \`StreamDownloader\`. This page focuses on the hook-specific surface while still using a real CORS-enabled large file and a real \`axios.create({ adapter: 'fetch' })\` instance. For the full transport and type contract, see [Utils/StreamDownloader](?path=/docs/utils-streamdownloader--playground).\n- **CN:** \`useStreamDownloader\` 是 \`StreamDownloader\` 的 React 适配层。本页聚焦 hook 自身接口，同时依旧使用真实、支持 CORS 的大文件和真实的 \`axios.create({ adapter: 'fetch' })\` 实例。完整的 transport 与类型契约请查看 [Utils/StreamDownloader](?path=/docs/utils-streamdownloader--playground)。`,
+        component: storyI18n.language === 'zh-CN' ? `${introduceCN}\n${apiDocCN}` : `${introduceEN}\n${apiDocEN}`,
       },
     },
   },

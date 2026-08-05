@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, Card, Divider, Input, List, Slider, Space, Tag, Typography } from 'antd';
-import { useRefFunction } from '../../../src/hooks';
-import useAudioPlayer from '../../../src/hooks/useAudioPlayer';
-import musicUrl from '../../assets/sample.mp3';
-import { storyT, useStoryT } from '../../locales';
+import { useRefFunction } from '../../../../src/hooks';
+import useAudioPlayer from '../../../../src/hooks/useAudioPlayer';
+import musicUrl from '../../../assets/sample.mp3';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 interface UseAudioPlayerStoryArgs {
   source: string;
@@ -22,7 +26,9 @@ const meta: Meta<UseAudioPlayerStoryArgs> = {
   title: 'Hooks/useAudioPlayer',
   parameters: {
     docs: {
-      description: {},
+      description: {
+        component: storyI18n.language === 'zh-CN' ? `${introduceCN}\n${apiDocCN}` : `${introduceEN}\n${apiDocEN}`,
+      },
     },
   },
   args: {

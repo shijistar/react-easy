@@ -6,12 +6,16 @@ import StreamDownloader, {
   type StreamDownloadRequest,
   type StreamDownloadSaveStrategy,
 } from '../../../../src/utils/StreamDownloader';
-import { storyT, useStoryT } from '../../../locales';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
 import StreamDownloaderDemoCard, {
   formatErrorLog,
   getCodeBlockStyle,
   useStreamDownloaderDemoLogs,
 } from '../../shared/streamDownloaderDemo';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
@@ -104,7 +108,7 @@ const meta: Meta<StreamDownloaderStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** \`StreamDownloader\` is the class-level source of truth for browser-side large-file streaming downloads. This story shows the full public API surface and uses a real, CORS-enabled remote asset together with a real \`axios.create({ adapter: 'fetch' })\` instance.\n- **CN:** \`StreamDownloader\` 是浏览器端大文件流式下载能力的 class 级真相来源。本页展示完整公开 API，并使用真实、支持 CORS 的远端文件和真实的 \`axios.create({ adapter: 'fetch' })\` 实例。\n\n- **EN:** The live demo intentionally triggers a real save flow and a real network transfer. Prefer \`file-system-access\` when your browser supports it; \`stream-saver\` may still depend on additional browser/service-worker capability.\n- **CN:** 这个 live demo 会真实触发保存流程与网络传输。若浏览器支持，优先使用 \`file-system-access\`；而 \`stream-saver\` 仍可能依赖额外的浏览器 / service worker 能力。`,
+        component: storyI18n.language === 'zh-CN' ? `${introduceCN}\n${apiDocCN}` : `${introduceEN}\n${apiDocEN}`,
       },
     },
   },
