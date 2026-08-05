@@ -13,7 +13,7 @@ const meta: Meta<typeof Loading> = {
   parameters: {
     docs: {
       description: {
-        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEN + apiDocEN,
+        component: storyI18n.language === 'zh-CN' ? `${introduceCN}\n${apiDocCN}` : `${introduceEN}\n${apiDocEN}`,
       },
     },
   },

@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button, Card, Divider, Input, List, Slider, Space, Tag, Typography } from 'antd';
 import { useRefFunction } from '../../../src/hooks';
 import useAudioPlayer from '../../../src/hooks/useAudioPlayer';
-// @ts-expect-error: because Vite handles mp3 imports natively
 import musicUrl from '../../assets/sample.mp3';
 import { storyT, useStoryT } from '../../locales';
 

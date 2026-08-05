@@ -35,7 +35,7 @@ const meta: Meta<typeof OverflowTags<TagItem>> = {
   parameters: {
     docs: {
       description: {
-        component: storyI18n.language === 'zh-CN' ? introduceCN + apiDocCN : introduceEn + apiDocEN,
+        component: storyI18n.language === 'zh-CN' ? `${introduceCN}\n${apiDocCN}` : `${introduceEn}\n${apiDocEN}`,
       },
     },
   },
