@@ -1,0 +1,12 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "25c8e8c16686b7c50b93220140cf9624ac28dc55",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
