@@ -97,11 +97,6 @@ const meta: Meta<ConfirmActionStoryArgs> = {
       table: { defaultValue: { summary: 'undefined' } },
     },
   },
-  subcomponents: {
-    Button: ConfirmAction.Button,
-    Switch: ConfirmAction.Switch,
-    Link: ConfirmAction.Link,
-  },
 };
 
 export default meta;
