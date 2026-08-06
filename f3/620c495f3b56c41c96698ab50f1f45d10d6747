@@ -1,0 +1,17 @@
+src/components/ConfigProvider/style/index.ts
+  h_99cad05bea77d1 90-140
+.storybook/stories/hooks/useRowSelection/index.stories.tsx
+  h_99cad05bea77d1 130,137-140,142,147-149,155-156
+  h_99cad05bea77d1 134-136,141,150-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "f3620c495f3b56c41c96698ab50f1f45d10d6747",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
