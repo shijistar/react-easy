@@ -113,14 +113,6 @@ function UseRowSelectionStoryDemo({ checkable }: UseRowSelectionStoryArgs) {
           {t('storybook.stories.useRowSelection.description')}
         </Typography.Paragraph>
 
-        <Table<UserRow>
-          rowKey="id"
-          columns={columns}
-          dataSource={data}
-          rowSelection={rowSelection}
-          pagination={{ pageSize: PAGE_SIZE }}
-        />
-
         <Space align="center" wrap style={{ width: '100%', justifyContent: 'space-between' }}>
           <Typography.Text strong>
             {t('storybook.stories.useRowSelection.selectedCount', { count: selectedRows.length })}
@@ -135,18 +127,33 @@ function UseRowSelectionStoryDemo({ checkable }: UseRowSelectionStoryArgs) {
           </Button>
         </Space>
 
-        {selectedRows.length > 0 ? (
+        {selectedRows.length > 0 && (
           <Space wrap size={[8, 4]} data-testid="inline-selected">
             <Typography.Text type="secondary">{t('storybook.stories.useRowSelection.columns.name')}:</Typography.Text>
             {selectedRows.map((item) => (
-              <Tag key={item.id} color="blue">
-                #{item.id} {item.name} · {item.role}
+              <Tag
+                key={item.id}
+                color="blue"
+                closable
+                onClose={() => {
+                  setSelectedRows((prev) => prev.filter((row) => row.id !== item.id));
+                }}
+              >
+                #{item.id} {item.name} • {item.role}
               </Tag>
             ))}
           </Space>
-        ) : (
-          <Typography.Text type="secondary">{t('storybook.stories.useRowSelection.emptySelection')}</Typography.Text>
         )}
+        <div style={{ height: 500 }}>
+          <Table
+            className="easy-full-height-table-v6"
+            rowKey="id"
+            columns={columns}
+            dataSource={data}
+            rowSelection={rowSelection}
+            pagination={{ pageSize: PAGE_SIZE }}
+          />
+        </div>
       </Space>
     </Card>
   );
