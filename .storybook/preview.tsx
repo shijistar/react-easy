@@ -113,7 +113,7 @@ const preview: Preview = {
       const isDark = theme === 'dark' || (!theme && isPreferDark);
       // Reload the page if the theme changes.
       useMemo(() => {
-        if (themeFromGlobal !== prevTheme) {
+        if (themeFromGlobal && themeFromGlobal !== prevTheme) {
           setPrevTheme(themeFromGlobal);
           (window.top ?? window.parent ?? window).location.reload();
         }
@@ -121,7 +121,7 @@ const preview: Preview = {
 
       // Reload the page if the language changes.
       useMemo(() => {
-        if (storyI18n.language !== lang) {
+        if (lang && storyI18n.language !== lang) {
           storyI18n.changeLanguage(lang).then(() => {
             if (viewModeRef.current === 'docs') {
               addons.getChannel().emit(FORCE_RE_RENDER);

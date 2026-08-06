@@ -23,19 +23,11 @@ export function DraggableCard() {
   const movableDomRef = useRef<HTMLDivElement>(null);
   const viewPortRef = useRef<HTMLDivElement>(null);
 
-  const { onPointerDown } = useMovable({
-    movableDomRef,
-    viewPortRef,
-    storageKey: 'my-card.position',
-  });
+  useMovable({ movableDomRef, viewPortRef });
 
   return (
     <div ref={viewPortRef} style={{ position: 'relative', height: 300 }}>
-      <div
-        ref={movableDomRef}
-        onPointerDown={onPointerDown}
-        style={{ position: 'absolute', left: 0, top: 0, cursor: 'move' }}
-      >
+      <div ref={movableDomRef} style={{ position: 'absolute', left: 0, top: 0, cursor: 'move' }}>
         拖拽我
       </div>
     </div>
