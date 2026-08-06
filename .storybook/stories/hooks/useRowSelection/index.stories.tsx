@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, Card, List, Space, Table, Tag, Typography } from 'antd';
+import { Button, Card, Space, Table, Tag, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import useRowSelection from '../../../../src/hooks/useRowSelection';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
@@ -18,6 +18,13 @@ interface UserRow {
   name: string;
   role: string;
 }
+
+const NAMES = ['alice', 'bob', 'cindy', 'dave', 'erin', 'frank', 'grace', 'henry', 'iris', 'jack', 'kate'] as const;
+
+const ROLES = ['admin', 'editor', 'viewer'] as const;
+
+const PAGE_SIZE = 10;
+const ROW_COUNT = 26;
 
 const meta: Meta<UseRowSelectionStoryArgs> = {
   title: 'Hooks/useRowSelection',
@@ -47,7 +54,7 @@ export const Playground: Story = {
     docs: {
       description: {
         story:
-          '- **EN:** Toggle selection availability and select rows to see how the hook exposes a `rowSelection` object that returns the selected row objects (not just keys) through its `onChange` callback.\n- **CN:** 切换选中可用开关并选择行，观察 hook 如何通过 `onChange` 返回选中的行对象（而不是仅返回行 key）。',
+          '- **EN:** Toggle selection availability and select rows **across pages** to see how the hook exposes a `rowSelection` object that keeps the selected row objects (not just keys) consistent through its `onChange` callback.\\n- **CN:** 切换选中可用开关并在**多个分页**中选择行，观察 hook 通过 `onChange` 返回选中的行对象（而不是仅返回行 key），并跨页保持一致。',
       },
     },
   },
@@ -55,6 +62,18 @@ export const Playground: Story = {
     return <UseRowSelectionStoryDemo {...args} />;
   },
 };
+
+function buildData(t: typeof storyT): UserRow[] {
+  return Array.from({ length: ROW_COUNT }, (_, index) => {
+    const nameKey = NAMES[index % NAMES.length];
+    const roleKey = ROLES[index % ROLES.length];
+    return {
+      id: index + 1,
+      name: t(`storybook.stories.useRowSelection.data.${nameKey}`),
+      role: t(`storybook.stories.useRowSelection.roles.${roleKey}`),
+    };
+  });
+}
 
 function UseRowSelectionStoryDemo({ checkable }: UseRowSelectionStoryArgs) {
   const t = useStoryT();
@@ -71,6 +90,12 @@ function UseRowSelectionStoryDemo({ checkable }: UseRowSelectionStoryArgs) {
     {
       title: t('storybook.stories.useRowSelection.columns.name'),
       dataIndex: 'name',
+      render: (name: string, record: UserRow) => (
+        <Space>
+          <Typography.Text code>{record.id}</Typography.Text>
+          <span>{name}</span>
+        </Space>
+      ),
     },
     {
       title: t('storybook.stories.useRowSelection.columns.role'),
@@ -79,23 +104,7 @@ function UseRowSelectionStoryDemo({ checkable }: UseRowSelectionStoryArgs) {
     },
   ];
 
-  const data: UserRow[] = [
-    {
-      id: 1,
-      name: t('storybook.stories.useRowSelection.data.alice'),
-      role: t('storybook.stories.useRowSelection.roles.admin'),
-    },
-    {
-      id: 2,
-      name: t('storybook.stories.useRowSelection.data.bob'),
-      role: t('storybook.stories.useRowSelection.roles.editor'),
-    },
-    {
-      id: 3,
-      name: t('storybook.stories.useRowSelection.data.cindy'),
-      role: t('storybook.stories.useRowSelection.roles.viewer'),
-    },
-  ];
+  const data: UserRow[] = buildData(t);
 
   return (
     <Card variant="outlined" style={{ maxWidth: 920 }} title={t('storybook.stories.useRowSelection.cardTitle')}>
@@ -109,7 +118,7 @@ function UseRowSelectionStoryDemo({ checkable }: UseRowSelectionStoryArgs) {
           columns={columns}
           dataSource={data}
           rowSelection={rowSelection}
-          pagination={false}
+          pagination={{ pageSize: PAGE_SIZE }}
         />
 
         <Space align="center" wrap style={{ width: '100%', justifyContent: 'space-between' }}>
@@ -126,21 +135,18 @@ function UseRowSelectionStoryDemo({ checkable }: UseRowSelectionStoryArgs) {
           </Button>
         </Space>
 
-        <List
-          size="small"
-          bordered
-          dataSource={selectedRows}
-          locale={{ emptyText: t('storybook.stories.useRowSelection.emptySelection') }}
-          renderItem={(item) => (
-            <List.Item key={item.id}>
-              <Space wrap>
-                <Typography.Text code>{item.id}</Typography.Text>
-                <Typography.Text>{item.name}</Typography.Text>
-                <Tag>{item.role}</Tag>
-              </Space>
-            </List.Item>
-          )}
-        />
+        {selectedRows.length > 0 ? (
+          <Space wrap size={[8, 4]} data-testid="inline-selected">
+            <Typography.Text type="secondary">{t('storybook.stories.useRowSelection.columns.name')}:</Typography.Text>
+            {selectedRows.map((item) => (
+              <Tag key={item.id} color="blue">
+                #{item.id} {item.name} · {item.role}
+              </Tag>
+            ))}
+          </Space>
+        ) : (
+          <Typography.Text type="secondary">{t('storybook.stories.useRowSelection.emptySelection')}</Typography.Text>
+        )}
       </Space>
     </Card>
   );
