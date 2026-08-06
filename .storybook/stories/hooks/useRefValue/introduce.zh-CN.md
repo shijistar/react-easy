@@ -2,9 +2,10 @@
 
 ## 适用场景
 
-- 在 `setTimeout`、`setInterval` 或事件监听中读取最新 state/props，而无需重新订阅。
-- 向子组件传递稳定的 ref，同时保持 `.current` 始终最新。
 - 实现 `useRefFunction` 等稳定回调模式。
+- 在 `setTimeout`、`setInterval` 或事件监听中读取最新 state/props，而无需重新订阅。
+- 在 `useEffect` 中使用某个变量值，而无需将其加入依赖数组。
+- 在 `useEffect` 中排除某个依赖项
 
 ## 核心特性
 
@@ -17,18 +18,19 @@
 ```tsx
 import { useRefValue } from '@tiny-codes/react-easy';
 
-export function Demo() {
-  const countRef = useRefValue(count);
+export function Demo(props) {
+  const { enabled } = props;
+  const enabledRef = useRefValue(enabled);
+  const [count, setCount] = useState(0);
 
-  // 在稳定回调中读取最新值，无需因 count 变化重建回调。
-  const capture = () => setCaptured(countRef.current);
+  useEffect(() => {
+    if (enabledRef.current) {
+      console.log(count);
+    }
+  }, [count]);
 
-  return <button onClick={capture}>捕获 {countRef.current}</button>;
+  const capture = () => setCount(count + 1);
+
+  return <button onClick={capture}>捕获 {count}</button>;
 }
 ```
-
-## 使用注意
-
-- 修改 `ref.current` **不会**触发重新渲染。
-- 它是本库 `useRefFunction` 的底层实现。
-- 适用于在长期存活的回调中读取最新值，而无需将其加入依赖数组。

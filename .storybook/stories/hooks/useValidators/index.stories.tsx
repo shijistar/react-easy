@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert, Card, Input, Select, Space, Tag, Typography } from 'antd';
-import useValidators from '../../../../src/hooks/useValidators';
+import useValidators, { type ValidatorRuleMap } from '../../../../src/hooks/useValidators';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
 import apiDocCN from './api-doc.zh-CN.md?raw';
@@ -8,8 +9,7 @@ import introduceEN from './introduce.en-US.md?raw';
 import introduceCN from './introduce.zh-CN.md?raw';
 
 interface UseValidatorsStoryArgs {
-  rule: string;
-  value: string;
+  rule: keyof ValidatorRuleMap;
 }
 
 const meta: Meta<UseValidatorsStoryArgs> = {
@@ -23,7 +23,6 @@ const meta: Meta<UseValidatorsStoryArgs> = {
   },
   args: {
     rule: 'email',
-    value: 'user@example.com',
   },
   argTypes: {
     rule: {
@@ -46,12 +45,8 @@ const meta: Meta<UseValidatorsStoryArgs> = {
         'strongName',
         'strongNameMax64',
         'strongNameMax128',
-      ],
+      ] satisfies (keyof ValidatorRuleMap)[],
       description: storyT('storybook.stories.useValidators.argTypes.rule.description'),
-    },
-    value: {
-      control: 'text',
-      description: storyT('storybook.stories.useValidators.argTypes.value.description'),
     },
   },
 };
@@ -73,15 +68,62 @@ export const Playground: Story = {
   },
 };
 
-function UseValidatorsStoryDemo({ rule, value }: UseValidatorsStoryArgs) {
+function UseValidatorsStoryDemo({ rule }: UseValidatorsStoryArgs) {
   const t = useStoryT();
   const validators = useValidators();
 
+  const [ruleName, setRuleName] = useState(rule);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const selected = (validators as any)[rule] ?? validators.email;
+  const selectedRule = (validators as any)[ruleName] ?? validators.email;
 
-  const passed = selected.pattern.test(value);
-  const patternText = selected.pattern.toString();
+  const [value, setValue] = useState('user@example.com');
+  const passed = selectedRule.pattern.test(value);
+  const patternText = selectedRule.pattern.toString();
+
+  useEffect(() => {
+    setRuleName(rule);
+  }, [rule]);
+
+  useEffect(() => {
+    switch (ruleName) {
+      case 'email':
+        setValue('user@example.com');
+        break;
+      case 'cnMobile':
+        setValue('13800138000');
+        break;
+      case 'number':
+        setValue('123');
+        break;
+      case 'floatNumber':
+        setValue('123.45');
+        break;
+      case 'ip':
+        setValue('192.168.0.1');
+        break;
+      case 'password':
+        setValue('ju7g_5ds@123');
+        break;
+      case 'code':
+      case 'codeMax20':
+      case 'codeMax64':
+      case 'codeMax128':
+      case 'codeWithMax':
+        setValue('SCB_500_ORG_24PK');
+        break;
+      case 'name':
+      case 'nameMax20':
+      case 'nameMax64':
+      case 'nameMax128':
+      case 'nameWithMax':
+      case 'strongName':
+      case 'strongNameMax64':
+      case 'strongNameMax128':
+      case 'strongNameWithMax':
+        setValue('Johnathan Alexander');
+        break;
+    }
+  }, [ruleName]);
 
   return (
     <Card variant="outlined" style={{ maxWidth: 920 }} title={t('storybook.stories.useValidators.cardTitle')}>
@@ -89,11 +131,12 @@ function UseValidatorsStoryDemo({ rule, value }: UseValidatorsStoryArgs) {
         <Typography.Paragraph style={{ marginBottom: 0 }}>
           {t('storybook.stories.useValidators.description')}
         </Typography.Paragraph>
+        <Alert type="info" title={t('storybook.stories.useValidators.tip')} showIcon />
 
         <Space wrap>
           <Select
             style={{ minWidth: 200 }}
-            value={rule}
+            value={ruleName}
             options={[
               'number',
               'floatNumber',
@@ -114,22 +157,17 @@ function UseValidatorsStoryDemo({ rule, value }: UseValidatorsStoryArgs) {
               'strongNameMax128',
             ].map((key) => ({ value: key, label: key }))}
             onChange={(v) => {
-              // controlled by args
-              void v;
+              setRuleName(v);
             }}
           />
           <Input
-            style={{ maxWidth: 300 }}
+            style={{ width: 240 }}
             placeholder={t('storybook.stories.useValidators.valuePlaceholder')}
             value={value}
             onChange={(e) => {
-              void e;
+              setValue(e.target.value);
             }}
           />
-        </Space>
-
-        <Space wrap>
-          <Typography.Text strong>{t('storybook.stories.useValidators.resultLabel')}</Typography.Text>
           <Tag color={passed ? 'green' : 'red'}>
             {passed ? t('storybook.stories.useValidators.pass') : t('storybook.stories.useValidators.fail')}
           </Tag>
@@ -139,9 +177,7 @@ function UseValidatorsStoryDemo({ rule, value }: UseValidatorsStoryArgs) {
         <Typography.Text code copyable>
           {patternText}
         </Typography.Text>
-        <Typography.Text type="secondary">{selected.message}</Typography.Text>
-
-        <Alert type="info" title={t('storybook.stories.useValidators.tip')} showIcon />
+        <Typography.Text type="secondary">{selectedRule.message}</Typography.Text>
       </Space>
     </Card>
   );

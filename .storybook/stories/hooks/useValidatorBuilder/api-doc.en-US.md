@@ -22,19 +22,19 @@ No parameters.
 
 `RuleRegExpFlags`:
 
-| Name                 | Description                              | Type       |
-| -------------------- | ---------------------------------------- | ---------- |
-| `letter`             | Lowercase and uppercase Latin characters | `boolean`  |
-| `lowerLetter`        | Lowercase English letters                | `boolean`  |
-| `upperLetter`        | Uppercase English letters                | `boolean`  |
-| `chineseCharacter`   | Chinese characters                       | `boolean`  |
-| `chinesePunctuation` | Chinese (full-width) punctuation         | `boolean`  |
-| `number`             | Numbers                                  | `boolean`  |
-| `hyphen`             | Hyphen `-`                               | `boolean`  |
-| `underscore`         | Underscore `_`                           | `boolean`  |
-| `special`            | Specific special characters              | `string[]` |
-| `min`                | Minimum number of characters             | `number`   |
-| `max`                | Maximum number of characters             | `number`   |
+| Name                 | Description                                                                                                                 | Type       |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| `letter`             | Include lowercase and uppercase Latin characters. If set to true, `lowerLetter` and `upperLetter` option are not effectives | `boolean`  |
+| `lowerLetter`        | Lowercase English letters                                                                                                   | `boolean`  |
+| `upperLetter`        | Uppercase English letters                                                                                                   | `boolean`  |
+| `chineseCharacter`   | Chinese characters                                                                                                          | `boolean`  |
+| `chinesePunctuation` | Chinese (full-width) punctuation                                                                                            | `boolean`  |
+| `number`             | Numbers                                                                                                                     | `boolean`  |
+| `hyphen`             | Hyphen `-`                                                                                                                  | `boolean`  |
+| `underscore`         | Underscore `_`                                                                                                              | `boolean`  |
+| `special`            | Specific special characters                                                                                                 | `string[]` |
+| `min`                | Minimum number of characters                                                                                                | `number`   |
+| `max`                | Maximum number of characters                                                                                                | `number`   |
 
 `ValidatorRule`:
 

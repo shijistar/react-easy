@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Alert, Card, Input, Space, Tag, Typography } from 'antd';
-import type { RuleRegExpFlags } from '../../../../src/hooks/useValidatorBuilder';
+import { Alert, Card, Flex, Form, Input, Space, Tag, Typography } from 'antd';
 import useValidatorBuilder from '../../../../src/hooks/useValidatorBuilder';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
@@ -97,20 +96,25 @@ function UseValidatorBuilderStoryDemo({
 }: UseValidatorBuilderStoryArgs) {
   const t = useStoryT();
   const build = useValidatorBuilder();
-  const [draft, setDraft] = useState('');
 
-  const allowed: RuleRegExpFlags = {
-    letter,
-    number,
-    underscore,
-    hyphen,
-    chineseCharacter,
-    max: max || undefined,
-  };
-
-  const rule = build({ allowed });
-  const passed = rule.pattern.test(testValue || draft);
-  const patternText = rule.pattern.toString();
+  const [form] = Form.useForm();
+  const initialValue = useMemo(() => ({ testContent: 'abc123' }), []);
+  const testContent = Form.useWatch(['testContent'], form) ?? initialValue.testContent;
+  const rule = useMemo(
+    () =>
+      build({
+        allowed: {
+          letter,
+          number,
+          underscore,
+          hyphen,
+          chineseCharacter,
+          max: max || undefined,
+        },
+      }),
+    [build, chineseCharacter, hyphen, letter, max, number, underscore],
+  );
+  const passed = rule.pattern.test(testContent || '');
 
   return (
     <Card variant="outlined" style={{ maxWidth: 920 }} title={t('storybook.stories.useValidatorBuilder.cardTitle')}>
@@ -119,38 +123,57 @@ function UseValidatorBuilderStoryDemo({
           {t('storybook.stories.useValidatorBuilder.description')}
         </Typography.Paragraph>
 
-        <Space wrap>
-          <Input
-            style={{ maxWidth: 300 }}
-            placeholder="abc123"
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-          />
-          <Typography.Text strong>
-            {t('storybook.stories.useValidatorBuilder.maxLabel')} {max}
-          </Typography.Text>
-        </Space>
+        <Alert
+          type="info"
+          title={t('storybook.stories.useValidatorBuilder.tip') + ' ' + t('storybook.stories.useValidator.tip')}
+          showIcon
+        />
+        <fieldset style={{ padding: '16px 16px 20px 16px' }}>
+          <legend>
+            <Typography.Text strong>{t('storybook.stories.useValidator.allowedFlags')}</Typography.Text>
+          </legend>
+          <Space wrap>
+            <Tag color={letter ? 'green' : 'default'}>a-zA-Z</Tag>
+            <Tag color={number ? 'green' : 'default'}>0-9</Tag>
+            <Tag color={underscore ? 'green' : 'default'}>_</Tag>
+            <Tag color={hyphen ? 'green' : 'default'}>-</Tag>
+            <Tag color={chineseCharacter ? 'green' : 'default'}>汉字</Tag>
+            <Tag color={max != null ? 'green' : 'default'}>Max: {max}</Tag>
+          </Space>
+        </fieldset>
 
-        <Space wrap>
-          <Tag color={letter ? 'green' : 'default'}>a-zA-Z</Tag>
-          <Tag color={number ? 'green' : 'default'}>0-9</Tag>
-          <Tag color={underscore ? 'green' : 'default'}>_</Tag>
-          <Tag color={hyphen ? 'green' : 'default'}>-</Tag>
-          <Tag color={chineseCharacter ? 'green' : 'default'}>汉字</Tag>
-        </Space>
+        <fieldset style={{ padding: '16px 16px 20px 16px' }}>
+          <legend>
+            <Typography.Text strong>{t('storybook.stories.useValidator.patternLabel')}</Typography.Text>
+          </legend>
+          <Space wrap>
+            <Typography.Text code copyable>
+              {rule.pattern.toString()}
+            </Typography.Text>
+          </Space>
+        </fieldset>
 
-        <Space wrap>
-          <Typography.Text strong>{t('storybook.stories.useValidatorBuilder.resultLabel')}</Typography.Text>
-          <Tag color={passed ? 'green' : 'red'}>
-            {passed ? t('storybook.stories.useValidatorBuilder.pass') : t('storybook.stories.useValidatorBuilder.fail')}
-          </Tag>
-          <Typography.Text strong>{t('storybook.stories.useValidatorBuilder.patternLabel')}</Typography.Text>
-          <Typography.Text code copyable>
-            {patternText}
-          </Typography.Text>
-        </Space>
-
-        <Alert type="info" title={t('storybook.stories.useValidatorBuilder.tip')} showIcon />
+        <fieldset style={{ padding: '16px 16px 20px 16px' }}>
+          <legend>
+            <Typography.Text strong>{t('storybook.stories.useValidator.testLabel')}</Typography.Text>
+          </legend>
+          <Typography.Paragraph>
+            <Form form={form} initialValues={initialValue}>
+              <Form.Item>
+                <Flex gap={8}>
+                  <Form.Item noStyle name="testContent" rules={[rule]}>
+                    <Input.TextArea style={{ flex: 1, minWidth: 0 }} />
+                  </Form.Item>
+                  {testContent && (
+                    <Tag color={passed ? 'green' : 'red'} style={{ display: 'flex', alignItems: 'center' }}>
+                      {passed ? t('storybook.stories.useValidator.pass') : t('storybook.stories.useValidator.fail')}
+                    </Tag>
+                  )}
+                </Flex>
+              </Form.Item>
+            </Form>
+          </Typography.Paragraph>
+        </fieldset>
       </Space>
     </Card>
   );

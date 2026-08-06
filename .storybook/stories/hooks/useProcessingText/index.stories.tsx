@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Alert, Card, Input, InputNumber, Space, Typography } from 'antd';
+import { Alert, Card, Space, Typography } from 'antd';
 import useProcessingText from '../../../../src/hooks/useProcessingText';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
@@ -10,7 +9,10 @@ import introduceCN from './introduce.zh-CN.md?raw';
 
 interface UseProcessingTextStoryArgs {
   enabled: boolean;
+  interval: number;
   maxDots: number;
+  dotText: string;
+  prefixText: string;
 }
 
 const meta: Meta<UseProcessingTextStoryArgs> = {
@@ -24,16 +26,31 @@ const meta: Meta<UseProcessingTextStoryArgs> = {
   },
   args: {
     enabled: true,
+    interval: 300,
     maxDots: 3,
+    dotText: '.',
+    prefixText: '',
   },
   argTypes: {
     enabled: {
       control: 'boolean',
       description: storyT('storybook.stories.useProcessingText.argTypes.enabled.description'),
     },
+    interval: {
+      control: { type: 'range', min: 100, max: 2000, step: 50 },
+      description: storyT('storybook.stories.useProcessingText.argTypes.interval.description'),
+    },
     maxDots: {
       control: { type: 'range', min: 1, max: 6, step: 1 },
       description: storyT('storybook.stories.useProcessingText.argTypes.maxDots.description'),
+    },
+    dotText: {
+      control: 'text',
+      description: storyT('storybook.stories.useProcessingText.argTypes.dotText.description'),
+    },
+    prefixText: {
+      control: 'text',
+      description: storyT('storybook.stories.useProcessingText.argTypes.prefixText.description'),
     },
   },
 };
@@ -55,42 +72,25 @@ export const Playground: Story = {
   },
 };
 
-function UseProcessingTextStoryDemo({ enabled, maxDots }: UseProcessingTextStoryArgs) {
+function UseProcessingTextStoryDemo({ enabled, interval, maxDots, dotText, prefixText }: UseProcessingTextStoryArgs) {
   const t = useStoryT();
-  const [prefixText, setPrefixText] = useState('');
-  const [interval, setInterval] = useState(300);
 
   const text = useProcessingText({
     enabled,
     prefixText,
     interval,
     maxDots,
+    dotText,
   });
 
   return (
     <Card variant="outlined" style={{ maxWidth: 920 }} title={t('storybook.stories.useProcessingText.cardTitle')}>
       <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-        <Typography.Paragraph style={{ marginBottom: 0 }}>
-          {t('storybook.stories.useProcessingText.description')}
-        </Typography.Paragraph>
+        <Alert type="info" title={t('storybook.stories.useProcessingText.tip')} showIcon />
 
-        <Space wrap>
-          <Typography.Text strong>{t('storybook.stories.useProcessingText.prefixLabel')}</Typography.Text>
-          <Input
-            style={{ maxWidth: 200 }}
-            placeholder={t('storybook.stories.useProcessingText.prefixPlaceholder')}
-            value={prefixText}
-            onChange={(e) => setPrefixText(e.target.value)}
-          />
-          <Typography.Text strong>{t('storybook.stories.useProcessingText.intervalLabel')}</Typography.Text>
-          <InputNumber min={100} max={2000} step={50} value={interval} onChange={(v) => setInterval(v ?? 300)} />
-        </Space>
-
-        <Typography.Title level={3} style={{ margin: 0 }}>
+        <Typography.Title level={3} style={{ margin: 0, height: 32 }}>
           {text}
         </Typography.Title>
-
-        <Alert type="info" title={t('storybook.stories.useProcessingText.tip')} showIcon />
       </Space>
     </Card>
   );

@@ -16,21 +16,33 @@ Get a **validation rule builder** that constructs Ant-Design-compatible regex ru
 ## Sample code
 
 ```tsx
+import { useMemo } from 'react';
 import { type RuleRegExpFlags, useValidatorBuilder } from '@tiny-codes/react-easy';
 import { Form, Input } from 'antd';
 
 export function Demo() {
   const build = useValidatorBuilder();
 
-  const usernameRule = build({
-    allowed: { letter: true, number: true, underscore: true, min: 6, max: 20 },
-    startsWith: { letter: true },
-  });
+  const usernameRule = useMemo(
+    () =>
+      build({
+        allowed: { letter: true, number: true, underscore: true, min: 6, max: 20 },
+        startsWith: { letter: true },
+      }),
+    [build],
+  );
+  const passwordRule = useMemo(
+    () => build({ allowed: { letter: true, number: true, special: true, min: 8 } }),
+    [build],
+  );
 
   return (
     <Form>
       <Form.Item name="username" label="Username" rules={[usernameRule]}>
         <Input />
+      </Form.Item>
+      <Form.Item name="password" label="Password" rules={[passwordRule]}>
+        <Input.Password />
       </Form.Item>
     </Form>
   );

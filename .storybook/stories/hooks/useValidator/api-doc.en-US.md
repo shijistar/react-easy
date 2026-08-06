@@ -20,4 +20,18 @@
 
 ### Types
 
-`RuleRegExpFlags`: `letter`, `lowerLetter`, `upperLetter`, `chineseCharacter`, `chinesePunctuation`, `number`, `hyphen`, `underscore`, `special: string[]`, `min: number`, `max: number`.
+- RuleRegExpFlags
+
+| Name                 | Description                                                                                                                | Type       |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| `letter`             | Include lowercase and uppercase Latin characters. If set to true, `lowerLetter` and `upperLetter` option are not effective | `boolean`  |
+| `lowerLetter`        | Include lowercase English letters                                                                                          | `boolean`  |
+| `upperLetter`        | Include uppercase English letters                                                                                          | `boolean`  |
+| `chineseCharacter`   | Include Chinese characters                                                                                                 | `boolean`  |
+| `chinesePunctuation` | Include Chinese (full-width) punctuation                                                                                   | `boolean`  |
+| `number`             | Include numbers                                                                                                            | `boolean`  |
+| `hyphen`             | Include hyphens (-)                                                                                                        | `boolean`  |
+| `underscore`         | Include underscores (\_)                                                                                                   | `boolean`  |
+| `special`            | Include specified special characters                                                                                       | `string[]` |
+| `min`                | Minimum number of characters                                                                                               | `number`   |
+| `max`                | Maximum number of characters                                                                                               | `number`   |

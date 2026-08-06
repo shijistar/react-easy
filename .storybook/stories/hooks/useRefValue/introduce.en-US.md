@@ -2,9 +2,10 @@ Get a **mutable ref object** that automatically stays in sync with the latest va
 
 ## When to use
 
-- Reading the latest state/props inside `setTimeout`, `setInterval`, or event listeners without re-subscribing.
-- Passing a stable ref to child components while keeping its `.current` fresh.
 - Implementing stable-callback patterns such as `useRefFunction`.
+- Reading the latest state/props inside `setTimeout`, `setInterval`, or event listeners without re-subscribing.
+- Reading the latest value of a variable inside `useEffect` without adding it to the dependency array.
+- Excluding a dependency from `useEffect`.
 
 ## Key features
 
@@ -17,19 +18,19 @@ Get a **mutable ref object** that automatically stays in sync with the latest va
 ```tsx
 import { useRefValue } from '@tiny-codes/react-easy';
 
-export function Demo() {
-  const countRef = useRefValue(count);
+export function Demo(props) {
+  const { enabled } = props;
+  const enabledRef = useRefValue(enabled);
+  const [count, setCount] = useState(0);
 
-  // Read the latest value from inside a stable callback without
-  // re-creating it when `count` changes.
-  const capture = () => setCaptured(countRef.current);
+  useEffect(() => {
+    if (enabledRef.current) {
+      console.log(count);
+    }
+  }, [count]);
 
-  return <button onClick={capture}>Capture {countRef.current}</button>;
+  const capture = () => setCount(count + 1);
+
+  return <button onClick={capture}>Capture {count}</button>;
 }
 ```
-
-## Usage notes
-
-- Mutating `ref.current` does **not** trigger a re-render.
-- It is the building block for `useRefFunction` in this library.
-- Use it to read fresh values inside long-lived callbacks without including them in dependency arrays.
