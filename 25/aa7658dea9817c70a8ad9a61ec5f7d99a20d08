@@ -1,0 +1,15 @@
+src/hooks/useValidators.ts
+  h_99cad05bea77d1 29-30,43-44
+  h_99cad05bea77d1 23-28,31,37-42,45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "25aa7658dea9817c70a8ad9a61ec5f7d99a20d08",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
