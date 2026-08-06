@@ -1,0 +1,50 @@
+.storybook/stories/hooks/useValidator/api-doc.zh-CN.md
+  h_99cad05bea77d1 23-37
+.storybook/stories/hooks/useValidatorBuilder/introduce.en-US.md
+  h_99cad05bea77d1 19,26-27,31-32,34-37,44-45
+  h_99cad05bea77d1 28-30,33,46
+.storybook/stories/hooks/useValidator/index.stories.tsx
+  h_99cad05bea77d1 1,3,92-94,96,105-113,120-122,124-128,132-133,135-155
+  h_99cad05bea77d1 80,114-119,129-131
+.storybook/stories/hooks/useValidators/index.stories.tsx
+  h_99cad05bea77d1 1,4,12,48,75,77,79-81,83-85,87-126,134,139,160,164,168,180
+  h_99cad05bea77d1 71,78,82
+.storybook/stories/hooks/useRefValue/introduce.zh-CN.md
+  h_99cad05bea77d1 7-8,21-24,26-30,32,34
+  h_99cad05bea77d1 6,25
+.storybook/stories/hooks/useValidator/api-doc.en-US.md
+  h_99cad05bea77d1 23-37
+.storybook/stories/hooks/useValidatorBuilder/api-doc.en-US.md
+  h_99cad05bea77d1 26-27
+  h_99cad05bea77d1 25,28-37
+.storybook/stories/hooks/useValidatorBuilder/api-doc.zh-CN.md
+  h_99cad05bea77d1 26-27
+  h_99cad05bea77d1 25,28-37
+.storybook/stories/hooks/useValidatorBuilder/index.stories.tsx
+  h_99cad05bea77d1 1,3,100-104,106-115,117,126-143,145-154,156-169,172-176
+  h_99cad05bea77d1 105,116,170-171
+.storybook/stories/hooks/useRefValue/introduce.en-US.md
+  h_99cad05bea77d1 6-8,21-24,26-30,32,34
+  h_99cad05bea77d1 25
+.storybook/locales/langs/en-US.ts
+  h_99cad05bea77d1 170,425,427-428,548,550-551
+.storybook/locales/langs/zh-CN.ts
+  h_99cad05bea77d1 165,391,393-394,511
+.storybook/stories/hooks/useValidatorBuilder/introduce.zh-CN.md
+  h_99cad05bea77d1 19,26-27,30-36,44-45
+  h_99cad05bea77d1 28-29,37,46
+.storybook/stories/hooks/useProcessingText/index.stories.tsx
+  h_99cad05bea77d1 12,14-15,29,31-32,39-42,47-53,75,83,89,91
+  h_99cad05bea77d1 2,54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "cfd43e12c80485d3f85fb555dc79d86dfed1b8d4",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
