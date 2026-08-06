@@ -13,6 +13,30 @@
 - **本地化消息** —— 错误消息由描述每个允许集合的 i18n token 组装。
 - **antd 兼容** —— 结果是 `{ pattern, message, allowedOptions, startsWithOptions, flags }` 规则。
 
+## 示例代码
+
+```tsx
+import { type RuleRegExpFlags, useValidatorBuilder } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+export function Demo() {
+  const build = useValidatorBuilder();
+
+  const usernameRule = build({
+    allowed: { letter: true, number: true, underscore: true, min: 6, max: 20 },
+    startsWith: { letter: true },
+  });
+
+  return (
+    <Form>
+      <Form.Item name="username" label="用户名" rules={[usernameRule]}>
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## 使用注意
 
 - 至少一个允许标志必须为 `true`；否则抛出本地化错误。

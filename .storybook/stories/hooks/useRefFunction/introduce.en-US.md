@@ -12,6 +12,26 @@ Generate a function with an **immutable reference**. The function body keeps rea
 - **Fresh closure** — internal ref keeps the latest `fn`, so state/props are always current when called.
 - **Type-preserving** — generic signature returns a function typed as the input `T`.
 
+## Sample code
+
+```tsx
+import { useRefFunction } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const stableLog = useRefFunction(() => {
+    console.log('latest value:', count);
+  });
+
+  // stableLog's reference never changes, safe to use in a deps array.
+  useEffect(() => {
+    window.addEventListener('resize', stableLog);
+    return () => window.removeEventListener('resize', stableLog);
+  }, [stableLog]);
+
+  return null;
+}
+```
+
 ## Usage notes
 
 - The hook only wraps the _latest_ function; do not call it as a normal `useCallback` with a dependency list.

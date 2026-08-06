@@ -13,6 +13,23 @@
 - **文本可定制** —— `prefixText` 与 `dotText` 适配不同语言/界面。
 - **可暂停** —— `enabled: false` 时文本冻结为前缀（不带点）。
 
+## 示例代码
+
+```tsx
+import { useProcessingText } from '@tiny-codes/react-easy';
+
+export function ProcessingLabel() {
+  const text = useProcessingText({
+    prefixText: '处理中',
+    dotText: '.',
+    interval: 300,
+    maxDots: 3,
+  });
+
+  return <span>{text}</span>;
+}
+```
+
 ## 使用注意
 
 - `enabled` 为 `true`（默认）时动画开始。

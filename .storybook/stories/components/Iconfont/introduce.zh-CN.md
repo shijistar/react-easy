@@ -11,6 +11,23 @@
 - **尺寸与颜色** —— `size`（`control`）与 `color` 调整字形；`rotate`（`control`）设定固定角度。
 - **前缀处理** —— `iconPrefix`（演示辅助）会在 `type` 前自动拼接，除非 `type` 已包含该前缀。
 
+## 示例代码
+
+```tsx
+import { createIconfont } from '@tiny-codes/react-easy';
+
+const IconFont = createIconfont('//at.alicdn.com/t/font_xxx.js');
+
+export function Demo() {
+  return (
+    <>
+      <IconFont type="icon-tuichu" size={32} color="#1677ff" />
+      <IconFont type="icon-facebook" spin />
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - 图标渲染前需通过 `scriptUrl` 加载脚本；URL 错误或缺失会导致字形空白。

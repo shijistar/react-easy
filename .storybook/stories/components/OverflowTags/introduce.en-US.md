@@ -12,6 +12,23 @@ Use `OverflowTags` to show a variable number of tags (selected filters, assigned
 - **Colors** — `randomColors` assigns preset colors; per-tag `color` takes precedence.
 - **Inherits rc-overflow** — `OverflowProps` (except `renderItem`) are forwarded, so sizing/spacing follow that library.
 
+## Sample code
+
+```tsx
+import { OverflowTags } from '@tiny-codes/react-easy';
+
+const tags = [
+  { id: 1, label: 'React' },
+  { id: 2, label: 'TypeScript' },
+  { id: 3, label: 'Ant Design' },
+  // …
+];
+
+export function Demo() {
+  return <OverflowTags tags={tags} getTagKey={(tag) => tag.id} renderTag={(tag) => tag.label} />;
+}
+```
+
 ## Usage notes
 
 - Provide a stable `getTagKey` so React reconciliation and the dropdown stay correct when the list changes.

@@ -13,6 +13,33 @@ Build a single **Ant-Design-compatible validation rule** once, from declarative 
 - **Localized messages** — failure message is assembled from i18n tokens.
 - **antd-compatible** — returns `{ pattern, message, allowedOptions, startsWithOptions, flags }`.
 
+## Sample code
+
+```tsx
+import { type RuleRegExpFlags, useValidator } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+export function Demo() {
+  const allowed: RuleRegExpFlags = {
+    letter: true,
+    number: true,
+    underscore: true,
+    min: 6,
+    max: 20,
+  };
+
+  const rule = useValidator({ allowed });
+
+  return (
+    <Form>
+      <Form.Item name="username" label="Username" rules={[rule]}>
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## Usage notes
 
 - At least one allowed flag must be `true`; otherwise it throws a localized error.

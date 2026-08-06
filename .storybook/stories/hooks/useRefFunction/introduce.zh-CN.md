@@ -12,6 +12,26 @@
 - **闭包最新** —— 内部 ref 始终持有最新的 `fn`，调用时读取到最新的 state/props。
 - **类型保留** —— 泛型签名返回与输入 `T` 同类型的函数。
 
+## 示例代码
+
+```tsx
+import { useRefFunction } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const stableLog = useRefFunction(() => {
+    console.log('最新值:', count);
+  });
+
+  // stableLog 的引用永不变化，可安全放入依赖数组。
+  useEffect(() => {
+    window.addEventListener('resize', stableLog);
+    return () => window.removeEventListener('resize', stableLog);
+  }, [stableLog]);
+
+  return null;
+}
+```
+
 ## 使用注意
 
 - hook 只包装*最新*函数；不要像 `useCallback` 那样传入依赖列表使用。

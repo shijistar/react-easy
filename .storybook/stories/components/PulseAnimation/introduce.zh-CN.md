@@ -12,6 +12,16 @@
 - **主题化** —— `barStyle` 与 `token.AnimationPulse` token 可全局微调外观。
 - **无依赖** —— 纯 CSS 动画，挂载大量实例也很廉价。
 
+## 示例代码
+
+```tsx
+import { PulseAnimation } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return <PulseAnimation bars={24} barGap={3} style={{ width: '100%', height: 40 }} />;
+}
+```
+
 ## 使用注意
 
 - `bars`、`barGap`、`duration`、`delayRate` 均有合理默认值，裸 `<PulseAnimation />` 即可动起来。

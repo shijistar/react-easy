@@ -11,6 +11,24 @@ Use `DeleteConfirmAction` (instead of plain `ConfirmAction`) for any destructive
 - **Convenience triggers** — `DeleteConfirmAction.Button` / `.Switch` / `.Link` are ready-made trigger variants.
 - **Global defaults** — default title/content come from `ConfigProvider`'s deletion settings.
 
+## Sample code
+
+```tsx
+import { DeleteConfirmAction } from '@tiny-codes/react-easy';
+
+export function UserList() {
+  return (
+    <DeleteConfirmAction.Button
+      onOk={async () => {
+        await api.deleteUser(id);
+      }}
+    >
+      Delete
+    </DeleteConfirmAction.Button>
+  );
+}
+```
+
 ## Usage notes
 
 - Because it is just `ConfirmAction` with `confirmType: 'delete'`, you can override `titleColor` / `iconColor` / `okButtonProps.type` per instance if you need a non-default look.

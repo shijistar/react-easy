@@ -10,6 +10,25 @@ Use `FormItemControl` when a form field's UI is not covered by Ant Design's buil
 - **Form-native** — validation, `initialValues`, `getFieldsValue`, and submit all work because it is a real `Form.Item` child.
 - **Zero markup** — you supply only the control UI; the wrapper handles the form wiring.
 
+## Sample code
+
+```tsx
+import { FormItemControl } from '@tiny-codes/react-easy';
+import { Form, InputNumber } from 'antd';
+
+export function Demo() {
+  return (
+    <Form>
+      <Form.Item name="count" label="Count">
+        <FormItemControl>
+          {({ value, onChange }) => <InputNumber value={value} onChange={onChange} min={0} />}
+        </FormItemControl>
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## Usage notes
 
 - It must be placed directly inside `<Form.Item>`; nesting other elements between breaks the binding.

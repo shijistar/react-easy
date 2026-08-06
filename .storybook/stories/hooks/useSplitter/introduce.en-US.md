@@ -14,6 +14,29 @@ Make any two-pane layout resizable with a draggable splitter. The hook renders a
 - **Live feedback** — `percent`, `width`, and `dragging` are exposed for custom UI.
 - **Theme-aware** — uses `ConfigProvider` prefix and CSS variables; hover/dragging/handle class hooks available.
 
+## Sample code
+
+```tsx
+import { useSplitter } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const { dom, percent, dragging } = useSplitter({
+    direction: 'vertical',
+    defaultRatio: 0.32,
+    minRatio: 0.15,
+    maxRatio: 0.85,
+  });
+
+  return (
+    <div style={{ display: 'flex', height: 400 }}>
+      <div style={{ width: `${(percent ?? 0.32) * 100}%` }}>Left pane</div>
+      {dom}
+      <div style={{ flex: 1 }}>Right pane</div>
+    </div>
+  );
+}
+```
+
 ## Usage notes
 
 - The splitter resolves its container automatically from the `dom`'s parent element, or use the `container` prop explicitly.

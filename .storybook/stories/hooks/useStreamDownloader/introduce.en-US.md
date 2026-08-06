@@ -13,6 +13,31 @@ React adapter over the `StreamDownloader` class that exposes a stable downloader
 - **Bound helpers** — `start` / `cancel` / `reset` are pre-bound to the instance, so they can be passed around without losing `this`.
 - **Auto-dispose** — the downloader is disposed on unmount by default; disable via `autoDispose: false` when the instance must outlive the component.
 
+## Sample code
+
+```tsx
+import { useStreamDownloader } from '@tiny-codes/react-easy';
+
+export function DownloadButton() {
+  const { start, cancel, isRunning, snapshot } = useStreamDownloader();
+
+  return (
+    <>
+      <button
+        disabled={isRunning}
+        onClick={() => start({ url: '/api/report', fileName: 'report.pdf', saveStrategy: 'auto' })}
+      >
+        Download
+      </button>
+      <button onClick={cancel} disabled={!isRunning}>
+        Cancel
+      </button>
+      <span>{snapshot.progress.percent ?? 0}%</span>
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - The full transport contract, save strategies, and type system live in the class-level page: [Utils/StreamDownloader](?path=/docs/utils-streamdownloader--playground). This page focuses on the hook-only surface.

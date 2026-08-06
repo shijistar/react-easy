@@ -12,6 +12,23 @@
 - **配色** —— `randomColors` 分配预设颜色；单个标签的 `color` 优先级更高。
 - **继承 rc-overflow** —— `OverflowProps`（除 `renderItem` 外）均被透传，尺寸/间距遵循该库。
 
+## 示例代码
+
+```tsx
+import { OverflowTags } from '@tiny-codes/react-easy';
+
+const tags = [
+  { id: 1, label: 'React' },
+  { id: 2, label: 'TypeScript' },
+  { id: 3, label: 'Ant Design' },
+  // …
+];
+
+export function Demo() {
+  return <OverflowTags tags={tags} getTagKey={(tag) => tag.id} renderTag={(tag) => tag.label} />;
+}
+```
+
 ## 使用注意
 
 - 请提供稳定的 `getTagKey`，以便列表变化时 React 协调与下拉表现正确。

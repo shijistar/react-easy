@@ -14,6 +14,31 @@ Establish a Server-Sent Events (SSE) connection using `@microsoft/fetch-event-so
 - **Observable state** — `isRequesting` and `isConnected` flags for UI feedback.
 - **Error-safe** — errors are routed to `onError` and connection failures do not throw into React.
 
+## Sample code
+
+```tsx
+import { useEffect } from 'react';
+import { useSSE } from '@tiny-codes/react-easy';
+
+export function LiveFeed() {
+  const { connect, abort, isConnected } = useSSE<{ id: number; text: string }>({
+    url: '/api/events',
+    autoConnect: true,
+    onMessage: (data) => appendLog(data),
+  });
+
+  useEffect(() => () => abort(), [abort]);
+
+  return (
+    <>
+      <button onClick={() => connect()}>Connect</button>
+      <button onClick={abort}>Disconnect</button>
+      <span>{isConnected ? 'connected' : 'disconnected'}</span>
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - The stream is only opened when `connect()` is called, or when `autoConnect` is `true`.

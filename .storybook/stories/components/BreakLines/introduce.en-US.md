@@ -11,6 +11,17 @@ Display backend-provided text that contains `\n` (or another EOL marker) and you
 - **Toggle at runtime** — the `enabled` prop turns conversion on/off without changing the source value.
 - **Custom EOL** — `EOL` lets you split on any delimiter (e.g. `\r\n`, `|`, a custom token), not just `\n`.
 
+## Sample code
+
+```tsx
+import { BreakLines } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const text = 'Line 1\nLine 2\nLine 3';
+  return <BreakLines value={text} tagName="div" />;
+}
+```
+
 ## Usage notes
 
 - When `tagName` is `false` (default), the result is a fragment with `<br />` between segments, so it can be placed inside running text without introducing an extra DOM node. `className` is ignored in this mode.

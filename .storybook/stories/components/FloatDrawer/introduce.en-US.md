@@ -12,6 +12,23 @@ Use `FloatDrawer` for persistent side panels — filters, inspectors, tool palet
 - **Persistence** — `cacheKey` remembers the size in `localStorage`.
 - **Inherits antd Card** — the surface accepts `CardProps` for header/footer/extra.
 
+## Sample code
+
+```tsx
+import { useState } from 'react';
+import { FloatDrawer } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <FloatDrawer open={open} position="right" defaultSize={320} onOpenChange={setOpen}>
+      Drawer content
+    </FloatDrawer>
+  );
+}
+```
+
 ## Usage notes
 
 - It is positioned relative to its parent, so the parent needs `position: relative` (or non-static) for correct placement.

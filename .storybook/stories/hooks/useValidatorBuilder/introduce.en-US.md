@@ -13,6 +13,30 @@ Get a **validation rule builder** that constructs Ant-Design-compatible regex ru
 - **Localized messages** — error messages are assembled from i18n tokens describing each allowed set.
 - **antd-compatible** — the result is a `{ pattern, message, allowedOptions, startsWithOptions, flags }` rule.
 
+## Sample code
+
+```tsx
+import { type RuleRegExpFlags, useValidatorBuilder } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+export function Demo() {
+  const build = useValidatorBuilder();
+
+  const usernameRule = build({
+    allowed: { letter: true, number: true, underscore: true, min: 6, max: 20 },
+    startsWith: { letter: true },
+  });
+
+  return (
+    <Form>
+      <Form.Item name="username" label="Username" rules={[usernameRule]}>
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## Usage notes
 
 - At least one allowed flag must be `true`; otherwise it throws a localized error.

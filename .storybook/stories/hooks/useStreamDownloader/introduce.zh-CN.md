@@ -13,6 +13,31 @@
 - **绑定好的方法** —— `start` / `cancel` / `reset` 已预绑定实例，可直接传递而不会丢失 `this`。
 - **自动释放** —— 默认在卸载时 dispose downloader；需要实例存活于组件之外时，可通过 `autoDispose: false` 关闭。
 
+## 示例代码
+
+```tsx
+import { useStreamDownloader } from '@tiny-codes/react-easy';
+
+export function DownloadButton() {
+  const { start, cancel, isRunning, snapshot } = useStreamDownloader();
+
+  return (
+    <>
+      <button
+        disabled={isRunning}
+        onClick={() => start({ url: '/api/report', fileName: 'report.pdf', saveStrategy: 'auto' })}
+      >
+        下载
+      </button>
+      <button onClick={cancel} disabled={!isRunning}>
+        取消
+      </button>
+      <span>{snapshot.progress.percent ?? 0}%</span>
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - 完整的 transport 契约、保存策略与类型体系在类级页面： [Utils/StreamDownloader](?path=/docs/utils-streamdownloader--playground)。本页聚焦 hook 自身接口。

@@ -12,6 +12,22 @@ Get a **mutable ref object** that automatically stays in sync with the latest va
 - **Stable reference** — the ref object itself never changes, safe for dependencies.
 - **Type-safe** — generic signature preserves the wrapped value type.
 
+## Sample code
+
+```tsx
+import { useRefValue } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const countRef = useRefValue(count);
+
+  // Read the latest value from inside a stable callback without
+  // re-creating it when `count` changes.
+  const capture = () => setCaptured(countRef.current);
+
+  return <button onClick={capture}>Capture {countRef.current}</button>;
+}
+```
+
 ## Usage notes
 
 - Mutating `ref.current` does **not** trigger a re-render.

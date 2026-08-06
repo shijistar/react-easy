@@ -15,6 +15,24 @@
 - **生命周期控制** —— `cancel()`、`reset()`、`dispose()` 覆盖取消、终态重置与资源释放。
 - **稳定错误码** —— 通过 `StreamDownloadError` 提供类型化错误码（`TASK_ALREADY_RUNNING`、`DOWNLOAD_CANCELLED` 等）。
 
+## 示例代码
+
+```ts
+import { StreamDownloader } from '@tiny-codes/react-easy';
+
+const downloader = new StreamDownloader({ progressThrottleMs: 200 });
+
+downloader.subscribe((snapshot) => {
+  console.log(snapshot.status, snapshot.progress.percent);
+});
+
+await downloader.start({
+  url: '/api/report',
+  fileName: 'report.pdf',
+  saveStrategy: 'auto',
+});
+```
+
 ## 使用注意
 
 - 远端 URL 必须支持 CORS 并暴露可读流 body，否则会以 `HTTP_ERROR` 或 `EMPTY_RESPONSE_STREAM` 失败。

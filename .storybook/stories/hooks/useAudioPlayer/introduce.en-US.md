@@ -14,6 +14,25 @@ Provides a stable `AudioPlayer` class instance for controlling audio playback wi
 - **Volume management** — `setVolume` / `volumeUp` / `volumeDown` with Web Audio `GainNode` when available.
 - **Event hooks** — `addEventListener` / `removeEventListener` delegate to the underlying `HTMLAudioElement`.
 
+## Sample code
+
+```tsx
+import { useAudioPlayer } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const player = useAudioPlayer({ source: '/audio/sample.mp3', volume: 0.6 });
+
+  return (
+    <>
+      <button onClick={() => player.play()}>Play</button>
+      <button onClick={() => player.pause()}>Pause</button>
+      <button onClick={() => player.stop()}>Stop</button>
+      <button onClick={() => player.setVolume(0.5)}>50% volume</button>
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - If the source is a URL, the audio source must support cross-origin access, otherwise there may be no sound.

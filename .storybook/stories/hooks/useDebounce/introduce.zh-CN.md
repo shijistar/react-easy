@@ -13,6 +13,30 @@
 - **运行时控制** —— `cancel()` 丢弃待执行调用，`disable()` / `enable()` 开关防抖，`isDisabled()` 查询状态。
 - **依赖驱动重建** —— `deps` 变化时重新创建防抖函数，行为类似 `useCallback`。
 
+## 示例代码
+
+```tsx
+import { useEffect, useState } from 'react';
+import { useDebounce } from '@tiny-codes/react-easy';
+
+export function SearchBox() {
+  const [query, setQuery] = useState('');
+  const [applied, setApplied] = useState('');
+
+  const debouncedApply = useDebounce((value: string) => setApplied(value), [wait, leading, maxWait], {
+    wait: 300,
+    leading: false,
+    maxWait: 1000,
+  });
+
+  useEffect(() => {
+    debouncedApply(query);
+  }, [query, debouncedApply]);
+
+  return <input value={query} onChange={(e) => setQuery(e.target.value)} />;
+}
+```
+
 ## 使用注意
 
 - `wait: 0`（默认）表示不防抖，调用立即执行。

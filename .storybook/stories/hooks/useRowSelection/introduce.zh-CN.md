@@ -13,6 +13,31 @@
 - **自动行 key** —— 未提供 `rowKey` 时自动使用 `id` 或 `code` 字段。
 - **可恢复缓存** —— 传入 `cache` 可在 Table 重新挂载时恢复选中（例如从 `localStorage` 或微前端主应用读取）。
 
+## 示例代码
+
+```tsx
+import { useState } from 'react';
+import { useRowSelection } from '@tiny-codes/react-easy';
+import { Table } from 'antd';
+
+interface User {
+  id: number;
+  name: string;
+}
+
+export function Demo() {
+  const [selected, setSelected] = useState<User[]>([]);
+
+  const rowSelection = useRowSelection<User>({
+    value: selected,
+    onChange: setSelected,
+    rowKey: 'id',
+  });
+
+  return <Table rowKey="id" dataSource={users} columns={columns} rowSelection={rowSelection} pagination={false} />;
+}
+```
+
 ## 使用注意
 
 - 将返回值直接传给 Table 的 `rowSelection`；当 `checkable` 为 `false` 时返回 `undefined`。

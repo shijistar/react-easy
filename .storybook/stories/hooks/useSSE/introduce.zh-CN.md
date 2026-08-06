@@ -14,6 +14,31 @@
 - **状态可观察** —— `isRequesting` 与 `isConnected` 标志位方便 UI 反馈。
 - **错误安全** —— 错误统一路由到 `onError`，连接失败不会向 React 抛异常。
 
+## 示例代码
+
+```tsx
+import { useEffect } from 'react';
+import { useSSE } from '@tiny-codes/react-easy';
+
+export function LiveFeed() {
+  const { connect, abort, isConnected } = useSSE<{ id: number; text: string }>({
+    url: '/api/events',
+    autoConnect: true,
+    onMessage: (data) => appendLog(data),
+  });
+
+  useEffect(() => () => abort(), [abort]);
+
+  return (
+    <>
+      <button onClick={() => connect()}>连接</button>
+      <button onClick={abort}>断开</button>
+      <span>{isConnected ? '已连接' : '未连接'}</span>
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - 仅在调用 `connect()` 或 `autoConnect` 为 `true` 时才建立连接。

@@ -12,6 +12,20 @@ Use `Loading` to signal an in-progress state: wrap a region with the overlay spi
 - **Inherits Spin** — extends Ant Design `SpinProps`, so `tip`, `size`, `indicator`, `spinning`, etc. all apply.
 - **Standalone extras** — `mode` (`absolute` | `flex`) controls standalone positioning; `rootClassName` / `rootStyle` style the mask container.
 
+## Sample code
+
+```tsx
+import { Loading } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return (
+    <div style={{ position: 'relative', height: 120 }}>
+      <Loading mode="absolute" />
+    </div>
+  );
+}
+```
+
 ## Usage notes
 
 - In Spin mode the children stay in the DOM and are merely covered; in standalone mode there are no children.

@@ -13,6 +13,33 @@
 - **本地化消息** —— 校验失败提示由 i18n token 组装。
 - **antd 兼容** —— 返回 `{ pattern, message, allowedOptions, startsWithOptions, flags }`。
 
+## 示例代码
+
+```tsx
+import { type RuleRegExpFlags, useValidator } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+export function Demo() {
+  const allowed: RuleRegExpFlags = {
+    letter: true,
+    number: true,
+    underscore: true,
+    min: 6,
+    max: 20,
+  };
+
+  const rule = useValidator({ allowed });
+
+  return (
+    <Form>
+      <Form.Item name="username" label="用户名" rules={[rule]}>
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## 使用注意
 
 - 至少一个允许标志必须为 `true`；否则抛出本地化错误。

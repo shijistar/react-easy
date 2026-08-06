@@ -14,6 +14,30 @@ Record **audio/video media streams** from the user's devices (`getUserMedia`) wi
 - **Permission handling** — detects denied/prompt states and shows guided popups with device-reset instructions.
 - **Silence detection** — when no sound arrives within `soundDetectionTimeout`, prompts the user to re-select the microphone.
 
+## Sample code
+
+```tsx
+import { useUserMedia } from '@tiny-codes/react-easy';
+
+export function Recorder() {
+  const { isRecording, startRecording, stopRecording } = useUserMedia({
+    media: { audio: true, video: false },
+    onStreamChunk: (chunk) => uploadChunk(chunk),
+  });
+
+  return (
+    <>
+      <button onClick={() => startRecording()} disabled={isRecording}>
+        Record
+      </button>
+      <button onClick={stopRecording} disabled={!isRecording}>
+        Stop
+      </button>
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - Requires `navigator.mediaDevices.getUserMedia` and `navigator.permissions.query`; unsupported browsers throw a readable error.

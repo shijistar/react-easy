@@ -13,6 +13,24 @@
 - **自定义序列化** —— 通过 `serialize` / `deserialize` 支持非 JSON 值。
 - **安全降级** —— 空 key 时退化为 `useState` 且不触碰存储；读写错误被静默吞掉。
 
+## 示例代码
+
+```tsx
+import { useLocalStorage } from '@tiny-codes/react-easy';
+
+export function ThemeSwitcher() {
+  const [theme, setTheme, remove] = useLocalStorage<string>('app.theme', 'light', { sync: true });
+
+  return (
+    <>
+      <button onClick={() => setTheme('dark')}>深色</button>
+      <button onClick={() => setTheme('light')}>浅色</button>
+      <button onClick={remove}>重置</button>
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - `key` 会被去空格；空 key 完全禁用存储。

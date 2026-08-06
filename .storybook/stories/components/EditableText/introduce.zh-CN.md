@@ -12,6 +12,23 @@
 - **自定义渲染** —— `displayText`/`children` 覆盖只读展示，`renderView`/`renderEdit`/`renderInput`（来自 `EditableFormProps`）定制各阶段。
 - **块级或行内** —— `block` 属性选择只读/编辑态下的整行块级还是行内展示。
 
+## 示例代码
+
+```tsx
+import { EditableText } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return (
+    <EditableText
+      value="点击编辑"
+      onOk={async (value) => {
+        await api.save({ name: value });
+      }}
+    />
+  );
+}
+```
+
 ## 使用注意
 
 - `editable={false}` 会完全隐藏编辑按钮；可通过外部控制 `editing` 实现编程式编辑。

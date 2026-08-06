@@ -12,6 +12,20 @@
 - **继承 Spin** —— 扩展 Ant Design `SpinProps`，因此 `tip`、`size`、`indicator`、`spinning` 等均可用。
 - **独立模式增强** —— `mode`（`absolute` | `flex`）控制独立定位；`rootClassName` / `rootStyle` 设置遮罩容器样式。
 
+## 示例代码
+
+```tsx
+import { Loading } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return (
+    <div style={{ position: 'relative', height: 120 }}>
+      <Loading mode="absolute" />
+    </div>
+  );
+}
+```
+
 ## 使用注意
 
 - Spin 模式下子内容仍保留在 DOM 中，只是被覆盖；独立模式下没有 children。

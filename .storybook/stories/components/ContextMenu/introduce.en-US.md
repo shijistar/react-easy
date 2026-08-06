@@ -13,6 +13,27 @@ You need a right-click (or other trigger) menu on an element, with keyboard shor
 - **Imperative control** — use a ref to call `show(event, options?)` and open the menu at an arbitrary position, or `hideAll()` to close every open menu.
 - **Theming** — integrates with antd `ConfigProvider` for prefix/class customization via `prefixCls`.
 
+## Sample code
+
+```tsx
+import { ContextMenu, type ContextMenuItem } from '@tiny-codes/react-easy';
+import { Button } from 'antd';
+
+const items: ContextMenuItem[] = [
+  { key: 'copy', label: 'Copy' },
+  { key: 'rename', label: 'Rename' },
+  { key: 'delete', label: 'Delete', danger: true },
+];
+
+export function Demo() {
+  return (
+    <ContextMenu items={items}>
+      <Button>Right click me</Button>
+    </ContextMenu>
+  );
+}
+```
+
 ## Usage notes
 
 - The menu is rendered through `react-contexify`; its `MenuProps` (except `renderItem`) are forwarded, so you can rely on that library's item model.

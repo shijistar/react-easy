@@ -13,6 +13,32 @@ Establish a **STOMP-over-WebSocket** connection using SockJS, mainly for bidirec
 - **Typed messaging** — `parseMessageBody` deserializes the raw body; `send(body)` publishes to `sendEndpoint`.
 - **Connection state** — `connecting` flag and callbacks `onConnected` / `onClose` for UI feedback.
 
+## Sample code
+
+```tsx
+import { useStompSocket } from '@tiny-codes/react-easy';
+
+export function Chat() {
+  const { connect, send, close, connecting } = useStompSocket<string>({
+    url: '/ws',
+    sendEndpoint: '/app/chat.send',
+    subscribeEndpoint: '/topic/chat',
+    onMessage: (body) => appendMessage(body),
+    onConnected: () => console.log('connected'),
+  });
+
+  return (
+    <>
+      <button onClick={() => connect()} disabled={connecting}>
+        Connect
+      </button>
+      <button onClick={() => send('hello')}>Send</button>
+      <button onClick={close}>Close</button>
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - Requires a SockJS-compatible STOMP server; the demo does not auto-connect.

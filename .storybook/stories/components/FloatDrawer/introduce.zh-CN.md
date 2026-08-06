@@ -12,6 +12,23 @@
 - **持久化** —— `cacheKey` 在 `localStorage` 中记忆尺寸。
 - **继承 antd Card** —— 面板表面接受 `CardProps`，可配置 header/footer/extra。
 
+## 示例代码
+
+```tsx
+import { useState } from 'react';
+import { FloatDrawer } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <FloatDrawer open={open} position="right" defaultSize={320} onOpenChange={setOpen}>
+      抽屉内容
+    </FloatDrawer>
+  );
+}
+```
+
 ## 使用注意
 
 - 它相对父容器定位，因此父容器需为 `position: relative`（或非 static）才能正确摆放。

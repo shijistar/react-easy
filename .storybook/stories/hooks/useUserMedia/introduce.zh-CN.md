@@ -14,6 +14,30 @@
 - **权限处理** —— 识别 denied/prompt 状态，弹出带设备重置指引的引导弹窗。
 - **静音检测** —— 在 `soundDetectionTimeout` 内未检测到声音时，提示用户重新选择麦克风。
 
+## 示例代码
+
+```tsx
+import { useUserMedia } from '@tiny-codes/react-easy';
+
+export function Recorder() {
+  const { isRecording, startRecording, stopRecording } = useUserMedia({
+    media: { audio: true, video: false },
+    onStreamChunk: (chunk) => uploadChunk(chunk),
+  });
+
+  return (
+    <>
+      <button onClick={() => startRecording()} disabled={isRecording}>
+        录制
+      </button>
+      <button onClick={stopRecording} disabled={!isRecording}>
+        停止
+      </button>
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - 依赖 `navigator.mediaDevices.getUserMedia` 与 `navigator.permissions.query`；不支持的浏览器会抛出可读错误。

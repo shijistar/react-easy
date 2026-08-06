@@ -11,6 +11,16 @@ Use `VirtualTextViewer` to display huge read-only text — logs, source files, S
 - **Typography control** — `lineHeight`, `font`, `letterSpacing`, `tabSize`, `wordBreak` tune the rendering and stay in sync with the canvas metric.
 - **Per-row styling** — `lineClassName` / `lineStyle` / `contentClassName` / `contentStyle` let you theme the surface and individual rows.
 
+## Sample code
+
+```tsx
+import { VirtualTextViewer } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return <VirtualTextViewer value={hugeLogText} height={480} lineHeight={22} font="12px monospace" />;
+}
+```
+
 ## Usage notes
 
 - Keep `font` in sync with the actual CSS font; a mismatch makes the canvas metric diverge from the painted text.

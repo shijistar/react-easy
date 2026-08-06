@@ -12,6 +12,21 @@
 - **引用稳定** —— ref 对象本身永不变化，可安全用于依赖数组。
 - **类型安全** —— 泛型签名保留包装值的类型。
 
+## 示例代码
+
+```tsx
+import { useRefValue } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const countRef = useRefValue(count);
+
+  // 在稳定回调中读取最新值，无需因 count 变化重建回调。
+  const capture = () => setCaptured(countRef.current);
+
+  return <button onClick={capture}>捕获 {countRef.current}</button>;
+}
+```
+
 ## 使用注意
 
 - 修改 `ref.current` **不会**触发重新渲染。

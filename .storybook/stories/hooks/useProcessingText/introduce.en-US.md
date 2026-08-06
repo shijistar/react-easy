@@ -13,6 +13,23 @@ Create an animated "processing" text that cycles through dots — e.g. `Processi
 - **Custom text** — `prefixText` and `dotText` let you adapt the message to your language/UI.
 - **Pausable** — `enabled: false` freezes the text at the prefix (no dots).
 
+## Sample code
+
+```tsx
+import { useProcessingText } from '@tiny-codes/react-easy';
+
+export function ProcessingLabel() {
+  const text = useProcessingText({
+    prefixText: 'Processing',
+    dotText: '.',
+    interval: 300,
+    maxDots: 3,
+  });
+
+  return <span>{text}</span>;
+}
+```
+
 ## Usage notes
 
 - The animation starts when `enabled` is `true` (default).

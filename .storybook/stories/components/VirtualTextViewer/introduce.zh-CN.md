@@ -11,6 +11,16 @@
 - **排版可控** —— `lineHeight`、`font`、`letterSpacing`、`tabSize`、`wordBreak` 调整渲染，并与 canvas 度量保持同步。
 - **逐行样式** —— `lineClassName` / `lineStyle` / `contentClassName` / `contentStyle` 可对整体与单行进行主题定制。
 
+## 示例代码
+
+```tsx
+import { VirtualTextViewer } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return <VirtualTextViewer value={hugeLogText} height={480} lineHeight={22} font="12px monospace" />;
+}
+```
+
 ## 使用注意
 
 - 请让 `font` 与实际 CSS 字体保持一致；不一致会导致 canvas 度量与绘制文本错位。

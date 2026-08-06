@@ -14,6 +14,29 @@
 - **实时反馈** —— 暴露 `percent`、`width`、`dragging` 供自定义 UI 使用。
 - **主题感知** —— 使用 `ConfigProvider` 前缀与 CSS 变量；支持 hover/dragging/handle 类名钩子。
 
+## 示例代码
+
+```tsx
+import { useSplitter } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const { dom, percent, dragging } = useSplitter({
+    direction: 'vertical',
+    defaultRatio: 0.32,
+    minRatio: 0.15,
+    maxRatio: 0.85,
+  });
+
+  return (
+    <div style={{ display: 'flex', height: 400 }}>
+      <div style={{ width: `${(percent ?? 0.32) * 100}%` }}>左侧面板</div>
+      {dom}
+      <div style={{ flex: 1 }}>右侧面板</div>
+    </div>
+  );
+}
+```
+
 ## 使用注意
 
 - 分割条默认自动解析容器（`dom` 的父元素），也可通过 `container` 显式指定。

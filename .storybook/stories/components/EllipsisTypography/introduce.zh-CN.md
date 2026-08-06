@@ -11,6 +11,23 @@
 - **丰富的省略配置** —— 支持行数（`rows`）、tooltip 标题/内容，以及 Ant Design 的全部 `ellipsis` 选项。
 - **即插即用** —— 接受底层 Ant Design 排版组件的相同 props，迁移通常只需替换一行。
 
+## 示例代码
+
+```tsx
+import { EllipsisParagraph, EllipsisText } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return (
+    <>
+      <EllipsisText ellipsis={{ tooltip: true }} style={{ maxWidth: 240 }}>
+        这是一段超长文本，超出后将被截断并显示 tooltip…
+      </EllipsisText>
+      <EllipsisParagraph ellipsis={{ rows: 2, tooltip: true }}>多行段落，最多展示两行。</EllipsisParagraph>
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - 内容未溢出时会自动抑制 tooltip，无需自行写条件逻辑。

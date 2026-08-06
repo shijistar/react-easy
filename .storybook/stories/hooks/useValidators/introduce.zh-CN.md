@@ -13,6 +13,31 @@
 - **长度变体** —— `codeMax20/64/128`、`nameMax20/64/128` 预设；`*WithMax` 函数支持自定义长度。
 - **i18n 消息** —— 校验失败提示通过库的翻译系统本地化。
 
+## 示例代码
+
+```tsx
+import { useValidators } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+export function Demo() {
+  const { email, cnMobile, password } = useValidators();
+
+  return (
+    <Form>
+      <Form.Item name="email" label="邮箱" rules={[{ validator: email }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item name="phone" label="手机号" rules={[{ validator: cnMobile }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item name="password" label="密码" rules={[{ validator: password }]}>
+        <Input.Password />
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## 使用注意
 
 - 映射经过记忆化，所有规则在渲染间保持稳定。

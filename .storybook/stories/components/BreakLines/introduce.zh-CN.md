@@ -11,6 +11,17 @@
 - **运行时可切换** —— `enabled` 属性可在不修改源数据的情况下开关换行转换。
 - **自定义换行符** —— `EOL` 支持任意分隔符（如 `\r\n`、`|`、自定义标记），不局限于 `\n`。
 
+## 示例代码
+
+```tsx
+import { BreakLines } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const text = '第一行\n第二行\n第三行';
+  return <BreakLines value={text} tagName="div" />;
+}
+```
+
 ## 使用注意
 
 - 当 `tagName` 为 `false`（默认）时，结果为片段且段间使用 `<br />`，可放入行内文本而不会额外产生 DOM 节点；此模式下 `className` 不生效。

@@ -13,6 +13,27 @@
 - **全局默认值** —— 默认标题/内容等可通过 `ConfigProvider` 统一注入，无需在每个实例重复。
 - **继承 antd** —— antd 的 `ModalFuncProps`（title、content、okText、cancelText、okButtonProps 等）均可使用。
 
+## 示例代码
+
+```tsx
+import { ConfirmAction } from '@tiny-codes/react-easy';
+
+export function DangerZone() {
+  return (
+    <ConfirmAction.Button
+      title="确定执行？"
+      content="该操作无法撤销。"
+      danger
+      onOk={async () => {
+        await api.remove();
+      }}
+    >
+      删除项目
+    </ConfirmAction.Button>
+  );
+}
+```
+
 ## 使用注意
 
 - `onBeforeOpen` 返回（或 reject）值会阻止对话框打开，可用于权限或前置条件校验。

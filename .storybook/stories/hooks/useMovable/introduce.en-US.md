@@ -13,6 +13,36 @@ Make an element **movable by dragging**, with optional position persistence in `
 - **Selective ignore** — `ignoreSelectors` prevents drags that start on interactive controls.
 - **Optional persistence** — pass `storageKey` to save/restore the position via `localStorage`.
 
+## Sample code
+
+```tsx
+import { useRef } from 'react';
+import { useMovable } from '@tiny-codes/react-easy';
+
+export function DraggableCard() {
+  const movableDomRef = useRef<HTMLDivElement>(null);
+  const viewPortRef = useRef<HTMLDivElement>(null);
+
+  const { onPointerDown } = useMovable({
+    movableDomRef,
+    viewPortRef,
+    storageKey: 'my-card.position',
+  });
+
+  return (
+    <div ref={viewPortRef} style={{ position: 'relative', height: 300 }}>
+      <div
+        ref={movableDomRef}
+        onPointerDown={onPointerDown}
+        style={{ position: 'absolute', left: 0, top: 0, cursor: 'move' }}
+      >
+        Drag me
+      </div>
+    </div>
+  );
+}
+```
+
 ## Usage notes
 
 - The hook does not render anything; spread `onPointerDown` on your draggable element and attach `containerRef` to the container.

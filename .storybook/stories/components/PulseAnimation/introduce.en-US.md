@@ -12,6 +12,16 @@ Use `PulseAnimation` to hint "something is active" without text — audio record
 - **Themable** — `barStyle` and the `token.AnimationPulse` token tune the look globally.
 - **No deps** — pure CSS animation, cheap to mount many instances.
 
+## Sample code
+
+```tsx
+import { PulseAnimation } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return <PulseAnimation bars={24} barGap={3} style={{ width: '100%', height: 40 }} />;
+}
+```
+
 ## Usage notes
 
 - `bars`, `barGap`, `duration`, `delayRate` all have sensible defaults, so a bare `<PulseAnimation />` already animates.

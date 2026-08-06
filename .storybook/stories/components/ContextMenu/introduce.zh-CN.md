@@ -13,6 +13,27 @@
 - **命令式控制** —— 通过 ref 调用 `show(event, options?)` 在任意位置打开菜单，或 `hideAll()` 关闭所有已打开的菜单。
 - **主题定制** —— 借助 antd `ConfigProvider`，可通过 `prefixCls` 自定义类名前缀。
 
+## 示例代码
+
+```tsx
+import { ContextMenu, type ContextMenuItem } from '@tiny-codes/react-easy';
+import { Button } from 'antd';
+
+const items: ContextMenuItem[] = [
+  { key: 'copy', label: '复制' },
+  { key: 'rename', label: '重命名' },
+  { key: 'delete', label: '删除', danger: true },
+];
+
+export function Demo() {
+  return (
+    <ContextMenu items={items}>
+      <Button>右键点击我</Button>
+    </ContextMenu>
+  );
+}
+```
+
 ## 使用注意
 
 - 菜单基于 `react-contexify` 渲染，其 `MenuProps`（除 `renderItem` 外）均被透传，可直接沿用该库的菜单项模型。

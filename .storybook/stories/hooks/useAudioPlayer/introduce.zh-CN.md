@@ -14,6 +14,25 @@
 - **音量管理** —— `setVolume` / `volumeUp` / `volumeDown`，可用时基于 Web Audio `GainNode`。
 - **事件钩子** —— `addEventListener` / `removeEventListener` 委托给底层 `HTMLAudioElement`。
 
+## 示例代码
+
+```tsx
+import { useAudioPlayer } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  const player = useAudioPlayer({ source: '/audio/sample.mp3', volume: 0.6 });
+
+  return (
+    <>
+      <button onClick={() => player.play()}>播放</button>
+      <button onClick={() => player.pause()}>暂停</button>
+      <button onClick={() => player.stop()}>停止</button>
+      <button onClick={() => player.setVolume(0.5)}>50% 音量</button>
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - 若音频源是 URL，需要音频源支持跨域访问，否则可能没有声音。

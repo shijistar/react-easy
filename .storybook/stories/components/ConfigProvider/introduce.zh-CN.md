@@ -16,6 +16,28 @@
 - **自定义国际化** —— 通过 `locales` 覆盖已有语言包或注册全新的语言。
 - **前缀定制** —— `prefixCls` 可调整生成的 CSS 类命名空间。
 
+## 示例代码
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+import { useTranslation } from 'react-i18next';
+
+function Root() {
+  const { t, i18n } = useTranslation();
+
+  return (
+    <ConfigProvider
+      lang={i18n.language}
+      localize={t}
+      defaultConfirmTitle="common.confirm"
+      defaultConfirmContent="common.confirm.content"
+    >
+      <App />
+    </ConfigProvider>
+  );
+}
+```
+
 ## 使用注意
 
 - 它必须包裹需要继承配置的那部分组件树；嵌套多个 Provider 会产生作用域覆盖。

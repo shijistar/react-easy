@@ -16,6 +16,28 @@ Use `ConfigProvider` at the root of your application (or around any subtree that
 - **Custom i18n** — pass `locales` to override an existing language pack or register a brand-new one.
 - **Prefix customization** — `prefixCls` retunes the generated CSS class namespace.
 
+## Sample code
+
+```tsx
+import { ConfigProvider } from '@tiny-codes/react-easy';
+import { useTranslation } from 'react-i18next';
+
+function Root() {
+  const { t, i18n } = useTranslation();
+
+  return (
+    <ConfigProvider
+      lang={i18n.language}
+      localize={t}
+      defaultConfirmTitle="common.confirm"
+      defaultConfirmContent="common.confirm.content"
+    >
+      <App />
+    </ConfigProvider>
+  );
+}
+```
+
 ## Usage notes
 
 - It must wrap the parts of the tree that should inherit the configuration; nesting multiple providers creates scoped overrides.

@@ -15,6 +15,24 @@ Browser-side streaming downloader for large files. It reads the remote response 
 - **Lifecycle control** — `cancel()`, `reset()`, and `dispose()` cover cancellation, terminal-state reset, and resource release.
 - **Stable error codes** — typed error codes (`TASK_ALREADY_RUNNING`, `DOWNLOAD_CANCELLED`, …) via `StreamDownloadError`.
 
+## Sample code
+
+```ts
+import { StreamDownloader } from '@tiny-codes/react-easy';
+
+const downloader = new StreamDownloader({ progressThrottleMs: 200 });
+
+downloader.subscribe((snapshot) => {
+  console.log(snapshot.status, snapshot.progress.percent);
+});
+
+await downloader.start({
+  url: '/api/report',
+  fileName: 'report.pdf',
+  saveStrategy: 'auto',
+});
+```
+
 ## Usage notes
 
 - The remote URL must support CORS and expose a readable stream body; otherwise the download fails with `HTTP_ERROR` or `EMPTY_RESPONSE_STREAM`.

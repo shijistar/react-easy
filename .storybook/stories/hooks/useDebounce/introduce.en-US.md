@@ -13,6 +13,30 @@ Runs a debounced version of a callback with two complementary trigger mechanisms
 - **Runtime control** — `cancel()` drops pending execution, `disable()`/`enable()` toggle the debounce, `isDisabled()` reports state.
 - **Dependency-driven recreation** — the debounced function is re-created when `deps` change, like `useCallback`.
 
+## Sample code
+
+```tsx
+import { useEffect, useState } from 'react';
+import { useDebounce } from '@tiny-codes/react-easy';
+
+export function SearchBox() {
+  const [query, setQuery] = useState('');
+  const [applied, setApplied] = useState('');
+
+  const debouncedApply = useDebounce((value: string) => setApplied(value), [wait, leading, maxWait], {
+    wait: 300,
+    leading: false,
+    maxWait: 1000,
+  });
+
+  useEffect(() => {
+    debouncedApply(query);
+  }, [query, debouncedApply]);
+
+  return <input value={query} onChange={(e) => setQuery(e.target.value)} />;
+}
+```
+
 ## Usage notes
 
 - `wait: 0` (default) disables debouncing entirely — calls execute immediately.

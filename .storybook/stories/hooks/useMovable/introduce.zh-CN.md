@@ -13,6 +13,36 @@
 - **选择性忽略** —— `ignoreSelectors` 可排除交互控件上发起的拖动。
 - **可选持久化** —— 传入 `storageKey` 即可通过 `localStorage` 保存/恢复位置。
 
+## 示例代码
+
+```tsx
+import { useRef } from 'react';
+import { useMovable } from '@tiny-codes/react-easy';
+
+export function DraggableCard() {
+  const movableDomRef = useRef<HTMLDivElement>(null);
+  const viewPortRef = useRef<HTMLDivElement>(null);
+
+  const { onPointerDown } = useMovable({
+    movableDomRef,
+    viewPortRef,
+    storageKey: 'my-card.position',
+  });
+
+  return (
+    <div ref={viewPortRef} style={{ position: 'relative', height: 300 }}>
+      <div
+        ref={movableDomRef}
+        onPointerDown={onPointerDown}
+        style={{ position: 'absolute', left: 0, top: 0, cursor: 'move' }}
+      >
+        拖拽我
+      </div>
+    </div>
+  );
+}
+```
+
 ## 使用注意
 
 - hook 不负责渲染；将 `onPointerDown` 绑定到可拖拽元素，并将 `containerRef` 绑定到容器。

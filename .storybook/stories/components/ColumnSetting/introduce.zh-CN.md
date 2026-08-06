@@ -12,6 +12,31 @@
 - **可组合触发器** —— `triggerProps` / `dropdownProps` / `popupProps` / `checkAllProps` / `resetProps` 分别定制按钮、下拉、弹出层与操作按钮。
 - **继承 Ant Design** —— 列项遵循 `ColumnType`，你现有的列定义可直接接入。
 
+## 示例代码
+
+```tsx
+import { useState } from 'react';
+import { ColumnSetting, type ColumnSettingItem } from '@tiny-codes/react-easy';
+import { Table } from 'antd';
+
+interface User {
+  id: number;
+  name: string;
+  role: string;
+}
+
+export function Demo() {
+  const [columns, setColumns] = useState<ColumnSettingItem<User>[]>(() => buildColumns());
+
+  return (
+    <>
+      <ColumnSetting columns={columns} onChange={setColumns} storageKey="user-columns" />
+      <Table rowKey="id" dataSource={data} columns={columns} pagination={false} />
+    </>
+  );
+}
+```
+
 ## 使用注意
 
 - 至少保留一列可见（最后一个可见复选框会被禁用），以防止全部隐藏。

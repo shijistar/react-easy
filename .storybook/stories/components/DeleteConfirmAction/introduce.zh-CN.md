@@ -11,6 +11,24 @@
 - **便捷触发器** —— `DeleteConfirmAction.Button` / `.Switch` / `.Link` 是开箱即用的触发器变体。
 - **全局默认值** —— 默认标题/内容取自 `ConfigProvider` 的删除确认配置。
 
+## 示例代码
+
+```tsx
+import { DeleteConfirmAction } from '@tiny-codes/react-easy';
+
+export function UserList() {
+  return (
+    <DeleteConfirmAction.Button
+      onOk={async () => {
+        await api.deleteUser(id);
+      }}
+    >
+      删除
+    </DeleteConfirmAction.Button>
+  );
+}
+```
+
 ## 使用注意
 
 - 它本质就是 `confirmType: 'delete'` 的 `ConfirmAction`，如需非默认外观，可在实例上覆盖 `titleColor` / `iconColor` / `okButtonProps.type`。

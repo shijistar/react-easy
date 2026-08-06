@@ -12,6 +12,31 @@ Use `ColumnSetting` wherever a table exposes column customization: data grids, a
 - **Composable triggers** — `triggerProps` / `dropdownProps` / `popupProps` / `checkAllProps` / `resetProps` customize the button, dropdown, popup, and action buttons.
 - **Inherits Ant Design** — column items follow `ColumnType`, so your existing column definitions drop in directly.
 
+## Sample code
+
+```tsx
+import { useState } from 'react';
+import { ColumnSetting, type ColumnSettingItem } from '@tiny-codes/react-easy';
+import { Table } from 'antd';
+
+interface User {
+  id: number;
+  name: string;
+  role: string;
+}
+
+export function Demo() {
+  const [columns, setColumns] = useState<ColumnSettingItem<User>[]>(() => buildColumns());
+
+  return (
+    <>
+      <ColumnSetting columns={columns} onChange={setColumns} storageKey="user-columns" />
+      <Table rowKey="id" dataSource={data} columns={columns} pagination={false} />
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - At least one column always stays visible (the last visible checkbox is disabled) to prevent hiding everything.

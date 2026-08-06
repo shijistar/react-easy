@@ -12,6 +12,38 @@
 - **afterOk** —— 仅在保存成功后触发，用于跳转/刷新。
 - **继承 antd** —— 全部 `ModalProps`（title、width、okText 等）均可用。
 
+## 示例代码
+
+```tsx
+import { type FormCompPropsConstraint, withModalAction } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+type User = { name: string };
+type UserFormProps = { data?: User };
+
+function UserForm(props: UserFormProps & FormCompPropsConstraint<User>) {
+  const { form, data, onSave } = props;
+
+  onSave(async (values) => {
+    await api.save(values);
+  });
+
+  return (
+    <Form form={form} initialValues={data}>
+      <Form.Item name="name" label="姓名">
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
+
+const UserModalAction = withModalAction(UserForm);
+
+export function Demo() {
+  return <UserModalAction>创建用户</UserModalAction>;
+}
+```
+
 ## 使用注意
 
 - 不要在 `formComp` 内部再渲染 `<Form>`；父组件已提供实例——请使用注入的 `form` 并通过 `onSave` 注册保存。

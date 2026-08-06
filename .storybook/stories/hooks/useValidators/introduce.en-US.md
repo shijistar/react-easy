@@ -13,6 +13,31 @@ Get a map of **built-in validation rules** for common data formats. The rules ar
 - **Length variants** — `codeMax20/64/128` and `nameMax20/64/128` presets; `*WithMax` functions for custom limits.
 - **i18n messages** — failure messages are localized through the library's translation system.
 
+## Sample code
+
+```tsx
+import { useValidators } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+export function Demo() {
+  const { email, cnMobile, password } = useValidators();
+
+  return (
+    <Form>
+      <Form.Item name="email" label="Email" rules={[{ validator: email }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item name="phone" label="Phone" rules={[{ validator: cnMobile }]}>
+        <Input />
+      </Form.Item>
+      <Form.Item name="password" label="Password" rules={[{ validator: password }]}>
+        <Input.Password />
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## Usage notes
 
 - The map is memoized; all rules are stable across renders.

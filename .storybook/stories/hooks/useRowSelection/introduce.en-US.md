@@ -13,6 +13,31 @@ Generate the `rowSelection` prop for Ant Design Table with **cross-page selectio
 - **Automatic row key** — falls back to the `id` or `code` field when `rowKey` is not provided.
 - **Restorable cache** — pass `cache` to rehydrate selections when the Table remounts (e.g. from `localStorage` or a MicroApp host).
 
+## Sample code
+
+```tsx
+import { useState } from 'react';
+import { useRowSelection } from '@tiny-codes/react-easy';
+import { Table } from 'antd';
+
+interface User {
+  id: number;
+  name: string;
+}
+
+export function Demo() {
+  const [selected, setSelected] = useState<User[]>([]);
+
+  const rowSelection = useRowSelection<User>({
+    value: selected,
+    onChange: setSelected,
+    rowKey: 'id',
+  });
+
+  return <Table rowKey="id" dataSource={users} columns={columns} rowSelection={rowSelection} pagination={false} />;
+}
+```
+
 ## Usage notes
 
 - Pass the returned object directly to `Table`'s `rowSelection` prop; it returns `undefined` when `checkable` is `false`.

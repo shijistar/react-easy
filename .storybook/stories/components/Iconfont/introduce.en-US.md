@@ -11,6 +11,23 @@ Use `Iconfont` when your project's icon set lives on iconfont.cn (or a self-host
 - **Size & color** — `size` (`control`) and `color` tune the glyph; `rotate` (`control`) sets a fixed angle.
 - **Prefix handling** — `iconPrefix` (demo helper) is prepended to `type` unless already present.
 
+## Sample code
+
+```tsx
+import { createIconfont } from '@tiny-codes/react-easy';
+
+const IconFont = createIconfont('//at.alicdn.com/t/font_xxx.js');
+
+export function Demo() {
+  return (
+    <>
+      <IconFont type="icon-tuichu" size={32} color="#1677ff" />
+      <IconFont type="icon-facebook" spin />
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - Load the script via `scriptUrl` before icons render; a wrong/missing URL yields blank glyphs.

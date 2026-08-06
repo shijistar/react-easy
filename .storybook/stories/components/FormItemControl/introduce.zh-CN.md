@@ -10,6 +10,25 @@
 - **表单原生** —— 校验、`initialValues`、`getFieldsValue`、提交全部可用，因为它本身就是真正的 `Form.Item` 子节点。
 - **零样板** —— 你只需提供控件 UI，包装层负责表单接线。
 
+## 示例代码
+
+```tsx
+import { FormItemControl } from '@tiny-codes/react-easy';
+import { Form, InputNumber } from 'antd';
+
+export function Demo() {
+  return (
+    <Form>
+      <Form.Item name="count" label="数量">
+        <FormItemControl>
+          {({ value, onChange }) => <InputNumber value={value} onChange={onChange} min={0} />}
+        </FormItemControl>
+      </Form.Item>
+    </Form>
+  );
+}
+```
+
 ## 使用注意
 
 - 它必须直接放在 `<Form.Item>` 内部；中间夹入其它元素会破坏绑定。

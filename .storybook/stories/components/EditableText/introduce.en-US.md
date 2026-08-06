@@ -12,6 +12,23 @@ Use `EditableText` when a piece of text should be both displayed and quickly edi
 - **Custom renderers** — `displayText`/`children` override the read-only presentation, while `renderView`/`renderEdit`/`renderInput` (from `EditableFormProps`) customize each phase.
 - **Block or inline** — the `block` prop chooses full-width block vs inline display in view/edit modes.
 
+## Sample code
+
+```tsx
+import { EditableText } from '@tiny-codes/react-easy';
+
+export function Demo() {
+  return (
+    <EditableText
+      value="Click to edit"
+      onOk={async (value) => {
+        await api.save({ name: value });
+      }}
+    />
+  );
+}
+```
+
 ## Usage notes
 
 - `editable={false}` hides the edit button entirely; drive `editing` from outside for programmatic control.

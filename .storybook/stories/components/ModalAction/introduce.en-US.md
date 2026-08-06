@@ -12,6 +12,38 @@ Use `ModalAction` when the pre-action step needs structured input — creating o
 - **afterOk** — fires only after a successful save, for navigation/refresh.
 - **Inherits antd** — all `ModalProps` (title, width, okText, …) are available.
 
+## Sample code
+
+```tsx
+import { type FormCompPropsConstraint, withModalAction } from '@tiny-codes/react-easy';
+import { Form, Input } from 'antd';
+
+type User = { name: string };
+type UserFormProps = { data?: User };
+
+function UserForm(props: UserFormProps & FormCompPropsConstraint<User>) {
+  const { form, data, onSave } = props;
+
+  onSave(async (values) => {
+    await api.save(values);
+  });
+
+  return (
+    <Form form={form} initialValues={data}>
+      <Form.Item name="name" label="Name">
+        <Input />
+      </Form.Item>
+    </Form>
+  );
+}
+
+const UserModalAction = withModalAction(UserForm);
+
+export function Demo() {
+  return <UserModalAction>Create user</UserModalAction>;
+}
+```
+
 ## Usage notes
 
 - Do not render a `<Form>` inside `formComp`; the parent already provides the instance — use the injected `form` and register save via `onSave`.

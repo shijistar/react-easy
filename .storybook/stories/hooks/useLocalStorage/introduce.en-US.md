@@ -13,6 +13,24 @@ Persist React state to `localStorage` with an API shaped like `useState`. The ho
 - **Custom (de)serialization** — override `serialize` / `deserialize` for non-JSON values.
 - **Safe fallbacks** — empty keys behave like `useState` and never touch storage; read/write errors are swallowed.
 
+## Sample code
+
+```tsx
+import { useLocalStorage } from '@tiny-codes/react-easy';
+
+export function ThemeSwitcher() {
+  const [theme, setTheme, remove] = useLocalStorage<string>('app.theme', 'light', { sync: true });
+
+  return (
+    <>
+      <button onClick={() => setTheme('dark')}>Dark</button>
+      <button onClick={() => setTheme('light')}>Light</button>
+      <button onClick={remove}>Reset</button>
+    </>
+  );
+}
+```
+
 ## Usage notes
 
 - The `key` is trimmed; an empty key disables storage entirely.
