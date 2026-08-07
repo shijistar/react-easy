@@ -2,6 +2,34 @@
 
 # Changelog
 
+## 2.2.0
+
+2026-8-7
+
+### Features
+
+#### Components
+
+- ✨ `ConfigProvider`: added the `easy-full-height-table-v6` global CSS class for full-height antd `v6` tables.
+
+#### Hooks
+
+- ✨ Enhanced `useMovable` with viewport support: added `viewPortRef` to constrain dragging within a parent container. Added an `onMove` callback fired on every position change. `containerRef` is deprecated in favor of `movableDomRef`.
+- ✨ `useSplitter`: switched splitter interaction from mouse events to pointer events with pointer capture.
+
+#### Validators
+
+- ✨ `useValidators`: the `name` / `strongName` validators now allow spaces.
+
+### Bug Fixes
+
+- 🐞 `FloatDrawer`: switched resize handling from mouse events to pointer events for better touch/pen support; fixed the toggle button positioning offset (`0` → `1`).
+
+### Misc
+
+- 🛠️ Refactored `utils` into modular implementations: `base64`, `crypto`, `math`, `color`, `stream`, and `string` are now split into per-function modules. The public API is unchanged (re-exported via `index.ts`).
+- 🛠️ Improved JSDoc across components/hooks with `@default` annotations and consistent bilingual formatting.
+
 ## 2.1.0
 
 2026-8-3

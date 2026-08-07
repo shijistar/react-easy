@@ -100,11 +100,9 @@ const useMovable = (props: UseMovableProps) => {
     // Set the selector for elements that do not trigger dragging
     if (ignoreSelectors && target.closest(ignoreSelectors.join(','))) return;
 
-    const viewPortSize = getViewPortSize();
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     dragOffsetRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     draggingRef.current = true;
-    console.log(e.clientX, e.clientY, viewPortSize, rect, dragOffsetRef.current, e.currentTarget);
     try {
       (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
     } catch {
@@ -167,16 +165,6 @@ const useMovable = (props: UseMovableProps) => {
     const clampedLeft = Math.min(Math.max(0, newLeft), boundLeft);
     const clampedTop = Math.min(Math.max(0, newTop), boundTop);
     const pos = { left: clampedLeft, top: clampedTop };
-    console.log(
-      { clientX: e.clientX, clientY: e.clientY },
-      viewPortSize,
-      { elWidth, elHeight },
-      { boundLeft, boundTop },
-      dragOffsetRef.current,
-      { newLeft, newTop },
-      pos,
-      e.target,
-    );
 
     setPosition(pos);
     if (movableDomRef.current) {
