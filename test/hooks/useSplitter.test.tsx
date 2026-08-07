@@ -97,7 +97,7 @@ describe('useSplitter', () => {
     expect(separator.style.getPropertyValue('--splitter-width')).toBe('4px');
     expect(screen.getByTestId('direction').textContent).toBe('vertical');
 
-    fireEvent.mouseMove(window, { clientX: 10, clientY: 10 });
+    fireEvent.pointerMove(window, { clientX: 10, clientY: 10 });
     expect(screen.getByTestId('percent').textContent).toBe('0.25');
 
     fireEvent.pointerEnter(separator);
@@ -115,7 +115,7 @@ describe('useSplitter', () => {
     expect(separator.className).toContain('easy-splitter-dragging');
     expect(separator.className).toContain('dragging-extra');
 
-    fireEvent.mouseMove(window, { clientX: 150, clientY: 10 });
+    fireEvent.pointerMove(window, { clientX: 150, clientY: 10 });
 
     await waitFor(() => {
       expect(screen.getByTestId('percent').textContent).toBe('0.6');
@@ -123,7 +123,7 @@ describe('useSplitter', () => {
     });
     expect(onChange).toHaveBeenLastCalledWith(0.6);
 
-    fireEvent.mouseUp(window);
+    fireEvent.pointerUp(window);
     await waitFor(() => {
       expect(screen.getByTestId('dragging').textContent).toBe('false');
     });
@@ -153,7 +153,7 @@ describe('useSplitter', () => {
     expect(separator.getAttribute('aria-orientation')).toBe('horizontal');
 
     fireEvent.pointerDown(separator, { pointerId: 2 });
-    fireEvent.mouseMove(window, { clientX: 0, clientY: 400 });
+    fireEvent.pointerMove(window, { clientX: 0, clientY: 400 });
 
     await waitFor(() => {
       expect(screen.getByTestId('percent').textContent).toBe('0.7');
@@ -220,7 +220,7 @@ describe('useSplitter', () => {
     });
 
     act(() => {
-      fireEvent.mouseMove(window, { clientX: 50, clientY: 50 });
+      fireEvent.pointerMove(window, { clientX: 50, clientY: 50 });
     });
 
     await waitFor(() => {
@@ -229,7 +229,7 @@ describe('useSplitter', () => {
     });
 
     act(() => {
-      fireEvent.mouseUp(window);
+      fireEvent.pointerUp(window);
     });
 
     const zeroWidthView = renderHook(() => useSplitter({ splitterWidth: 0 }), {
