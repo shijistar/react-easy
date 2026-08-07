@@ -1,0 +1,58 @@
+src/utils/crypto/advancedEncrypt.ts
+  h_99cad05bea77d1 1-19
+src/utils/string/randomChars.ts
+  h_99cad05bea77d1 1-16
+src/utils/crypto/advancedDecrypt.ts
+  h_99cad05bea77d1 1-13
+src/utils/math/index.ts
+  h_99cad05bea77d1 1
+src/utils/base64/arrayBufferToBase64.ts
+  h_99cad05bea77d1 1-26
+src/utils/crypto/decryptWithCryptoJS.ts
+  h_99cad05bea77d1 1-47
+src/utils/base64/stringToBase64.ts
+  h_99cad05bea77d1 1-45
+src/utils/base64/base64ToArrayBuffer.ts
+  h_99cad05bea77d1 1-55
+src/utils/stream/StreamTimeSlicerClass.ts
+  h_99cad05bea77d1 1-154
+src/components/FloatDrawer/index.tsx
+  h_99cad05bea77d1 286,296,338-339,341-342,345-346,373
+src/utils/stream/index.ts
+  h_99cad05bea77d1 1-2
+src/utils/color/getColorLuminance.ts
+  h_99cad05bea77d1 1-41
+src/utils/string/readTextAnyEncoding.ts
+  h_99cad05bea77d1 1-93
+src/utils/math/random.ts
+  h_99cad05bea77d1 1-134
+src/utils/crypto/index.ts
+  h_99cad05bea77d1 1-6
+src/utils/crypto/encryptWithCryptoJS.ts
+  h_99cad05bea77d1 1-47
+src/utils/base64/index.ts
+  h_99cad05bea77d1 1-4
+src/utils/crypto/encryptAES.ts
+  h_99cad05bea77d1 1-64
+src/utils/crypto/decryptAES.ts
+  h_99cad05bea77d1 1,13,71
+src/utils/base64/base64ToString.ts
+  h_99cad05bea77d1 1-54
+src/utils/color/index.ts
+  h_99cad05bea77d1 1
+src/utils/string/index.ts
+  h_99cad05bea77d1 1-2
+src/components/FloatDrawer/style/index.ts
+  h_99cad05bea77d1 124,138,152,166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "cc1574caeb15c59a4e2a135564b21d7458338899",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
