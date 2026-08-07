@@ -1,0 +1,32 @@
+.storybook/preview.tsx
+  s_7012d65f14379c::t_3bd4e395e091c6 15,20-22
+  s_7012d65f14379c::t_02b0a56c48aadf 77-84
+  h_99cad05bea77d1 2
+  s_7012d65f14379c::t_d80ca1df78e9de 96-100
+  s_7012d65f14379c::t_91f1ec349b8855 23
+.storybook/lazy-docs.tsx
+  h_99cad05bea77d1 1-89
+.storybook/utils/description.ts
+  h_99cad05bea77d1 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "0816cd54a308a62c3ee30727fde681e652c6d423",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_7012d65f14379c": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "f06f45c0-99e5-43b2-8590-e8832d453d61",
+        "model": "hy3"
+      },
+      "human_author": null
+    }
+  }
+}
