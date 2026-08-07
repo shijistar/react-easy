@@ -216,8 +216,8 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       triggerEvent = 'onClick' as Event,
       triggerProps,
       open: openInProps,
-      destroyOnClose = true,
-      destroyOnHidden = true,
+      destroyOnClose,
+      destroyOnHidden,
       maskClosable = false,
       mask,
       okButtonProps,
@@ -339,8 +339,8 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
         <Modal
           open={open}
           confirmLoading={isSaving}
-          destroyOnClose={destroyOnClose}
-          destroyOnHidden={destroyOnHidden}
+          destroyOnClose={destroyOnClose ?? true}
+          destroyOnHidden={destroyOnHidden ?? true}
           maskClosable={maskClosable}
           mask={
             typeof mask === 'boolean'
