@@ -1,13 +1,10 @@
 import type { ComponentType, PropsWithChildren } from 'react';
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import type { Control, DocsContainerProps } from '@storybook/addon-docs/blocks';
-import { Controls, DocsContainer, Markdown, Primary, Subtitle, Title, useOf } from '@storybook/addon-docs/blocks';
 import type { Preview, ReactRenderer } from '@storybook/react-vite';
 import { FORCE_RE_RENDER } from 'storybook/internal/core-events';
 import type { StoryContext, StoryContextForEnhancers } from 'storybook/internal/csf';
-import type { ResolvedModuleExportFromType } from 'storybook/internal/types';
 import { addons, useStoryContext } from 'storybook/preview-api';
-import { themes } from 'storybook/theming';
 import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme as antThemes } from 'antd';
 import enUS from 'antd/es/locale/en_US';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -15,9 +12,14 @@ import ConfigProvider from '../src/components/ConfigProvider';
 import { useRefValue } from '../src/hooks';
 import type { Langs } from '../src/locales';
 import storyI18n, { storyT } from './locales';
+import { stripExampleBlock } from './utils/description';
 import { pickLangDoc } from './utils/doc';
 import { getGlobalValueFromUrl } from './utils/global';
 import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
+
+// Loading them lazily keeps them out of the story-view critical path.
+const ThemedDocsContainer = lazy(() => import('./lazy-docs').then((m) => ({ default: m.ThemedDocsContainer })));
+const DocsPage = lazy(() => import('./lazy-docs').then((m) => ({ default: m.DocsPage })));
 
 // import './preview.css';
 
@@ -72,7 +74,14 @@ const preview: Preview = {
         const globalValue = (props.context as unknown as StoryContext<ReactRenderer>)?.globals?.backgrounds?.value;
         const theme = globalValue ?? themeFromUrl;
         const isDark = theme ? theme === 'dark' : isPreferDark;
-        return <DocsContainer {...props} theme={isDark ? themes.dark : themes.light} />;
+        const Container = ThemedDocsContainer as unknown as ComponentType<
+          PropsWithChildren<DocsContainerProps> & { isDark: boolean }
+        >;
+        return (
+          <Suspense fallback={null}>
+            <Container {...props} isDark={isDark} />
+          </Suspense>
+        );
       },
       extractComponentDescription: (
         component: ComponentType & {
@@ -84,20 +93,11 @@ const preview: Preview = {
         result = pickLangDoc(result);
         return result;
       },
-      page: () => {
-        const langFromUrl = getGlobalValueFromUrl('lang');
-        return (
-          <>
-            <Title />
-            <Subtitle />
-            <CustomComponentDescription />
-            <h2>{langFromUrl === 'zh-CN' ? '演示' : 'Demo'}</h2>
-            <Primary />
-            <Controls />
-            {/* <Stories /> */}
-          </>
-        );
-      },
+      page: () => (
+        <Suspense fallback={null}>
+          <DocsPage />
+        </Suspense>
+      ),
     },
   },
   tags: ['autodocs'],
@@ -149,15 +149,6 @@ const preview: Preview = {
   argTypesEnhancers: [jsdocArgTypesEnhancer],
 };
 
-function stripExampleBlock(input = '') {
-  return (
-    input
-      // Remove @example to the next @tag (or the end).
-      .replace(/\n?@example[\s\S]*?(?=\n@\w+|$)/g, '')
-      .trim()
-  );
-}
-
 /** Enhances the argTypes of a story based on JSDoc comments. */
 function jsdocArgTypesEnhancer(context: StoryContextForEnhancers) {
   const component = context.component;
@@ -188,71 +179,6 @@ function jsdocArgTypesEnhancer(context: StoryContextForEnhancers) {
     };
   });
   return newArgTypes;
-}
-
-function CustomComponentDescription() {
-  const resolvedOfMeta = useOf<'meta'>('meta');
-  let resolvedOfComponent: ResolvedModuleExportFromType<'component'> | undefined;
-  try {
-    // eslint-disable-next-line @tiny-codes/react-hooks/rules-of-hooks
-    resolvedOfComponent = useOf<'component'>('component');
-  } catch {
-    // Ignore error
-  }
-  const descriptionOfMeta = getDescriptionFromResolvedOf(resolvedOfMeta);
-  const descriptionOfComponent = getDescriptionFromResolvedOf(resolvedOfComponent);
-  const next = useMemo(() => {
-    const description = descriptionOfMeta || descriptionOfComponent || '';
-    return processDescription(description);
-  }, [descriptionOfMeta, descriptionOfComponent]);
-
-  if (!next) return null;
-  return <Markdown>{next}</Markdown>;
-}
-
-function processDescription(content: string | undefined) {
-  const raw = content ?? '';
-  let result = stripExampleBlock(raw);
-  result = pickLangDoc(result);
-  return result;
-}
-
-function getDescriptionFromResolvedOf(resolvedOf: ReturnType<typeof useOf> | undefined): string | null {
-  if (!resolvedOf) return null;
-  switch (resolvedOf.type) {
-    case 'story': {
-      return resolvedOf.story.parameters.docs?.description?.story || null;
-    }
-    case 'meta': {
-      const { parameters, component } = resolvedOf.preparedMeta;
-      const metaDescription = parameters.docs?.description?.component;
-      if (metaDescription) {
-        return metaDescription;
-      }
-      return (
-        parameters.docs?.extractComponentDescription?.(component, {
-          component,
-          parameters,
-        }) || null
-      );
-    }
-    case 'component': {
-      const {
-        component,
-        projectAnnotations: { parameters },
-      } = resolvedOf;
-      return (
-        parameters?.docs?.extractComponentDescription?.(component, {
-          component,
-          parameters,
-        }) || null
-      );
-    }
-    default: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      throw new Error(`Unrecognized module type resolved from 'useOf', got: ${(resolvedOf as any).type}`);
-    }
-  }
 }
 
 export default preview;
