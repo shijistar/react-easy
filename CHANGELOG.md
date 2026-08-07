@@ -16,10 +16,11 @@
 
 - ✨ Enhanced `useMovable` with viewport support: added `viewPortRef` to constrain dragging within a parent container. Added an `onMove` callback fired on every position change. `containerRef` is deprecated in favor of `movableDomRef`.
 - ✨ `useSplitter`: switched splitter interaction from mouse events to pointer events with pointer capture.
-
-#### Validators
-
 - ✨ `useValidators`: the `name` / `strongName` validators now allow spaces.
+
+#### Utils
+
+- ✨ `randomChars`: uses the custom `random` utils from `utils/math` instead of `Math.random`.
 
 ### Bug Fixes
 
