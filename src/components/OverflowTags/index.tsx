@@ -12,54 +12,50 @@ import useStyle from './style';
 
 export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem'> {
   /**
-   * **CN**: 标签集合的数据
-   *
-   * **EN**: Data collection of tags
+   * - **CN**: 标签集合的数据
+   * - **EN**: Data collection of tags
    */
   tags: T[] | undefined;
   /**
-   * **EN**: Function to get the tag name, default is `tag.label` or `tag.name`
+   * - **EN**: Function to get the tag name
+   * - **CN**: 获取标签名称的函数
    *
-   * **CN**: 获取标签名称的函数，默认取`tag.label`或`tag.name`
+   * @default tag => tag.label ?? tag.name
    */
   getTagName?: (tag: T) => ReactNode;
   /**
-   * **EN**: Function to get the unique identifier of the tag, default is `tag.value` or `tag.id`
+   * - **EN**: Function to get the unique identifier of the tag
+   * - **CN**: 获取标签唯一标识的函数
    *
-   * **CN**: 获取标签唯一标识的函数，默认取`tag.value`或`tag.id`
+   * @default tag => tag.value ?? tag.id
    */
   getTagKey?: (tag: T) => React.Key;
 
   /**
-   * **EN**: Custom tag rendering function
-   *
-   * **CN**: 标签渲染函数
+   * - **EN**: Custom tag rendering function
+   * - **CN**: 标签渲染函数
    */
   renderTag?: OverflowProps<T>['renderItem'];
   /**
-   * **EN**: Custom properties for the tag component
-   *
-   * **CN**: 自定义标签的组件属性
+   * - **EN**: Custom properties for the tag component
+   * - **CN**: 自定义标签的组件属性
    */
   tagProps?: TagProps | ((tag: T, options: { tags: T[] }) => TagProps);
   /**
-   * **EN**: When the number of tags exceeds the maximum display count, an ellipsis tag will be
-   * shown. This property is used to set the style of the ellipsis tag.
-   *
-   * **CN**: 当标签数量超过最大显示数量时，会显示省略号的标签，此属性用于设置省略号标签的样式
+   * - **EN**: When the number of tags exceeds the maximum display count, an ellipsis tag will be
+   *   shown. This property is used to set the style of the ellipsis tag.
+   * - **CN**: 当标签数量超过最大显示数量时，会显示省略号的标签，此属性用于设置省略号标签的样式
    */
   ellipsisTagProps?: TagProps | ((tag: T, options: { omittedItems: T[]; allTags: T[] }) => TagProps);
   /**
-   * **EN**: Custom properties for the dropdown component when tags are overflowed
-   *
-   * **CN**: 当标签溢出时，下拉菜单的自定义属性
+   * - **EN**: Custom properties for the dropdown component when tags are overflowed
+   * - **CN**: 当标签溢出时，下拉菜单的自定义属性
    */
   ellipsisDropdownProps?: DropdownProps;
   /**
-   * **EN**: Whether to use random colors, default is `false`. Note that the tag object can also
-   * contain a `color` property to specify the color, and the latter takes precedence.
-   *
-   * **CN**: 是否使用随机颜色，默认`false`。注意，tag对象还可以包含`color`属性来指定颜色，而且后者优先级更高。
+   * - **EN**: Whether to use random colors, default is `false`. Note that the tag object can also
+   *   contain a `color` property to specify the color, and the latter takes precedence.
+   * - **CN**: 是否使用随机颜色，默认`false`。注意，tag对象还可以包含`color`属性来指定颜色，而且后者优先级更高。
    *
    * @default false
    */

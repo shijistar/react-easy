@@ -26,8 +26,10 @@ export interface SelectNodeProps<
    */
   textContentMode?: 'label' | 'value';
   /**
-   * - EN: Add a space around textContent. Default `true`.
-   * - CN: 是否在 textContent 两边添加一个空格，默认 `true`。
+   * - EN: Add a space around textContent
+   * - CN: 是否在 textContent 两边添加一个空格
+   *
+   * @default true
    */
   spaceAround?: boolean;
   /**

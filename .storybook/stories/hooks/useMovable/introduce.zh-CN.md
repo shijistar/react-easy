@@ -1,0 +1,42 @@
+通过拖动使元素**可移动**，并可选地将位置持久化到 `localStorage`。hook 在 `pointermove` 期间跟踪元素位置。可以选择自由移动模式，或选择将其限制在可见区域内，并在窗口尺寸变化时保持不越界。如果选择容器内移动模式，需要给父容器添加 `position: relative` 样式。
+
+## 适用场景
+
+- 用户可自由摆放的浮动面板、小组件或提示框。
+- 需要跨页面刷新保留位置的元素。
+- 需要完全掌控指针事件的自定义拖拽交互。
+
+## 核心特性
+
+- **基于指针的拖拽** —— 指针捕获确保指针离开元素后拖动依然有效。
+- **视口约束** —— 位置被限制在可见区域内，并在窗口缩放时重新校准。
+- **选择性忽略** —— `ignoreSelectors` 可排除交互控件上发起的拖动。
+- **可选持久化** —— 传入 `storageKey` 即可通过 `localStorage` 保存/恢复位置。
+
+## 示例代码
+
+```tsx
+import { useRef } from 'react';
+import { useMovable } from '@tiny-codes/react-easy';
+
+export function DraggableCard() {
+  const movableDomRef = useRef<HTMLDivElement>(null);
+  const viewPortRef = useRef<HTMLDivElement>(null);
+
+  useMovable({ movableDomRef, viewPortRef });
+
+  return (
+    <div ref={viewPortRef} style={{ position: 'relative', height: 300 }}>
+      <div ref={movableDomRef} style={{ position: 'absolute', left: 0, top: 0, cursor: 'move' }}>
+        拖拽我
+      </div>
+    </div>
+  );
+}
+```
+
+## 使用注意
+
+- hook 不负责渲染；将 `onPointerDown` 绑定到可拖拽元素，并将 `containerRef` 绑定到容器。
+- `enabled` 控制全局 `pointermove` / `pointerup` 监听器的开关。
+- 对拖拽区域内的按钮/输入框使用 `ignoreSelectors`，保证点击仍然可用。

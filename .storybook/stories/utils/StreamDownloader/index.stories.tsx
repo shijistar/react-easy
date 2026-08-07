@@ -6,12 +6,16 @@ import StreamDownloader, {
   type StreamDownloadRequest,
   type StreamDownloadSaveStrategy,
 } from '../../../../src/utils/StreamDownloader';
-import { useStoryT } from '../../../locales';
+import storyI18n, { storyT, useStoryT } from '../../../locales';
 import StreamDownloaderDemoCard, {
   formatErrorLog,
   getCodeBlockStyle,
   useStreamDownloaderDemoLogs,
 } from '../../shared/streamDownloaderDemo';
+import apiDocEN from './api-doc.en-US.md?raw';
+import apiDocCN from './api-doc.zh-CN.md?raw';
+import introduceEN from './introduce.en-US.md?raw';
+import introduceCN from './introduce.zh-CN.md?raw';
 
 const REAL_DOWNLOAD_URL = 'https://huggingface.co/gpt2/resolve/main/pytorch_model.bin';
 
@@ -104,7 +108,7 @@ const meta: Meta<StreamDownloaderStoryArgs> = {
   parameters: {
     docs: {
       description: {
-        component: `- **EN:** \`StreamDownloader\` is the class-level source of truth for browser-side large-file streaming downloads. This story shows the full public API surface and uses a real, CORS-enabled remote asset together with a real \`axios.create({ adapter: 'fetch' })\` instance.\n- **CN:** \`StreamDownloader\` 是浏览器端大文件流式下载能力的 class 级真相来源。本页展示完整公开 API，并使用真实、支持 CORS 的远端文件和真实的 \`axios.create({ adapter: 'fetch' })\` 实例。\n\n- **EN:** The live demo intentionally triggers a real save flow and a real network transfer. Prefer \`file-system-access\` when your browser supports it; \`stream-saver\` may still depend on additional browser/service-worker capability.\n- **CN:** 这个 live demo 会真实触发保存流程与网络传输。若浏览器支持，优先使用 \`file-system-access\`；而 \`stream-saver\` 仍可能依赖额外的浏览器 / service worker 能力。`,
+        component: storyI18n.language === 'zh-CN' ? `${introduceCN}\n${apiDocCN}` : `${introduceEN}\n${apiDocEN}`,
       },
     },
   },
@@ -117,24 +121,20 @@ const meta: Meta<StreamDownloaderStoryArgs> = {
   argTypes: {
     url: {
       control: 'text',
-      description:
-        '- **EN:** Real public file URL used by both fetch and axios demos.\n- **CN:** fetch 与 axios demo 共用的真实公开文件 URL。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.url.description'),
     },
     fileName: {
       control: 'text',
-      description:
-        '- **EN:** Optional explicit file name override. Leave empty to derive it from response headers / URL.\n- **CN:** 可选显式文件名覆盖；留空时从响应头 / URL 推导。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.fileName.description'),
     },
     progressThrottleMs: {
       control: { type: 'number', min: 0, max: 2000, step: 20 },
-      description:
-        '- **EN:** Constructor-level progress throttling window in milliseconds.\n- **CN:** 构造参数级别的进度节流窗口，单位毫秒。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.progressThrottleMs.description'),
     },
     saveStrategy: {
       control: 'radio',
       options: ['auto', 'file-system-access', 'stream-saver'],
-      description:
-        '- **EN:** Save strategy passed into `start(request)`.\n- **CN:** 传给 `start(request)` 的保存策略。',
+      description: storyT('storybook.stories.StreamDownloader.argTypes.saveStrategy.description'),
     },
   },
 };

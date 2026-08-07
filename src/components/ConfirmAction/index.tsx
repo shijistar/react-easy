@@ -31,8 +31,10 @@ export type ConfirmActionProps<TriggerProp extends object, Event extends keyof T
      */
     danger?: boolean;
     /**
-     * - **EN:** The color of confirm box title, default is `warning`
-     * - **CN:** 弹框标题颜色，默认`warning`
+     * - **EN:** The color of confirm box title
+     * - **CN:** 弹框标题颜色
+     *
+     * @default 'warning'
      */
     titleColor?: TextProps['type'] | 'primary';
     /**
@@ -43,6 +45,8 @@ export type ConfirmActionProps<TriggerProp extends object, Event extends keyof T
     /**
      * - **EN:** The color of confirm box title icon, default is the same as `titleColor`
      * - **CN:** 弹框标题图标颜色，默认与`titleColor`相同
+     *
+     * @default 'warning'
      */
     iconColor?: TextProps['type'] | 'primary';
     /**
@@ -315,7 +319,7 @@ export const genRenderer = (
           }
         },
         ...restProps,
-      });
+      } satisfies ModalFuncProps);
       setConfirmApi(api);
       return api;
     });

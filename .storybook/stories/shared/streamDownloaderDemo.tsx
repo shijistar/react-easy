@@ -282,7 +282,7 @@ function StreamDownloaderDemoCard({
   return (
     <Card variant="outlined" style={{ maxWidth }} title={title}>
       <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-        <Alert type="info" showIcon title={hintTitle} description={hintDescription} />
+        <Alert type="info" title={hintTitle} description={hintDescription} />
 
         <Descriptions bordered column={1} size="small" title={configTitle} styles={{ label: { width: 200 } }}>
           {configItems.map((item, index) => (

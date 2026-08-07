@@ -128,7 +128,7 @@ const useSplitter = (props: UseSplitterProps) => {
 
   useEffect(() => {
     if (!dragging) return;
-    const onMove = (e: MouseEvent) => {
+    const onMove = (e: PointerEvent) => {
       const el = container;
       if (!el) return;
       const rect = el.getBoundingClientRect();
@@ -149,12 +149,12 @@ const useSplitter = (props: UseSplitterProps) => {
       e.preventDefault();
     };
     const onUp = () => setDragging(false);
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp, { once: true });
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp, { once: true });
 
     return () => {
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup', onUp);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
     };
   }, [container, dragging, direction, minRatioRef, maxRatioRef]);
 
@@ -199,9 +199,16 @@ const useSplitter = (props: UseSplitterProps) => {
         [`--splitter-width` as any]: splitterWidth ? `${splitterWidth}px` : undefined,
         ...style,
       }}
-      onMouseDown={() => setDragging(true)}
-      onMouseEnter={() => setIsOver(true)}
-      onMouseLeave={() => setIsOver(false)}
+      onPointerDown={(e) => {
+        try {
+          splitterRef?.setPointerCapture?.(e.pointerId);
+        } catch {
+          // do nothing
+        }
+        setDragging(true);
+      }}
+      onPointerEnter={() => setIsOver(true)}
+      onPointerLeave={() => setIsOver(false)}
       role="separator"
       aria-orientation={vertical ? 'vertical' : 'horizontal'}
       aria-label="Resize"

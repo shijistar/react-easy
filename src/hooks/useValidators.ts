@@ -20,13 +20,29 @@ const useValidators = (): ValidatorRuleMap => {
   );
   const nameWithMax = useRefFunction((max?: number) =>
     build({
-      allowed: { letter: true, number: true, hyphen: true, underscore: true, chineseCharacter: true, max },
+      allowed: {
+        letter: true,
+        number: true,
+        hyphen: true,
+        underscore: true,
+        chineseCharacter: true,
+        special: [' '],
+        max,
+      },
       startsWith: { chineseCharacter: true, letter: true },
     }),
   );
   const strongNameWithMax = useRefFunction((max?: number) =>
     build({
-      allowed: { letter: true, number: true, hyphen: true, underscore: true, chineseCharacter: true, max },
+      allowed: {
+        letter: true,
+        number: true,
+        hyphen: true,
+        underscore: true,
+        chineseCharacter: true,
+        special: [' '],
+        max,
+      },
       startsWith: { chineseCharacter: true, letter: true },
     }),
   );

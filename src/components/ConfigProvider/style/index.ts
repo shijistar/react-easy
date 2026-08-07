@@ -87,6 +87,57 @@ const genStyle: GenerateStyle<ConfigProviderToken> = (token): CSSObject => {
           },
         },
       },
+      '.easy-full-height-table-v6': {
+        height: '100%',
+        [`& > ${token.antCls}-spin`]: {
+          height: '100%',
+          [`& > ${token.antCls}-spin-container`]: {
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            [`& > ${token.antCls}-table`]: {
+              flex: 1,
+              minHeight: 0,
+              [`& > ${token.antCls}-table-container`]: {
+                height: '100%',
+                [`& > ${token.antCls}-table-content`]: {
+                  height: '100%',
+                  // Raise the container by 1px more, otherwise a vertical scrollbar will always be displayed.
+                  // paddingBottom: 1,
+                  // Automatically show vertical scroll bar
+                  // stylelint-disable-next-line declaration-no-important
+                  overflow: 'auto !important',
+
+                  '& > table': {
+                    height: '100%',
+
+                    [`${token.antCls}-table-thead`]: {
+                      position: 'sticky',
+                      top: 0,
+                      zIndex: 10,
+                    },
+
+                    td: {
+                      // When nesting tables, restore all full height styles to prevent the child table from being affected
+                      '.easy-full-height-table-v6': {
+                        height: 'auto',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            [`& > ${token.antCls}-table-pagination`]: {
+              flex: 'none',
+              marginBottom: 0,
+              // [`& ${token.antCls}-pagination-prev ${token.antCls}-pagination-item-link, & ${token.antCls}-pagination-next ${token.antCls}-pagination-item-link`]:
+              //   {
+              //     lineHeight: 1,
+              //   },
+            },
+          },
+        },
+      },
     },
 
     [`${antCls}-react-easy.easy-confirm-root-color-info`]: {

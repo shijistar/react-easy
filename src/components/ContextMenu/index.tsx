@@ -16,8 +16,10 @@ export interface ContextMenuProps extends MenuProps {
    */
   items: (ContextMenuItem | ContextMenuSeparator | ContextMenuSubmenu)[] | undefined;
   /**
-   * - **EN:** Trigger methods to show the menu, default is `['contextMenu']`
-   * - **CN:** 触发显示菜单的方式，默认是 `['contextMenu']`
+   * - **EN:** Trigger methods to show the menu
+   * - **CN:** 触发显示菜单的方式
+   *
+   * @default ['contextMenu']
    */
   trigger?: ('click' | 'doubleClick' | 'hover' | 'contextMenu')[];
   /**

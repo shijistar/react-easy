@@ -216,8 +216,8 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       triggerEvent = 'onClick' as Event,
       triggerProps,
       open: openInProps,
-      destroyOnClose = true,
-      destroyOnHidden = true,
+      destroyOnClose,
+      destroyOnHidden,
       maskClosable = false,
       mask,
       okButtonProps,
@@ -242,7 +242,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     const [form, setForm] = useState<FormInstance<FormData>>();
     const formRef = useRefValue(form);
     const onBeforeOpenRef = useRefValue(onBeforeOpen);
-    const destroyOnCloseRef = useRefValue(destroyOnClose || destroyOnHidden);
+    const destroyOnCloseRef = useRefValue(destroyOnHidden ?? destroyOnClose ?? true);
     const openListenerRef = useRef<ModalProps['afterOpenChange']>(undefined);
     const beforeOpenResultRef = useRef<unknown>(undefined);
 
@@ -339,8 +339,8 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
         <Modal
           open={open}
           confirmLoading={isSaving}
-          destroyOnClose={destroyOnClose}
-          destroyOnHidden={destroyOnHidden}
+          destroyOnClose={destroyOnClose ?? true}
+          destroyOnHidden={destroyOnHidden ?? true}
           maskClosable={maskClosable}
           mask={
             typeof mask === 'boolean'

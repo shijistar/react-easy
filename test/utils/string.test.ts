@@ -1,10 +1,16 @@
 import { describe, expect, it, vi } from 'vitest';
+import type * as mathUtils from '../../src/utils/math';
+import { random } from '../../src/utils/math';
 import { randomChars, readTextAnyEncoding } from '../../src/utils/string';
+
+vi.mock('../../src/utils/math', async (importOriginal) => {
+  const actual = await importOriginal<typeof mathUtils>();
+  return { ...actual, random: vi.fn() };
+});
 
 describe('string utils', () => {
   it('generates deterministic random strings and handles zero length', () => {
-    const randomSpy = vi.spyOn(Math, 'random');
-    randomSpy.mockReturnValueOnce(0).mockReturnValueOnce(0.999999);
+    vi.mocked(random).mockReturnValueOnce(0).mockReturnValueOnce(0.999999);
 
     expect(randomChars(2)).toBe('A9');
     expect(randomChars(0)).toBe('');

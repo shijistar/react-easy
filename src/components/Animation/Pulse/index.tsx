@@ -26,14 +26,18 @@ export interface PulseAnimationProps {
    */
   prefixCls?: string;
   /**
-   * - **EN:** Number of bars, default is `24`
-   * - **CN:** 心跳条数量，默认`24`
+   * - **EN:** Number of bars
+   * - **CN:** 心跳条数量
+   *
+   * @default 24
    */
 
   bars?: number;
   /**
-   * - **EN:** Gap between bars, default is `4px`
-   * - **CN:** 心跳柱子间隙，默认`4px`
+   * - **EN:** Gap between bars
+   * - **CN:** 心跳柱子间隙
+   *
+   * @default '4px'
    */
   barGap?: CSSProperties['gap'];
   /**
@@ -42,18 +46,24 @@ export interface PulseAnimationProps {
    */
   barColor?: CSSProperties['backgroundColor'];
   /**
-   * - **EN:** Minimum height of the bar, default is `10%`
-   * - **CN:** 心跳柱子最小高度，默认`10%`
+   * - **EN:** Minimum height of the bar
+   * - **CN:** 心跳柱子最小高度
+   *
+   * @default '10%'
    */
   // barMinSize?: CSSProperties['height'];
   /**
-   * - **EN:** Maximum height of the bar, default is `90%`
-   * - **CN:** 心跳柱子最大高度，默认`90%`
+   * - **EN:** Maximum height of the bar
+   * - **CN:** 心跳柱子最大高度
+   *
+   * @default '90%'
    */
   // barMaxSize?: CSSProperties['height'];
   /**
-   * - **EN:** Animation duration in seconds, default is `1.6` seconds
-   * - **CN:** 动画持续时间，单位秒，默认`1.6`秒
+   * - **EN:** Animation duration in seconds
+   * - **CN:** 动画持续时间，单位秒
+   *
+   * @default 1.6
    */
   duration?: number;
   /**
