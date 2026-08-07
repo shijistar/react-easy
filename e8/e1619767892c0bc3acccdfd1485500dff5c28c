@@ -1,0 +1,14 @@
+src/hooks/useSplitter.tsx
+  h_99cad05bea77d1 131,152-153,156-157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "e8e1619767892c0bc3acccdfd1485500dff5c28c",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
