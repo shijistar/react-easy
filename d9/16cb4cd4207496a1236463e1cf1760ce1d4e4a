@@ -1,0 +1,16 @@
+src/components/ModalAction/index.tsx
+  h_99cad05bea77d1 245
+src/components/ConfirmAction/index.tsx
+  h_99cad05bea77d1 322
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "d916cb4cd4207496a1236463e1cf1760ce1d4e4a",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
