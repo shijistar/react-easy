@@ -283,7 +283,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
   };
 
   // Handle resize events
-  const handleResizeStart = useRefFunction((e: React.MouseEvent) => {
+  const handleResizeStart = useRefFunction((e: React.PointerEvent) => {
     setIsDragging(true);
     if (position === 'top' || position === 'bottom') {
       dragStartPos.current = e.clientY;
@@ -293,7 +293,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
     dragStartSize.current = size;
     e.preventDefault();
   });
-  const handleResize = useRefFunction((e: MouseEvent) => {
+  const handleResize = useRefFunction((e: PointerEvent) => {
     if (isDragging && dragStartSize.current) {
       let newSize: number;
       if (position === 'left') {
@@ -335,15 +335,15 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
   // Handle global events
   useEffect(() => {
     if (isDragging) {
-      window.addEventListener('mousemove', handleResize);
-      window.addEventListener('mouseup', handleResizeEnd);
+      window.addEventListener('pointermove', handleResize);
+      window.addEventListener('pointerup', handleResizeEnd);
     } else {
-      window.removeEventListener('mousemove', handleResize);
-      window.removeEventListener('mouseup', handleResizeEnd);
+      window.removeEventListener('pointermove', handleResize);
+      window.removeEventListener('pointerup', handleResizeEnd);
     }
     return () => {
-      window.removeEventListener('mousemove', handleResize);
-      window.removeEventListener('mouseup', handleResizeEnd);
+      window.removeEventListener('pointermove', handleResize);
+      window.removeEventListener('pointerup', handleResizeEnd);
     };
   }, [isDragging]);
 
@@ -370,7 +370,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
               classNamesInProps?.resizeHandle,
             )}
             style={styles?.resizeHandle}
-            onMouseDown={handleResizeStart}
+            onPointerDown={handleResizeStart}
           />
         )}
         <div className={classNames(`${prefixCls}-content`, classNamesInProps?.content)} style={styles?.content}>

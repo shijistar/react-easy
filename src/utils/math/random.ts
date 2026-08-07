@@ -5,7 +5,7 @@
  *
  * @returns The generated random number | 生成的随机数
  */
-export function random(): number;
+function random(): number;
 /**
  * **EN**: Generate a random integer within a specified range (inclusive on both ends)
  *
@@ -16,8 +16,8 @@ export function random(): number;
  *
  * @returns The generated random integer | 生成的随机整数
  */
-export function random(min: number, max: number): number;
-export function random(min?: number, max?: number): number {
+function random(min: number, max: number): number;
+function random(min?: number, max?: number): number {
   if (min == null && max == null) {
     return randomLikeMath();
   }
@@ -130,3 +130,5 @@ function randomLikeMath(): number {
 
   return x / 9007199254740992; // 2^53 => [0,1)
 }
+
+export default random;

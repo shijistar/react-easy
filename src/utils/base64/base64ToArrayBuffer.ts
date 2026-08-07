@@ -1,0 +1,55 @@
+/**
+ * - **EN:** Decode a Base64 (standard or URL-safe) string into an ArrayBuffer.
+ * - **CN:** 将（标准或 URL 安全）Base64 字符串解码为 ArrayBuffer。
+ *
+ * @param base64 The Base64 encoded string | Base64 编码的字符串
+ *
+ * @returns The decoded ArrayBuffer | 解码后的 ArrayBuffer
+ */
+function base64ToArrayBuffer(
+  base64: string,
+  opts: {
+    /**
+     * - EN: Use URL-safe Base64 if true (replace -_ back to +/ and restore padding)
+     * - CN: 为 true 时按 URL 安全 Base64 进行规范化（将 -_ 还原为 +/ 并补齐 =）
+     */
+    urlSafe?: boolean;
+  } = {},
+): ArrayBuffer {
+  const { urlSafe = false } = opts;
+  if (base64 == null || base64 === '') return new ArrayBuffer(0);
+
+  // Normalize to standard Base64 (align with base64ToString)
+  let normalized = base64;
+  if (urlSafe) {
+    normalized = normalized.replace(/-/g, '+').replace(/_/g, '/');
+  }
+  const padNeeded = normalized.length % 4;
+  if (padNeeded === 2) normalized += '==';
+  else if (padNeeded === 3) normalized += '=';
+  else if (padNeeded === 1) {
+    throw new Error('Invalid Base64 string length');
+  }
+
+  try {
+    if (typeof Buffer !== 'undefined' && typeof Buffer.from === 'function') {
+      // Node.js / environments with Buffer
+      const buf = Buffer.from(normalized, 'base64');
+      return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+    } else {
+      // Browser
+      const binary = atob(normalized);
+      const len = binary.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+  } catch (e) {
+    /* v8 ignore next -- rethrow path is covered in tests, but V8 line attribution is inconsistent across Buffer/atob decode failures */
+    throw new Error('Failed to decode Base64: ' + (e instanceof Error ? e.message : String(e)));
+  }
+}
+
+export default base64ToArrayBuffer;

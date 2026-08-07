@@ -121,7 +121,7 @@ const genStyle: GenerateStyle<FloatDrawerToken> = (token): CSSObject => {
         height: 24,
       },
       [`&${componentCls}-left ${componentCls}-toggle`]: {
-        right: 0,
+        right: 1,
         transform: 'translate(100%, -50%)',
         borderRadius: '0 8px 8px 0',
         // On the left side: the shadow casts to the right and upward/downward in half size
@@ -135,7 +135,7 @@ const genStyle: GenerateStyle<FloatDrawerToken> = (token): CSSObject => {
         },
       },
       [`&${componentCls}-right ${componentCls}-toggle`]: {
-        left: 0,
+        left: 1,
         transform: 'translate(-100%, -50%)',
         borderRadius: '8px 0 0 8px',
         // On the right side: the shadow casts to the left and upward/downward in half size
@@ -149,7 +149,7 @@ const genStyle: GenerateStyle<FloatDrawerToken> = (token): CSSObject => {
         },
       },
       [`&${componentCls}-top ${componentCls}-toggle`]: {
-        bottom: 0,
+        bottom: 1,
         transform: 'translate(-50%, 100%)',
         borderRadius: '0 0 8px 8px',
         // On the top side: the shadow casts downward and left/right in half size
@@ -163,7 +163,7 @@ const genStyle: GenerateStyle<FloatDrawerToken> = (token): CSSObject => {
         },
       },
       [`&${componentCls}-bottom ${componentCls}-toggle`]: {
-        top: 0,
+        top: 1,
         transform: 'translate(-50%, -100%)',
         borderRadius: '8px 8px 0 0',
         // On the bottom side: the shadow casts upward and left/right in half size

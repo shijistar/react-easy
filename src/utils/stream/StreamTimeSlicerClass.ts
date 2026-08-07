@@ -2,7 +2,7 @@
  * - **EN:** A stream time slicer for splitting audio streams into fixed time segments
  * - **CN:** 一个数据流时间切片器，用于将音频流分成固定时间段
  */
-export class StreamTimeSlicerClass implements StreamTimeSlicer {
+class StreamTimeSlicerClass implements StreamTimeSlicer {
   public sliceMode: StreamTimeSlicerOptions['sliceMode'];
   public value: StreamTimeSlicerOptions['value'];
   private readonly onSlice: (channels: Float32Array[], sliceDurationMs: number) => void;
@@ -90,6 +90,7 @@ export class StreamTimeSlicerClass implements StreamTimeSlicer {
     return this.startTs == null ? 0 : this.now() - this.startTs;
   }
 }
+
 export interface StreamTimeSlicerOptions {
   /**
    * - **EN:** Mode of slicing
@@ -149,3 +150,5 @@ export interface StreamTimeSlicer
    */
   duration: () => number;
 }
+
+export default StreamTimeSlicerClass;

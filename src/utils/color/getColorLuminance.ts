@@ -5,7 +5,7 @@
  *
  * @returns The luminance of the color
  */
-export function getColorLuminance(color: string): number {
+function getColorLuminance(color: string): number {
   let r = 0,
     g = 0,
     b = 0;
@@ -37,3 +37,5 @@ export function getColorLuminance(color: string): number {
 
   return luminance;
 }
+
+export default getColorLuminance;
