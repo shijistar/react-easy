@@ -1,30 +1,23 @@
 import type { ComponentType, PropsWithChildren } from 'react';
-import { lazy, Suspense, useMemo, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import type { Control, DocsContainerProps } from '@storybook/addon-docs/blocks';
 import type { Preview, ReactRenderer } from '@storybook/react-vite';
-import { FORCE_RE_RENDER } from 'storybook/internal/core-events';
 import type { StoryContext, StoryContextForEnhancers } from 'storybook/internal/csf';
-import { addons, useStoryContext } from 'storybook/preview-api';
-import { App as AntdApp, ConfigProvider as AntdConfigProvider, theme as antThemes } from 'antd';
-import enUS from 'antd/es/locale/en_US';
-import zhCN from 'antd/es/locale/zh_CN';
-import ConfigProvider from '../src/components/ConfigProvider';
-import { useRefValue } from '../src/hooks';
-import type { Langs } from '../src/locales';
-import storyI18n, { storyT } from './locales';
+import usePreviewDecorator from './components/usePreviewDecorator';
+import { storyT } from './locales';
 import { stripExampleBlock } from './utils/description';
 import { pickLangDoc } from './utils/doc';
 import { getGlobalValueFromUrl } from './utils/global';
 import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
 
+// import './preview.css';
+
 // Loading them lazily keeps them out of the story-view critical path.
 const ThemedDocsContainer = lazy(() => import('./lazy-docs').then((m) => ({ default: m.ThemedDocsContainer })));
 const DocsPage = lazy(() => import('./lazy-docs').then((m) => ({ default: m.DocsPage })));
-
-// import './preview.css';
+// const PreviewDecorator = lazy(() => import('./components/PreviewDecorator'));
 
 const themeFromUrl = getGlobalValueFromUrl('backgrounds.value');
-const langFromUrl = getGlobalValueFromUrl('lang');
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const preview: Preview = {
@@ -65,7 +58,7 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Introduce', 'Install', 'Get Started', 'Changelog', 'Components'],
+        order: ['Introduce', 'Install', 'Get Started', 'Changelog', 'Components', 'Hooks', 'Utils'],
         locales: '',
       },
     },
@@ -74,12 +67,9 @@ const preview: Preview = {
         const globalValue = (props.context as unknown as StoryContext<ReactRenderer>)?.globals?.backgrounds?.value;
         const theme = globalValue ?? themeFromUrl;
         const isDark = theme ? theme === 'dark' : isPreferDark;
-        const Container = ThemedDocsContainer as unknown as ComponentType<
-          PropsWithChildren<DocsContainerProps> & { isDark: boolean }
-        >;
         return (
           <Suspense fallback={null}>
-            <Container {...props} isDark={isDark} />
+            <ThemedDocsContainer {...props} isDark={isDark} />
           </Suspense>
         );
       },
@@ -101,51 +91,7 @@ const preview: Preview = {
     },
   },
   tags: ['autodocs'],
-  decorators: [
-    (Story, context) => {
-      const themeFromGlobal = context.globals?.backgrounds?.value;
-      const theme: string | undefined = themeFromGlobal ?? themeFromUrl;
-      const lang: Langs | undefined = context.globals.lang ?? langFromUrl ?? 'en-US';
-      const antdLocale = lang === 'zh-CN' ? zhCN : enUS;
-      const { viewMode } = useStoryContext();
-      const viewModeRef = useRefValue(viewMode);
-      const [prevTheme, setPrevTheme] = useState(themeFromGlobal);
-      const isDark = theme === 'dark' || (!theme && isPreferDark);
-      // Reload the page if the theme changes.
-      useMemo(() => {
-        if (themeFromGlobal && themeFromGlobal !== prevTheme) {
-          setPrevTheme(themeFromGlobal);
-          (window.top ?? window.parent ?? window).location.reload();
-        }
-      }, [themeFromGlobal, prevTheme]);
-
-      // Reload the page if the language changes.
-      useMemo(() => {
-        if (lang && storyI18n.language !== lang) {
-          storyI18n.changeLanguage(lang).then(() => {
-            if (viewModeRef.current === 'docs') {
-              addons.getChannel().emit(FORCE_RE_RENDER);
-            } else if (viewModeRef.current === 'story') {
-              (window.top ?? window.parent ?? window).location.reload();
-            }
-          });
-        }
-      }, [lang]);
-
-      return (
-        <AntdConfigProvider
-          locale={antdLocale}
-          theme={{ algorithm: isDark ? antThemes.darkAlgorithm : antThemes.defaultAlgorithm }}
-        >
-          <AntdApp>
-            <ConfigProvider lang={lang}>
-              <Story />
-            </ConfigProvider>
-          </AntdApp>
-        </AntdConfigProvider>
-      );
-    },
-  ],
+  decorators: [usePreviewDecorator],
   argTypesEnhancers: [jsdocArgTypesEnhancer],
 };
 
