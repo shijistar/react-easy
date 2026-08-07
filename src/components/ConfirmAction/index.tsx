@@ -319,7 +319,7 @@ export const genRenderer = (
           }
         },
         ...restProps,
-      });
+      } satisfies ModalFuncProps);
       setConfirmApi(api);
       return api;
     });

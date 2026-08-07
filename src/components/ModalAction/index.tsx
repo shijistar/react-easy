@@ -242,7 +242,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     const [form, setForm] = useState<FormInstance<FormData>>();
     const formRef = useRefValue(form);
     const onBeforeOpenRef = useRefValue(onBeforeOpen);
-    const destroyOnCloseRef = useRefValue(destroyOnClose || destroyOnHidden);
+    const destroyOnCloseRef = useRefValue(destroyOnHidden ?? destroyOnClose);
     const openListenerRef = useRef<ModalProps['afterOpenChange']>(undefined);
     const beforeOpenResultRef = useRef<unknown>(undefined);
 
