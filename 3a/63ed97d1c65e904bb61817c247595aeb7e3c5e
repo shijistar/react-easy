@@ -1,0 +1,27 @@
+CHANGELOG.md
+  h_99cad05bea77d1 15,17-18
+  s_1954dd235ac76a::t_9d43f067c54af3 5-14,16,19-32
+package.json
+  h_99cad05bea77d1 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "3a63ed97d1c65e904bb61817c247595aeb7e3c5e",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1954dd235ac76a": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "fec9df29-b5db-4faf-860e-46484623b8a0",
+        "model": "gpt-5-mini"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
