@@ -1,0 +1,14 @@
+src/components/ModalAction/index.tsx
+  h_99cad05bea77d1 219-220,342-343
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "ca93b0babc10fa699ae4e5ce8bb9c7cdf4eeb2a5",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
