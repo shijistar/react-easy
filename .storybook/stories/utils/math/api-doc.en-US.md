@@ -12,6 +12,8 @@
 | ---- | ------------- | ---- | --------- |
 | -    | No parameters | -    | -         |
 
+**Note**: The no-argument `random()` is a secure replacement for `Math.random()`. `Math.random()` is not a cryptographically secure random number generator (CSPRNG), and static code scanners report it as a security warning; switching to `random()` keeps the `[0, 1)` return semantics while clearing those warnings.
+
 ### random(min, max)
 
 | Name  | Description                                             | Type     | (Default) |
