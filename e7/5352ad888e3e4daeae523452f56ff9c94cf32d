@@ -1,0 +1,17 @@
+.storybook/components/usePreviewDecorator.tsx
+  h_99cad05bea77d1 1-81
+.storybook/preview.tsx
+  h_99cad05bea77d1 6,13-14,18,61,72,94
+  h_99cad05bea77d1 2,7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "e75352ad888e3e4daeae523452f56ff9c94cf32d",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
