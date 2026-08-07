@@ -1,9 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
+import type * as mathUtils from '../../src/utils/math';
 import { random } from '../../src/utils/math';
 import { randomChars, readTextAnyEncoding } from '../../src/utils/string';
 
 vi.mock('../../src/utils/math', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../../src/utils/math')>();
+  const actual = await importOriginal<typeof mathUtils>();
   return { ...actual, random: vi.fn() };
 });
 
