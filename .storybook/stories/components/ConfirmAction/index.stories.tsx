@@ -49,10 +49,9 @@ const meta: Meta<ConfirmActionStoryArgs> = {
     danger: false,
     width: 416,
     closable: true,
-    mask: true,
-    maskClosable: false,
+    mask: { closable: false },
     keyboard: false,
-    autoFocusButton: undefined,
+    focusable: { autoFocusButton: undefined },
     onOk: fn(),
     onCancel: fn(),
     afterOpenChange: fn(),
@@ -75,9 +74,8 @@ const meta: Meta<ConfirmActionStoryArgs> = {
     triggerProps: {
       description: storyT('storybook.stories.ConfirmAction.argTypes.triggerProps.description'),
     },
-    autoFocusButton: {
-      control: 'select',
-      options: ['ok', 'cancel'],
+    focusable: {
+      control: 'object',
       description: storyT('storybook.stories.ConfirmAction.argTypes.autoFocusButton.description'),
       table: { defaultValue: { summary: 'undefined' } },
     },
