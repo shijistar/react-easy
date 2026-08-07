@@ -64,15 +64,15 @@ function renderDrawer(props: Parameters<typeof FloatDrawer>[0]) {
 // then mouseup. The drag listeners are attached in an effect after
 // setIsDragging(true), so we wait for that before dispatching moves.
 async function dragResize(handle: Element, from: { x: number; y: number }, to: { x: number; y: number }) {
-  fireEvent.mouseDown(handle, { clientX: from.x, clientY: from.y });
+  fireEvent.pointerDown(handle, { clientX: from.x, clientY: from.y });
   await waitFor(() => {
     expect(document.body.className).toBe(document.body.className); // effect flush point
   });
   await act(async () => {
-    fireEvent.mouseMove(window, { clientX: to.x, clientY: to.y });
+    fireEvent.pointerMove(window, { clientX: to.x, clientY: to.y });
   });
   await act(async () => {
-    fireEvent.mouseUp(window);
+    fireEvent.pointerUp(window);
   });
 }
 
@@ -322,12 +322,12 @@ describe('FloatDrawer', () => {
   it('marks handle as dragging while resizing', async () => {
     const { container } = renderDrawer({ defaultSize: 300 });
     const handle = container.querySelector('.easy-float-drawer-resize-handle')!;
-    fireEvent.mouseDown(handle, { clientX: 100, clientY: 10 });
+    fireEvent.pointerDown(handle, { clientX: 100, clientY: 10 });
     await waitFor(() => {
       expect(handle.classList.contains('easy-float-drawer-resize-handle-dragging')).toBe(true);
     });
     await act(async () => {
-      fireEvent.mouseUp(window);
+      fireEvent.pointerUp(window);
     });
     expect(handle.classList.contains('easy-float-drawer-resize-handle-dragging')).toBe(false);
   });
@@ -339,18 +339,18 @@ describe('FloatDrawer', () => {
     // guard takes the false branch and no size update happens.
     const { container } = renderDrawer({});
     const handle = container.querySelector('.easy-float-drawer-resize-handle')!;
-    fireEvent.mouseDown(handle, { clientX: 100, clientY: 10 });
+    fireEvent.pointerDown(handle, { clientX: 100, clientY: 10 });
     await waitFor(() => {
       expect(handle.classList.contains('easy-float-drawer-resize-handle-dragging')).toBe(true);
     });
     await act(async () => {
-      fireEvent.mouseMove(window, { clientX: 150, clientY: 10 });
+      fireEvent.pointerMove(window, { clientX: 150, clientY: 10 });
     });
     // Guard false branch: size stays 0 (jsdom measurement), width remains 0px.
     const drawer = container.querySelector('.easy-float-drawer-drawer') as HTMLElement;
     expect(drawer.style.width).toBe('0px');
     await act(async () => {
-      fireEvent.mouseUp(window);
+      fireEvent.pointerUp(window);
     });
   });
 
