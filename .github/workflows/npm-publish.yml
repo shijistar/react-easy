@@ -26,9 +26,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Uncomment the following line if you want to run tests
-      # - name: Run tests
-      #   run: pnpm test
+      - name: Run unit tests
+        uses: ./.github/workflows/reusable-test.yml
+        with:
+          use-matrix: false
 
   publish-npm:
     needs: build

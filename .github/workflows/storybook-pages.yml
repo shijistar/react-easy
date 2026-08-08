@@ -32,6 +32,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run unit tests
+        uses: ./.github/workflows/reusable-test.yml
+        with:
+          use-matrix: false
+
       - name: Build Storybook
         run: npm run build-storybook
 
