@@ -1,10 +1,23 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import remarkGfm from 'remark-gfm';
 import type { RollupLog } from 'rollup';
 import { mergeConfig } from 'vite';
 
 const config: StorybookConfig = {
   stories: ['./docs/**/*.mdx', './stories/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-docs'],
+  addons: [
+    '@storybook/addon-links',
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
+  ],
   docs: {
     defaultName: 'API',
   },

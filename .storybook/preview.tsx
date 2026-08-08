@@ -9,13 +9,11 @@ import { stripExampleBlock } from './utils/description';
 import { pickLangDoc } from './utils/doc';
 import { getGlobalValueFromUrl } from './utils/global';
 import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
-
-// import './preview.css';
+import './preview.css';
 
 // Loading them lazily keeps them out of the story-view critical path.
-const ThemedDocsContainer = lazy(() => import('./lazy-docs').then((m) => ({ default: m.ThemedDocsContainer })));
-const DocsPage = lazy(() => import('./lazy-docs').then((m) => ({ default: m.DocsPage })));
-// const PreviewDecorator = lazy(() => import('./components/PreviewDecorator'));
+const ThemedDocsContainer = lazy(() => import('./components/ThemedDocsContainer'));
+const StoryDocPage = lazy(() => import('./components/StoryDocPage'));
 
 const themeFromUrl = getGlobalValueFromUrl('backgrounds.value');
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -35,7 +33,7 @@ const preview: Preview = {
         icon: 'globe',
         items: [
           { value: 'en-US', right: '🇺🇸', title: 'English' },
-          { value: 'zh-CN', right: '🇨🇳', title: '中文' },
+          { value: 'zh-CN', right: '🇨🇳', title: '简体中文' },
         ],
       },
     },
@@ -85,7 +83,7 @@ const preview: Preview = {
       },
       page: () => (
         <Suspense fallback={null}>
-          <DocsPage />
+          <StoryDocPage />
         </Suspense>
       ),
     },
