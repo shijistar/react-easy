@@ -1,30 +1,18 @@
-import type { PropsWithChildren } from 'react';
 import { useMemo } from 'react';
-import type { DocsContainerProps } from '@storybook/addon-docs/blocks';
-import { Controls, DocsContainer, Markdown, Primary, Subtitle, Title, useOf } from '@storybook/addon-docs/blocks';
+import { Controls, Markdown, Primary, Subtitle, Title, useOf } from '@storybook/addon-docs/blocks';
 import LinkTo from '@storybook/addon-links/react';
 import type { ResolvedModuleExportFromType } from 'storybook/internal/types';
-import { themes } from 'storybook/theming';
 import { Flex } from 'antd';
-import { useStoryT } from './locales';
-import { processDescription } from './utils/description';
+import { useStoryT } from '../locales';
+import { processDescription } from '../utils/description';
 
-/**
- * All `@storybook/addon-docs/blocks` and `storybook/theming` imports live in this module so that
- * they can be code-split away from the preview entry chunk. Only docs view mode pays for them.
- */
-
-export function ThemedDocsContainer({ isDark, ...props }: PropsWithChildren<DocsContainerProps> & { isDark: boolean }) {
-  return <DocsContainer {...props} theme={isDark ? themes.dark : themes.light} />;
-}
-
-export function DocsPage() {
+function StoryDocPage() {
   const t = useStoryT();
   const currentStory = useMemo(() => {
     const path = new URLSearchParams(top?.location.search).get('path');
     const matches = path?.match(/\/docs\/(components|hooks|utils)-(\w+?)--api/);
     if (matches && matches.length > 2) {
-      return `./stories/${matches[1]}/${matches[2]}/index.stories.tsx`;
+      return `./stories/${matches[1]}/${matches[2]}/index.stories.tsx`.toLowerCase();
     }
     return null;
   }, []);
@@ -59,23 +47,17 @@ export function DocsPage() {
       </Flex>
       <Flex justify="space-between">
         {index > 0 ? (
-          // <a href={allStories[index - 1].url} style={{ fontSize: 18, fontWeight: 600 }}>
-          //   ← {allStories[index - 1].name}
-          // </a>
-          // @ts-expect-error: because style props exists but not exposed
-          <LinkTo kind={allStories[index - 1].url} story="api" style={{ fontSize: 18, fontWeight: 600 }}>
-            ← {allStories[index - 1].name}
+          <LinkTo kind={allStories[index - 1].url} story="api">
+            <span style={{ fontSize: 18, fontWeight: 600 }}>← {allStories[index - 1].name}</span>
           </LinkTo>
         ) : (
-          // @ts-expect-error: because style props exists but not exposed
-          <LinkTo kind="get-started" story="api" style={{ fontSize: 18, fontWeight: 600 }}>
-            ← {t('storybook.stories.nav.getStarted')}
+          <LinkTo kind="get-started" story="api">
+            <span style={{ fontSize: 18, fontWeight: 600 }}>← {t('storybook.stories.nav.getStarted')}</span>
           </LinkTo>
         )}
         {index < allStories.length - 1 ? (
-          // @ts-expect-error: because style props exists but not exposed
-          <LinkTo kind={allStories[index + 1].url} story="api" style={{ fontSize: 18, fontWeight: 600 }}>
-            {allStories[index + 1].name} →
+          <LinkTo kind={allStories[index + 1].url} story="api">
+            <span style={{ fontSize: 18, fontWeight: 600 }}>{allStories[index + 1].name} →</span>
           </LinkTo>
         ) : (
           <p style={{ margin: 0 }}>{t('storybook.stories.nav.nothing')}</p>
@@ -142,3 +124,5 @@ function getDescriptionFromResolvedOf(resolvedOf: ReturnType<typeof useOf> | und
     }
   }
 }
+
+export default StoryDocPage;

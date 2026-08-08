@@ -12,9 +12,8 @@ import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './util
 import './preview.css';
 
 // Loading them lazily keeps them out of the story-view critical path.
-const ThemedDocsContainer = lazy(() => import('./lazy-docs').then((m) => ({ default: m.ThemedDocsContainer })));
-const DocsPage = lazy(() => import('./lazy-docs').then((m) => ({ default: m.DocsPage })));
-// const PreviewDecorator = lazy(() => import('./components/PreviewDecorator'));
+const ThemedDocsContainer = lazy(() => import('./components/ThemedDocsContainer'));
+const StoryDocPage = lazy(() => import('./components/StoryDocPage'));
 
 const themeFromUrl = getGlobalValueFromUrl('backgrounds.value');
 const isPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -84,7 +83,7 @@ const preview: Preview = {
       },
       page: () => (
         <Suspense fallback={null}>
-          <DocsPage />
+          <StoryDocPage />
         </Suspense>
       ),
     },
