@@ -1,0 +1,27 @@
+.storybook/preview.css
+  h_99cad05bea77d1 1-35
+.storybook/docs-localized/Introduce.en-US.mdx
+  h_99cad05bea77d1 66-68
+.storybook/docs-localized/Introduce.zh-CN.mdx
+  h_99cad05bea77d1 66-68
+.storybook/main.ts
+  h_99cad05bea77d1 2,10-19
+  h_99cad05bea77d1 8-9,20
+.storybook/preview.tsx
+  h_99cad05bea77d1 12
+package-lock.json
+  h_99cad05bea77d1 3,9,52,11239-11249,11789-11799,15664-15670,21041-21051,21161-21171,21205-21234,21260-21403,21548-21675,25162-25213,28185-28195,29077-29110,29125-29155,29386-29415,30516-30526
+package.json
+  h_99cad05bea77d1 88
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "cc7fbd7d51f073ed471aec5ee5d334e9e38cdf30",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
