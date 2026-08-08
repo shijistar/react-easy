@@ -1,0 +1,35 @@
+/* stylelint-disable-next-line selector-disallowed-list */
+#storybook-docs > .sbdocs-wrapper {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* stylelint-disable-next-line selector-disallowed-list */
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-of-type {
+  width: 100%;
+}
+
+/* stylelint-disable-next-line selector-disallowed-list */
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child * {
+  border: none;
+}
+
+/* stylelint-disable-next-line selector-disallowed-list */
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child th:first-child,
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child td:first-child {
+  width: 50%;
+  text-align: left;
+}
+
+/* stylelint-disable-next-line selector-disallowed-list */
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child th:last-child,
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child td:last-child {
+  width: 50%;
+  text-align: right;
+}
+
+/* stylelint-disable-next-line selector-disallowed-list */
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child td {
+  font-weight: 600;
+  font-size: 18px;
+}

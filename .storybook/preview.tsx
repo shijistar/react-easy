@@ -9,8 +9,7 @@ import { stripExampleBlock } from './utils/description';
 import { pickLangDoc } from './utils/doc';
 import { getGlobalValueFromUrl } from './utils/global';
 import { inferControlFromDocgenType, standardizeJsDocDefaultValue } from './utils/jsdoc';
-
-// import './preview.css';
+import './preview.css';
 
 // Loading them lazily keeps them out of the story-view critical path.
 const ThemedDocsContainer = lazy(() => import('./lazy-docs').then((m) => ({ default: m.ThemedDocsContainer })));
