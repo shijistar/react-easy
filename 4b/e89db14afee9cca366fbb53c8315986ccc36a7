@@ -1,0 +1,21 @@
+.storybook/components/ThemedDocsContainer.tsx
+  h_99cad05bea77d1 1-10
+.storybook/preview.tsx
+  h_99cad05bea77d1 15-16,86
+.storybook/docs/Changelog.mdx
+  h_99cad05bea77d1 13-14
+  h_99cad05bea77d1 12
+.storybook/components/StoryDocPage.tsx
+  h_99cad05bea77d1 1-128
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "4be89db14afee9cca366fbb53c8315986ccc36a7",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
