@@ -34,13 +34,16 @@
   "scripts": {
     "build": "run-s build-core correct-sourcemap",
     "build-core": "father build",
-    "build-storybook": "storybook build",
+    "build-storybook": "run-s task:story-list task:build-storybook",
     "codegraph-init": "node scripts/prepare-codegraph.js",
     "correct-sourcemap": "tsx scripts/correct-sourcemap.ts",
     "init-husky": "husky",
     "prepare": "run-s init-husky codegraph-init",
     "prepublishOnly": "npm run build",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "run-s task:story-list task:storybook",
+    "task:build-storybook": "storybook build",
+    "task:story-list": "tsx scripts/story-list.ts",
+    "task:storybook": "storybook dev -p 6006",
     "test": "vitest run --coverage",
     "test:watch": "vitest"
   },

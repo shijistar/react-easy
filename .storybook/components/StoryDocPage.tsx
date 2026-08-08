@@ -4,6 +4,7 @@ import LinkTo from '@storybook/addon-links/react';
 import type { ResolvedModuleExportFromType } from 'storybook/internal/types';
 import { Flex } from 'antd';
 import { useStoryT } from '../locales';
+import storyList from '../stories-list.json';
 import { processDescription } from '../utils/description';
 
 function StoryDocPage() {
@@ -16,12 +17,9 @@ function StoryDocPage() {
     }
     return null;
   }, []);
-  const componentPaths = useMemo(() => Object.keys(import.meta.glob(`./stories/components/*/index.stories.tsx`)), []);
-  const hookPaths = useMemo(() => Object.keys(import.meta.glob(`./stories/hooks/*/index.stories.tsx`)), []);
-  const utilPaths = useMemo(() => Object.keys(import.meta.glob(`./stories/utils/*/index.stories.tsx`)), []);
-  const allStories = useMemo(
+  const stories = useMemo(
     () =>
-      [...componentPaths, ...hookPaths, ...utilPaths].map((path) => {
+      storyList.map((path) => {
         const parts = path.split('/');
         return {
           path: path.toLowerCase(),
@@ -29,9 +27,9 @@ function StoryDocPage() {
           url: `${parts[2]}/${parts[3]}`,
         };
       }),
-    [componentPaths, hookPaths, utilPaths],
+    [],
   );
-  const index = useMemo(() => allStories.findIndex((story) => story.path === currentStory), [allStories, currentStory]);
+  const index = useMemo(() => stories.findIndex((story) => story.path === currentStory), [stories, currentStory]);
 
   return (
     <>
@@ -47,17 +45,17 @@ function StoryDocPage() {
       </Flex>
       <Flex justify="space-between">
         {index > 0 ? (
-          <LinkTo kind={allStories[index - 1].url} story="api">
-            <span style={{ fontSize: 18, fontWeight: 600 }}>← {allStories[index - 1].name}</span>
+          <LinkTo kind={stories[index - 1].url} story="api">
+            <span style={{ fontSize: 18, fontWeight: 600 }}>← {stories[index - 1].name}</span>
           </LinkTo>
         ) : (
           <LinkTo kind="get-started" story="api">
             <span style={{ fontSize: 18, fontWeight: 600 }}>← {t('storybook.stories.nav.getStarted')}</span>
           </LinkTo>
         )}
-        {index < allStories.length - 1 ? (
-          <LinkTo kind={allStories[index + 1].url} story="api">
-            <span style={{ fontSize: 18, fontWeight: 600 }}>{allStories[index + 1].name} →</span>
+        {index < stories.length - 1 ? (
+          <LinkTo kind={stories[index + 1].url} story="api">
+            <span style={{ fontSize: 18, fontWeight: 600 }}>{stories[index + 1].name} →</span>
           </LinkTo>
         ) : (
           <p style={{ margin: 0 }}>{t('storybook.stories.nav.nothing')}</p>
