@@ -15,6 +15,12 @@
 }
 
 /* stylelint-disable-next-line selector-disallowed-list */
+#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child td {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* stylelint-disable-next-line selector-disallowed-list */
 #storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child th:first-child,
 #storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child td:first-child {
   width: 50%;
@@ -26,10 +32,4 @@
 #storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child td:last-child {
   width: 50%;
   text-align: right;
-}
-
-/* stylelint-disable-next-line selector-disallowed-list */
-#storybook-docs > .sbdocs-wrapper > .sbdocs-content > table:last-child td {
-  font-weight: 600;
-  font-size: 18px;
 }
