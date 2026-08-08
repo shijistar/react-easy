@@ -1,0 +1,15 @@
+.storybook/lazy-docs.tsx
+  h_99cad05bea77d1 31-35,43-44,46
+  h_99cad05bea77d1 36-42,45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "359b4dfe6d367c513a5c0c0f64104f2cbde3fb3c",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
