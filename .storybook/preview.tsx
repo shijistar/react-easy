@@ -34,7 +34,7 @@ const preview: Preview = {
         icon: 'globe',
         items: [
           { value: 'en-US', right: '🇺🇸', title: 'English' },
-          { value: 'zh-CN', right: '🇨🇳', title: '中文' },
+          { value: 'zh-CN', right: '🇨🇳', title: '简体中文' },
         ],
       },
     },

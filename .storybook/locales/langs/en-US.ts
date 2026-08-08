@@ -1,4 +1,9 @@
 const enUS = {
+  'storybook.stories.demo': 'Demo',
+  'storybook.stories.nav.previous': 'Previous',
+  'storybook.stories.nav.next': 'Next',
+  'storybook.stories.nav.getStarted': 'Get Started',
+  'storybook.stories.nav.nothing': 'Nothing',
   'storybook.stories.AudioPlayer.actions.backward': 'Back {{seconds}}s',
   'storybook.stories.AudioPlayer.actions.forward': 'Forward {{seconds}}s',
   'storybook.stories.AudioPlayer.actions.pause': 'Pause',

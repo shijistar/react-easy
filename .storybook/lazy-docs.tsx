@@ -2,10 +2,12 @@ import type { PropsWithChildren } from 'react';
 import { useMemo } from 'react';
 import type { DocsContainerProps } from '@storybook/addon-docs/blocks';
 import { Controls, DocsContainer, Markdown, Primary, Subtitle, Title, useOf } from '@storybook/addon-docs/blocks';
+import LinkTo from '@storybook/addon-links/react';
 import type { ResolvedModuleExportFromType } from 'storybook/internal/types';
 import { themes } from 'storybook/theming';
+import { Flex } from 'antd';
+import { useStoryT } from './locales';
 import { processDescription } from './utils/description';
-import { getGlobalValueFromUrl } from './utils/global';
 
 /**
  * All `@storybook/addon-docs/blocks` and `storybook/theming` imports live in this module so that
@@ -17,15 +19,67 @@ export function ThemedDocsContainer({ isDark, ...props }: PropsWithChildren<Docs
 }
 
 export function DocsPage() {
-  const langFromUrl = getGlobalValueFromUrl('lang');
+  const t = useStoryT();
+  const currentStory = useMemo(() => {
+    const path = new URLSearchParams(top?.location.search).get('path');
+    const matches = path?.match(/\/docs\/(components|hooks|utils)-(\w+?)--api/);
+    if (matches && matches.length > 2) {
+      return `./stories/${matches[1]}/${matches[2]}/index.stories.tsx`;
+    }
+    return null;
+  }, []);
+  const componentPaths = Object.keys(import.meta.glob(`./stories/components/*/index.stories.tsx`));
+  const hookPaths = Object.keys(import.meta.glob(`./stories/hooks/*/index.stories.tsx`));
+  const utilPaths = Object.keys(import.meta.glob(`./stories/utils/*/index.stories.tsx`));
+  const allStories = [...componentPaths, ...hookPaths, ...utilPaths].map((path) => {
+    const parts = path.split('/');
+    return {
+      path: path.toLowerCase(),
+      name: parts[3],
+      url: `${parts[2]}/${parts[3]}`,
+    };
+  });
+  const index = allStories.findIndex((story) => story.path === currentStory);
+  if (index === -1) {
+    throw new Error(`Current story not found: ${currentStory}`);
+  }
+
   return (
     <>
       <Title />
       <Subtitle />
       <CustomComponentDescription />
-      <h2>{langFromUrl === 'zh-CN' ? '演示' : 'Demo'}</h2>
+      <h2>{t('storybook.stories.demo')}</h2>
       <Primary />
       <Controls />
+      <Flex justify="space-between">
+        <p>{t('storybook.stories.nav.previous')}</p>
+        <p>{t('storybook.stories.nav.next')}</p>
+      </Flex>
+      <Flex justify="space-between">
+        {index > 0 ? (
+          // <a href={allStories[index - 1].url} style={{ fontSize: 18, fontWeight: 600 }}>
+          //   ← {allStories[index - 1].name}
+          // </a>
+          // @ts-expect-error: because style props exists but not exposed
+          <LinkTo kind={allStories[index - 1].url} story="api" style={{ fontSize: 18, fontWeight: 600 }}>
+            ← {allStories[index - 1].name}
+          </LinkTo>
+        ) : (
+          // @ts-expect-error: because style props exists but not exposed
+          <LinkTo kind="get-started" story="api" style={{ fontSize: 18, fontWeight: 600 }}>
+            ← {t('storybook.stories.nav.getStarted')}
+          </LinkTo>
+        )}
+        {index < allStories.length - 1 ? (
+          // @ts-expect-error: because style props exists but not exposed
+          <LinkTo kind={allStories[index + 1].url} story="api" style={{ fontSize: 18, fontWeight: 600 }}>
+            {allStories[index + 1].name} →
+          </LinkTo>
+        ) : (
+          <p style={{ margin: 0 }}>{t('storybook.stories.nav.nothing')}</p>
+        )}
+      </Flex>
     </>
   );
 }

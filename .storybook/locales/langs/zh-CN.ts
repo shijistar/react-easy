@@ -1,4 +1,9 @@
 const zhCN = {
+  'storybook.stories.demo': '演示',
+  'storybook.stories.nav.previous': '上一篇',
+  'storybook.stories.nav.next': '下一篇',
+  'storybook.stories.nav.getStarted': '开始使用',
+  'storybook.stories.nav.nothing': '没有了',
   'storybook.stories.AudioPlayer.actions.backward': '后退 {{seconds}} 秒',
   'storybook.stories.AudioPlayer.actions.forward': '前进 {{seconds}} 秒',
   'storybook.stories.AudioPlayer.actions.pause': '暂停',
