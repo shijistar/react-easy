@@ -1,0 +1,32 @@
+.storybook/docs-localized/Introduce.en-US.mdx
+  h_99cad05bea77d1 67-68
+  h_99cad05bea77d1 66
+.storybook/lazy-docs.tsx
+  h_99cad05bea77d1 5,8-9,22-46,52,55-82
+.storybook/docs-localized/GetStarted.en-US.mdx
+  h_99cad05bea77d1 62-63
+  h_99cad05bea77d1 61
+.storybook/locales/langs/zh-CN.ts
+  h_99cad05bea77d1 2-6
+.storybook/locales/langs/en-US.ts
+  h_99cad05bea77d1 2-6
+.storybook/preview.tsx
+  h_99cad05bea77d1 37
+.storybook/docs-localized/GetStarted.zh-CN.mdx
+  h_99cad05bea77d1 62-63
+  h_99cad05bea77d1 61
+.storybook/docs-localized/Install.en-US.mdx
+  h_99cad05bea77d1 66-67
+  h_99cad05bea77d1 65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "5cf8d49b1df8a808c21cec9ea5662f5d2f332ae9",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
