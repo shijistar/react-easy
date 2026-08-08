@@ -28,21 +28,22 @@ export function DocsPage() {
     }
     return null;
   }, []);
-  const componentPaths = Object.keys(import.meta.glob(`./stories/components/*/index.stories.tsx`));
-  const hookPaths = Object.keys(import.meta.glob(`./stories/hooks/*/index.stories.tsx`));
-  const utilPaths = Object.keys(import.meta.glob(`./stories/utils/*/index.stories.tsx`));
-  const allStories = [...componentPaths, ...hookPaths, ...utilPaths].map((path) => {
-    const parts = path.split('/');
-    return {
-      path: path.toLowerCase(),
-      name: parts[3],
-      url: `${parts[2]}/${parts[3]}`,
-    };
-  });
-  const index = allStories.findIndex((story) => story.path === currentStory);
-  if (index === -1) {
-    throw new Error(`Current story not found: ${currentStory}`);
-  }
+  const componentPaths = useMemo(() => Object.keys(import.meta.glob(`./stories/components/*/index.stories.tsx`)), []);
+  const hookPaths = useMemo(() => Object.keys(import.meta.glob(`./stories/hooks/*/index.stories.tsx`)), []);
+  const utilPaths = useMemo(() => Object.keys(import.meta.glob(`./stories/utils/*/index.stories.tsx`)), []);
+  const allStories = useMemo(
+    () =>
+      [...componentPaths, ...hookPaths, ...utilPaths].map((path) => {
+        const parts = path.split('/');
+        return {
+          path: path.toLowerCase(),
+          name: parts[3],
+          url: `${parts[2]}/${parts[3]}`,
+        };
+      }),
+    [componentPaths, hookPaths, utilPaths],
+  );
+  const index = useMemo(() => allStories.findIndex((story) => story.path === currentStory), [allStories, currentStory]);
 
   return (
     <>
