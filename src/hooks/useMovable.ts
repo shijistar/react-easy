@@ -95,7 +95,7 @@ const useMovable = (props: UseMovableProps) => {
     };
   });
   // Drag start (exclude interactive controls)
-  const handlePointerDown = useRefFunction((e: React.PointerEvent<HTMLDivElement>) => {
+  const handlePointerDown = useRefFunction((e: PointerEvent) => {
     const target = e.target as HTMLElement;
     // Set the selector for elements that do not trigger dragging
     if (ignoreSelectors && target.closest(ignoreSelectors.join(','))) return;
@@ -150,7 +150,7 @@ const useMovable = (props: UseMovableProps) => {
       resizeObserver.disconnect();
       window.removeEventListener('resize', clampToViewport);
     };
-  }, [movableDomRef, viewPortRef]);
+  }, [movableDomRef, viewPortRef, getViewPortSize, onMoveRef, positionRef, savePositionRef, storageKeyRef]);
 
   const onPointerMove = useRefFunction((e: PointerEvent) => {
     if (!draggingRef.current) return;
@@ -196,7 +196,7 @@ const useMovable = (props: UseMovableProps) => {
       window.removeEventListener('pointercancel', onUp);
       movableDom?.removeEventListener('pointerdown', handlePointerDown as never);
     };
-  }, [enabled, movableDomRef]);
+  }, [enabled, movableDomRef, handlePointerDown, onPointerMove]);
 
   return {
     onPointerDown: handlePointerDown,

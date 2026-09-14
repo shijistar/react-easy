@@ -212,9 +212,9 @@ export class BaseDecoratorNode<T, P extends BaseDecoratorNodeProps> extends Deco
    */
   getUnderlyingProps(props: P | undefined): Omit<P, keyof BaseDecoratorNodeProps> {
     const baseProps = this.__base.getUnderlyingProps(props ?? ({} as P));
-    /* eslint-disable @typescript-eslint/no-unused-vars */
+
     const { ...restProps } = baseProps;
-    /* eslint-enable @typescript-eslint/no-unused-vars */
+
     return restProps as P;
   }
 }

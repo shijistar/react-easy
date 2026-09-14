@@ -23,7 +23,7 @@ const DeleteConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
  * - **EN:** Deletion confirmation box with button type
  * - **CN:** 按钮类型的删除确认框
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 DeleteConfirmAction.Button = withDefaultConfirmActionProps<ActionCompConstraint, ButtonProps, 'onClick', {}>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   forwarded as any,
@@ -37,7 +37,7 @@ DeleteConfirmAction.Button = withDefaultConfirmActionProps<ActionCompConstraint,
  * - **EN:** Deletion confirmation box with switch type
  * - **CN:** 开关类型的删除确认框
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 DeleteConfirmAction.Switch = withDefaultConfirmActionProps<ActionCompConstraint, SwitchProps, 'onChange', {}>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   forwarded as any,
@@ -51,7 +51,7 @@ DeleteConfirmAction.Switch = withDefaultConfirmActionProps<ActionCompConstraint,
  * - **EN:** Deletion confirmation box with link type
  * - **CN:** 链接类型的删除确认框
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 DeleteConfirmAction.Link = withDefaultConfirmActionProps<ActionCompConstraint, LinkProps, 'onClick', {}>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   forwarded as any,

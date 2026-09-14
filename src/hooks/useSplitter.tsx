@@ -156,7 +156,7 @@ const useSplitter = (props: UseSplitterProps) => {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
     };
-  }, [container, dragging, direction, minRatioRef, maxRatioRef]);
+  }, [container, dragging, direction, minRatioRef, maxRatioRef, onChangeRef]);
 
   useEffect(() => {
     const containerDom = containerFromProps ?? (splitterRef?.parentElement as HTMLDivElement | undefined) ?? undefined;
@@ -176,7 +176,7 @@ const useSplitter = (props: UseSplitterProps) => {
         onChangeRef.current?.(defaultRatio);
       }
     }
-  }, [defaultRatio, container]);
+  }, [defaultRatio, container, directionRef, onChangeRef, percentRef]);
 
   const vertical = direction === 'vertical';
   const dom = wrapCSSVar(

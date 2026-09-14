@@ -1,4 +1,4 @@
-import { type CSSProperties, type HtmlHTMLAttributes, type ReactNode } from 'react';
+import { type CSSProperties, type HtmlHTMLAttributes, type MouseEvent, type ReactNode } from 'react';
 import classNames from 'classnames';
 import type { LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
 import { theme } from 'antd';
@@ -36,7 +36,7 @@ export interface CloseIconNodeProps extends HtmlHTMLAttributes<HTMLSpanElement>,
    * - EN: The click event handler for the close icon element.
    * - CN: 关闭图标元素的点击事件
    */
-  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
+  onClick?: (e: MouseEvent<HTMLSpanElement>) => void;
 }
 
 /**
@@ -174,7 +174,7 @@ export function $createCloseIconNode(props: CloseIconNodeProps): CloseIconNode {
  *
  * @param node Node to test | 要检测的节点
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export function $isCloseIconNode(node: LexicalNode | null | undefined): node is CloseIconNode {
   return node instanceof CloseIconNode;
 }

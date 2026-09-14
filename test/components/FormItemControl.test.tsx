@@ -1,4 +1,4 @@
-import React from 'react';
+import { createElement } from 'react';
 import { screen } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
@@ -9,7 +9,7 @@ describe('FormItemControl', () => {
     const renderFn = vi.fn(() => <input data-testid="input" />);
     // FormItemControl receives value/onChange from Form.Item via spread at runtime
     render(
-      (React.createElement as unknown as typeof React.createElement)(FormItemControl as never, {
+      (createElement as unknown as typeof createElement)(FormItemControl as never, {
         value: 'test-value',
         onChange: () => {
           // stub method
@@ -28,7 +28,7 @@ describe('FormItemControl', () => {
   it('passes onChange to children correctly', () => {
     const onChangeSpy = vi.fn();
     render(
-      (React.createElement as unknown as typeof React.createElement)(FormItemControl as never, {
+      (createElement as unknown as typeof createElement)(FormItemControl as never, {
         value: 'test',
         onChange: onChangeSpy,
         children: ({ onChange }: { onChange: (v: string) => void }) => (
@@ -44,12 +44,12 @@ describe('FormItemControl', () => {
 
   it('renders children as a function', () => {
     const { container } = render(
-      (React.createElement as unknown as typeof React.createElement)(FormItemControl as never, {
+      (createElement as unknown as typeof createElement)(FormItemControl as never, {
         value: 'a',
         onChange: () => {
           // stub method
         },
-        children: () => React.createElement('span', { 'data-testid': 'rendered' }, 'child'),
+        children: () => createElement('span', { 'data-testid': 'rendered' }, 'child'),
       }),
     );
     expect(container.querySelector('[data-testid="rendered"]')).toBeTruthy();

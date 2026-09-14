@@ -1,3 +1,4 @@
+import type { DependencyList } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import useRefFunction from './useRefFunction';
 
@@ -43,7 +44,7 @@ export interface UseDebounceOptions {
  */
 function useDebounce<T extends (...args: any[]) => unknown>(
   fn: T,
-  deps: React.DependencyList,
+  deps: DependencyList,
   options: UseDebounceOptions = {},
 ): DebouncedFunc<T> {
   const { wait = 0, maxWait = 0, leading = false } = options;

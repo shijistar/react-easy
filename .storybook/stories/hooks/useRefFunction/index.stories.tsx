@@ -56,7 +56,6 @@ function UseRefFunctionStoryDemo({ showIdentity }: UseRefFunctionStoryArgs) {
   const [identityChanged, setIdentityChanged] = useState(false);
 
   const stableLog = useRefFunction(() => {
-    // eslint-disable-next-line no-console
     console.log(`count=${count}`);
     return count;
   });

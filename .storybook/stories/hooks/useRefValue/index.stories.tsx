@@ -61,7 +61,7 @@ function UseRefValueStoryDemo({ showSync }: UseRefValueStoryArgs) {
       setCaptured(countRef.current);
     }, 500);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [countRef]);
 
   return (
     <Card variant="outlined" style={{ maxWidth: 920 }} title={t('storybook.stories.useRefValue.cardTitle')}>

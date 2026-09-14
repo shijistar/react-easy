@@ -15,7 +15,6 @@ const useRefFunction = <T extends (...args: any[]) => any>(fn: T | undefined) =>
   const ref = useRef<T | undefined>(fn);
   ref.current = fn;
 
-  // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
   return useCallback(((...args: any[]) => ref.current?.(...args)) as T, []);
 };
 

@@ -184,7 +184,7 @@ export interface ModalActionTrigger<
    */
   onBeforeOpen?: () => Promise<unknown> | unknown;
 }
-// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-explicit-any
 export type ModalActionRef<R = {}, FormData extends object = any> = R & {
   form: FormInstance<FormData> | undefined;
   /**
@@ -258,7 +258,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       if (!destroyOnCloseRef.current && open && formRef.current) {
         formRef.current.resetFields();
       }
-    }, [open]);
+    }, [open, destroyOnCloseRef, formRef]);
 
     // show trigger
     const showInProps = triggerProps?.show;
@@ -282,7 +282,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
         console.error(error);
         throw error;
       }
-    }, []);
+    }, [onBeforeOpenRef]);
     // Hide the dialog
     const hideModal = useCallback(() => {
       setOpen(false);
@@ -362,7 +362,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
             let formData: FormData;
             try {
               formData = (await form?.validateFields()) as FormData;
-            } catch (e) {
+            } catch {
               // Validation error, should not throw error
               return;
             }
@@ -381,7 +381,6 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
               }
               // Then call onOk of the dialog, support asynchronous, and will pass the return value of onSave, if any
               if (onOk) {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 result = await onOk(
                   (result as FormData) ?? formData,
                   ...((triggerEventArgsRef.current ?? []).concat({

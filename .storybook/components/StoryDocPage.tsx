@@ -69,7 +69,7 @@ function CustomComponentDescription() {
   const resolvedOfMeta = useOf<'meta'>('meta');
   let resolvedOfComponent: ResolvedModuleExportFromType<'component'> | undefined;
   try {
-    // eslint-disable-next-line @tiny-codes/react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     resolvedOfComponent = useOf<'component'>('component');
   } catch {
     // Ignore error

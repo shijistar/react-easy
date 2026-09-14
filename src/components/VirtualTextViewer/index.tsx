@@ -1,4 +1,4 @@
-import type { CSSProperties, FC, HTMLAttributes, ReactNode } from 'react';
+import type { CSSProperties, FC, HTMLAttributes, ReactNode, UIEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LayoutCursor, PreparedTextWithSegments, WordBreakMode } from '@chenglou/pretext';
 import { layoutNextLineRange, materializeLineRange, measureLineStats, prepareWithSegments } from '@chenglou/pretext';
@@ -249,7 +249,7 @@ const VirtualTextViewer: FC<VirtualTextViewerProps> = (props) => {
     return collectVisibleLines(prepared, lineWidth, startLineIndex, endLineIndex, checkpointCacheRef.current);
   }, [endLineIndex, lineCount, lineWidth, prepared, startLineIndex]);
 
-  const handleScroll = useRefFunction((event: React.UIEvent<HTMLDivElement>) => {
+  const handleScroll = useRefFunction((event: UIEvent<HTMLDivElement>) => {
     setScrollTop(event.currentTarget.scrollTop);
     onScroll?.(event);
   });

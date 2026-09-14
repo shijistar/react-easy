@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext } from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import ReactEasyContext from '../../src/components/ConfigProvider/context';
@@ -80,7 +80,7 @@ describe('ConfigProvider', () => {
 
   it('has a child that can consume getPrefixCls from context', () => {
     const Consumer = () => {
-      const ctx = React.useContext(ReactEasyContext);
+      const ctx = useContext(ReactEasyContext);
       return <span data-prefix={ctx.getPrefixCls?.('test')}>ok</span>;
     };
     const { container } = render(

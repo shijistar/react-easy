@@ -19,7 +19,8 @@ async function decryptAES(encryptedText: string, key: string): Promise<string> {
     }
     if (isNode) {
       // Node.js
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
+
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const crypto = require('crypto');
       const iv = Buffer.from(ivBase64, 'base64');
       const encryptedBuffer = Buffer.from(encryptedBase64, 'base64');

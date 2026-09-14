@@ -1,9 +1,9 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { ComponentType, ReactElement } from 'react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import ConfirmAction from '../../src/components/ConfirmAction/index';
-import withConfirmAction from '../../src/components/ConfirmAction/withConfirmAction';
 import type { ConfirmActionRef } from '../../src/components/ConfirmAction/index';
+import withConfirmAction from '../../src/components/ConfirmAction/withConfirmAction';
 import { BrowserTestWrapper } from './helpers';
 
 afterEach(() => {
@@ -38,7 +38,11 @@ describe('ConfirmAction (browser, real AntD)', () => {
 
   it('opens via trigger Button click', async () => {
     const onOk = vi.fn();
-    renderInBrowser(<ConfirmAction.Button title="Hi" content="Body" onOk={onOk}>Open</ConfirmAction.Button>);
+    renderInBrowser(
+      <ConfirmAction.Button title="Hi" content="Body" onOk={onOk}>
+        Open
+      </ConfirmAction.Button>,
+    );
     fireEvent.click(screen.getByText('Open'));
     await waitFor(() => expect(bodyHasText('Hi')).toBe(true));
   });
@@ -122,11 +126,12 @@ describe('ConfirmAction (browser, real AntD)', () => {
   });
 
   it('shows loading state during async onOk and closes after', async () => {
-    let resolveOnOk: (v: unknown) => void = () => {};
+    let resolveOnOk: (v: unknown) => void = () => undefined;
     const onOk = vi.fn().mockImplementation(
-      () => new Promise((res) => {
-        resolveOnOk = res;
-      }),
+      () =>
+        new Promise((res) => {
+          resolveOnOk = res;
+        }),
     );
     const ref = { current: null as ConfirmActionRef | null };
     renderInBrowser(<ConfirmAction ref={ref as never} title="Async" content="x" onOk={onOk} />);

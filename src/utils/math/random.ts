@@ -39,9 +39,9 @@ function random(min?: number, max?: number): number {
   let nodeCrypto: any;
   if (typeof process !== 'undefined' && process.versions?.node) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       nodeCrypto = require('crypto');
-    } catch (error) {
+    } catch {
       // ignore
     }
   }
@@ -61,7 +61,7 @@ function random(min?: number, max?: number): number {
         : typeof global !== 'undefined'
           ? global
           : ({} as typeof globalThis);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const webCrypto: Crypto | undefined = globalThat.crypto || nodeCrypto?.webcrypto;
 
   if (webCrypto?.getRandomValues) {
@@ -116,7 +116,6 @@ function randomLikeMath(): number {
   }
   /* v8 ignore stop */
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const nodeCrypto = req('crypto') as { randomBytes?: (size: number) => Uint8Array };
   /* v8 ignore start -- crypto.randomBytes always present in Node 7+; guard for broken/hijacked crypto */
   if (typeof nodeCrypto.randomBytes !== 'function') {

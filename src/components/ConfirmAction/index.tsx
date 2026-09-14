@@ -111,7 +111,7 @@ export interface ConfirmActionTrigger<TriggerProp extends object, Event extends 
    */
   onBeforeOpen?: () => Promise<unknown> | unknown;
 }
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ConfirmActionRef<R = {}> = R &
   ReturnType<ModalFunc> & {
     /**
@@ -428,7 +428,7 @@ forwarded.displayName = 'ForwardRef(ConfirmAction)';
  */
 const ConfirmAction = forwarded as unknown as ConfirmActionWithStatic;
 // Type of button
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 ConfirmAction.Button = withDefaultConfirmActionProps<ActionCompConstraint, ButtonProps, 'onClick', {}>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   forwarded as any,
@@ -439,7 +439,7 @@ ConfirmAction.Button = withDefaultConfirmActionProps<ActionCompConstraint, Butto
   },
 );
 // Type of switch
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 ConfirmAction.Switch = withDefaultConfirmActionProps<ActionCompConstraint, SwitchProps, 'onChange', {}>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   forwarded as any,
@@ -450,7 +450,7 @@ ConfirmAction.Switch = withDefaultConfirmActionProps<ActionCompConstraint, Switc
   },
 );
 // Type of link
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 ConfirmAction.Link = withDefaultConfirmActionProps<ActionCompConstraint, LinkProps, 'onClick', {}>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   forwarded as any,

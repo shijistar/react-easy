@@ -112,7 +112,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
       void player.setAudioSource(source);
       appendEventLog('source-change');
     }
-  }, [player, source]);
+  }, [player, source, appendEventLog]);
 
   useEffect(() => {
     if (volumeRef.current === initialVolume) return;
@@ -120,7 +120,7 @@ function UseAudioPlayerStoryDemo({ source, initialVolume, seekStep }: UseAudioPl
     player.setVolume(initialVolume);
     setVolume(initialVolume);
     appendEventLog('volume-change');
-  }, [initialVolume, player]);
+  }, [initialVolume, player, appendEventLog]);
 
   useEffect(() => {
     let cancelled = false;

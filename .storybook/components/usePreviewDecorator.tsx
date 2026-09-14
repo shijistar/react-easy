@@ -52,7 +52,7 @@ const usePreviewDecorator = (
         }
       });
     }
-  }, [lang]);
+  }, [lang, viewModeRef]);
 
   useEffect(() => {
     import(lang === 'zh-CN' ? 'antd/es/locale/zh_CN' : 'antd/es/locale/en_US').then((module) => {

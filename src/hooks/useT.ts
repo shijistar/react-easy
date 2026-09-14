@@ -6,7 +6,7 @@ const useT = (): typeof t => {
   const context = useContext(ReactEasyContext);
   const lang = context.lang;
 
-  // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => t, [lang]);
 };
 

@@ -1,8 +1,9 @@
+import type { ComponentType } from 'react';
 import { getGlobalValueFromUrl } from '../utils/global';
 
 export interface LocalizedDocProps {
-  docEn: React.ComponentType;
-  docCn: React.ComponentType;
+  docEn: ComponentType;
+  docCn: ComponentType;
 }
 
 const langFromUrl = getGlobalValueFromUrl('lang');

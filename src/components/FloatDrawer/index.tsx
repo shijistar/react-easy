@@ -1,4 +1,4 @@
-import type { CSSProperties, FC, ReactNode } from 'react';
+import type { CSSProperties, FC, MouseEvent, ReactNode, PointerEvent as ReactPointerEvent } from 'react';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { CardProps } from 'antd';
@@ -195,7 +195,7 @@ export interface FloatDrawerProps {
    * - **EN:** Event handler for click events on the drawer container and its internal elements
    * - **CN:** 点击抽屉容器及内部元素时的事件
    */
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 /**
@@ -283,7 +283,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
   };
 
   // Handle resize events
-  const handleResizeStart = useRefFunction((e: React.PointerEvent) => {
+  const handleResizeStart = useRefFunction((e: ReactPointerEvent) => {
     setIsDragging(true);
     if (position === 'top' || position === 'bottom') {
       dragStartPos.current = e.clientY;
@@ -345,7 +345,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
       window.removeEventListener('pointermove', handleResize);
       window.removeEventListener('pointerup', handleResizeEnd);
     };
-  }, [isDragging]);
+  }, [isDragging, handleResize, handleResizeEnd]);
 
   return wrapCSSVar(
     <div

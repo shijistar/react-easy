@@ -10,7 +10,7 @@ const useContextValidator = () => {
 import { ConfigProvider } from '@tiny-codes/react-easy';
 <ConfigProvider>
   <App />
-</ConfigProvider>`
+</ConfigProvider>`,
     );
   }
   return context;

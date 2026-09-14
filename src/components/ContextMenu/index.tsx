@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, MouseEvent, ReactNode } from 'react';
 import { forwardRef, useContext, useImperativeHandle, useMemo } from 'react';
 import classNames from 'classnames';
 import type { ItemProps, MenuProps, SeparatorProps, ShowContextMenuParams, SubMenuProps } from 'react-contexify';
@@ -76,7 +76,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
 
   // Show context menu handler
   const handleShow = useRefFunction(
-    (event: React.MouseEvent<HTMLElement>, options?: Pick<ShowContextMenuParams, 'position'>) => {
+    (event: MouseEvent<HTMLElement>, options?: Pick<ShowContextMenuParams, 'position'>) => {
       show({
         id,
         event,
@@ -90,11 +90,11 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
     hideAll();
   });
   const eventHandlers = useMemo(() => {
-    const handlers: Record<string, (event: React.MouseEvent<HTMLElement>) => void> = {};
+    const handlers: Record<string, (event: MouseEvent<HTMLElement>) => void> = {};
     if (trigger) {
       trigger.forEach((eventType) => {
         const [handlerName, leaveHandlerName] = eventNames[eventType];
-        handlers[handlerName] = (event: React.MouseEvent<HTMLElement>) => {
+        handlers[handlerName] = (event: MouseEvent<HTMLElement>) => {
           handleShow(event);
         };
         if (leaveHandlerName) {
@@ -103,7 +103,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
       });
     }
     return handlers;
-  }, [eventNames, trigger]);
+  }, [eventNames, trigger, handleHideAll, handleShow]);
 
   // Expose show and hideAll methods to the ref
   useImperativeHandle(
@@ -112,7 +112,7 @@ const ContextMenu = forwardRef<ContextMenuRef, ContextMenuProps>((props, ref) =>
       show: handleShow,
       hideAll: handleHideAll,
     }),
-    [],
+    [handleHideAll, handleShow],
   );
 
   return (
@@ -234,7 +234,7 @@ function getShortcutText(
 }
 
 export interface ContextMenuRef {
-  show: (event: React.MouseEvent<HTMLElement>) => void;
+  show: (event: MouseEvent<HTMLElement>) => void;
   hideAll: () => void;
 }
 

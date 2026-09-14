@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import names from 'classnames';
 import { Flex, Typography } from 'antd';
 import type { EllipsisConfig } from 'antd/es/typography/Base';
@@ -234,7 +234,7 @@ const EditableText = <
   const inputComp = inputCompInProps ?? (textComp === 'Paragraph' ? 'TextArea' : 'Input');
   const viewBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.view;
   const editingBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.editing;
-  const editableRef = React.useRef(editable);
+  const editableRef = useRef(editable);
   editableRef.current = editable;
   const displayText = useMemo(() => {
     if (typeof displayTextInProps === 'function') {

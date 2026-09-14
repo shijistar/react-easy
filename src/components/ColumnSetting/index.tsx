@@ -1,3 +1,4 @@
+import type { HTMLAttributes, Key, ReactNode } from 'react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Button, Checkbox, Divider, Dropdown, Space, Typography } from 'antd';
@@ -32,7 +33,7 @@ export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingI
    * - **EN:** Function to render custom column titles.
    * - **CN:** 自定义列标题的渲染函数。
    */
-  renderColumnTitle?: (col: ColumnSettingItem, index: number) => React.ReactNode;
+  renderColumnTitle?: (col: ColumnSettingItem, index: number) => ReactNode;
   /**
    * - **EN:** Props for the button that triggers the dropdown.
    * - **CN:** 触发下拉菜单的按钮属性。
@@ -47,7 +48,7 @@ export interface ColumnSettingProps<T extends ColumnSettingItem = ColumnSettingI
    * - **EN:** Props for the dropdown popup container.
    * - **CN:** 下拉菜单弹出层容器的属性。
    */
-  popupProps?: React.HTMLAttributes<HTMLDivElement>;
+  popupProps?: HTMLAttributes<HTMLDivElement>;
   /**
    * - **EN:** Props for the "Check All" button.
    * - **CN:** “全选”按钮的属性。
@@ -172,7 +173,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
   useEffect(() => {
     const next = normalizeToSelectedKeys(columns);
     change(next, false);
-  }, [columns]);
+  }, [columns, change]);
 
   // Fire change on mount if storage exists and differs from initial values
   useEffect(() => {
@@ -183,7 +184,7 @@ function ColumnSetting<T extends ColumnSettingItem = ColumnSettingItem>(props: C
     ) {
       change(selectedKeysFromStorageRef.current, true);
     }
-  }, [initialKeys]);
+  }, [initialKeys, change, selectedKeysFromStorageRef, storageRef]);
 
   const dropdownRender = () => (
     <div
@@ -275,7 +276,7 @@ export interface ColumnSettingItem<T = any> extends ColumnType<T> {
   disabled?: boolean;
 }
 
-function getColKey(col: ColumnType, idx: number): React.Key {
+function getColKey(col: ColumnType, idx: number): Key {
   return col.key ?? (col.dataIndex as string) ?? idx;
 }
 

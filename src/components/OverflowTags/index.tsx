@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { Key, ReactNode } from 'react';
 import { useCallback, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import type { OverflowProps } from 'rc-overflow';
@@ -29,7 +29,7 @@ export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem
    *
    * @default tag => tag.value ?? tag.id
    */
-  getTagKey?: (tag: T) => React.Key;
+  getTagKey?: (tag: T) => Key;
 
   /**
    * - **EN**: Custom tag rendering function
@@ -78,7 +78,7 @@ export interface OverflowTagsProps<T> extends Omit<OverflowProps<T>, 'renderItem
  *     ellipsisTagProps={{ color: 'grey' }}
  *   />;
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const OverflowTags = <T,>(props: OverflowTagsProps<T>) => {
   const {
     tags = [],

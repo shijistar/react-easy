@@ -244,7 +244,7 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
                 }
               };
               sourceNode.connect(node);
-            } catch (err) {
+            } catch {
               fallbackScriptProcessor({ ctx, sourceNode, streamSlicer: pcmStreamSlicerRef.current });
             }
           };
@@ -427,14 +427,14 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
   // Component destroy
   useEffect(() => {
     return stopRecording;
-  }, []);
+  }, [stopRecording]);
 
   // Stop recording when disabled has been changed
   useEffect(() => {
     if (disabled && isRecording) {
       stopRecording();
     }
-  }, [disabled, isRecording]);
+  }, [disabled, isRecording, stopRecording]);
 
   // Update PCM stream slicer time slice when input sample rate changes
   useEffect(() => {
@@ -455,7 +455,7 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
     return () => {
       stopSoundListeningRef.current?.();
     };
-  }, [includeAudio, mediaStream, t]);
+  }, [includeAudio, mediaStream, t, waitForSound]);
 
   useEffect(() => {
     // @ts-expect-error: because dynamic import assets with js

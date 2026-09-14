@@ -14,7 +14,6 @@ export interface FormItemControlProps {
  *   函数，使得子组件能够与表单状态进行交互。这对于创建需要与 Ant Design 的 `Form.Item` 集成的自定义表单控件非常有用。
  */
 const FormItemControl: FC<FormItemControlProps> = (props) => {
-  // eslint-disable-next-line react/prop-types
   const { children, value, onChange } = props as FormItemControlProps & {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any;

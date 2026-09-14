@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactElement } from 'react';
+import type { CSSProperties, MouseEvent, ReactElement } from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import names from 'classnames';
 import type { ButtonProps, FormItemProps, FormProps, InputProps, SpaceProps } from 'antd';
@@ -8,7 +8,7 @@ import { CheckSquareFilled, CloseSquareFilled } from '@ant-design/icons';
 import useT from '../../hooks/useT';
 
 const defaultInputActionGap = 8;
-// eslint-disable-next-line @typescript-eslint/ban-types
+
 export interface EditableFormProps<V, IT extends 'Input' | 'TextArea' | RenderInputInterface> {
   /**
    * - **EN:** Custom prefix for the component's CSS class.
@@ -153,7 +153,6 @@ export interface EditableFormProps<V, IT extends 'Input' | 'TextArea' | RenderIn
   onCancel?: () => void | Promise<void>;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterface>(
   props: EditableFormProps<V, IT>,
 ) => {
@@ -247,7 +246,7 @@ const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterf
   const handleEscape: InputProps['onKeyUp'] = async (e) => {
     if ((inputComp === 'Input' || inputComp === 'TextArea') && e.key === 'Escape') {
       await handleCancel();
-      cancelProps?.onClick?.(e as unknown as React.MouseEvent<HTMLElement>);
+      cancelProps?.onClick?.(e as unknown as MouseEvent<HTMLElement>);
     }
   };
   // Submit editing

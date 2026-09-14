@@ -60,7 +60,7 @@ const ConfigProvider: FC<ConfigProviderProps> & { ConfigContext: typeof ReactEas
         getPrefixCls: getEasyPrefixCls,
       };
     },
-    // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [langInProps, getEasyPrefixCls, ...Object.values(restProps)],
   );
 

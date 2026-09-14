@@ -31,7 +31,7 @@ export const useStoryT = () => {
   const context = useContext(ReactEasyContext);
   const lang = context.lang;
 
-  // eslint-disable-next-line @tiny-codes/react-hooks/exhaustive-deps, @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/no-explicit-any
   return useMemo(() => ((...args: any) => storyT(...args)) as typeof storyT, [lang]);
 };
 

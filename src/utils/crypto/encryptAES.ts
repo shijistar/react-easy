@@ -15,7 +15,8 @@ async function encryptAES(text: string, key: string): Promise<string> {
 
   if (isNode) {
     // Node.js
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const crypto = require('crypto');
     const derivedKey = crypto.createHash('sha256').update(key).digest();
     const iv = crypto.randomBytes(16);

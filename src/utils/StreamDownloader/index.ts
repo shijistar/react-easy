@@ -17,7 +17,7 @@ import type {
   WritableChunkWriter,
 } from './types';
 
-export * from './types';
+export type * from './types';
 export * from './StreamDownloadError';
 
 const INITIAL_SNAPSHOT: Readonly<StreamDownloadSnapshot> = {

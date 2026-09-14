@@ -53,7 +53,7 @@ function withEllipsisTypography<T extends TextProps | ParagraphProps | TitleProp
           detectEllipsis();
         });
       }
-    }, [text, isAuto, dom]);
+    }, [text, isAuto, dom, detectEllipsis]);
 
     return (
       <Tooltip {...((ellipsis as EllipsisConfig)?.tooltip as TooltipProps)} title={tooltipTitle}>

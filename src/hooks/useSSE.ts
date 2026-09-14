@@ -122,7 +122,7 @@ const useSSE = <T = any>(props: UseSSEProps<T>) => {
       connect();
     }
     return abort;
-  }, []);
+  }, [abort, autoConnectRef, connect]);
 
   // Cleanup function
   return {
