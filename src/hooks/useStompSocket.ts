@@ -64,37 +64,39 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
   const { url, sendEndpoint, subscribeEndpoint, connectConfig, onMessage, parseMessageBody, onConnected, onClose } =
     options;
   const t = useT();
-  const socketRef = useRef<WebSocket | undefined>(undefined);
-  const stompClientRef = useRef<Client | undefined>(undefined);
+  // The returned `socket` / `stompClient` are render values, so they are mirrored in state: a ref
+  // would not trigger a re-render and the caller would keep reading a stale (or undefined) handle.
+  const [socket, setSocket] = useState<WebSocket | undefined>(undefined);
+  const [stompClient, setStompClient] = useState<Client | undefined>(undefined);
   const [connecting, setConnecting] = useState(false);
   const isConnectedRef = useRef(false);
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  const [, refresh] = useState<void>();
 
   const connect = useRefFunction(async () => {
     const promise = new Promise<void>((resolve, reject) => {
       try {
         setConnecting(true);
         // Create SockJS instance
-        socketRef.current = new SockJS(url);
+        const nextSocket = new SockJS(url) as WebSocket;
+        setSocket(nextSocket);
 
         // Create STOMP client
-        stompClientRef.current = new Client({
+        const nextClient = new Client({
           heartbeatIncoming: 5000,
           heartbeatOutgoing: 5000,
           ...connectConfig,
-          webSocketFactory: () => socketRef.current,
+          webSocketFactory: () => nextSocket,
         });
+        setStompClient(nextClient);
         // Connect to STOMP server
-        stompClientRef.current.activate();
+        nextClient.activate();
 
         // STOMP server connection established
-        stompClientRef.current.onConnect = () => {
+        nextClient.onConnect = () => {
           setConnecting(false);
           isConnectedRef.current = true;
           onConnected?.();
           if (subscribeEndpoint) {
-            stompClientRef.current?.subscribe(subscribeEndpoint, (response) => {
+            nextClient.subscribe(subscribeEndpoint, (response) => {
               if (parseMessageBody) {
                 onMessage?.(parseMessageBody(response.body));
               } else {
@@ -104,25 +106,23 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
           }
           resolve();
         };
-        stompClientRef.current.onStompError = (error) => {
+        nextClient.onStompError = (error) => {
           console.error('STOMP Error:', error);
         };
-        stompClientRef.current.onWebSocketError = (error) => {
+        nextClient.onWebSocketError = (error) => {
           console.error('WebSocket Error:', error);
         };
-        if (socketRef.current) {
-          socketRef.current.onerror = (error: unknown) => {
-            console.error(error);
-          };
-        }
+        nextSocket.onerror = (error: unknown) => {
+          console.error(error);
+        };
 
-        stompClientRef.current.onWebSocketClose = (event) => {
+        nextClient.onWebSocketClose = (event) => {
           setConnecting(false);
           // Normal close
           if (event.type === 'close' && event.code === 1000) {
             return;
           }
-          stompClientRef.current?.debug('StompClient closed');
+          nextClient.debug('StompClient closed');
           if (isConnectedRef.current) {
             isConnectedRef.current = false;
             onClose?.();
@@ -132,10 +132,10 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
             notification.error({ message: t('hooks.useStompSocket.connectError') });
           }
         };
-        socketRef.current!.onclose = (event) => {
+        nextSocket.onclose = (event) => {
           setConnecting(false);
           isConnectedRef.current = false;
-          stompClientRef.current?.debug('Socket closed');
+          nextClient.debug('Socket closed');
           console.log('event', event);
           onClose?.();
         };
@@ -146,14 +146,15 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
       }
     });
     void promise.catch(() => undefined);
-    refresh();
+    // Let React flush the state updates above, so `socket` and `stompClient` are already available
+    // when the returned promise settles.
     await new Promise((resolve) => setTimeout(resolve));
     return promise;
   });
   const close = useRefFunction(() => {
     try {
-      stompClientRef.current?.deactivate();
-      socketRef.current?.close();
+      stompClient?.deactivate();
+      socket?.close();
       isConnectedRef.current = false;
       setConnecting(false);
     } catch (error) {
@@ -165,7 +166,7 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
       console.error('No publish endpoint defined, unable to send message');
       return;
     }
-    stompClientRef.current?.publish({
+    stompClient?.publish({
       destination: sendEndpoint,
       body,
     });
@@ -175,8 +176,8 @@ function useStompSocket<M = string>(options: UseSocketOptions<M>) {
     close,
     send,
     connecting,
-    socket: socketRef.current,
-    stompClient: stompClientRef.current,
+    socket,
+    stompClient,
   };
 }
 

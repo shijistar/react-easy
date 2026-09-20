@@ -147,6 +147,23 @@ describe('useStompSocket', () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
+  it('exposes the socket and stompClient handles as reactive render values', async () => {
+    const { result } = renderHook(() => useStompSocket({ url: '/socket' }));
+
+    // Nothing is created before connecting.
+    expect(result.current.socket).toBeUndefined();
+    expect(result.current.stompClient).toBeUndefined();
+
+    await act(async () => {
+      void result.current.connect();
+      await Promise.resolve();
+    });
+
+    // Both handles become available without any manual refresh trigger.
+    expect(result.current.socket).toBe(mockState.latestSocket);
+    expect(result.current.stompClient).toBe(mockState.latestClient);
+  });
+
   it('logs low-level errors and handles disconnect notifications', async () => {
     const onClose = vi.fn();
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);

@@ -138,15 +138,22 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
   const soundDetectStart = useRef<number>(0);
   const pcmSampleRateRef = useRef<number>(0);
   const onPcmStreamChunkRef = useRefValue(onPcmStreamChunk);
-  const pcmStreamSlicerRef = useRef(
-    new StreamTimeSlicerClass({
-      sliceMode: streamSliceMode,
-      value: streamSliceValue || 0,
-      onSlice: (channels) => {
-        onPcmStreamChunkRef.current?.(channels, pcmSampleRateRef.current);
-      },
-    }),
-  );
+  // The PCM stream slicer is created on demand instead of during render: constructing it in the
+  // render body both re-allocated it on every render and made its `onSlice` callback read refs
+  // while rendering.
+  const pcmStreamSlicerRef = useRef<StreamTimeSlicerClass | undefined>(undefined);
+  const getPcmStreamSlicer = useRefFunction(() => {
+    if (!pcmStreamSlicerRef.current) {
+      pcmStreamSlicerRef.current = new StreamTimeSlicerClass({
+        sliceMode: streamSliceMode,
+        value: streamSliceValue || 0,
+        onSlice: (channels) => {
+          onPcmStreamChunkRef.current?.(channels, pcmSampleRateRef.current);
+        },
+      });
+    }
+    return pcmStreamSlicerRef.current;
+  });
   const deviceType = useMemo(
     () => (media.video ? t('hooks.useUserMedia.camera') : t('hooks.useUserMedia.microphone')),
     [media, t],
@@ -183,7 +190,9 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
   const recordStream = async () => {
     let stream: MediaStream;
     try {
-      const options = media;
+      // Copy the constraints instead of mutating the `media` prop: assigning to `options.audio`
+      // used to write through to the caller's object.
+      const options: MediaStreamConstraints = { ...media };
       if (media.audio) {
         if (exactAudioDeviceIdRef.current) {
           if (media.audio === true) {
@@ -240,19 +249,19 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
               node.port.onmessage = (e: MessageEvent) => {
                 if (e.data?.type === 'pcm') {
                   const channels = e.data.channels as Float32Array[];
-                  pcmStreamSlicerRef.current.push(channels);
+                  getPcmStreamSlicer().push(channels);
                 }
               };
               sourceNode.connect(node);
             } catch {
-              fallbackScriptProcessor({ ctx, sourceNode, streamSlicer: pcmStreamSlicerRef.current });
+              fallbackScriptProcessor({ ctx, sourceNode, streamSlicer: getPcmStreamSlicer() });
             }
           };
 
           if ('audioWorklet' in ctx) {
             setupWorklet();
           } else {
-            fallbackScriptProcessor({ ctx, sourceNode, streamSlicer: pcmStreamSlicerRef.current });
+            fallbackScriptProcessor({ ctx, sourceNode, streamSlicer: getPcmStreamSlicer() });
           }
         } catch (e) {
           console.error('setup pcm worklet failed', e);
@@ -438,8 +447,9 @@ const useUserMedia = (props: UseUserMediaProps): UseUserMediaResult => {
 
   // Update PCM stream slicer time slice when input sample rate changes
   useEffect(() => {
-    if (streamSliceValue && pcmStreamSlicerRef.current.value !== streamSliceValue) {
-      pcmStreamSlicerRef.current.value = streamSliceValue;
+    const slicer = pcmStreamSlicerRef.current;
+    if (slicer && streamSliceValue && slicer.value !== streamSliceValue) {
+      slicer.value = streamSliceValue;
     }
   }, [streamSliceValue]);
 
