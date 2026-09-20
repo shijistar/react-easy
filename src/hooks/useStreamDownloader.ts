@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import type {
   StreamDownloaderInit,
+  StreamDownloadListener,
   StreamDownloadRequest,
   StreamDownloadSnapshot,
   StreamDownloadSuccessResult,
 } from '../utils/StreamDownloader';
 import StreamDownloader from '../utils/StreamDownloader';
-import useRefValue from './useRefValue';
 
 /**
  * - **EN:** Hook options for `useStreamDownloader`.
@@ -70,30 +70,34 @@ export interface UseStreamDownloaderResult {
  *   配置，例如构造默认值与自动释放行为
  */
 const useStreamDownloader = (options?: UseStreamDownloaderOptions): UseStreamDownloaderResult => {
-  const ref = useRef<StreamDownloader | null>(null);
+  // Hold the instance in state rather than a ref: it is part of the returned value, so it must be a
+  // render value. The lazy initializer creates it exactly once per mounted component.
+  // https://react.dev/reference/react/useState#avoiding-recreating-the-initial-state
+  const [downloader] = useState(() => new StreamDownloader(options));
 
-  // Lazily create exactly one downloader instance for the current mounted hook lifecycle.
-  if (!ref.current) {
-    ref.current = new StreamDownloader(options);
-  }
-
-  const downloader = ref.current;
-  const snapshot = useSyncExternalStore(
-    downloader.subscribe.bind(downloader),
-    downloader.getSnapshot.bind(downloader),
-    downloader.getSnapshot.bind(downloader),
+  // Stable bindings, so `useSyncExternalStore` does not unsubscribe/resubscribe on every render.
+  const store = useMemo(
+    () => ({
+      subscribe: (listener: StreamDownloadListener) => downloader.subscribe(listener),
+      getSnapshot: () => downloader.getSnapshot(),
+    }),
+    [downloader],
   );
+  const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot);
 
   // Keep the latest auto-dispose preference in a ref so unmount cleanup observes the newest value
-  // without forcing downloader recreation on every render.
-  const autoDisposeRef = useRefValue(options?.autoDispose);
+  // without forcing downloader recreation on every render. It is written from an effect (never
+  // during render) and read by the cleanup below.
+  const autoDisposeRef = useRef(options?.autoDispose);
+  useEffect(() => {
+    autoDisposeRef.current = options?.autoDispose;
+  }, [options?.autoDispose]);
 
   useEffect(() => {
     return () => {
       if (autoDisposeRef.current !== false) {
         downloader.dispose();
       }
-      ref.current = null;
     };
   }, [downloader]);
 

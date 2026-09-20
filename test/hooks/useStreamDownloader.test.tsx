@@ -87,4 +87,42 @@ describe('useStreamDownloader', () => {
 
     expect(disposeSpy).not.toHaveBeenCalled();
   });
+
+  it('honors the latest autoDispose preference when it changes while mounted', () => {
+    const { result, rerender, unmount } = renderHook(
+      ({ autoDispose }: { autoDispose: boolean }) => useStreamDownloader({ autoDispose }),
+      { initialProps: { autoDispose: true } },
+    );
+    const disposeSpy = vi.spyOn(result.current.downloader, 'dispose');
+
+    // true -> false: unmount must observe the newest preference and skip disposing.
+    rerender({ autoDispose: false });
+    unmount();
+    expect(disposeSpy).not.toHaveBeenCalled();
+  });
+
+  it('disposes on unmount after autoDispose is turned back on', () => {
+    const { result, rerender, unmount } = renderHook(
+      ({ autoDispose }: { autoDispose: boolean }) => useStreamDownloader({ autoDispose }),
+      { initialProps: { autoDispose: false } },
+    );
+    const disposeSpy = vi.spyOn(result.current.downloader, 'dispose');
+
+    rerender({ autoDispose: true });
+    unmount();
+
+    expect(disposeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the same instance when options change', () => {
+    const { result, rerender } = renderHook(
+      ({ autoDispose }: { autoDispose: boolean }) => useStreamDownloader({ autoDispose }),
+      { initialProps: { autoDispose: true } },
+    );
+    const firstDownloader = result.current.downloader;
+
+    rerender({ autoDispose: false });
+
+    expect(result.current.downloader).toBe(firstDownloader);
+  });
 });

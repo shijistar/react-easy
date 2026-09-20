@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { App as AntdApp, Space, Typography } from 'antd';
-import ConfigProvider, { type ConfigProviderProps } from '../../../../src/components/ConfigProvider';
+import type { ConfigProviderProps } from '../../../../src/components/ConfigProvider';
+import ConfigProvider from '../../../../src/components/ConfigProvider';
 import ConfirmAction from '../../../../src/components/ConfirmAction';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
