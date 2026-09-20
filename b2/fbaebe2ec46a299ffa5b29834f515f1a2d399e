@@ -1,0 +1,58 @@
+.storybook/stories/hooks/usePropState/introduce.zh-CN.md
+  s_6d802aeed1558f::t_6dbb353c4dfab7 19-24,26-33
+  s_6d802aeed1558f::t_53c1bdd6945a3c 1-18,34-60
+  h_99cad05bea77d1 25
+.storybook/stories/hooks/usePropState/introduce.en-US.md
+  s_6d802aeed1558f::t_b1a31e5a15c0ae 58
+  h_99cad05bea77d1 25
+  s_6d802aeed1558f::t_cc9f41c2057a92 19-24,26-33
+  s_6d802aeed1558f::t_846cff7b230c7e 1-18,34-57,59-60
+README.md
+  s_6d802aeed1558f::t_101eebe9f205cb 207
+.storybook/locales/langs/en-US.ts
+  s_6d802aeed1558f::t_359320ae9f6334 568-574
+  s_6d802aeed1558f::t_6affad80cf2879 545-567,575-579
+.storybook/stories-list.json
+  s_6d802aeed1558f::t_dc875f764d7527 23
+.storybook/stories/hooks/usePropState/api-doc.en-US.md
+  s_6d802aeed1558f::t_6a60d66fa673d3 1-11,16-23
+  s_6d802aeed1558f::t_b1a31e5a15c0ae 12-15
+.storybook/stories/hooks/usePropState/index.stories.tsx
+  s_6d802aeed1558f::t_07418b3b2ee124 77-90
+  s_6d802aeed1558f::t_b1a31e5a15c0ae 198-199
+  s_6d802aeed1558f::t_f778a21ea068c4 236-277,279-286
+  s_6d802aeed1558f::t_acd53b1aa76226 137-140
+  s_6d802aeed1558f::t_7f0fb649699a14 1-76,91-136,141-197,200-235
+  s_6d802aeed1558f::t_7bcde9e95a6271 278
+README.zh-CN.md
+  s_6d802aeed1558f::t_de29db0274e154 207
+.storybook/stories/hooks/usePropState/api-doc.zh-CN.md
+  s_6d802aeed1558f::t_b1a31e5a15c0ae 5-8,12-16,20-22
+  s_6d802aeed1558f::t_58d7ab44787e47 1-4,9-11,17-19,23
+.storybook/locales/langs/zh-CN.ts
+  s_6d802aeed1558f::t_f7a56ed577c51e 503-524,532-536
+  s_6d802aeed1558f::t_ff6bf3d25b87f2 525-531
+test/hooks/usePropState.story.test.tsx
+  s_6d802aeed1558f::t_3f200761efe31b 1-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "b2fbaebe2ec46a299ffa5b29834f515f1a2d399e",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
