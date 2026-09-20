@@ -1,0 +1,67 @@
+test/hooks/usePropState.test.tsx
+  s_6d802aeed1558f::t_65e8e851ee0a71 118,124-127,129-148
+  s_6d802aeed1558f::t_4d1703460a8781 106,128
+  s_6d802aeed1558f::t_14b2aec07313dd 1-105,107-117,119-123,149-150
+src/components/FloatDrawer/index.tsx
+  s_6d802aeed1558f::t_250e1d09391905 7
+  s_6d802aeed1558f::t_4d95a8d99a0785 241
+  s_6d802aeed1558f::t_9f875e60baa89d 358
+  s_6d802aeed1558f::t_ff36091445dfd3 321-327,330
+src/hooks/useRefFunction.ts
+  h_99cad05bea77d1 16,19
+src/hooks/index.ts
+  s_6d802aeed1558f::t_a9ca884938d342 14-16
+test/components/barrel.test.tsx
+  s_6d802aeed1558f::t_e91d3537799802 43
+src/hooks/useRefValue.ts
+  h_99cad05bea77d1 14
+CHANGELOG.md
+  h_99cad05bea77d1 5,7,11-17
+  h_99cad05bea77d1 6,8-10
+src/components/EditableText/index.tsx
+  s_6d802aeed1558f::t_51557f1313c492 11
+  s_6d802aeed1558f::t_d6cdfdbe7f5e8b 236
+  s_6d802aeed1558f::t_2c01bd8bf422c8 2
+  s_6d802aeed1558f::t_7435e3ad12366a 234
+src/hooks/usePropState.ts
+  s_6d802aeed1558f::t_c4a1641ce17537 5-6,8,11-13,20,22,29
+  h_99cad05bea77d1 7,9-10
+  s_6d802aeed1558f::t_b3fb619541e924 42-72
+  s_6d802aeed1558f::t_0fa0cc745a6866 2-4
+  s_6d802aeed1558f::t_f5bb6b2267364a 14-19
+  s_6d802aeed1558f::t_8ebc17fd67d704 21
+  s_6d802aeed1558f::t_3f37c7b8242ccf 23-28
+  s_6d802aeed1558f::t_ba7156a1c4aa54 30-32,39-41
+  s_6d802aeed1558f::t_cf1d354aa264ae 73-75
+  h_99cad05bea77d1 1,33-38,76-79
+test/components/FloatDrawer.test.tsx
+  s_6d802aeed1558f::t_4bb5e8c3b93666 336
+src/components/ModalAction/index.tsx
+  s_6d802aeed1558f::t_c394d0a082c04d 8
+  s_6d802aeed1558f::t_130ed801cb4f6a 271,276
+  s_6d802aeed1558f::t_9265471655c71c 291-297
+  h_99cad05bea77d1 227,229,253-258,316,366,375,417,819
+  s_6d802aeed1558f::t_e69b4507f3ba38 230-233
+  h_99cad05bea77d1 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4db691e0ac29a158f7bb0fc0833aa2e11a48a781",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
