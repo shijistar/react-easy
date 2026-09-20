@@ -16,8 +16,8 @@ export interface SelectNodeProps<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ValueType = any,
   OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType,
-> extends SelectProps<ValueType, OptionType>,
-    BaseDecoratorNodeProps {
+>
+  extends SelectProps<ValueType, OptionType>, BaseDecoratorNodeProps {
   /**
    * - EN: When reading editor textContent, whether to use option label or value. Default `value`.
    * - CN: 在获取 editor 的 textContent 时，使用选项的 label 还是 value。默认 `value`。

@@ -503,19 +503,15 @@ function mergeProps<
 
 function FormCreator<FD extends object>(props: { onCreate: (form: FormInstance<FD> | undefined) => void }) {
   const { onCreate } = props;
-  // v8 ignore start -- esbuild/v8 split `const x = <expr>` into a binding statement plus an
-  // initializer statement; v8 attributes hits only to the initializer, so the binding line is
-  // falsely reported as an uncovered statement although the line itself executes.
-  const onCreateRef = useRef(onCreate);
-  // v8 ignore stop
-  onCreateRef.current = onCreate;
+  const onCreateRef = useRefValue(onCreate);
   const [form] = Form.useForm<FD>();
 
   // output ref
   useEffect(() => {
-    onCreateRef.current(form);
+    const handler = onCreateRef.current;
+    handler(form);
     return () => {
-      onCreateRef.current(undefined);
+      handler(undefined);
     };
   }, [form]);
 
@@ -563,12 +559,13 @@ export const withDefaultModalActionProps = <
     const useDefaultProps = typeof defaultProps === 'function' ? defaultProps : () => defaultProps;
     const defaults = useDefaultProps(props, modalActionRef);
     const mergedProps = typeof defaultProps === 'function' ? mergeProps(props, defaults) : mergeProps(defaults, props);
-    RenderWithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
 
     useImperativeHandle(ref, () => modalActionRef as ModalActionRef<Ref, FormData>, [modalActionRef]);
 
     return <WrappedComponent ref={setModalActionRef} {...mergedProps} />;
   };
+  RenderWithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
+
   // v8 ignore start -- forwardRef is not need in React19
   const WithDefaultProps = forwardRef(RenderWithDefaultProps);
   // v8 ignore stop

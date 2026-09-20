@@ -224,7 +224,7 @@ export interface StreamDownloadAxiosOptions {
   adapter /**
    * - **EN:** Force axios to use the fetch adapter.
    * - **CN:** 强制 axios 使用 fetch adapter。
-   */ : 'fetch';
+   */: 'fetch';
   /**
    * - **EN:** Injected axios instance.
    * - **CN:** 注入的 axios 实例。
@@ -314,7 +314,7 @@ export interface AxiosStreamDownloadRequest extends StreamDownloadBaseRequest {
   transport /**
    * - **EN:** Explicitly choose the injected axios path.
    * - **CN:** 显式选择注入的 axios 路径。
-   */ : 'axios';
+   */: 'axios';
   /**
    * - **EN:** HTTP method used by axios.
    * - **CN:** axios 使用的 HTTP 方法。
@@ -355,7 +355,7 @@ export interface StreamDownloadSuccessResult {
   status /**
    * - **EN:** The task completed successfully.
    * - **CN:** 任务已成功完成。
-   */ : 'success';
+   */: 'success';
   /**
    * - **EN:** Final file name used for saving.
    * - **CN:** 最终用于保存的文件名。
@@ -381,10 +381,10 @@ export interface StreamDownloadSuccessResult {
    * - **CN:** 运行时选定的具体保存策略。
    */
   saveStrategy: /**
-   * - **EN:** Saved through the File System Access API.
-   * - **CN:** 通过 File System Access API 保存。
-   */
-  | 'file-system-access'
+     * - **EN:** Saved through the File System Access API.
+     * - **CN:** 通过 File System Access API 保存。
+     */
+    | 'file-system-access'
     /**
      * - **EN:** Saved through StreamSaver.
      * - **CN:** 通过 StreamSaver 保存。

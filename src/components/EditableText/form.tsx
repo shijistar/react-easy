@@ -393,8 +393,10 @@ function pxToNumber(px: string | number | null | undefined) {
 }
 
 export type RenderInputInterface = <V>(props: RenderInputProps<V>) => ReactElement | null;
-export interface RenderInputProps<V>
-  extends Omit<EditableFormProps<V, 'Input'>, 'inputComp' | 'inputProps' | 'onOk' | 'onCancel'> {
+export interface RenderInputProps<V> extends Omit<
+  EditableFormProps<V, 'Input'>,
+  'inputComp' | 'inputProps' | 'onOk' | 'onCancel'
+> {
   onChange?: (value: V | undefined) => void;
   submit(): Promise<void>;
   cancel(): Promise<void>;

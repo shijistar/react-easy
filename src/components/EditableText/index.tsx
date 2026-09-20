@@ -11,8 +11,8 @@ import { EditOutlined } from '@ant-design/icons';
 import useRefValue from '../../hooks/useRefValue';
 import useT from '../../hooks/useT';
 import ConfigProvider from '../ConfigProvider';
-import type { EditableFormProps, RenderInputInterface } from './form';
 import EditableTextForm from './form';
+import type { EditableFormProps, RenderInputInterface } from './form';
 import useStyle from './style';
 
 const getEllipsisConfig = (content: ReactNode | undefined): EllipsisConfig => ({
@@ -246,9 +246,15 @@ const EditableText = <
   }, [displayTextInProps, value]);
 
   // Controlled value props
-  if (value !== valueInProps) {
-    setValue(valueInProps);
-  }
+  useEffect(() => {
+    setValue((prev) => {
+      if (prev !== valueInProps) {
+        return valueInProps;
+      }
+      return prev;
+    });
+  }, [valueInProps]);
+
   // Controlled editing props
   useEffect(() => {
     if (editableRef.current) {

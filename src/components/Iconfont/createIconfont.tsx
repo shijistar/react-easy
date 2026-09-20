@@ -8,8 +8,10 @@ import ConfigProvider from '../ConfigProvider';
  * - **EN:** Props for the Iconfont component
  * - **CN:** Iconfont 组件的props
  */
-export interface IconfontProps<T extends string = string>
-  extends Omit<AntIconFontProps<T>, 'type' | 'size' | 'spin' | 'rotate'> {
+export interface IconfontProps<T extends string = string> extends Omit<
+  AntIconFontProps<T>,
+  'type' | 'size' | 'spin' | 'rotate'
+> {
   /**
    * - **EN:** Icon name. Find an icon in iconfont and click `Copy Code`
    * - **CN:** 图标名称。在 iconfont 中找到某个图标，点击`复制代码`

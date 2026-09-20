@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import useRefValue from './useRefValue';
 
 type SetStateAction<T> = T | ((prev: T) => T);
 
@@ -39,8 +40,7 @@ function useLocalStorage<T>(
   const serialize = options?.serialize ?? defaultSerialize;
   const deserialize = options?.deserialize ?? defaultDeserialize;
 
-  const initialValueRef = useRef(initialValue);
-  initialValueRef.current = initialValue;
+  const initialValueRef = useRefValue(initialValue);
 
   const getInitial = useCallback((): T => {
     const fallback = (() => {

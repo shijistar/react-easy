@@ -6,6 +6,7 @@ import type {
   StreamDownloadSuccessResult,
 } from '../utils/StreamDownloader';
 import StreamDownloader from '../utils/StreamDownloader';
+import useRefValue from './useRefValue';
 
 /**
  * - **EN:** Hook options for `useStreamDownloader`.
@@ -85,8 +86,7 @@ const useStreamDownloader = (options?: UseStreamDownloaderOptions): UseStreamDow
 
   // Keep the latest auto-dispose preference in a ref so unmount cleanup observes the newest value
   // without forcing downloader recreation on every render.
-  const autoDisposeRef = useRef(options?.autoDispose);
-  autoDisposeRef.current = options?.autoDispose;
+  const autoDisposeRef = useRefValue(options?.autoDispose);
 
   useEffect(() => {
     return () => {

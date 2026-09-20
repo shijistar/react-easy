@@ -124,8 +124,7 @@ export interface StreamTimeSlicerOptions {
  * - **CN:** 数据流时间切片器
  */
 export interface StreamTimeSlicer
-  extends Readonly<Pick<StreamTimeSlicerOptions, 'sliceMode'>>,
-    Pick<StreamTimeSlicerOptions, 'value'> {
+  extends Readonly<Pick<StreamTimeSlicerOptions, 'sliceMode'>>, Pick<StreamTimeSlicerOptions, 'value'> {
   /**
    * - **EN:** Push a frame (multi-channel data obtained from the same callback)
    * - **CN:** 推入一帧（同一次回调得到的多通道）
