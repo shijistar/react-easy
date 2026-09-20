@@ -54,6 +54,31 @@ describe('useProcessingText', () => {
     unmount();
   });
 
+  it('restarts from zero after being re-enabled', () => {
+    const { result, rerender } = renderHook(
+      ({ enabled }) => useProcessingText({ enabled, prefixText: 'Work', dotText: '*', interval: 100, maxDots: 3 }),
+      { initialProps: { enabled: true } },
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(200);
+    });
+    expect(result.current).toBe('Work**');
+
+    rerender({ enabled: false });
+    expect(result.current).toBe('Work');
+
+    // The dot count was cleared while disabled, so re-enabling starts from zero instead of jumping
+    // straight back to the previous count.
+    rerender({ enabled: true });
+    expect(result.current).toBe('Work');
+
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
+    expect(result.current).toBe('Work*');
+  });
+
   it('uses default props and leaves timers untouched when initially disabled', () => {
     const clearIntervalSpy = vi.spyOn(window, 'clearInterval');
     const { result, unmount } = renderHook(() => useProcessingText({ enabled: false }));

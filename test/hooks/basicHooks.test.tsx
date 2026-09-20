@@ -102,6 +102,23 @@ describe('basic hooks', () => {
     expect(instance.dispose).toHaveBeenCalledTimes(1);
   });
 
+  it('keeps a stable player identity and disposes it under StrictMode', () => {
+    const { result, rerender, unmount } = renderHook(({ value }) => useAudioPlayer(value), {
+      initialProps: { value: { source: 'a.mp3' } },
+      reactStrictMode: true,
+    });
+    const player = result.current as unknown as { dispose: ReturnType<typeof vi.fn> };
+
+    // StrictMode's simulated unmount used to null the ref behind this instance, so the next render
+    // produced a *different* player and the first one was never disposed.
+    rerender({ value: { source: 'b.mp3' } });
+    expect(result.current).toBe(player);
+
+    unmount();
+
+    expect(player.dispose).toHaveBeenCalled();
+  });
+
   it('useT returns the shared translation function from context language', () => {
     const wrapper = createWrapper({ lang: 'zh-CN' });
     const { result, rerender } = renderHook(() => useT(), { wrapper });

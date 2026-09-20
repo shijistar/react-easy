@@ -114,7 +114,7 @@ const useSplitter = (props: UseSplitterProps) => {
   const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const directionRef = useRefValue(direction);
   const [splitterRef, setSplitterRef] = useState<HTMLDivElement | null>(null);
-  const [container, setContainer] = useState(containerFromProps);
+  const container = containerFromProps ?? (splitterRef?.parentElement as HTMLDivElement | undefined) ?? undefined;
   const [percent, setPercent] = useState(defaultRatio);
   const percentRef = useRefValue(percent);
   const onChangeRef = useRefValue(onChange);
@@ -157,11 +157,6 @@ const useSplitter = (props: UseSplitterProps) => {
       window.removeEventListener('pointerup', onUp);
     };
   }, [container, dragging, direction, minRatioRef, maxRatioRef, onChangeRef]);
-
-  useEffect(() => {
-    const containerDom = containerFromProps ?? (splitterRef?.parentElement as HTMLDivElement | undefined) ?? undefined;
-    setContainer(containerDom);
-  }, [containerFromProps, splitterRef]);
 
   // Initialize percent and width on mount
   useEffect(() => {

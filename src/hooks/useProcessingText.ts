@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface UseProcessingTextProps {
   /**
@@ -49,23 +49,25 @@ export interface UseProcessingTextProps {
 function useProcessingText(props?: UseProcessingTextProps) {
   const { enabled = true, prefixText = '', dotText = '.', interval = 300, maxDots = 3 } = props || {};
   const [dots, setDots] = useState(0);
-  const timerRef = useRef(0);
 
+  // Clear the dots during render, in the very render that observes `enabled === false`. Doing it here
+  // instead of inside the effect avoids a second render pass with a stale dot count.
+  // https://react.dev/reference/react/useState#storing-information-from-previous-renders
+  if (!enabled && dots !== 0) {
+    setDots(0);
+  }
+
+  // The effect only subscribes to the interval and tears it down again. When the animation is
+  // disabled no timer is created, so the cleanup has nothing to clear.
   useEffect(() => {
-    if (enabled) {
-      timerRef.current = window.setInterval(() => {
-        setDots((prev) => (prev + 1) % (maxDots + 1));
-      }, interval);
-    } else {
-      setDots(0);
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+    if (!enabled) {
+      return;
     }
+    const timer = window.setInterval(() => {
+      setDots((prev) => (prev + 1) % (maxDots + 1));
+    }, interval);
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      window.clearInterval(timer);
     };
   }, [enabled, interval, maxDots]);
 
