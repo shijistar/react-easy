@@ -1,20 +1,11 @@
 import type { ComponentType, FC, ForwardedRef, ForwardRefRenderFunction, ReactNode, RefAttributes } from 'react';
-import {
-  forwardRef,
-  useCallback,
-  useContext,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-  version,
-} from 'react';
+import { forwardRef, useCallback, useContext, useEffect, useImperativeHandle, useRef, useState, version } from 'react';
 import { isForwardRef } from 'react-is';
 import type { ButtonProps, FormInstance, ModalProps, SwitchProps } from 'antd';
 import { Button, Form, Modal, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import useContextValidator from '../../hooks/useContextValidator';
+import usePropState from '../../hooks/usePropState';
 import useRefValue from '../../hooks/useRefValue';
 import ReactEasyContext from '../ConfigProvider/context';
 
@@ -233,9 +224,13 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     useContextValidator();
     const REACT_MAJOR = parseInt(version.split('.')[0], 10);
     const FormComp = formComp as ComponentType<FormCompPropsConstraint<FormData> & RefAttributes<Ref>>;
+    // Trigger event data is read during render (passed to the form component), so it must be state.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const triggerEventArgsRef = useRef<any[]>(undefined);
-    const [open, setOpen] = useState(false);
+    const [triggerEventArgs, setTriggerEventArgs] = useState<any[] | undefined>(undefined);
+    const [open, setOpen] = usePropState<boolean>(openInProps, {
+      fallback: false,
+      enabled: openInProps !== undefined,
+    });
     const saveFuncRef = useRef<(formData: FormData, ...args: any[]) => unknown>(undefined);
     const [isSaving, setIsSaving] = useState(false);
     const [formCompRef, setFormCompRef] = useState<Ref | null>(null);
@@ -246,13 +241,6 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
     const openListenerRef = useRef<ModalProps['afterOpenChange']>(undefined);
     const beforeOpenResultRef = useRef<unknown>(undefined);
 
-    // Listen to the open props changes
-    useEffect(() => {
-      if (openInProps !== undefined) {
-        setOpen(openInProps);
-      }
-    }, [openInProps]);
-
     // Reset the form after closed
     useEffect(() => {
       if (!destroyOnCloseRef.current && open && formRef.current) {
@@ -262,14 +250,12 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
 
     // show trigger
     const showInProps = triggerProps?.show;
-    const showTrigger = useMemo(() => {
-      if (typeof showInProps === 'boolean') {
-        return showInProps;
-      } else if (typeof showInProps === 'function') {
-        return showInProps(formProps);
-      }
-      return true;
-    }, [showInProps, formProps]);
+    const showTrigger =
+      typeof showInProps === 'boolean'
+        ? showInProps
+        : typeof showInProps === 'function'
+          ? showInProps(formProps)
+          : true;
 
     // Show the dialog
     const showModal = useCallback(async () => {
@@ -282,12 +268,12 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
         console.error(error);
         throw error;
       }
-    }, [onBeforeOpenRef]);
+    }, [onBeforeOpenRef, setOpen]);
     // Hide the dialog
     const hideModal = useCallback(() => {
       setOpen(false);
       openListenerRef.current?.(false);
-    }, []);
+    }, [setOpen]);
     // Set the dialog status listener
     const setOpenListener = useCallback(
       (listener: ModalProps['afterOpenChange']) => {
@@ -302,10 +288,13 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
       saveFuncRef.current = handler;
     }, []);
     // Set the dialog status and trigger the onOpenChange event of the form component
-    const handleSetOpen = useCallback((open: boolean) => {
-      setOpen(open);
-      openListenerRef.current?.(open);
-    }, []);
+    const handleSetOpen = useCallback(
+      (open: boolean) => {
+        setOpen(open);
+        openListenerRef.current?.(open);
+      },
+      [setOpen],
+    );
 
     // Output ref
     useImperativeHandle(ref, () => ({ ...formCompRef, form, show: showModal }) as ModalActionRef<Ref, FormData>, [
@@ -324,7 +313,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
             {...((triggerEvent
               ? {
                   [triggerEvent]: async (...args: any[]) => {
-                    triggerEventArgsRef.current = args;
+                    setTriggerEventArgs(args);
                     await showModal();
                     if (triggerProps && typeof triggerProps[triggerEvent] === 'function') {
                       (triggerProps[triggerEvent] as (...args: any[]) => void)(...args);
@@ -374,7 +363,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
             try {
               setIsSaving(true);
               // First call onSave of the form component
-              let result = await saveFuncRef.current?.(formData, ...(triggerEventArgsRef.current ?? []));
+              let result = await saveFuncRef.current?.(formData, ...(triggerEventArgs ?? []));
               // The onSave of the form component has the ability to prevent the dialog from closing
               if (result === SubmitWithoutClosingSymbol) {
                 throw new Error('SubmitWithoutClosing');
@@ -383,7 +372,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
               if (onOk) {
                 result = await onOk(
                   (result as FormData) ?? formData,
-                  ...((triggerEventArgsRef.current ?? []).concat({
+                  ...((triggerEventArgs ?? []).concat({
                     beforeOpenResult: beforeOpenResultRef.current,
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   }) as any),
@@ -425,7 +414,7 @@ export const genModalActionRenderer = (defaultProps: Partial<ModalActionProps<an
               form={form}
               onOpenChange={setOpenListener}
               onSave={setOnSaveHandler}
-              triggerEventData={triggerEventArgsRef.current}
+              triggerEventData={triggerEventArgs}
               setOpen={handleSetOpen}
               updateModalProps={setUserModalProps}
             />
@@ -816,7 +805,6 @@ export function withModalAction<
       typeof defaultProps === 'function'
         ? mergeProps(globalDefaults, props, defaults)
         : mergeProps(globalDefaults, defaults, props);
-    RenderWithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
 
     useImperativeHandle(ref, () => modalActionRef as ModalActionRef<Ref, FormData>, [modalActionRef]);
 
@@ -828,6 +816,7 @@ export function withModalAction<
       />
     );
   };
+  RenderWithDefaultProps.displayName = 'ForwardRef(WithDefaultProps)';
   // v8 ignore start -- forwardRef is not need in React19
   const WithDefaultProps = forwardRef(RenderWithDefaultProps);
   // v8 ignore stop

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import type { CardProps } from 'antd';
 import { Card } from 'antd';
 import { DownOutlined, LeftOutlined, RightOutlined, UpOutlined } from '@ant-design/icons';
+import usePropState from '../../hooks/usePropState';
 import useRefFunction from '../../hooks/useRefFunction';
 import ConfigProvider from '../ConfigProvider';
 import useStyle from './style';
@@ -228,7 +229,6 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
   const { getPrefixCls } = useContext(ConfigProvider.ConfigContext);
   const prefixCls = getPrefixCls('float-drawer', prefixClsInProps);
   const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
-  const [drawerRef, setDrawerRef] = useState<HTMLDivElement | null>(null);
   const [size, setSize] = useState(
     cacheKey && localStorage.getItem(cacheKey) ? Number(localStorage.getItem(cacheKey)) || defaultSize : defaultSize,
   );
@@ -238,7 +238,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
       [type]: size,
     };
   }, [position, size]);
-  const [isOpen, setIsOpen] = useState<boolean>();
+  const [isOpen, setIsOpen] = usePropState<boolean | undefined>(open);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartPos = useRef<number>(0);
   const dragStartSize = useRef<number>(size);
@@ -318,19 +318,16 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
     setIsDragging(false);
   });
 
-  // Monitor drawer ref, calculate size if not set
-  // This is useful for initial rendering when size is not provided
-  useEffect(() => {
-    if (drawerRef && size === undefined) {
-      const rect = drawerRef.getBoundingClientRect();
+  // Measure the drawer size when the element is first attached and no size was provided,
+  // so the drawer adapts to its content size.
+  // Measuring inside the ref callback (instead of a layout effect) avoids a cascading render:
+  // the callback runs during the commit phase, so it still happens before paint.
+  const measureDrawer = useRefFunction((node: HTMLDivElement | null) => {
+    if (node && size === undefined) {
+      const rect = node.getBoundingClientRect();
       setSize(position === 'left' || position === 'right' ? rect.width : rect.height);
     }
-  }, [drawerRef, position, size]);
-
-  // Controlled open state
-  useEffect(() => {
-    setIsOpen(open);
-  }, [open]);
+  });
 
   // Handle global events
   useEffect(() => {
@@ -358,7 +355,7 @@ const FloatDrawer: FC<FloatDrawerProps> = (props) => {
       onClick={onClick}
     >
       <div
-        ref={setDrawerRef}
+        ref={measureDrawer}
         className={classNames(`${prefixCls}-drawer`, classNamesInProps?.drawer)}
         style={{ ...sizeMap, ...styles?.drawer }}
       >

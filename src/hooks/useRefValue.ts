@@ -11,6 +11,7 @@ import { useRef } from 'react';
  */
 const useRefValue = <T>(value: T): MutableRefObject<T> => {
   const ref = useRef<T>(value);
+  // eslint-disable-next-line react-hooks/refs
   ref.current = value;
   return ref;
 };

@@ -333,7 +333,7 @@ describe('FloatDrawer', () => {
   });
 
   it('does not resize when starting size is falsy (dragStartSize guard)', async () => {
-    // No defaultSize and no cacheKey: the measure effect (L323-328) sets size
+    // No defaultSize and no cacheKey: the measure ref callback sets size
     // from getBoundingClientRect, which jsdom reports as 0. dragStartSize.current
     // becomes 0 (falsy), so handleResize's `isDragging && dragStartSize.current`
     // guard takes the false branch and no size update happens.

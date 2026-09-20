@@ -13,8 +13,10 @@ import { useCallback, useRef } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useRefFunction = <T extends (...args: any[]) => any>(fn: T | undefined) => {
   const ref = useRef<T | undefined>(fn);
+  // eslint-disable-next-line react-hooks/refs
   ref.current = fn;
 
+  // eslint-disable-next-line react-hooks/use-memo
   return useCallback(((...args: any[]) => ref.current?.(...args)) as T, []);
 };
 

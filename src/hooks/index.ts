@@ -11,6 +11,9 @@ export { default as useMovable } from './useMovable';
 export * from './useProcessingText';
 export { default as useProcessingText } from './useProcessingText';
 
+export * from './usePropState';
+export { default as usePropState } from './usePropState';
+
 export { default as useRefFunction } from './useRefFunction';
 
 export { default as useRefValue } from './useRefValue';

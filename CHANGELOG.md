@@ -2,6 +2,19 @@
 
 # Changelog
 
+## 2.3.0
+
+2026-9-20
+
+### Features
+
+- Add `usePropState` hook to sync state base on component props
+- Eliminate react compiler related eslint errors
+
+### Chore
+
+- Upgrade `@tiny-codes/code-style-all-in-one`
+
 ## 2.2.0
 
 2026-8-8

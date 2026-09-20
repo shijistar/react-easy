@@ -40,6 +40,7 @@ describe('components barrel', () => {
       'useLocalStorage',
       'useMovable',
       'useProcessingText',
+      'usePropState',
       'useRefFunction',
       'useRefValue',
       'useRowSelection',

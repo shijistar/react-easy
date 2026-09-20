@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import names from 'classnames';
 import { Flex, Typography } from 'antd';
 import type { EllipsisConfig } from 'antd/es/typography/Base';
@@ -8,7 +8,7 @@ import type { ParagraphProps } from 'antd/es/typography/Paragraph';
 import type { TextProps } from 'antd/es/typography/Text';
 import type { TitleProps } from 'antd/es/typography/Title';
 import { EditOutlined } from '@ant-design/icons';
-import useRefValue from '../../hooks/useRefValue';
+import usePropState from '../../hooks/usePropState';
 import useT from '../../hooks/useT';
 import ConfigProvider from '../ConfigProvider';
 import EditableTextForm from './form';
@@ -231,36 +231,18 @@ const EditableText = <
   const prefixCls = getPrefixCls('editable-text', prefixClsInProps);
   const { wrapCSSVar, hashId, cssVarCls } = useStyle(prefixCls);
   const t = useT();
-  const [isEditing, setIsEditing] = useState<boolean>(editing);
+  const [isEditing, setIsEditing] = usePropState<boolean>(editing, { enabled: editable });
   const TypographyComponent = Typography[textComp];
-  const [value, setValue] = useState(valueInProps);
+  const [value, setValue] = usePropState<V | undefined>(valueInProps);
   const inputComp = inputCompInProps ?? (textComp === 'Paragraph' ? 'TextArea' : 'Input');
   const viewBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.view;
   const editingBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.editing;
-  const editableRef = useRefValue(editable);
   const displayText = useMemo(() => {
     if (typeof displayTextInProps === 'function') {
       return displayTextInProps(value);
     }
     return displayTextInProps ?? value?.toString();
   }, [displayTextInProps, value]);
-
-  // Controlled value props
-  useEffect(() => {
-    setValue((prev) => {
-      if (prev !== valueInProps) {
-        return valueInProps;
-      }
-      return prev;
-    });
-  }, [valueInProps]);
-
-  // Controlled editing props
-  useEffect(() => {
-    if (editableRef.current) {
-      setIsEditing(editing);
-    }
-  }, [editing]);
 
   // Edit state change
   const handleEditingChange = (editing: boolean) => {
