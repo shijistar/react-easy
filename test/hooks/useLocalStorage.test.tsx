@@ -27,7 +27,9 @@ describe('useLocalStorage', () => {
     const { result } = renderHook(() => useLocalStorage('', initialFactory));
 
     expect(result.current[0]).toBe(1);
-    expect(initialFactory).toHaveBeenCalledTimes(2);
+    // Called once for the initial state. There is no redundant re-read on mount anymore, so the
+    // factory is not called twice like it used to be.
+    expect(initialFactory).toHaveBeenCalledTimes(1);
 
     act(() => {
       result.current[1]((prev) => prev + 2);
@@ -41,7 +43,7 @@ describe('useLocalStorage', () => {
     });
 
     expect(result.current[0]).toBe(1);
-    expect(initialFactory).toHaveBeenCalledTimes(3);
+    expect(initialFactory).toHaveBeenCalledTimes(2);
   });
 
   it('supports null keys and direct initial values', () => {
@@ -54,6 +56,21 @@ describe('useLocalStorage', () => {
     });
 
     expect(result.current[0]).toBe('seed');
+  });
+
+  it('remove resets to the initial value instead of reading the stored value back', () => {
+    window.localStorage.setItem('resettable', JSON.stringify('stored'));
+    const { result } = renderHook(() => useLocalStorage('resettable', 'init'));
+
+    expect(result.current[0]).toBe('stored');
+
+    act(() => {
+      result.current[2]();
+    });
+
+    // The stored value must not be read back while removing the key.
+    expect(result.current[0]).toBe('init');
+    expect(window.localStorage.getItem('resettable')).toBeNull();
   });
 
   it('reads, writes and refreshes state when key changes', () => {
