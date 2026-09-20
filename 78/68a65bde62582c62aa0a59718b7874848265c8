@@ -1,0 +1,36 @@
+test/hooks/useLocalStorage.test.tsx
+  s_6d802aeed1558f::t_888ef95712ff19 61-75
+  s_6d802aeed1558f::t_73925c5841677d 30-32,46
+src/hooks/useLocalStorage.ts
+  s_6d802aeed1558f::t_08676ac1f82aed 77
+  s_6d802aeed1558f::t_1161b38217a7ce 32,34-41,43-49
+  s_6d802aeed1558f::t_a93dfcc522f6b7 118,122,126,128-131,133,136-155
+  s_6d802aeed1558f::t_eedb384e2dbc0d 134-135
+  s_6d802aeed1558f::t_94aa3ac9feecbd 75-76
+  h_99cad05bea77d1 119,123,127,132
+  s_6d802aeed1558f::t_7d2f91a03eae05 5
+  s_6d802aeed1558f::t_385071515f5cca 116-117
+  s_6d802aeed1558f::t_532bf2f6fc8dca 156
+  h_99cad05bea77d1 120-121,124-125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7868a65bde62582c62aa0a59718b7874848265c8",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
