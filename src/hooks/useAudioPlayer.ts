@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import AudioPlayer, { type AudioPlayerInit } from '../utils/AudioPlayer';
+import type { AudioPlayerInit } from '../utils/AudioPlayer';
+import AudioPlayer from '../utils/AudioPlayer';
 
 /**
  * - **EN:** A hook that provides an instance of the AudioPlayer class for controlling audio playback

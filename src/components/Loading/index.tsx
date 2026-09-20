@@ -1,4 +1,5 @@
-import { type CSSProperties, type FC, useContext } from 'react';
+import type { CSSProperties, FC } from 'react';
+import { useContext } from 'react';
 import classNames from 'classnames';
 import type { SpinProps } from 'antd';
 import { Spin } from 'antd';

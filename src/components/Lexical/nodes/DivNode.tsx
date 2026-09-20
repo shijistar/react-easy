@@ -8,7 +8,8 @@ import type {
   Spread,
 } from 'lexical';
 import { shallowEqual, updateDomProps } from '../helpers';
-import { BaseElementNode, type BaseElementProps } from './base';
+import type { BaseElementProps } from './base';
+import { BaseElementNode } from './base';
 
 /**
  * - EN: Props for the DivNode, combining DOM div attributes and element behavior flags.

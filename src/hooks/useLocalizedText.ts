@@ -1,5 +1,7 @@
-import { type ReactNode, useContext } from 'react';
-import AntdHelperContext, { type ReactEasyContextProps } from '../components/ConfigProvider/context';
+import type { ReactNode } from 'react';
+import { useContext } from 'react';
+import type { ReactEasyContextProps } from '../components/ConfigProvider/context';
+import AntdHelperContext from '../components/ConfigProvider/context';
 
 /**
  * A custom hook that converts input content to localized text using the localize method from

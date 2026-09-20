@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import EditableText, { type EditableTextProps } from '../../../../src/components/EditableText';
+import type { EditableTextProps } from '../../../../src/components/EditableText';
+import EditableText from '../../../../src/components/EditableText';
 import storyI18n, { storyT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
 import apiDocCN from './api-doc.zh-CN.md?raw';

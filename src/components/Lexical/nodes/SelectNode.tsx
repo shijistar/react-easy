@@ -1,4 +1,5 @@
-import { type CSSProperties, type ReactNode, useCallback } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import { useCallback } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import type { LexicalEditor, LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
 import { Select } from 'antd';

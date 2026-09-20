@@ -1,4 +1,5 @@
-import { createElement, type FC, Fragment, type ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
+import { createElement, Fragment } from 'react';
 
 export interface BreakLinesProps {
   /**

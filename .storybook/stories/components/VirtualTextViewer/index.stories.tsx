@@ -1,4 +1,5 @@
-import { type CSSProperties, useMemo } from 'react';
+import type { CSSProperties } from 'react';
+import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ThemeVars } from 'storybook/theming';
 import VirtualTextViewer from '../../../../src/components/VirtualTextViewer';

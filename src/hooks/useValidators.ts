@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import useRefFunction from './useRefFunction';
 import useT from './useT';
-import useValidatorBuilder, { type Validator, type ValidatorRule } from './useValidatorBuilder';
+import type { Validator, ValidatorRule } from './useValidatorBuilder';
+import useValidatorBuilder from './useValidatorBuilder';
 
 /**
  * - **EN:** Get built-in validation rules, used to verify common data formats, compatible with

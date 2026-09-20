@@ -1,6 +1,7 @@
 import { Typography } from 'antd';
 import type { TitleProps } from 'antd/es/typography/Title';
-import withEllipsisTypography, { type MakeEllipsisTypographyProps } from './withEllipsisTypography';
+import type { MakeEllipsisTypographyProps } from './withEllipsisTypography';
+import withEllipsisTypography from './withEllipsisTypography';
 
 export type EllipsisTitleProps = MakeEllipsisTypographyProps<TitleProps>;
 

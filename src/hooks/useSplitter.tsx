@@ -1,4 +1,5 @@
-import { type CSSProperties, useContext, useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import names from 'classnames';
 import ConfigProvider from '../components/ConfigProvider';
 import useStyle from './style/useSplitter';

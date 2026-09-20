@@ -1,4 +1,5 @@
-import { createInstance, type i18n } from 'i18next';
+import type { i18n } from 'i18next';
+import { createInstance } from 'i18next';
 import enUS from './langs/en-US';
 import zhCN from './langs/zh-CN';
 

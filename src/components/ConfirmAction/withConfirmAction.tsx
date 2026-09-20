@@ -3,7 +3,8 @@ import { forwardRef, useCallback, useImperativeHandle, useRef, useState, version
 import type { ActionCompConstraint, ConfirmActionProps, ConfirmActionRef } from '.';
 import { genRenderer, withDefaultConfirmActionProps } from '.';
 import { isForwardRef } from 'react-is';
-import { Button, type ButtonProps, Switch, type SwitchProps, Typography } from 'antd';
+import type { ButtonProps, SwitchProps } from 'antd';
+import { Button, Switch, Typography } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 
 /**

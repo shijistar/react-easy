@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import BreakLines, { type BreakLinesProps } from '../../../../src/components/BreakLines';
+import type { BreakLinesProps } from '../../../../src/components/BreakLines';
+import BreakLines from '../../../../src/components/BreakLines';
 import storyI18n, { storyT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
 import apiDocCN from './api-doc.zh-CN.md?raw';

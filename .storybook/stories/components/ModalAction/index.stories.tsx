@@ -1,7 +1,9 @@
-import { type ComponentType, type FC, type RefAttributes, useState } from 'react';
+import type { ComponentType, FC, RefAttributes } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
-import { type ButtonProps, Form, Input, message, Space, type SwitchProps } from 'antd';
+import type { ButtonProps, SwitchProps } from 'antd';
+import { Form, Input, message, Space } from 'antd';
 import type { LinkProps } from 'antd/es/typography/Link';
 import type { FormCompPropsConstraint, ModalActionProps } from '../../../../src/components/ModalAction';
 import { withModalAction } from '../../../../src/components/ModalAction';

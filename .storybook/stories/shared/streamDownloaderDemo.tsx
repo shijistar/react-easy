@@ -1,4 +1,5 @@
-import { type CSSProperties, type Key, type ReactNode, useCallback, useRef, useState } from 'react';
+import type { CSSProperties, Key, ReactNode } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Alert, Button, Card, Collapse, Descriptions, List, Progress, Space, Tooltip, Typography } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';

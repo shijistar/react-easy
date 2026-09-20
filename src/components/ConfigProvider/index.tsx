@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import { ConfigProvider as ReactConfigProvider } from 'antd';
 import locales, { langs, resources } from '../../locales';
 import type localesEn from '../../locales/langs/en';
-import ReactEasyContext, { type ReactEasyContextProps } from './context';
+import type { ReactEasyContextProps } from './context';
+import ReactEasyContext from './context';
 import useStyle from './style';
 
 export interface ConfigProviderProps extends Omit<ReactEasyContextProps, 'getPrefixCls'> {

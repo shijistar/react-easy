@@ -1,6 +1,7 @@
 import { CloseCircleFilled } from '@ant-design/icons';
 import type { ActionCompConstraint, ConfirmActionProps } from '../ConfirmAction';
-import { type ActionComponentInterface, withConfirmActionInternal } from '../ConfirmAction/withConfirmAction';
+import type { ActionComponentInterface } from '../ConfirmAction/withConfirmAction';
+import { withConfirmActionInternal } from '../ConfirmAction/withConfirmAction';
 
 /**
  * - **EN:** Wrap a component into a delete confirmation dialog component, supporting custom triggers

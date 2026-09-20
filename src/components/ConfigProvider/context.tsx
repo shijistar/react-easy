@@ -1,4 +1,5 @@
-import { createContext, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { createContext } from 'react';
 import type { Langs } from '../../locales';
 import type { PulseAnimationProps } from '../Animation/Pulse';
 import type { BreakLinesProps } from '../BreakLines';

@@ -1,4 +1,5 @@
-import { type CSSProperties, type FC, useContext } from 'react';
+import type { CSSProperties, FC } from 'react';
+import { useContext } from 'react';
 import classNames from 'classnames';
 import { createFromIconfontCN } from '@ant-design/icons';
 import type { IconFontProps as AntIconFontProps } from '@ant-design/icons/es/components/IconFont';

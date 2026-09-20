@@ -1,5 +1,6 @@
 import { addons } from 'storybook/manager-api';
-import { create, type ThemeVars } from 'storybook/theming';
+import type { ThemeVars } from 'storybook/theming';
+import { create } from 'storybook/theming';
 import { getGlobalValueFromUrl } from './utils/global';
 
 // import './manager.css';

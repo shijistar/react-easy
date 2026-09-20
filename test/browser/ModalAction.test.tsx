@@ -2,7 +2,8 @@ import type { ComponentType, PropsWithChildren, ReactElement } from 'react';
 import { createElement, useEffect } from 'react';
 import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { App as AntdApp, ConfigProvider as AntdConfigProvider, Form, type FormInstance } from 'antd';
+import type { FormInstance } from 'antd';
+import { App as AntdApp, ConfigProvider as AntdConfigProvider, Form } from 'antd';
 import ConfigProvider from '../../src/components/ConfigProvider';
 import ModalAction, {
   SubmitWithoutClosingSymbol,

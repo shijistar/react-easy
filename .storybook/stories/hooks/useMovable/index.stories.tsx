@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert, Card, Space, Typography } from 'antd';
-import useMovable, { type UseMovableProps } from '../../../../src/hooks/useMovable';
+import type { MovePosition, UseMovableProps } from '../../../../src/hooks/useMovable';
+import useMovable from '../../../../src/hooks/useMovable';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
 import apiDocCN from './api-doc.zh-CN.md?raw';
@@ -73,12 +74,16 @@ function UseMovableStoryDemo({ enabled, persist, inContainer }: UseMovableStoryA
   const t = useStoryT();
   const viewPortRef = useRef<HTMLDivElement>(null);
   const movableDomRef = useRef<HTMLDivElement>(null);
+  // The position is render data, so it is kept in state: the hook reports every change through
+  // `onMove`, which replaces reading `movableDomRef.current.style` during render.
+  const [position, setPosition] = useState<MovePosition>();
   useMovable({
     enabled,
     movableDomRef,
     viewPortRef: inContainer ? viewPortRef : undefined,
     storageKey: persist ? 'storybook.useMovable.position' : undefined,
     ignoreSelectors: ['.ant-btn'],
+    onMove: setPosition,
   });
 
   useEffect(() => {
@@ -86,6 +91,8 @@ function UseMovableStoryDemo({ enabled, persist, inContainer }: UseMovableStoryA
       const rect = movableDomRef.current.getBoundingClientRect();
       movableDomRef.current.style.left = rect.left + 'px';
       movableDomRef.current.style.top = rect.top + 'px';
+      // Pinning is done imperatively, so the readout is seeded with the same values.
+      setPosition({ left: rect.left, top: rect.top });
     }
   }, [inContainer]);
 
@@ -133,9 +140,7 @@ function UseMovableStoryDemo({ enabled, persist, inContainer }: UseMovableStoryA
 
         <Space wrap>
           <Typography.Text strong>{t('storybook.stories.useMovable.positionLabel')}</Typography.Text>
-          <Typography.Text code>
-            {`left: ${movableDomRef.current?.style.left ?? 0}, top: ${movableDomRef.current?.style.top ?? 0}`}
-          </Typography.Text>
+          <Typography.Text code>{`left: ${position?.left ?? 0}px, top: ${position?.top ?? 0}px`}</Typography.Text>
         </Space>
       </Space>
     </Card>

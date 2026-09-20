@@ -1,5 +1,5 @@
 import type React from 'react';
-import { type PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import ReactEasyContext, {

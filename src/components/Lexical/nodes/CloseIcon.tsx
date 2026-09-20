@@ -1,4 +1,4 @@
-import { type CSSProperties, type HtmlHTMLAttributes, type MouseEvent, type ReactNode } from 'react';
+import type { CSSProperties, HtmlHTMLAttributes, MouseEvent, ReactNode } from 'react';
 import classNames from 'classnames';
 import type { LexicalNode, SerializedLexicalNode, Spread } from 'lexical';
 import { theme } from 'antd';

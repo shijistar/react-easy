@@ -1,4 +1,5 @@
-import { type Dirent, promises as fs } from 'fs';
+import type { Dirent } from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 
 const ROOT = path.resolve(__dirname, '../.storybook');

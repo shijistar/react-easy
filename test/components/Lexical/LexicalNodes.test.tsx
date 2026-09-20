@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
-import { $createParagraphNode, $getRoot, createEditor, type LexicalEditor } from 'lexical';
+import type { LexicalEditor } from 'lexical';
+import { $createParagraphNode, $getRoot, createEditor } from 'lexical';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { $createCloseIconNode, $isCloseIconNode, CloseIconNode } from '../../../src/components/Lexical/nodes/CloseIcon';
 import { $createDivNode, $isDivNode, DivNode } from '../../../src/components/Lexical/nodes/DivNode';

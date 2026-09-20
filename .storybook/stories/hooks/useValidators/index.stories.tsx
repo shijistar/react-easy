@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Alert, Card, Input, Select, Space, Tag, Typography } from 'antd';
-import useValidators, { type ValidatorRuleMap } from '../../../../src/hooks/useValidators';
+import usePropState from '../../../../src/hooks/usePropState';
+import type { ValidatorRuleMap } from '../../../../src/hooks/useValidators';
+import useValidators from '../../../../src/hooks/useValidators';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import apiDocEN from './api-doc.en-US.md?raw';
 import apiDocCN from './api-doc.zh-CN.md?raw';
@@ -68,62 +70,49 @@ export const Playground: Story = {
   },
 };
 
+const SAMPLE_VALUES: Record<keyof ValidatorRuleMap, string> = {
+  number: '123',
+  floatNumber: '123.45',
+  email: 'user@example.com',
+  ip: '192.168.0.1',
+  cnMobile: '13800138000',
+  password: 'ju7g_5ds@123',
+  code: 'SCB_500_ORG_24PK',
+  codeMax20: 'SCB_500_ORG_24PK',
+  codeMax64: 'SCB_500_ORG_24PK',
+  codeMax128: 'SCB_500_ORG_24PK',
+  codeWithMax: 'SCB_500_ORG_24PK',
+  name: 'Johnathan Alexander',
+  nameMax20: 'Johnathan Alexander',
+  nameMax64: 'Johnathan Alexander',
+  nameMax128: 'Johnathan Alexander',
+  nameWithMax: 'Johnathan Alexander',
+  strongName: 'Johnathan Alexander',
+  strongNameMax64: 'Johnathan Alexander',
+  strongNameMax128: 'Johnathan Alexander',
+  strongNameWithMax: 'Johnathan Alexander',
+};
+
 function UseValidatorsStoryDemo({ rule }: UseValidatorsStoryArgs) {
   const t = useStoryT();
   const validators = useValidators();
 
-  const [ruleName, setRuleName] = useState(rule);
+  // `ruleName` mirrors the Storybook `rule` arg, but the Select can also change it locally, so the
+  // prop keeps driving it whenever the arg control changes.
+  const [ruleName, setRuleName] = usePropState<keyof ValidatorRuleMap>(rule);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectedRule = (validators as any)[ruleName] ?? validators.email;
 
-  const [value, setValue] = useState('user@example.com');
+  const [value, setValue] = useState(SAMPLE_VALUES[ruleName]);
+  // Reset the sample value in the same render that observes a new rule, instead of in an effect.
+  const [prevRuleName, setPrevRuleName] = useState(ruleName);
+  if (prevRuleName !== ruleName) {
+    setPrevRuleName(ruleName);
+    setValue(SAMPLE_VALUES[ruleName]);
+  }
+
   const passed = selectedRule.pattern.test(value);
   const patternText = selectedRule.pattern.toString();
-
-  useEffect(() => {
-    setRuleName(rule);
-  }, [rule]);
-
-  useEffect(() => {
-    switch (ruleName) {
-      case 'email':
-        setValue('user@example.com');
-        break;
-      case 'cnMobile':
-        setValue('13800138000');
-        break;
-      case 'number':
-        setValue('123');
-        break;
-      case 'floatNumber':
-        setValue('123.45');
-        break;
-      case 'ip':
-        setValue('192.168.0.1');
-        break;
-      case 'password':
-        setValue('ju7g_5ds@123');
-        break;
-      case 'code':
-      case 'codeMax20':
-      case 'codeMax64':
-      case 'codeMax128':
-      case 'codeWithMax':
-        setValue('SCB_500_ORG_24PK');
-        break;
-      case 'name':
-      case 'nameMax20':
-      case 'nameMax64':
-      case 'nameMax128':
-      case 'nameWithMax':
-      case 'strongName':
-      case 'strongNameMax64':
-      case 'strongNameMax128':
-      case 'strongNameWithMax':
-        setValue('Johnathan Alexander');
-        break;
-    }
-  }, [ruleName]);
 
   return (
     <Card variant="outlined" style={{ maxWidth: 920 }} title={t('storybook.stories.useValidators.cardTitle')}>

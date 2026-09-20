@@ -5,7 +5,8 @@ import ReactEasyContext, {
   defaultContextValue,
   type ReactEasyContextProps,
 } from '../../src/components/ConfigProvider/context';
-import useSplitter, { type UseSplitterProps } from '../../src/hooks/useSplitter';
+import type { UseSplitterProps } from '../../src/hooks/useSplitter';
+import useSplitter from '../../src/hooks/useSplitter';
 
 vi.mock('../../src/hooks/style/useSplitter', () => ({
   default: vi.fn(() => ({

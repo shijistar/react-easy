@@ -1,5 +1,6 @@
 import { useContext, useMemo } from 'react';
-import { createInstance, type i18n } from 'i18next';
+import type { i18n } from 'i18next';
+import { createInstance } from 'i18next';
 import ReactEasyContext from '../../src/components/ConfigProvider/context';
 import enUS from './langs/en-US';
 import zhCN from './langs/zh-CN';
