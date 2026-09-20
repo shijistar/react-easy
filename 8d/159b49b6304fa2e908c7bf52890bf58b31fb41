@@ -1,0 +1,35 @@
+package.json
+  h_99cad05bea77d1 62,84
+src/utils/StreamDownloader/types.ts
+  h_99cad05bea77d1 384-386
+  h_99cad05bea77d1 227,317,358,387
+src/hooks/useLocalStorage.ts
+  h_99cad05bea77d1 1-2,43
+src/components/ModalAction/index.tsx
+  h_99cad05bea77d1 506,511-512,514,567-568
+src/components/EditableText/index.tsx
+  h_99cad05bea77d1 15,249-257
+src/hooks/useStreamDownloader.ts
+  h_99cad05bea77d1 9,89
+package-lock.json
+  h_99cad05bea77d1 23,45,6932-6934,6962-6963,21916-21918
+src/components/EditableText/form.tsx
+  h_99cad05bea77d1 396-399
+src/components/Iconfont/createIconfont.tsx
+  h_99cad05bea77d1 11-14
+src/components/Lexical/nodes/SelectNode.tsx
+  h_99cad05bea77d1 19-20
+src/utils/stream/StreamTimeSlicerClass.ts
+  h_99cad05bea77d1 127
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "8d159b49b6304fa2e908c7bf52890bf58b31fb41",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
