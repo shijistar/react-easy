@@ -1,0 +1,96 @@
+test/components/Lexical/LexicalNodes.test.tsx
+  h_99cad05bea77d1 2-3
+src/components/EllipsisTypography/EllipsisParagraph.tsx
+  h_99cad05bea77d1 3-4
+.storybook/stories/shared/streamDownloaderDemo.tsx
+  h_99cad05bea77d1 1-2
+.storybook/stories/components/EditableText/index.stories.tsx
+  h_99cad05bea77d1 3-4
+.storybook/stories/components/ModalAction/index.stories.tsx
+  h_99cad05bea77d1 1-2,5-6
+src/components/Loading/index.tsx
+  h_99cad05bea77d1 1-2
+.storybook/locales/index.ts
+  h_99cad05bea77d1 2-3
+src/components/ConfirmAction/withConfirmAction.tsx
+  h_99cad05bea77d1 6-7
+src/components/EllipsisTypography/EllipsisText.tsx
+  h_99cad05bea77d1 3-4
+test/hooks/useStompSocket.test.tsx
+  h_99cad05bea77d1 3-4
+.storybook/stories/hooks/useValidators/index.stories.tsx
+  s_6d802aeed1558f::t_afdc9be266cacf 1,4-6,73-95,100-102,106-113
+test/components/ContextMenu.test.tsx
+  h_99cad05bea77d1 10-11
+src/components/ConfigProvider/context.tsx
+  h_99cad05bea77d1 1-2
+src/hooks/useUserMedia.tsx
+  h_99cad05bea77d1 5-6
+src/locales/index.ts
+  h_99cad05bea77d1 1-2
+src/hooks/useAudioPlayer.ts
+  h_99cad05bea77d1 2-3
+src/components/EllipsisTypography/EllipsisLink.tsx
+  h_99cad05bea77d1 3-4
+src/components/BreakLines/index.tsx
+  h_99cad05bea77d1 1-2
+src/components/DeleteConfirmAction/withDeleteConfirmAction.tsx
+  h_99cad05bea77d1 3-4
+src/components/EllipsisTypography/EllipsisTitle.tsx
+  h_99cad05bea77d1 3-4
+src/hooks/useLocalizedText.ts
+  h_99cad05bea77d1 1-4
+src/components/Lexical/nodes/SelectNode.tsx
+  h_99cad05bea77d1 1-2
+test/browser/ModalAction.test.tsx
+  h_99cad05bea77d1 5-6
+src/components/Iconfont/createIconfont.tsx
+  h_99cad05bea77d1 1-2
+src/components/Lexical/nodes/CloseIcon.tsx
+  h_99cad05bea77d1 1
+.storybook/stories/hooks/useMovable/index.stories.tsx
+  s_6d802aeed1558f::t_0e69fc7f3c2598 1,4-5,77-79,86,94-95,143
+test/hooks/useSplitter.test.tsx
+  h_99cad05bea77d1 8-9
+.storybook/manager.ts
+  h_99cad05bea77d1 2-3
+test/components/Lexical/LexicalSelectNode.test.tsx
+  h_99cad05bea77d1 2-3
+src/hooks/useValidators.ts
+  h_99cad05bea77d1 4-5
+.storybook/stories/components/BreakLines/index.stories.tsx
+  h_99cad05bea77d1 2-3
+scripts/story-list.ts
+  h_99cad05bea77d1 1-2
+.storybook/stories/components/VirtualTextViewer/index.stories.tsx
+  h_99cad05bea77d1 1-2
+test/components/OverflowTags.test.tsx
+  h_99cad05bea77d1 2
+src/components/ConfigProvider/index.tsx
+  h_99cad05bea77d1 7-8
+src/components/Lexical/nodes/DivNode.tsx
+  h_99cad05bea77d1 11-12
+src/hooks/useSplitter.tsx
+  h_99cad05bea77d1 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "998b090d4dab059db0a9cb772c40e90b10b8ab8b",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
