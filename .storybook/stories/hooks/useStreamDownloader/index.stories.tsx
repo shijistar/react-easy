@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { create as createAxios } from 'axios';
 import { List, Space, Tag, Typography } from 'antd';
-import type { StreamDownloadSaveStrategy } from '../../../../src';
-import { useStreamDownloader } from '../../../../src';
+import useStreamDownloader from '../../../../src/hooks/useStreamDownloader';
+import type { StreamDownloadSaveStrategy } from '../../../../src/utils/StreamDownloader/types';
 import storyI18n, { storyT, useStoryT } from '../../../locales';
 import StreamDownloaderDemoCard, {
   formatErrorLog,

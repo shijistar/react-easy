@@ -27,6 +27,18 @@ const config: StorybookConfig = {
   },
   typescript: {
     reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      // `exclude` replaces the plugin default, so the stories exclusion is repeated here.
+      exclude: [
+        '**/*.stories.tsx',
+        // The components barrel only re-exports (`export { default as X } from './X'`). For that
+        // syntax react-docgen-typescript resolves the runtime target to the reserved word `default`
+        // and appends `default.__docgenInfo = ...`, which is a syntax error that breaks the build.
+        // Nothing is lost by skipping it: each component's own file is still processed and carries
+        // the `__docgenInfo` that the re-export forwards.
+        '**/src/components/index.tsx',
+      ],
+    },
   },
   async viteFinal(baseConfig) {
     return mergeConfig(baseConfig, {

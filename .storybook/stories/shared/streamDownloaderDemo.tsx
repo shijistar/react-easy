@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Alert, Button, Card, Collapse, Descriptions, List, Progress, Space, Tooltip, Typography } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import type { StreamDownloadSnapshot } from '../../../src';
+import type { StreamDownloadSnapshot } from '../../../src/utils/StreamDownloader/types';
 
 export interface DemoLogItem {
   /**
