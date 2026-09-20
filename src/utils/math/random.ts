@@ -16,7 +16,9 @@ function random(): number;
  *
  * @returns The generated random integer | 生成的随机整数
  */
+// eslint-disable-next-line no-redeclare
 function random(min: number, max: number): number;
+// eslint-disable-next-line no-redeclare
 function random(min?: number, max?: number): number {
   if (min == null && max == null) {
     return randomLikeMath();

@@ -221,11 +221,10 @@ export interface StreamDownloadAxiosOptions {
    *   `ReadableStream`.
    * - **CN:** adapter 必须固定为 `fetch`，这样响应才能暴露浏览器 `ReadableStream`。
    */
-  adapter: /**
+  adapter /**
    * - **EN:** Force axios to use the fetch adapter.
    * - **CN:** 强制 axios 使用 fetch adapter。
-   */
-  'fetch';
+   */ : 'fetch';
   /**
    * - **EN:** Injected axios instance.
    * - **CN:** 注入的 axios 实例。
@@ -272,11 +271,10 @@ export interface FetchStreamDownloadRequest extends StreamDownloadBaseRequest {
    * - **EN:** Optional discriminant for the fetch branch.
    * - **CN:** fetch 分支的可选判别字段。
    */
-  transport?: /**
+  transport /**
    * - **EN:** Explicitly choose the native fetch path.
    * - **CN:** 显式选择原生 fetch 路径。
-   */
-  'fetch';
+   */?: 'fetch';
   /**
    * - **EN:** HTTP method used by fetch.
    * - **CN:** fetch 使用的 HTTP 方法。
@@ -313,11 +311,10 @@ export interface AxiosStreamDownloadRequest extends StreamDownloadBaseRequest {
    * - **EN:** Discriminant for the axios branch.
    * - **CN:** axios 分支的判别字段。
    */
-  transport: /**
+  transport /**
    * - **EN:** Explicitly choose the injected axios path.
    * - **CN:** 显式选择注入的 axios 路径。
-   */
-  'axios';
+   */ : 'axios';
   /**
    * - **EN:** HTTP method used by axios.
    * - **CN:** axios 使用的 HTTP 方法。
@@ -355,11 +352,10 @@ export interface StreamDownloadSuccessResult {
    * - **EN:** Successful terminal status literal.
    * - **CN:** 成功终态状态字面量。
    */
-  status: /**
+  status /**
    * - **EN:** The task completed successfully.
    * - **CN:** 任务已成功完成。
-   */
-  'success';
+   */ : 'success';
   /**
    * - **EN:** Final file name used for saving.
    * - **CN:** 最终用于保存的文件名。

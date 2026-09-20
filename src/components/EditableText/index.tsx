@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import names from 'classnames';
 import { Flex, Typography } from 'antd';
 import type { EllipsisConfig } from 'antd/es/typography/Base';
@@ -8,9 +8,11 @@ import type { ParagraphProps } from 'antd/es/typography/Paragraph';
 import type { TextProps } from 'antd/es/typography/Text';
 import type { TitleProps } from 'antd/es/typography/Title';
 import { EditOutlined } from '@ant-design/icons';
+import useRefValue from '../../hooks/useRefValue';
 import useT from '../../hooks/useT';
 import ConfigProvider from '../ConfigProvider';
-import EditableTextForm, { type EditableFormProps, type RenderInputInterface } from './form';
+import type { EditableFormProps, RenderInputInterface } from './form';
+import EditableTextForm from './form';
 import useStyle from './style';
 
 const getEllipsisConfig = (content: ReactNode | undefined): EllipsisConfig => ({
@@ -66,6 +68,7 @@ export interface EditableTextProps<
    *
    * @default false
    */
+
   block?:
     | boolean
     | {
@@ -234,8 +237,7 @@ const EditableText = <
   const inputComp = inputCompInProps ?? (textComp === 'Paragraph' ? 'TextArea' : 'Input');
   const viewBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.view;
   const editingBlock = typeof blockInProps === 'boolean' ? blockInProps : blockInProps?.editing;
-  const editableRef = useRef(editable);
-  editableRef.current = editable;
+  const editableRef = useRefValue(editable);
   const displayText = useMemo(() => {
     if (typeof displayTextInProps === 'function') {
       return displayTextInProps(value);
@@ -244,9 +246,9 @@ const EditableText = <
   }, [displayTextInProps, value]);
 
   // Controlled value props
-  useEffect(() => {
+  if (value !== valueInProps) {
     setValue(valueInProps);
-  }, [valueInProps]);
+  }
   // Controlled editing props
   useEffect(() => {
     if (editableRef.current) {

@@ -5,6 +5,7 @@ import type { ButtonProps, FormItemProps, FormProps, InputProps, SpaceProps } fr
 import { Button, ConfigProvider, Form, Input, Space } from 'antd';
 import type { InputRef, TextAreaProps } from 'antd/es/input';
 import { CheckSquareFilled, CloseSquareFilled } from '@ant-design/icons';
+import useRefValue from '../../hooks/useRefValue';
 import useT from '../../hooks/useT';
 
 const defaultInputActionGap = 8;
@@ -185,9 +186,9 @@ const EditableTextForm = <V, IT extends 'Input' | 'TextArea' | RenderInputInterf
   const [visibility, setVisibility] = useState<CSSProperties['visibility']>('hidden');
   const [forceBlock, setForceBlock] = useState(false);
   const [saving, setSaving] = useState(false);
-  const inputActionGapRef = useRef<number>(0);
-  inputActionGapRef.current =
-    pxToNumber(formItemProps?.style?.marginRight ?? formItemProps?.style?.marginInlineEnd) || defaultInputActionGap;
+  const inputActionGapRef = useRefValue(
+    pxToNumber(formItemProps?.style?.marginRight ?? formItemProps?.style?.marginInlineEnd) || defaultInputActionGap,
+  );
   const block = blockInProps || forceBlock;
 
   // Update form value when `value` prop changes
