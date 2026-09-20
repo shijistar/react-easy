@@ -1,0 +1,28 @@
+.storybook/stories/shared/streamDownloaderDemo.tsx
+  h_99cad05bea77d1 6
+.storybook/main.ts
+  s_6d802aeed1558f::t_6616925f130b36 30-41
+.storybook/stories/hooks/useStreamDownloader/index.stories.tsx
+  h_99cad05bea77d1 5-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "8de012d0cbb32feabc4ba49df9e8641abb36e50d",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
