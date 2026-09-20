@@ -1,0 +1,30 @@
+src/hooks/useDebounce.ts
+  s_6d802aeed1558f::t_e7075086bd615f 108-112
+  s_6d802aeed1558f::t_58766ffd92b1b3 113,127
+src/components/VirtualTextViewer/index.tsx
+  s_6d802aeed1558f::t_1d35ccf454e94f 239-249,255-256
+test/components/VirtualTextViewer.test.tsx
+  h_99cad05bea77d1 460
+  s_6d802aeed1558f::t_b807f04c7f0c36 432-459,461-465
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "851c7ddc2a72dbafef608db012f4c8e1fe07ebec",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
