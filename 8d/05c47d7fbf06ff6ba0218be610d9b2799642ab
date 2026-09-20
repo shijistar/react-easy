@@ -1,0 +1,34 @@
+src/hooks/useAudioPlayer.ts
+  s_6d802aeed1558f::t_81b55b53e06baa 1,10-14,18,20,22
+test/hooks/useProcessingText.test.tsx
+  s_6d802aeed1558f::t_9f16f0a6a51c9f 57-81
+test/hooks/basicHooks.test.tsx
+  s_6d802aeed1558f::t_2a557583334a24 105-121
+src/hooks/useSplitter.tsx
+  s_6d802aeed1558f::t_e9a826982ef095 117
+src/hooks/useProcessingText.ts
+  s_6d802aeed1558f::t_024b16cb81b20e 1
+  s_6d802aeed1558f::t_5750bd22f5d92c 56-59
+  s_6d802aeed1558f::t_00257c6bc535ad 53-55,60-61,63-64,66-68,70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "8d05c47d7fbf06ff6ba0218be610d9b2799642ab",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
