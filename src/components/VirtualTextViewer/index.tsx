@@ -216,7 +216,6 @@ const VirtualTextViewer: FC<VirtualTextViewerProps> = (props) => {
     ...restProps
   } = props;
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const checkpointCacheRef = useRef<CursorCheckpointCache | null>(null);
   const [viewportWidth, setViewportWidth] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
@@ -237,26 +236,29 @@ const VirtualTextViewer: FC<VirtualTextViewerProps> = (props) => {
   const endLineIndex = Math.min(lineCount, Math.ceil((scrollTop + viewportHeight) / lineHeight) + overscan);
   const totalHeight = lineWidth > 0 ? lineCount * lineHeight : 0;
 
+  // Checkpoint cache for the current layout. It is a pure memoization cache: its contents depend
+  // only on `prepared` and `lineWidth`, so it is rebuilt whenever either of them changes. Holding it
+  // in `useMemo` (instead of a ref that a render-phase check invalidated) keeps the invalidation
+  // consistent with the render that reads it.
+  const checkpointCache = useMemo(() => {
+    // `prepared` is a cache key, not an input: the stored checkpoints are cursors into this exact
+    // prepared text, so they must be dropped when it changes. Same idiom as `void fontEpoch` above.
+    void prepared;
+    return createCheckpointCache(lineWidth);
+  }, [lineWidth, prepared]);
+
   const visibleLines = useMemo(() => {
     if (lineWidth <= 0 || lineCount === 0) {
       return [] as VisibleLine[];
     }
 
-    if (checkpointCacheRef.current === null || checkpointCacheRef.current.width !== lineWidth) {
-      checkpointCacheRef.current = createCheckpointCache(lineWidth);
-    }
-
-    return collectVisibleLines(prepared, lineWidth, startLineIndex, endLineIndex, checkpointCacheRef.current);
-  }, [endLineIndex, lineCount, lineWidth, prepared, startLineIndex]);
+    return collectVisibleLines(prepared, lineWidth, startLineIndex, endLineIndex, checkpointCache);
+  }, [checkpointCache, endLineIndex, lineCount, lineWidth, prepared, startLineIndex]);
 
   const handleScroll = useRefFunction((event: UIEvent<HTMLDivElement>) => {
     setScrollTop(event.currentTarget.scrollTop);
     onScroll?.(event);
   });
-
-  useEffect(() => {
-    checkpointCacheRef.current = null;
-  }, [prepared]);
 
   useEffect(() => {
     const container = containerRef.current;

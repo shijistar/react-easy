@@ -105,6 +105,12 @@ function useDebounce<T extends (...args: any[]) => unknown>(
     // 3. Set a new debounce timer
     timeoutRef.current = setTimeout(executeFunction, wait);
   }) as DebouncedFunc<T>;
+  // The React Compiler treats function values as frozen, so attaching the helpers below is reported
+  // as a mutation. The `callable + methods` shape is this hook's public API (the same shape as
+  // lodash's `debounce`), and the compiler cannot express it any other way: building it inside a
+  // `useMemo`, `Object.assign`, or a module-level factory is rejected as well. It is therefore kept
+  // deliberately, with the suppression scoped to these four assignments.
+  /* eslint-disable react-hooks/immutability -- attaching the public API helpers to the callable */
   debouncedFunction.cancel = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -118,6 +124,7 @@ function useDebounce<T extends (...args: any[]) => unknown>(
     isDisabledRef.current = false;
   };
   debouncedFunction.isDisabled = () => isDisabledRef.current;
+  /* eslint-enable react-hooks/immutability */
   return debouncedFunction;
 }
 

@@ -429,6 +429,40 @@ describe('VirtualTextViewer', () => {
     }
   });
 
+  it('drops stale checkpoints in the same render where the text changes', () => {
+    pretextStore.state.lineCount = 300;
+    // Distinguishable cursors: after walking i lines the cursor is { segmentIndex: i }.
+    pretextStore.state.rangeQueue = Array.from({ length: 600 }, (_, i) => ({
+      end: { segmentIndex: i + 1, graphemeIndex: 0 },
+    }));
+    pretextStore.state.materialQueue = Array.from({ length: 200 }, (_, i) => ({ text: `l${i}`, width: 5 }));
+
+    const { container, rerender } = render(<VirtualTextViewer value="first" lineClassName="vtv-line" />, {
+      wrapper: Wrapper,
+    });
+    const scrollContainer = container.querySelector('div')!;
+    setMetrics(scrollContainer, 400, 44);
+    triggerRO(scrollContainer);
+
+    // Scroll to line 150: startLineIndex=142, so the walk stores a checkpoint at line 100
+    // whose cursor is { segmentIndex: 100 }.
+    Object.defineProperty(scrollContainer, 'scrollTop', { value: 3300, writable: true, configurable: true });
+    fireEvent.scroll(scrollContainer);
+    expect(container.querySelectorAll('.vtv-line').length).toBeGreaterThan(0);
+
+    pretextStore.layoutNextLineRange.mockClear();
+
+    // New text -> cached cursors index into the previous prepared text and must not be reused.
+    // If the stale checkpoint were reused, the walk for startLineIndex=142 would resume from
+    // line 100 and the first layout call would receive the { segmentIndex: 100 } cursor.
+    rerender(<VirtualTextViewer value="second" lineClassName="vtv-line" />);
+
+    expect(pretextStore.layoutNextLineRange.mock.calls[0]?.[1 as never]).toEqual({
+      segmentIndex: 0,
+      graphemeIndex: 0,
+    });
+  });
+
   it('keeps a stable checkpoint cache per width and resets when text changes', () => {
     pretextStore.state.lineCount = 5;
     pretextStore.state.materialQueue = Array.from({ length: 5 }, (_, i) => ({ text: `l${i}`, width: 5 }));
