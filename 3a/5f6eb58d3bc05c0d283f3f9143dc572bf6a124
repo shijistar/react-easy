@@ -1,0 +1,35 @@
+src/hooks/useUserMedia.tsx
+  s_6d802aeed1558f::t_b76c146d1e6823 252,257,264
+  s_6d802aeed1558f::t_2f65e4cdf1dfc9 450-452
+  s_6d802aeed1558f::t_1c7ed805113c44 141-156
+  s_6d802aeed1558f::t_97fc0df8cd979f 193-195
+src/hooks/useStompSocket.ts
+  s_6d802aeed1558f::t_f2beb79c7afef5 179-180
+  h_99cad05bea77d1 156-157,169
+  s_6d802aeed1558f::t_213ab032a7245d 69-70
+  s_6d802aeed1558f::t_dd198990cdc4a6 79-80,83,87,89,91,94,99,109,112,115-117,119,125,135,138,149-150
+  s_6d802aeed1558f::t_e2e4550a0b0519 67-68
+test/hooks/useStompSocket.test.tsx
+  s_6d802aeed1558f::t_8add3b2cb9177b 150-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "3a5f6eb58d3bc05c0d283f3f9143dc572bf6a124",
+  "prompts": {},
+  "humans": {
+    "h_99cad05bea77d1": {
+      "author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_6d802aeed1558f": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "86b36069-6c7b-4e6e-8b4c-1259d58ac83b",
+        "model": "opencodego/deepseek-v4.1-flash"
+      },
+      "human_author": "Fengbao Li <shijistar@gmail.com>"
+    }
+  }
+}
