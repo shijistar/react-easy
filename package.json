@@ -1,6 +1,6 @@
 {
   "name": "@tiny-codes/react-easy",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Simplify React and AntDesign development with practical components and hooks",
   "keywords": [
     "react",
@@ -59,7 +59,7 @@
     "@storybook/addon-links": "^10.2.12",
     "@storybook/react-vite": "^10.2.12",
     "@testing-library/react": "^16.3.2",
-    "@tiny-codes/code-style-all-in-one": "3.2.0-beta.7",
+    "@tiny-codes/code-style-all-in-one": "3.2.0",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.32",
