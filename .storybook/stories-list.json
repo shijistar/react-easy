@@ -20,6 +20,7 @@
   "./stories/hooks/useLocalStorage/index.stories.tsx",
   "./stories/hooks/useMovable/index.stories.tsx",
   "./stories/hooks/useProcessingText/index.stories.tsx",
+  "./stories/hooks/usePropState/index.stories.tsx",
   "./stories/hooks/useRefFunction/index.stories.tsx",
   "./stories/hooks/useRefValue/index.stories.tsx",
   "./stories/hooks/useRowSelection/index.stories.tsx",

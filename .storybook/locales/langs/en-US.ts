@@ -542,6 +542,41 @@ const enUS = {
   'storybook.stories.useProcessingText.prefixLabel': 'Prefix',
   'storybook.stories.useProcessingText.prefixPlaceholder': 'e.g. Processing',
   'storybook.stories.useProcessingText.tip': 'The text cycles dots up to maxDots, then resets.',
+  'storybook.stories.usePropState.argTypes.controlled.description':
+    'Whether the external value is provided at all. When off, the prop is undefined and fallback supplies the initial value (uncontrolled mode).',
+  'storybook.stories.usePropState.argTypes.enabled.description':
+    'Whether the prop is allowed to drive the internal state.',
+  'storybook.stories.usePropState.argTypes.useIsEqual.description':
+    'Compare by content instead of identity, so an equal-but-new object does not reset the internal state.',
+  'storybook.stories.usePropState.cardTitle': 'State synced with a prop',
+  'storybook.stories.usePropState.description':
+    'A useState that stays in sync with a prop, replacing the useState(prop) + useEffect(() => setState(prop)) anti-pattern.',
+  'storybook.stories.usePropState.diverged': 'Diverged',
+  'storybook.stories.usePropState.emptyLog': 'No events yet',
+  'storybook.stories.usePropState.eventLogTitle': 'Sync log',
+  'storybook.stories.usePropState.externalLabel': 'External prop (owned by the parent)',
+  'storybook.stories.usePropState.externalPlaceholder': 'Value owned by the parent',
+  'storybook.stories.usePropState.identityLabel': 'Same object reference',
+  'storybook.stories.usePropState.inSync': 'In sync',
+  'storybook.stories.usePropState.internalLabel': 'Internal state (owned by the hook)',
+  'storybook.stories.usePropState.localPlaceholder': 'Value edited locally',
+  'storybook.stories.usePropState.propValueLabel': 'Prop',
+  'storybook.stories.usePropState.pushToProp': 'Push to prop',
+  'storybook.stories.usePropState.replaceIdentity': 'Replace prop object (same content)',
+  'storybook.stories.usePropState.resetLocal': 'Reset local to prop',
+  'storybook.stories.usePropState.setLocal': 'Set local state',
+  'storybook.stories.usePropState.simple.cardTitle': 'Simplest form: no options',
+  'storybook.stories.usePropState.simple.description':
+    'A component receives a title prop and mirrors it into local state. Editing the field is free, and pushing a title from the parent replaces the local edit.',
+  'storybook.stories.usePropState.simple.editPlaceholder': 'Edit the local draft',
+  'storybook.stories.usePropState.simple.presetLabel': 'Push from the parent',
+  'storybook.stories.usePropState.simple.tip':
+    'No options are needed here because a string compares by value: Object.is already detects a real change, so there is no need for isEqual.',
+  'storybook.stories.usePropState.stateValueLabel': 'State',
+  'storybook.stories.usePropState.statusLabel': 'Status',
+  'storybook.stories.usePropState.tip':
+    'The sync happens during render, so the state never commits a frame with the stale prop value and no setState inside useEffect is needed. While enabled is false the prop is still tracked, but it is only written to the state on the next prop change after re-enabling.',
+  'storybook.stories.usePropState.uncontrolled': 'Uncontrolled (prop is undefined)',
   'storybook.stories.useRefFunction.argTypes.showIdentity.description':
     'Show whether the returned function reference stayed identical.',
   'storybook.stories.useRefFunction.capture': 'Capture identity',

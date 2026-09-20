@@ -204,6 +204,7 @@ function Demo() {
 - [useLocalStorage](https://shijistar.github.io/react-easy/?path=/docs/hooks-uselocalstorage--api)
 - [useMovable](https://shijistar.github.io/react-easy/?path=/docs/hooks-usemovable--api)
 - [useProcessingText](https://shijistar.github.io/react-easy/?path=/docs/hooks-useprocessingtext--api)
+- [usePropState](https://shijistar.github.io/react-easy/?path=/docs/hooks-usepropstate--api)
 - [useRefFunction](https://shijistar.github.io/react-easy/?path=/docs/hooks-usereffunction--api)
 - [useRefValue](https://shijistar.github.io/react-easy/?path=/docs/hooks-userefvalue--api)
 - [useRowSelection](https://shijistar.github.io/react-easy/?path=/docs/hooks-userowselection--api)
