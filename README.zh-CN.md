@@ -20,14 +20,6 @@
 
 演示页面：https://shijistar.github.io/react-easy
 
-当前产物包括：
-
-- CommonJS：`lib/`
-- ESM：`es/`
-- 类型定义：`lib/index.d.ts`
-
-发布代码的 JavaScript 目标版本为：`ES2016`
-
 ## 特性
 
 - 提供带本地化能力和全局默认值的 `ConfigProvider`
@@ -58,18 +50,6 @@ yarn add @tiny-codes/react-easy react react-is antd i18next
 ```bash
 bun add @tiny-codes/react-easy react react-is antd i18next
 ```
-
-## 兼容性
-
-- `react` >= 16.8.0
-- `react-is` >= 16.8.0
-- `antd` >= 5.1.0
-- `i18next` >= 8.4.0
-
-说明：
-
-- 以上依赖使用的是 `peerDependencies`，需要由业务项目自行安装。
-- 输出代码目标为 `ES2016`，请确保你的构建工具或运行环境支持该版本。
 
 ## 快速开始
 
@@ -140,6 +120,8 @@ function UserForm(props: UserFormProps & FormCompPropsConstraint<User>) {
 }
 
 const UserModalAction = withModalAction(UserForm);
+
+<UserModalAction />;
 ```
 
 ### 4. 使用稳定回调和校验 Hooks
@@ -228,24 +210,23 @@ function Demo() {
 - [StreamDownloader](https://shijistar.github.io/react-easy/?path=/docs/utils-streamdownloader--api)
 - [string](https://shijistar.github.io/react-easy/?path=/docs/utils-string--api)
 
-## 本地开发
+## 兼容性
 
-安装依赖：
+- `react` >= 16.8.0
+- `react-is` >= 16.8.0
+- `antd` >= 5.1.0
+- `i18next` >= 8.4.0
+
+说明：
+
+- 以上依赖使用的是 `peerDependencies`，需要由业务项目自行安装。
+- 输出代码目标为 `ES2016`，请确保你的构建工具或运行环境支持该版本。
+
+## 本地开发
 
 ```bash
 npm install
-```
-
-常用命令：
-
-```bash
-npm run build
-npm run build-core
 npm run storybook
-npm run build-storybook
-npx tsc -p tsconfig.json --noEmit
-npx eslint src .storybook scripts --ext .ts,.tsx,.js,.jsx
-npx prettier . --check
 ```
 
 补充说明：
@@ -253,8 +234,3 @@ npx prettier . --check
 - 源码目录在 `src/`。
 - `lib/` 和 `es/` 都是生成产物。
 - Storybook 是组件和文档的主要本地预览环境。
-- 仓库中安装了 Jest，但并不保证每个阶段都已经提交了测试文件或 Jest 配置。
-
-## License
-
-[MIT](./LICENSE)

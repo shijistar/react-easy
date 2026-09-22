@@ -20,14 +20,6 @@
 
 Demo: https://shijistar.github.io/react-easy
 
-The library is published as:
-
-- CommonJS: `lib/`
-- ESM: `es/`
-- types: `lib/index.d.ts`
-
-Shipped JavaScript target: `ES2016`
-
 ## Highlights
 
 - Global `ConfigProvider` with localization support and shared defaults
@@ -58,18 +50,6 @@ yarn add @tiny-codes/react-easy react react-is antd i18next
 ```bash
 bun add @tiny-codes/react-easy react react-is antd i18next
 ```
-
-## Compatibility
-
-- `react` >= 16.8.0
-- `react-is` >= 16.8.0
-- `antd` >= 5.1.0
-- `i18next` >= 8.4.0
-
-Notes:
-
-- Peer dependencies must be installed by the consuming app.
-- Output code targets `ES2016`, so your bundler/runtime should support it.
 
 ## Get Started
 
@@ -140,6 +120,8 @@ function UserForm(props: UserFormProps & FormCompPropsConstraint<User>) {
 }
 
 const UserModalAction = withModalAction(UserForm);
+
+<UserModalAction />;
 ```
 
 ### 4. Use stable callback and validator hooks
@@ -228,24 +210,23 @@ function Demo() {
 - [StreamDownloader](https://shijistar.github.io/react-easy/?path=/docs/utils-streamdownloader--api)
 - [string](https://shijistar.github.io/react-easy/?path=/docs/utils-string--api)
 
-## Development
+## Compatibility
 
-Install dependencies:
+- `react` >= 16.8.0
+- `react-is` >= 16.8.0
+- `antd` >= 5.1.0
+- `i18next` >= 8.4.0
+
+Notes:
+
+- Peer dependencies must be installed by the consuming app.
+- Output code targets `ES2016`, so your bundler/runtime should support it.
+
+## Development
 
 ```bash
 npm install
-```
-
-Common commands:
-
-```bash
-npm run build
-npm run build-core
 npm run storybook
-npm run build-storybook
-npx tsc -p tsconfig.json --noEmit
-npx eslint src .storybook scripts --ext .ts,.tsx,.js,.jsx
-npx prettier . --check
 ```
 
 Notes for contributors:
@@ -253,8 +234,3 @@ Notes for contributors:
 - Source code lives in `src/`.
 - `lib/` and `es/` are generated outputs.
 - Storybook is the main local playground for components and docs.
-- Jest is installed, but this repository may not always contain committed test files/config.
-
-## License
-
-[MIT](./LICENSE)
